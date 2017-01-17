@@ -27,10 +27,20 @@ class OER:
         def create_output_dir(self):
             os.makedirs("/nodc/users/tjaensch/python/src/oer/oer_iso/")
 
+# Tests
+class TestOER(unittest.TestCase):
+    """docstring for TestOER"""
+    def setUp(self):
+        oer = OER()
+        self.xmlFiles = oer.find_xml_files()
+
+    def test_find_xml_files(self):
+        self.assertEqual(len(self.xmlFiles), 41850)
+        self.assertTrue(self.xmlFiles)
 
 # __main__
 if __name__ == '__main__':
-	# unittest.main()
+    unittest.main()
     oer = OER()
     oer.find_xml_files()
     print oer.xmlFiles
@@ -39,14 +49,3 @@ if __name__ == '__main__':
     for xmlFile in oer.xmlFiles:
         oer.xsltproc_to_iSO(xmlFile)
 # End __main__
-
-# Tests
-class TestOER(unittest.TestCase):
-    """docstring for TestOER"""
-    def setUp(self):
-        oer = OER()
-        self.xmlFiles = oer.findXmlFiles()
-
-    def test_find_xml_files(self):
-        self.assertEqual(len(self.xmlFiles), 41850)
-        self.assertTrue(self.xmlFiles)
