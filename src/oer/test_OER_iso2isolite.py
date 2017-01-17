@@ -1,3 +1,4 @@
+import os
 import unittest
 from OER_iso2isolite import OER
 
@@ -11,6 +12,9 @@ class TestOER(unittest.TestCase):
     def test_find_xml_files(self):
         self.assertEqual(len(self.xmlFiles), 41850)
         self.assertTrue(self.xmlFiles)
+
+    def test_xsltproc_to_iso(self):
+        pass
 
 # __main__
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 import lxml.etree as ET
 import glob
 import os
+
 class OER:
 	"""docstring for OER"""
 	def __init__(self):
@@ -12,7 +13,7 @@ class OER:
         	    self.xmlFiles.append(file)
             return self.xmlFiles
 
-        def xsltproc_to_iSO(self, xmlFile):
+        def xsltproc_to_iso(self, xmlFile):
             xslFile = "/nodc/users/tjaensch/onestop.git/xsl/oer/XSL/OER_ISO2ISOLite_conversion.xsl"
             parsedXmlFile = ET.parse(xmlFile)
             xslt = ET.parse(xslFile)
@@ -34,5 +35,5 @@ if __name__ == '__main__':
     oer.create_output_dir()
     
     for xmlFile in oer.xmlFiles:
-        oer.xsltproc_to_iSO(xmlFile)
+        oer.xsltproc_to_iso(xmlFile)
 # End __main__
