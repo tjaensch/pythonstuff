@@ -1,8 +1,6 @@
 import lxml.etree as ET
 import glob
 import os
-import unittest
-
 class OER:
 	"""docstring for OER"""
 	def __init__(self):
@@ -27,20 +25,9 @@ class OER:
         def create_output_dir(self):
             os.makedirs("/nodc/users/tjaensch/python/src/oer/oer_iso/")
 
-# Tests
-class TestOER(unittest.TestCase):
-    """docstring for TestOER"""
-    def setUp(self):
-        oer = OER()
-        self.xmlFiles = oer.find_xml_files()
-
-    def test_find_xml_files(self):
-        self.assertEqual(len(self.xmlFiles), 41850)
-        self.assertTrue(self.xmlFiles)
 
 # __main__
 if __name__ == '__main__':
-    unittest.main()
     oer = OER()
     oer.find_xml_files()
     print oer.xmlFiles
