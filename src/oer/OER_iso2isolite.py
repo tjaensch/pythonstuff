@@ -22,6 +22,7 @@ class OER:
             with open("/nodc/users/tjaensch/python/src/oer/oer_iso/" + xmlFile, "w") as f:
                 f.write(ET.tostring(newXmlFile, pretty_print=True))
             print(ET.tostring(newXmlFile, pretty_print=True))
+            return(ET.tostring(newXmlFile, pretty_print=True))
 
         def create_output_dir(self):
             os.makedirs("/nodc/users/tjaensch/python/src/oer/oer_iso/")
