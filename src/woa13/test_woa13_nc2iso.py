@@ -15,6 +15,8 @@ class TestWOA13(unittest.TestCase):
             os.makedirs("/nodc/users/tjaensch/python/src/woa13/ncml/")
         # ncdump test run one file
         woa13.ncdump("woa13_all_i00_01.nc")
+        # add_to_ncml test run one file
+        woa13.add_to_ncml("woa13_all_i00_01.nc")
 
     def tearDown(self):
         shutil.rmtree("../ncml/")
@@ -25,6 +27,11 @@ class TestWOA13(unittest.TestCase):
 
     def test_ncdump(self):
         self.assertTrue(os.path.isfile("../ncml/woa13_all_i00_01.ncml"))
+
+    def test_add_to_ncml(self):
+        file = open("../ncml/woa13_all_i00_01.ncml", "r")
+        data = file.read()
+        self.assertTrue("<title>woa13_all_i00_01.nc</title><filesize>180765</filesize><path>/nodc/users/tjaensch/python/src/woa13/netcdf/woa13_all_i00_01.nc</path></netcdf>" in data)
 
 # __main__
 if __name__ == '__main__':
