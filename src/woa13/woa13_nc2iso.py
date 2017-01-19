@@ -58,8 +58,5 @@ if __name__ == '__main__':
     for ncFile in ncFiles:
                 woa13.ncdump(ncFile)
                 woa13.add_to_ncml(ncFile)
-                woa13.get_file_name(ncFile)
-                woa13.get_file_size(ncFile)
-                woa13.get_file_path(ncFile)
                 
 # End __main__
