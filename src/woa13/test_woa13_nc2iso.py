@@ -14,15 +14,19 @@ class TestWOA13(unittest.TestCase):
         if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/ncml/"):
             os.makedirs("/nodc/users/tjaensch/python/src/woa13/ncml/")
         if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/iso_xml/"):
-            os.makedirs("/nodc/users/tjaensch/python/src/woa13/iso_xml/")   
+            os.makedirs("/nodc/users/tjaensch/python/src/woa13/iso_xml/")
+        if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/final_xml/"):
+            os.makedirs("/nodc/users/tjaensch/python/src/woa13/final_xml/")   
         # test run defs with one file
         woa13.ncdump("woa13_all_i00_01.nc")
         woa13.add_to_ncml("woa13_all_i00_01.nc")
         woa13.xsltproc_to_iso("woa13_all_i00_01.nc")
+        woa13.add_collection_metadata("woa13_all_i00_01.nc")
 
     def tearDown(self):
         shutil.rmtree("../ncml/")
         shutil.rmtree("../iso_xml/")
+        shutil.rmtree("../final_xml")
 
     def test_find_nc_files(self):
         self.assertEqual(len(self.ncFiles), 10)
@@ -40,6 +44,10 @@ class TestWOA13(unittest.TestCase):
         file = open("../iso_xml/woa13_all_i00_01.xml", "r")
         data = file.read()
         self.assertTrue("WOA13.woa13_all_i00_01.nc" in data)
+
+    def test_add_collection_metadata(self):
+        self.assertTrue(os.path.getsize("../iso_xml/woa13_all_i00_01.xml") < os.path.getsize("../final_xml/woa13_all_i00_01.xml"))
+
 
 # __main__
 if __name__ == '__main__':

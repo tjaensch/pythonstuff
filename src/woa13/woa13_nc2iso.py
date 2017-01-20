@@ -7,8 +7,10 @@ from os.path import basename
 def create_output_dirs():
 	if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/ncml/"):
             os.makedirs("/nodc/users/tjaensch/python/src/woa13/ncml/")
-        if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/iso_xml/"):
-                os.makedirs("/nodc/users/tjaensch/python/src/woa13/iso_xml/")
+            if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/iso_xml/"):
+                    os.makedirs("/nodc/users/tjaensch/python/src/woa13/iso_xml/")
+            if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/final_xml/"):
+                    os.makedirs("/nodc/users/tjaensch/python/src/woa13/final_xml/")
 
 class WOA13:
 	"""docstring for WOA13"""
@@ -67,6 +69,13 @@ class WOA13:
                 f.write(ET.tostring(isoXmlFile, pretty_print=True))
             # print(ET.tostring(isoXmlFile, pretty_print=True))
             return(ET.tostring(isoXmlFile, pretty_print=True))
+
+        def add_collection_metadata(self, ncFile):
+            isocofile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/0114815.xml"
+            granule = "/nodc/users/tjaensch/onestop.git/xsl/woa13/XSL/granule.xsl"
+            f = open("/nodc/users/tjaensch/python/src/woa13/final_xml/" + self.get_file_name(ncFile)[:-3] + ".xml", "w")
+            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "../iso_xml/" + self.get_file_name(ncFile)[:-3] + ".xml"], stdout=f)
+            f.close()
         	
 
 # __main__
@@ -82,5 +91,6 @@ if __name__ == '__main__':
                 woa13.ncdump(ncFile)
                 woa13.add_to_ncml(ncFile)
                 woa13.xsltproc_to_iso(ncFile)
+                woa13.add_collection_metadata(ncFile)
                 
 # End __main__
