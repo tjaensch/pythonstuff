@@ -13,13 +13,16 @@ class TestWOA13(unittest.TestCase):
         # Create ncml dir for testing
         if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/ncml/"):
             os.makedirs("/nodc/users/tjaensch/python/src/woa13/ncml/")
-        # ncdump test run one file
+        if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/iso_xml/"):
+            os.makedirs("/nodc/users/tjaensch/python/src/woa13/iso_xml/")   
+        # test run defs with one file
         woa13.ncdump("woa13_all_i00_01.nc")
-        # add_to_ncml test run one file
         woa13.add_to_ncml("woa13_all_i00_01.nc")
+        woa13.xsltproc_to_iso("woa13_all_i00_01.nc")
 
-    def tearDown(self):
+    '''def tearDown(self):
         shutil.rmtree("../ncml/")
+        shutil.rmtree("../iso_xml/")'''
 
     def test_find_nc_files(self):
         self.assertEqual(len(self.ncFiles), 10)
