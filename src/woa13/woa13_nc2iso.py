@@ -43,9 +43,9 @@ class WOA13:
             file_path = "/nodc/users/tjaensch/python/src/woa13/ncml/" + ncFile + "ml"
             #Replace 2nd line with <netcdf>
             with open(file_path,'r') as f:
-                get_all=f.readlines()
+                get_all = f.readlines()
             with open(file_path,'w') as f:
-                for i,line in enumerate(get_all,1):
+                for i, line in enumerate(get_all, 1):
                     if i == 2:
                         f.writelines("<netcdf>\n")
                     else:

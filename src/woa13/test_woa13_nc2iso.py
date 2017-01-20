@@ -20,9 +20,9 @@ class TestWOA13(unittest.TestCase):
         woa13.add_to_ncml("woa13_all_i00_01.nc")
         woa13.xsltproc_to_iso("woa13_all_i00_01.nc")
 
-    '''def tearDown(self):
+    def tearDown(self):
         shutil.rmtree("../ncml/")
-        shutil.rmtree("../iso_xml/")'''
+        shutil.rmtree("../iso_xml/")
 
     def test_find_nc_files(self):
         self.assertEqual(len(self.ncFiles), 10)
@@ -35,6 +35,11 @@ class TestWOA13(unittest.TestCase):
         file = open("../ncml/woa13_all_i00_01.ncml", "r")
         data = file.read()
         self.assertTrue("<title>woa13_all_i00_01.nc</title><filesize>180765</filesize><path>/nodc/users/tjaensch/python/src/woa13/netcdf/woa13_all_i00_01.nc</path></netcdf>" in data)
+
+    def test_xsltproc_to_iso(self):
+        file = open("../iso_xml/woa13_all_i00_01.xml", "r")
+        data = file.read()
+        self.assertTrue("WOA13.woa13_all_i00_01.nc" in data)
 
 # __main__
 if __name__ == '__main__':
