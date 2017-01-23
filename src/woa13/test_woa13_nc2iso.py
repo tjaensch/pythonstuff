@@ -25,10 +25,10 @@ class TestWOA13(unittest.TestCase):
         woa13.xsltproc_to_iso(testfile)
         woa13.add_collection_metadata(testfile)
 
-    '''def tearDown(self):
+    def tearDown(self):
         shutil.rmtree("/nodc/users/tjaensch/python/src/woa13/ncml/")
         shutil.rmtree("/nodc/users/tjaensch/python/src/woa13/iso_xml/")
-        shutil.rmtree("/nodc/users/tjaensch/python/src/woa13/final_xml")'''
+        shutil.rmtree("/nodc/users/tjaensch/python/src/woa13/final_xml")
 
     def test_find_nc_files(self):
         self.assertEqual(len(self.ncFiles), 714)
@@ -40,7 +40,7 @@ class TestWOA13(unittest.TestCase):
     def test_add_to_ncml(self):
         file = open("/nodc/users/tjaensch/python/src/woa13/ncml/woa13_all_i00_01.ncml", "r")
         data = file.read()
-        self.assertTrue("<title>woa13_all_i00_01</title><filesize>180765</filesize><path>nodc/archive/data/0114815/public/silicate/netcdf/all/1.00/</path><browsegraphic>" in data)
+        self.assertTrue("<title>woa13_all_i00_01</title><filesize>176</filesize><path>nodc/archive/data/0114815/public/silicate/netcdf/all/1.00/</path><browsegraphic>" in data)
 
     def test_xsltproc_to_iso(self):
         file = open("/nodc/users/tjaensch/python/src/woa13/iso_xml/woa13_all_i00_01.xml", "r")
@@ -48,7 +48,9 @@ class TestWOA13(unittest.TestCase):
         self.assertTrue("WOA13.woa13_all_i00_01" in data)
 
     def test_add_collection_metadata(self):
-        self.assertTrue(os.path.getsize("/nodc/users/tjaensch/python/src/woa13/iso_xml/woa13_all_i00_01.xml") < os.path.getsize("/nodc/users/tjaensch/python/src/woa13/final_xml/woa13_all_i00_01.xml"))
+        file = open("/nodc/users/tjaensch/python/src/woa13/final_xml/woa13_all_i00_01.xml", "r")
+        data = file.read()
+        self.assertTrue("ANALYSES - ANNUAL SUMMARIES</gmx:Anchor>" in data)
 
     def test_get_browse_graphic_link(self):
         file = open("/nodc/users/tjaensch/python/src/woa13/final_xml/woa13_all_i00_01.xml", "r")

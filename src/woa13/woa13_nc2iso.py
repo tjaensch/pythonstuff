@@ -43,8 +43,8 @@ class WOA13:
             return(abspath)
 
         def get_file_size(self, ncFile):
-            print(os.path.getsize(ncFile) / 1024)
-            return(os.path.getsize(ncFile) / 1024)
+            print(os.path.getsize(ncFile) / 1024 / 1024)
+            return(os.path.getsize(ncFile) / 1024 / 1024)
 
         def add_to_ncml(self, ncFile):
             file_path = "/nodc/users/tjaensch/python/src/woa13/ncml/" + self.get_file_name(ncFile) + ".ncml"
