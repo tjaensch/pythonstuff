@@ -14,7 +14,7 @@ class OER:
             return self.xmlFiles
 
         def xsltproc_to_iso(self, xmlFile):
-            xslFile = "/nodc/users/tjaensch/onestop.git/xsl/oer/XSL/OER_ISO2ISOLite_conversion.xsl"
+            xslFile = "/nodc/users/tjaensch/xsl/oer/XSL/OER_ISO2ISOLite_conversion.xsl"
             parsedXmlFile = ET.parse(xmlFile)
             xslt = ET.parse(xslFile)
             transform = ET.XSLT(xslt)

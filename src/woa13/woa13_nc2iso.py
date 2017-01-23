@@ -65,7 +65,7 @@ class WOA13:
                 f.write("<title>%s</title><filesize>%s</filesize><path>%s</path><browsegraphic>%s</browsegraphic></netcdf>" % (self.get_file_name(ncFile), self.get_file_size(ncFile), self.get_file_path(ncFile), self.get_browse_graphic_link(ncFile)))
 
         def xsltproc_to_iso(self, ncFile):
-            xslFile = "/nodc/users/tjaensch/onestop.git/xsl/woa13/XSL/ncml2iso_modified_from_UnidataDD2MI_demo_WOA_Thomas_edits.xsl"
+            xslFile = "/nodc/users/tjaensch/xsl/woa13/XSL/ncml2iso_modified_from_UnidataDD2MI_demo_WOA_Thomas_edits.xsl"
             parsedNcmlFile = ET.parse("/nodc/users/tjaensch/python/src/woa13/ncml/" + self.get_file_name(ncFile) + ".ncml")
             xslt = ET.parse(xslFile)
             transform = ET.XSLT(xslt)
@@ -77,7 +77,7 @@ class WOA13:
 
         def add_collection_metadata(self, ncFile):
             isocofile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/0114815.xml"
-            granule = "/nodc/users/tjaensch/onestop.git/xsl/woa13/XSL/granule.xsl"
+            granule = "/nodc/users/tjaensch/xsl/woa13/XSL/granule.xsl"
             f = open("/nodc/users/tjaensch/python/src/woa13/final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
             subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "/nodc/users/tjaensch/python/src/woa13/iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
             f.close()
