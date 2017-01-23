@@ -9,6 +9,7 @@ class TestWOA13(unittest.TestCase):
     def setUp(self):
         woa13 = WOA13()
         self.ncFiles = woa13.find_nc_files()
+        self.browsegraphiclink = woa13.get_browse_graphic_link("woa13_all_i00_01.nc")
 
         # Create ncml dir for testing
         if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/ncml/"):
@@ -38,7 +39,7 @@ class TestWOA13(unittest.TestCase):
     def test_add_to_ncml(self):
         file = open("../ncml/woa13_all_i00_01.ncml", "r")
         data = file.read()
-        self.assertTrue("<title>woa13_all_i00_01.nc</title><filesize>180765</filesize><path>/nodc/users/tjaensch/python/src/woa13/netcdf/woa13_all_i00_01.nc</path></netcdf>" in data)
+        self.assertTrue("<title>woa13_all_i00_01.nc</title><filesize>180765</filesize><path>/nodc/users/tjaensch/python/src/woa13/netcdf/woa13_all_i00_01.nc</path><browsegraphic>" in data)
 
     def test_xsltproc_to_iso(self):
         file = open("../iso_xml/woa13_all_i00_01.xml", "r")
@@ -47,6 +48,13 @@ class TestWOA13(unittest.TestCase):
 
     def test_add_collection_metadata(self):
         self.assertTrue(os.path.getsize("../iso_xml/woa13_all_i00_01.xml") < os.path.getsize("../final_xml/woa13_all_i00_01.xml"))
+
+    def test_get_browse_graphic_link(self):
+        file = open("../final_xml/woa13_all_i00_01.xml", "r")
+        data = file.read()
+        self.assertTrue("<gmd:MD_BrowseGraphic>" in data)
+
+
 
 
 # __main__
