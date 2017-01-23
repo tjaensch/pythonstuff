@@ -14,18 +14,18 @@ class OER:
             return self.xmlFiles
 
         def xsltproc_to_iso(self, xmlFile):
-            xslFile = "/nodc/users/tjaensch/xsl/oer/XSL/OER_ISO2ISOLite_conversion.xsl"
+            xslFile = "/nodc/users/tjaensch/xsl.git/oer/XSL/OER_ISO2ISOLite_conversion.xsl"
             parsedXmlFile = ET.parse(xmlFile)
             xslt = ET.parse(xslFile)
             transform = ET.XSLT(xslt)
             newXmlFile = transform(parsedXmlFile)
-            with open("/nodc/users/tjaensch/python/src/oer/oer_iso/" + xmlFile, "w") as f:
+            with open("/nodc/users/tjaensch/python.git/src/oer/oer_iso/" + xmlFile, "w") as f:
                 f.write(ET.tostring(newXmlFile, pretty_print=True))
-            print(ET.tostring(newXmlFile, pretty_print=True))
+            # print(ET.tostring(newXmlFile, pretty_print=True))
             return(ET.tostring(newXmlFile, pretty_print=True))
 
         def create_output_dir(self):
-            os.makedirs("/nodc/users/tjaensch/python/src/oer/oer_iso/")
+            os.makedirs("/nodc/users/tjaensch/python.git/src/oer/oer_iso/")
 
 
 # __main__

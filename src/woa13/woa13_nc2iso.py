@@ -8,12 +8,12 @@ import subprocess
 from os.path import basename
 
 def create_output_dirs():
-	if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/ncml/"):
-            os.makedirs("/nodc/users/tjaensch/python/src/woa13/ncml/")
-            if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/iso_xml/"):
-                    os.makedirs("/nodc/users/tjaensch/python/src/woa13/iso_xml/")
-            if not os.path.exists("/nodc/users/tjaensch/python/src/woa13/final_xml/"):
-                    os.makedirs("/nodc/users/tjaensch/python/src/woa13/final_xml/")
+	if not os.path.exists("/nodc/users/tjaensch/python.git/src/woa13/ncml/"):
+            os.makedirs("/nodc/users/tjaensch/python.git/src/woa13/ncml/")
+            if not os.path.exists("/nodc/users/tjaensch/python.git/src/woa13/iso_xml/"):
+                    os.makedirs("/nodc/users/tjaensch/python.git/src/woa13/iso_xml/")
+            if not os.path.exists("/nodc/users/tjaensch/python.git/src/woa13/final_xml/"):
+                    os.makedirs("/nodc/users/tjaensch/python.git/src/woa13/final_xml/")
 
 class WOA13:
 	"""docstring for WOA13"""
@@ -29,7 +29,7 @@ class WOA13:
             return self.ncFiles
 
         def ncdump(self, ncFile):
-        	f = open("/nodc/users/tjaensch/python/src/woa13/ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
+        	f = open("/nodc/users/tjaensch/python.git/src/woa13/ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
         	subprocess.call(["ncdump", "-x", ncFile], stdout=f)
         	f.close()
 
@@ -47,7 +47,7 @@ class WOA13:
             return(os.path.getsize(ncFile) / 1024 / 1024)
 
         def add_to_ncml(self, ncFile):
-            file_path = "/nodc/users/tjaensch/python/src/woa13/ncml/" + self.get_file_name(ncFile) + ".ncml"
+            file_path = "/nodc/users/tjaensch/python.git/src/woa13/ncml/" + self.get_file_name(ncFile) + ".ncml"
             #Replace 2nd line with <netcdf>
             with open(file_path,'r') as f:
                 get_all = f.readlines()
@@ -65,21 +65,21 @@ class WOA13:
                 f.write("<title>%s</title><filesize>%s</filesize><path>%s</path><browsegraphic>%s</browsegraphic></netcdf>" % (self.get_file_name(ncFile), self.get_file_size(ncFile), self.get_file_path(ncFile), self.get_browse_graphic_link(ncFile)))
 
         def xsltproc_to_iso(self, ncFile):
-            xslFile = "/nodc/users/tjaensch/xsl/woa13/XSL/ncml2iso_modified_from_UnidataDD2MI_demo_WOA_Thomas_edits.xsl"
-            parsedNcmlFile = ET.parse("/nodc/users/tjaensch/python/src/woa13/ncml/" + self.get_file_name(ncFile) + ".ncml")
+            xslFile = "/nodc/users/tjaensch/xsl.git/woa13/XSL/ncml2iso_modified_from_UnidataDD2MI_demo_WOA_Thomas_edits.xsl"
+            parsedNcmlFile = ET.parse("/nodc/users/tjaensch/python.git/src/woa13/ncml/" + self.get_file_name(ncFile) + ".ncml")
             xslt = ET.parse(xslFile)
             transform = ET.XSLT(xslt)
             isoXmlFile = transform(parsedNcmlFile)
-            with open("/nodc/users/tjaensch/python/src/woa13/iso_xml/" + self.get_file_name(ncFile) + ".xml", "w") as f:
+            with open("/nodc/users/tjaensch/python.git/src/woa13/iso_xml/" + self.get_file_name(ncFile) + ".xml", "w") as f:
                 f.write(ET.tostring(isoXmlFile, pretty_print=True))
             # print(ET.tostring(isoXmlFile, pretty_print=True))
             return(ET.tostring(isoXmlFile, pretty_print=True))
 
         def add_collection_metadata(self, ncFile):
             isocofile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/0114815.xml"
-            granule = "/nodc/users/tjaensch/xsl/woa13/XSL/granule.xsl"
-            f = open("/nodc/users/tjaensch/python/src/woa13/final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
-            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "/nodc/users/tjaensch/python/src/woa13/iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
+            granule = "/nodc/users/tjaensch/xsl.git/woa13/XSL/granule.xsl"
+            f = open("/nodc/users/tjaensch/python.git/src/woa13/final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
+            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "/nodc/users/tjaensch/python.git/src/woa13/iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
             f.close()
 
         def get_browse_graphic_link(self, ncFile):
