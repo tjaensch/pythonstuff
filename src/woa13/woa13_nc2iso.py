@@ -1,5 +1,7 @@
 import lxml.etree as ET
+import fnmatch
 import glob
+import time
 import os
 import random
 import subprocess
@@ -19,31 +21,33 @@ class WOA13:
 		self.ncFiles = []
 
         def find_nc_files(self):
-            os.chdir("/nodc/users/tjaensch/python/src/woa13/netcdf/")
-            for file in glob.glob("*.nc"):
-        	    self.ncFiles.append(file)
+            source_dir = "/nodc/web/data.nodc/htdocs/nodc/archive/data/0114815/public"
+            for root, dirnames, filenames in os.walk(source_dir):
+                for filename in fnmatch.filter(filenames, '*.nc'):
+                    self.ncFiles.append(os.path.join(root,filename))
             print("%d files found in source directory" % len(self.ncFiles))
             return self.ncFiles
 
         def ncdump(self, ncFile):
-        	f = open("/nodc/users/tjaensch/python/src/woa13/ncml/" + ncFile + "ml", "w")
+        	f = open("/nodc/users/tjaensch/python/src/woa13/ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
         	subprocess.call(["ncdump", "-x", ncFile], stdout=f)
         	f.close()
 
         def get_file_name(self, ncFile):
-            print(basename(ncFile))
-            return(basename(ncFile))
+            print(basename(ncFile)[:-3])
+            return(basename(ncFile)[:-3])
 
         def get_file_path(self, ncFile):
-            print(os.path.abspath(ncFile))
-            return(os.path.abspath(ncFile))
+            abspath = os.path.dirname(ncFile)[27:] + "/"
+            print(abspath)
+            return(abspath)
 
         def get_file_size(self, ncFile):
             print(os.path.getsize(ncFile) / 1024)
             return(os.path.getsize(ncFile) / 1024)
 
         def add_to_ncml(self, ncFile):
-            file_path = "/nodc/users/tjaensch/python/src/woa13/ncml/" + ncFile + "ml"
+            file_path = "/nodc/users/tjaensch/python/src/woa13/ncml/" + self.get_file_name(ncFile) + ".ncml"
             #Replace 2nd line with <netcdf>
             with open(file_path,'r') as f:
                 get_all = f.readlines()
@@ -62,11 +66,11 @@ class WOA13:
 
         def xsltproc_to_iso(self, ncFile):
             xslFile = "/nodc/users/tjaensch/onestop.git/xsl/woa13/XSL/ncml2iso_modified_from_UnidataDD2MI_demo_WOA_Thomas_edits.xsl"
-            parsedNcmlFile = ET.parse("/nodc/users/tjaensch/python/src/woa13/ncml/" + self.get_file_name(ncFile)[:-3] + ".ncml")
+            parsedNcmlFile = ET.parse("/nodc/users/tjaensch/python/src/woa13/ncml/" + self.get_file_name(ncFile) + ".ncml")
             xslt = ET.parse(xslFile)
             transform = ET.XSLT(xslt)
             isoXmlFile = transform(parsedNcmlFile)
-            with open("/nodc/users/tjaensch/python/src/woa13/iso_xml/" + self.get_file_name(ncFile)[:-3] + ".xml", "w") as f:
+            with open("/nodc/users/tjaensch/python/src/woa13/iso_xml/" + self.get_file_name(ncFile) + ".xml", "w") as f:
                 f.write(ET.tostring(isoXmlFile, pretty_print=True))
             # print(ET.tostring(isoXmlFile, pretty_print=True))
             return(ET.tostring(isoXmlFile, pretty_print=True))
@@ -74,8 +78,8 @@ class WOA13:
         def add_collection_metadata(self, ncFile):
             isocofile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/0114815.xml"
             granule = "/nodc/users/tjaensch/onestop.git/xsl/woa13/XSL/granule.xsl"
-            f = open("/nodc/users/tjaensch/python/src/woa13/final_xml/" + self.get_file_name(ncFile)[:-3] + ".xml", "w")
-            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "../iso_xml/" + self.get_file_name(ncFile)[:-3] + ".xml"], stdout=f)
+            f = open("/nodc/users/tjaensch/python/src/woa13/final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
+            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "/nodc/users/tjaensch/python/src/woa13/iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
             f.close()
 
         def get_browse_graphic_link(self, ncFile):
@@ -178,6 +182,7 @@ class WOA13:
 
 # __main__
 if __name__ == '__main__':
+    start = time.time()
     
     create_output_dirs()
 
@@ -190,5 +195,7 @@ if __name__ == '__main__':
                 woa13.add_to_ncml(ncFile)
                 woa13.xsltproc_to_iso(ncFile)
                 woa13.add_collection_metadata(ncFile)
+
+    print 'The program took ', time.time()-start, 'seconds to complete.'
                 
 # End __main__
