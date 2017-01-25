@@ -18,8 +18,8 @@ class TestOER(unittest.TestCase):
         # test run defs with one file
         oer.xsltproc_to_iso(testfile)
 
-    def tearDown(self):
-        shutil.rmtree("/nodc/users/tjaensch/python.git/src/oer/oer_iso/")
+    '''def tearDown(self):
+        shutil.rmtree("/nodc/users/tjaensch/python.git/src/oer/oer_iso/")'''
 
     def test_find_xml_files(self):
         self.assertEqual(len(self.xmlFiles), 41850)
