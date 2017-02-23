@@ -25,10 +25,10 @@ class TestWOA13(unittest.TestCase):
         woa13.xsltproc_to_iso(testfile)
         woa13.add_collection_metadata(testfile)
 
-    '''def tearDown(self):
+    def tearDown(self):
         shutil.rmtree("/nodc/users/tjaensch/python.git/src/woa13/ncml/")
         shutil.rmtree("/nodc/users/tjaensch/python.git/src/woa13/iso_xml/")
-        shutil.rmtree("/nodc/users/tjaensch/python.git/src/woa13/final_xml")'''
+        shutil.rmtree("/nodc/users/tjaensch/python.git/src/woa13/final_xml")
 
     def test_find_nc_files(self):
         self.assertEqual(len(self.ncFiles), 714)
