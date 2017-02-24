@@ -4,6 +4,7 @@ import glob
 import time
 import os
 import random
+import re
 import subprocess
 from os.path import basename
 
@@ -37,10 +38,14 @@ class COOPS:
             f = open("/nodc/users/tjaensch/python.git/src/coops/ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
             subprocess.call(["ncdump", "-x", "./netcdf3/" + self.get_file_name(ncFile) + ".nc"], stdout=f)
             f.close()
+            os.remove("./netcdf3/" + self.get_file_name(ncFile) + ".nc")
 
         def get_file_name(self, ncFile):
             print(basename(ncFile)[:-3])
             return(basename(ncFile)[:-3])
+
+        def get_english_title(self, ncFile):
+            return "NDBC-COOPS_" + self.get_file_name(ncFile)[4:] + " - CO-OPS buoy " + self.get_file_name(ncFile)[4:11] + " for " + self.get_file_name(ncFile)[12:18] + ", deployment " + self.get_file_name(ncFile)[20:-4]
 
         def get_file_path(self, ncFile):
             abspath = os.path.dirname(ncFile)[27:] + "/"
@@ -67,7 +72,7 @@ class COOPS:
             os.system('sed -i "$ d" {0}'.format(file_path))
             # Append stuff
             with open(file_path, "a") as f:
-                f.write("<title>%s</title><filesize>%s</filesize><path>%s</path><browsegraphic>%s</browsegraphic></netcdf>" % (self.get_file_name(ncFile), self.get_file_size(ncFile), self.get_file_path(ncFile), self.get_browse_graphic_link(ncFile)))
+                f.write("<title>%s</title><englishtitle>%s</englishtitle><filesize>%s</filesize><path>%s</path><browsegraphic>%s</browsegraphic></netcdf>" % (self.get_file_name(ncFile), self.get_english_title(ncFile), self.get_file_size(ncFile), self.get_file_path(ncFile), self.get_browse_graphic_link(ncFile)))
 
         def xsltproc_to_iso(self, ncFile):
             xslFile = "/nodc/users/tjaensch/xsl.git/coops/XSL/ncml2iso_modified_from_UnidataDD2MI_COOPS_Thomas_edits.xsl"
