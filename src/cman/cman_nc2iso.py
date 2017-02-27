@@ -9,22 +9,22 @@ import subprocess
 from os.path import basename
 
 def create_output_dirs():
-	if not os.path.exists("/nodc/users/tjaensch/python.git/src/coops/ncml/"):
-            os.makedirs("/nodc/users/tjaensch/python.git/src/coops/ncml/")
-            if not os.path.exists("/nodc/users/tjaensch/python.git/src/coops/iso_xml/"):
-                    os.makedirs("/nodc/users/tjaensch/python.git/src/coops/iso_xml/")
-            if not os.path.exists("/nodc/users/tjaensch/python.git/src/coops/final_xml/"):
-                    os.makedirs("/nodc/users/tjaensch/python.git/src/coops/final_xml/")
-            if not os.path.exists("/nodc/users/tjaensch/python.git/src/coops/netcdf3/"):
-                    os.makedirs("/nodc/users/tjaensch/python.git/src/coops/netcdf3/")
+	if not os.path.exists("/nodc/users/tjaensch/python.git/src/cman/ncml/"):
+            os.makedirs("/nodc/users/tjaensch/python.git/src/cman/ncml/")
+            if not os.path.exists("/nodc/users/tjaensch/python.git/src/cman/iso_xml/"):
+                    os.makedirs("/nodc/users/tjaensch/python.git/src/cman/iso_xml/")
+            if not os.path.exists("/nodc/users/tjaensch/python.git/src/cman/final_xml/"):
+                    os.makedirs("/nodc/users/tjaensch/python.git/src/cman/final_xml/")
+            if not os.path.exists("/nodc/users/tjaensch/python.git/src/cman/netcdf3/"):
+                    os.makedirs("/nodc/users/tjaensch/python.git/src/cman/netcdf3/")
 
-class COOPS:
-	"""docstring for coops"""
+class CMAN:
+	"""docstring for cman"""
 	def __init__(self):
 		self.ncFiles = []
 
         def find_nc_files(self):
-            source_dir = "/nodc/web/data.nodc/htdocs/ndbc/co-ops"
+            source_dir = "/nodc/web/data.nodc/htdocs/ndbc/cmanwx"
             for root, dirnames, filenames in os.walk(source_dir, followlinks=True):
                 for filename in fnmatch.filter(filenames, '*.nc'):
                     self.ncFiles.append(os.path.join(root,filename))
@@ -35,7 +35,7 @@ class COOPS:
             # Convert netcdf4 to netcdf3 for ncdump -x to work
             subprocess.call(["ncks", "-3", ncFile, "./netcdf3/" + self.get_file_name(ncFile) + ".nc"])
             # actual ncdump
-            f = open("/nodc/users/tjaensch/python.git/src/coops/ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
+            f = open("/nodc/users/tjaensch/python.git/src/cman/ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
             subprocess.call(["ncdump", "-x", "./netcdf3/" + self.get_file_name(ncFile) + ".nc"], stdout=f)
             f.close()
             os.remove("./netcdf3/" + self.get_file_name(ncFile) + ".nc")
@@ -45,7 +45,8 @@ class COOPS:
             return(basename(ncFile)[:-3])
 
         def get_english_title(self, ncFile):
-            return "NDBC-COOPS_" + self.get_file_name(ncFile)[4:] + " - CO-OPS buoy " + self.get_file_name(ncFile)[4:11] + " for " + self.get_file_name(ncFile)[12:18] + ", deployment " + self.get_file_name(ncFile)[20:-4]
+            deployment_number = re.findall('\d+', self.get_file_name(ncFile)[19:])
+            return "NDBC-CMANWx" + self.get_file_name(ncFile)[4:] + " - C-MAN/Wx buoy " + self.get_file_name(ncFile)[5:10] + " for " + self.get_file_name(ncFile)[11:17] + ", deployment " + str(deployment_number[0])
 
         def get_file_path(self, ncFile):
             abspath = os.path.dirname(ncFile)[27:] + "/"
@@ -57,7 +58,7 @@ class COOPS:
             return(os.path.getsize(ncFile) / 1024)
 
         def add_to_ncml(self, ncFile):
-            file_path = "/nodc/users/tjaensch/python.git/src/coops/ncml/" + self.get_file_name(ncFile) + ".ncml"
+            file_path = "/nodc/users/tjaensch/python.git/src/cman/ncml/" + self.get_file_name(ncFile) + ".ncml"
             #Replace 2nd line with <netcdf>
             with open(file_path,'r') as f:
                 get_all = f.readlines()
@@ -75,21 +76,21 @@ class COOPS:
                 f.write("<title>%s</title><englishtitle>%s</englishtitle><filesize>%s</filesize><path>%s</path></netcdf>" % (self.get_file_name(ncFile), self.get_english_title(ncFile), self.get_file_size(ncFile), self.get_file_path(ncFile)))
 
         def xsltproc_to_iso(self, ncFile):
-            xslFile = "/nodc/users/tjaensch/xsl.git/coops/XSL/ncml2iso_modified_from_UnidataDD2MI_COOPS_Thomas_edits.xsl"
-            parsedNcmlFile = ET.parse("/nodc/users/tjaensch/python.git/src/coops/ncml/" + self.get_file_name(ncFile) + ".ncml")
+            xslFile = "/nodc/users/tjaensch/xsl.git/cman/XSL/ncml2iso_modified_from_UnidataDD2MI_CMAN_Thomas_edits.xsl"
+            parsedNcmlFile = ET.parse("/nodc/users/tjaensch/python.git/src/cman/ncml/" + self.get_file_name(ncFile) + ".ncml")
             xslt = ET.parse(xslFile)
             transform = ET.XSLT(xslt)
             isoXmlFile = transform(parsedNcmlFile)
-            with open("/nodc/users/tjaensch/python.git/src/coops/iso_xml/" + self.get_file_name(ncFile) + ".xml", "w") as f:
+            with open("/nodc/users/tjaensch/python.git/src/cman/iso_xml/" + self.get_file_name(ncFile) + ".xml", "w") as f:
                 f.write(ET.tostring(isoXmlFile, pretty_print=True))
             # print(ET.tostring(isoXmlFile, pretty_print=True))
             return(ET.tostring(isoXmlFile, pretty_print=True))
 
         def add_collection_metadata(self, ncFile):
-            isocofile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/NDBC-COOPS.xml"
-            granule = "/nodc/users/tjaensch/xsl.git/coops/XSL/granule.xsl"
-            f = open("/nodc/users/tjaensch/python.git/src/coops/final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
-            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "/nodc/users/tjaensch/python.git/src/coops/iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
+            isocofile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/NDBC-CMANWx.xml"
+            granule = "/nodc/users/tjaensch/xsl.git/cman/XSL/granule.xsl"
+            f = open("/nodc/users/tjaensch/python.git/src/cman/final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
+            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "/nodc/users/tjaensch/python.git/src/cman/iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
             f.close()
 
 # __main__
@@ -98,15 +99,15 @@ if __name__ == '__main__':
     
     create_output_dirs()
 
-    coops = COOPS()
-    ncFiles = coops.find_nc_files()
+    cman = CMAN()
+    ncFiles = cman.find_nc_files()
     
     # Loop over each file in list
     for ncFile in ncFiles:
-                coops.ncdump(ncFile)
-                coops.add_to_ncml(ncFile)
-                coops.xsltproc_to_iso(ncFile)
-                coops.add_collection_metadata(ncFile)
+                cman.ncdump(ncFile)
+                cman.add_to_ncml(ncFile)
+                cman.xsltproc_to_iso(ncFile)
+                cman.add_collection_metadata(ncFile)
 
     print 'The program took ', time.time()-start, 'seconds to complete.'
                 
