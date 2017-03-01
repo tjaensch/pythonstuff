@@ -18,8 +18,6 @@ class Testsamos(unittest.TestCase):
             os.makedirs("/nodc/users/tjaensch/python.git/src/samos/iso_xml/")
         if not os.path.exists("/nodc/users/tjaensch/python.git/src/samos/final_xml/"):
             os.makedirs("/nodc/users/tjaensch/python.git/src/samos/final_xml/")
-        if not os.path.exists("/nodc/users/tjaensch/python.git/src/samos/netcdf3/"):
-            os.makedirs("/nodc/users/tjaensch/python.git/src/samos/netcdf3/")
           
         # test run defs with one file
         samos.ncdump(testfile)

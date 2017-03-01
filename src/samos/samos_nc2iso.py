@@ -3,8 +3,6 @@ import fnmatch
 import glob
 import time
 import os
-import random
-import re
 import subprocess
 from os.path import basename
 
@@ -15,8 +13,6 @@ def create_output_dirs():
                     os.makedirs("/nodc/users/tjaensch/python.git/src/samos/iso_xml/")
             if not os.path.exists("/nodc/users/tjaensch/python.git/src/samos/final_xml/"):
                     os.makedirs("/nodc/users/tjaensch/python.git/src/samos/final_xml/")
-            if not os.path.exists("/nodc/users/tjaensch/python.git/src/samos/netcdf3/"):
-                    os.makedirs("/nodc/users/tjaensch/python.git/src/samos/netcdf3/")
 
 class Samos:
 	"""docstring for samos"""
@@ -32,13 +28,9 @@ class Samos:
             return self.ncFiles
 
         def ncdump(self, ncFile):
-            # Convert netcdf4 to netcdf3 for ncdump -x to work
-            subprocess.call(["ncks", "-3", ncFile, "./netcdf3/" + self.get_file_name(ncFile) + ".nc"])
-            # actual ncdump
             f = open("/nodc/users/tjaensch/python.git/src/samos/ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
-            subprocess.call(["ncdump", "-x", "./netcdf3/" + self.get_file_name(ncFile) + ".nc"], stdout=f)
+            subprocess.call(["ncdump", "-x", ncFile], stdout=f)
             f.close()
-            os.remove("./netcdf3/" + self.get_file_name(ncFile) + ".nc")
 
         def get_file_name(self, ncFile):
             print(basename(ncFile)[:-3])
