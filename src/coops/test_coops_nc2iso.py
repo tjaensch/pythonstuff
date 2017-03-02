@@ -12,14 +12,14 @@ class Testcoops(unittest.TestCase):
         self.ncFiles = coops.find_nc_files()
 
         # Create ncml dir for testing
-        if not os.path.exists("/nodc/users/tjaensch/python.git/src/coops/ncml/"):
-            os.makedirs("/nodc/users/tjaensch/python.git/src/coops/ncml/")
-        if not os.path.exists("/nodc/users/tjaensch/python.git/src/coops/iso_xml/"):
-            os.makedirs("/nodc/users/tjaensch/python.git/src/coops/iso_xml/")
-        if not os.path.exists("/nodc/users/tjaensch/python.git/src/coops/final_xml/"):
-            os.makedirs("/nodc/users/tjaensch/python.git/src/coops/final_xml/")
-        if not os.path.exists("/nodc/users/tjaensch/python.git/src/coops/netcdf3/"):
-            os.makedirs("/nodc/users/tjaensch/python.git/src/coops/netcdf3/")
+        if not os.path.exists("./ncml/"):
+            os.makedirs("./ncml/")
+        if not os.path.exists("./iso_xml/"):
+            os.makedirs("./iso_xml/")
+        if not os.path.exists("./final_xml/"):
+            os.makedirs("./final_xml/")
+        if not os.path.exists("./netcdf3/"):
+            os.makedirs("./netcdf3/")
           
         # test run defs with one file
         coops.ncdump(testfile)
@@ -28,37 +28,37 @@ class Testcoops(unittest.TestCase):
         coops.add_collection_metadata(testfile)
 
     def tearDown(self):
-        shutil.rmtree("/nodc/users/tjaensch/python.git/src/coops/ncml/")
-        shutil.rmtree("/nodc/users/tjaensch/python.git/src/coops/iso_xml/")
-        shutil.rmtree("/nodc/users/tjaensch/python.git/src/coops/final_xml")
-        shutil.rmtree("/nodc/users/tjaensch/python.git/src/coops/netcdf3")
+        shutil.rmtree("./ncml/")
+        shutil.rmtree("./iso_xml/")
+        shutil.rmtree("./final_xml")
+        shutil.rmtree("./netcdf3")
 
     def test_find_nc_files(self):
         self.assertTrue(len(self.ncFiles) > 11950)
         self.assertTrue(self.ncFiles)
 
     def test_ncdump(self):
-        self.assertTrue(os.path.isfile("/nodc/users/tjaensch/python.git/src/coops/ncml/NOS_1612480_201401_D1_v00.ncml"))
+        self.assertTrue(os.path.isfile("./ncml/NOS_1612480_201401_D1_v00.ncml"))
 
     def test_add_to_ncml(self):
-        file = open("/nodc/users/tjaensch/python.git/src/coops/ncml/NOS_1612480_201401_D1_v00.ncml", "r")
+        file = open("./ncml/NOS_1612480_201401_D1_v00.ncml", "r")
         data = file.read()
         self.assertTrue("<title>NOS_1612480_201401_D1_v00</title><englishtitle>NDBC-COOPS_1612480_201401_D1_v00 - CO-OPS buoy 1612480 for 201401, deployment 1</englishtitle><filesize>178</filesize><path>ndbc/co-ops/2014/01/</path></netcdf>" in data)
 
     def test_xsltproc_to_iso(self):
-        file = open("/nodc/users/tjaensch/python.git/src/coops/iso_xml/NOS_1612480_201401_D1_v00.xml", "r")
+        file = open("./iso_xml/NOS_1612480_201401_D1_v00.xml", "r")
         data = file.read()
         self.assertTrue("CO-OPS.NOS_1612480_201401_D1_v00" in data)
         # browse graphic generated with bounding box numbers in main XSLT file
         self.assertTrue("<gmd:MD_BrowseGraphic>" in data)
 
     def test_add_collection_metadata(self):
-        file = open("/nodc/users/tjaensch/python.git/src/coops/final_xml/NOS_1612480_201401_D1_v00.xml", "r")
+        file = open("./final_xml/NOS_1612480_201401_D1_v00.xml", "r")
         data = file.read()
         self.assertTrue("Global Change Master Directory (GCMD) Data Center Keywords" in data)
 
     def test_get_english_title(self):
-        file = open("/nodc/users/tjaensch/python.git/src/coops/final_xml/NOS_1612480_201401_D1_v00.xml", "r")
+        file = open("./final_xml/NOS_1612480_201401_D1_v00.xml", "r")
         data = file.read()
         self.assertTrue("NDBC-COOPS_1612480_201401_D1_v00 - CO-OPS buoy 1612480 for 201401, deployment 1" in data)
 
