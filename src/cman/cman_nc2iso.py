@@ -6,17 +6,18 @@ import os
 import random
 import re
 import subprocess
+from multiprocessing import Pool
 from os.path import basename
 
 def create_output_dirs():
-	if not os.path.exists("/nodc/users/tjaensch/python.git/src/cman/ncml/"):
-            os.makedirs("/nodc/users/tjaensch/python.git/src/cman/ncml/")
-            if not os.path.exists("/nodc/users/tjaensch/python.git/src/cman/iso_xml/"):
-                    os.makedirs("/nodc/users/tjaensch/python.git/src/cman/iso_xml/")
-            if not os.path.exists("/nodc/users/tjaensch/python.git/src/cman/final_xml/"):
-                    os.makedirs("/nodc/users/tjaensch/python.git/src/cman/final_xml/")
-            if not os.path.exists("/nodc/users/tjaensch/python.git/src/cman/netcdf3/"):
-                    os.makedirs("/nodc/users/tjaensch/python.git/src/cman/netcdf3/")
+	if not os.path.exists("./ncml/"):
+            os.makedirs("./ncml/")
+            if not os.path.exists("./iso_xml/"):
+                    os.makedirs("./iso_xml/")
+            if not os.path.exists("./final_xml/"):
+                    os.makedirs("./final_xml/")
+            if not os.path.exists("./netcdf3/"):
+                    os.makedirs("./netcdf3/")
 
 class CMAN:
 	"""docstring for cman"""
@@ -35,7 +36,7 @@ class CMAN:
             # Convert netcdf4 to netcdf3 for ncdump -x to work
             subprocess.call(["ncks", "-3", ncFile, "./netcdf3/" + self.get_file_name(ncFile) + ".nc"])
             # actual ncdump
-            f = open("/nodc/users/tjaensch/python.git/src/cman/ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
+            f = open("./ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
             subprocess.call(["ncdump", "-x", "./netcdf3/" + self.get_file_name(ncFile) + ".nc"], stdout=f)
             f.close()
             os.remove("./netcdf3/" + self.get_file_name(ncFile) + ".nc")
@@ -58,7 +59,7 @@ class CMAN:
             return(os.path.getsize(ncFile) / 1024)
 
         def add_to_ncml(self, ncFile):
-            file_path = "/nodc/users/tjaensch/python.git/src/cman/ncml/" + self.get_file_name(ncFile) + ".ncml"
+            file_path = "./ncml/" + self.get_file_name(ncFile) + ".ncml"
             #Replace 2nd line with <netcdf>
             with open(file_path,'r') as f:
                 get_all = f.readlines()
@@ -77,11 +78,11 @@ class CMAN:
 
         def xsltproc_to_iso(self, ncFile):
             xslFile = "/nodc/users/tjaensch/xsl.git/cman/XSL/ncml2iso_modified_from_UnidataDD2MI_CMAN_Thomas_edits.xsl"
-            parsedNcmlFile = ET.parse("/nodc/users/tjaensch/python.git/src/cman/ncml/" + self.get_file_name(ncFile) + ".ncml")
+            parsedNcmlFile = ET.parse("./ncml/" + self.get_file_name(ncFile) + ".ncml")
             xslt = ET.parse(xslFile)
             transform = ET.XSLT(xslt)
             isoXmlFile = transform(parsedNcmlFile)
-            with open("/nodc/users/tjaensch/python.git/src/cman/iso_xml/" + self.get_file_name(ncFile) + ".xml", "w") as f:
+            with open("./iso_xml/" + self.get_file_name(ncFile) + ".xml", "w") as f:
                 f.write(ET.tostring(isoXmlFile, pretty_print=True))
             # print(ET.tostring(isoXmlFile, pretty_print=True))
             return(ET.tostring(isoXmlFile, pretty_print=True))
@@ -89,9 +90,22 @@ class CMAN:
         def add_collection_metadata(self, ncFile):
             isocofile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/NDBC-CMANWx.xml"
             granule = "/nodc/users/tjaensch/xsl.git/cman/XSL/granule.xsl"
-            f = open("/nodc/users/tjaensch/python.git/src/cman/final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
-            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "/nodc/users/tjaensch/python.git/src/cman/iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
+            f = open("./final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
+            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "./iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
             f.close()
+
+        def run_combined_defs(self, ncFile):
+            self.ncdump(ncFile)
+            self.add_to_ncml(ncFile)
+            self.xsltproc_to_iso(ncFile)
+            self.add_collection_metadata(ncFile)
+
+        def go(self):
+            p = Pool(50)
+            p.map(self, self.find_nc_files())
+
+        def __call__(self, ncFile):
+            return self.run_combined_defs(ncFile)
 
 # __main__
 if __name__ == '__main__':
@@ -100,14 +114,7 @@ if __name__ == '__main__':
     create_output_dirs()
 
     cman = CMAN()
-    ncFiles = cman.find_nc_files()
-    
-    # Loop over each file in list
-    for ncFile in ncFiles:
-                cman.ncdump(ncFile)
-                cman.add_to_ncml(ncFile)
-                cman.xsltproc_to_iso(ncFile)
-                cman.add_collection_metadata(ncFile)
+    cman.go()
 
     print 'The program took ', time.time()-start, 'seconds to complete.'
                 
