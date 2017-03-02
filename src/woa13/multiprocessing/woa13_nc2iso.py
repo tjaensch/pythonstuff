@@ -5,6 +5,7 @@ import time
 import os
 import random
 import subprocess
+from multiprocessing import Pool
 from os.path import basename
 
 def create_output_dirs():
@@ -177,7 +178,18 @@ class WOA13:
             else:
                 return "http://data.nodc.noaa.gov/las/ProductServer.do?xml=%3C%3Fxml+version%3D%221.0%22%3F%3E%3ClasRequest+href%3D%22file%3Alas.xml%22%3E%3Clink+match%3D%22%2Flasdata%2Foperations%2Foperation%5B%40ID%3D%27Plot_2D_XY_zoom%27%5D%22%3E%3C%2Flink%3E%3Cproperties%3E%3Cferret%3E%3Cview%3Exy%3C%2Fview%3E%3Cland_type%3Edefault%3C%2Fland_type%3E%3Cset_aspect%3Edefault%3C%2Fset_aspect%3E%3Cmark_grid%3Eno%3C%2Fmark_grid%3E%3Ccontour_levels%3E%3C%2Fcontour_levels%3E%3Cfill_levels%3E%3C%2Ffill_levels%3E%3Ccontour_style%3Edefault%3C%2Fcontour_style%3E%3Cpalette%3Edefault%3C%2Fpalette%3E%3Cdeg_min_sec%3Edefault%3C%2Fdeg_min_sec%3E%3Cmargins%3Edefault%3C%2Fmargins%3E%3Cuse_graticules%3Edefault%3C%2Fuse_graticules%3E%3Csize%3E0.5%3C%2Fsize%3E%3Cimage_format%3Edefault%3C%2Fimage_format%3E%3Cinterpolate_data%3Efalse%3C%2Finterpolate_data%3E%3Cexpression%3E%3C%2Fexpression%3E%3C%2Fferret%3E%3C%2Fproperties%3E%3Cargs%3E%3Clink+match%3D%22%2Flasdata%2Fdatasets%2Fid-woa13-" + graphictype + "-" + graphictime + "-" + graphicdegree + "%2Fvariables%2F" + graphicid + "-id-woa13-" + graphictype + "-" + graphictime + "-" + graphicdegree + "%22%3E%3C%2Flink%3E%3Cregion%3E%3Cpoint+type%3D%22t%22+v%3D%22" + graphicmonth + "%22%3E%3C%2Fpoint%3E%3Cpoint+type%3D%22z%22+v%3D%220%22%3E%3C%2Fpoint%3E%3Crange+type%3D%22y%22+low%3D%22-87.5%22+high%3D%2287.5%22%3E%3C%2Frange%3E%3Crange+type%3D%22x%22+low%3D%22-177.5%22+high%3D%22177.5%22%3E%3C%2Frange%3E%3C%2Fregion%3E%3C%2Fargs%3E%3C%2FlasRequest%3E&amp;stream=true&amp;stream_ID=plot_image"
 
+        def run_combined_defs(self, ncFile):
+            self.ncdump(ncFile)
+            self.add_to_ncml(ncFile)
+            self.xsltproc_to_iso(ncFile)
+            self.add_collection_metadata(ncFile)
 
+        def go(self):
+            p = Pool(50)
+            p.map(self, self.find_nc_files())
+
+        def __call__(self, ncFile):
+            return self.run_combined_defs(ncFile)
         	
 
 # __main__
@@ -187,14 +199,7 @@ if __name__ == '__main__':
     create_output_dirs()
 
     woa13 = WOA13()
-    ncFiles = woa13.find_nc_files()
-    
-    # Loop over each file in list
-    for ncFile in ncFiles:
-                woa13.ncdump(ncFile)
-                woa13.add_to_ncml(ncFile)
-                woa13.xsltproc_to_iso(ncFile)
-                woa13.add_collection_metadata(ncFile)
+    woa13.go()
 
     print 'The program took ', time.time()-start, 'seconds to complete.'
                 
