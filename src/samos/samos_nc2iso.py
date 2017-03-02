@@ -4,15 +4,16 @@ import glob
 import time
 import os
 import subprocess
+from multiprocessing import Pool
 from os.path import basename
 
 def create_output_dirs():
-	if not os.path.exists("/nodc/users/tjaensch/python.git/src/samos/ncml/"):
-            os.makedirs("/nodc/users/tjaensch/python.git/src/samos/ncml/")
-            if not os.path.exists("/nodc/users/tjaensch/python.git/src/samos/iso_xml/"):
-                    os.makedirs("/nodc/users/tjaensch/python.git/src/samos/iso_xml/")
-            if not os.path.exists("/nodc/users/tjaensch/python.git/src/samos/final_xml/"):
-                    os.makedirs("/nodc/users/tjaensch/python.git/src/samos/final_xml/")
+	if not os.path.exists("./ncml/"):
+            os.makedirs("./ncml/")
+            if not os.path.exists("./iso_xml/"):
+                    os.makedirs("./iso_xml/")
+            if not os.path.exists("./final_xml/"):
+                    os.makedirs("./final_xml/")
 
 class Samos:
 	"""docstring for samos"""
@@ -28,7 +29,7 @@ class Samos:
             return self.ncFiles
 
         def ncdump(self, ncFile):
-            f = open("/nodc/users/tjaensch/python.git/src/samos/ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
+            f = open("./ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
             subprocess.call(["ncdump", "-x", ncFile], stdout=f)
             f.close()
 
@@ -46,7 +47,7 @@ class Samos:
             return(os.path.getsize(ncFile) / 1024)
 
         def add_to_ncml(self, ncFile):
-            file_path = "/nodc/users/tjaensch/python.git/src/samos/ncml/" + self.get_file_name(ncFile) + ".ncml"
+            file_path = "./ncml/" + self.get_file_name(ncFile) + ".ncml"
             #Replace 2nd line with <netcdf>
             with open(file_path,'r') as f:
                 get_all = f.readlines()
@@ -65,11 +66,11 @@ class Samos:
 
         def xsltproc_to_iso(self, ncFile):
             xslFile = "/nodc/users/tjaensch/xsl.git/samos/XSL/ncml2iso_SAMOS_Thomas_edits.xsl"
-            parsedNcmlFile = ET.parse("/nodc/users/tjaensch/python.git/src/samos/ncml/" + self.get_file_name(ncFile) + ".ncml")
+            parsedNcmlFile = ET.parse("./ncml/" + self.get_file_name(ncFile) + ".ncml")
             xslt = ET.parse(xslFile)
             transform = ET.XSLT(xslt)
             isoXmlFile = transform(parsedNcmlFile)
-            with open("/nodc/users/tjaensch/python.git/src/samos/iso_xml/" + self.get_file_name(ncFile) + ".xml", "w") as f:
+            with open("./iso_xml/" + self.get_file_name(ncFile) + ".xml", "w") as f:
                 f.write(ET.tostring(isoXmlFile, pretty_print=True))
             # print(ET.tostring(isoXmlFile, pretty_print=True))
             return(ET.tostring(isoXmlFile, pretty_print=True))
@@ -77,9 +78,22 @@ class Samos:
         def add_collection_metadata(self, ncFile):
             isocofile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/COAPS-SAMOS.xml"
             granule = "/nodc/users/tjaensch/xsl.git/samos/XSL/granule.xsl"
-            f = open("/nodc/users/tjaensch/python.git/src/samos/final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
-            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "/nodc/users/tjaensch/python.git/src/samos/iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
+            f = open("./final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
+            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "./iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
             f.close()
+
+        def run_combined_defs(self, ncFile):
+            self.ncdump(ncFile)
+            self.add_to_ncml(ncFile)
+            self.xsltproc_to_iso(ncFile)
+            self.add_collection_metadata(ncFile)
+
+        def go(self):
+            p = Pool(50)
+            p.map(self, self.find_nc_files())
+
+        def __call__(self, ncFile):
+            return self.run_combined_defs(ncFile)
 
 # __main__
 if __name__ == '__main__':
@@ -88,14 +102,7 @@ if __name__ == '__main__':
     create_output_dirs()
 
     samos = Samos()
-    ncFiles = samos.find_nc_files()
-    
-    # Loop over each file in list
-    for ncFile in ncFiles:
-                samos.ncdump(ncFile)
-                samos.add_to_ncml(ncFile)
-                samos.xsltproc_to_iso(ncFile)
-                samos.add_collection_metadata(ncFile)
+    samos.go()
 
     print 'The program took ', time.time()-start, 'seconds to complete.'
                 
