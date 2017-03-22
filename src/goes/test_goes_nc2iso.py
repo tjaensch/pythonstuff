@@ -34,7 +34,7 @@ class Testcman(unittest.TestCase):
         shutil.rmtree("./netcdf3")'''
 
     def test_find_nc_files(self):
-        self.assertTrue(len(self.ncFiles) <= 0)
+        self.assertTrue(len(self.ncFiles) <= 1)
         self.assertTrue(self.ncFiles)
 
     def test_ncdump(self):
@@ -43,7 +43,7 @@ class Testcman(unittest.TestCase):
     def test_add_to_ncml(self):
         file = open("./ncml/GridSat-CONUS.goes13.2015.01.01.0145.v01.ncml", "r")
         data = file.read()
-        self.assertTrue("<title>GridSat-CONUS.goes13.2015.01.01.0145.v01</title><englishtitle>NDBC-CMANWx_44020_201605_D6_v00 - C-MAN/Wx buoy 44020 for 201605, deployment 6</englishtitle><filesize>2212</filesize><path>ndbc/cmanwx/2016/05/</path></netcdf>" in data)
+        self.assertTrue("<title>GridSat-CONUS.goes13.2015.01.01.0145.v01</title><englishtitle>NDBC-CMANWxSat-CONUS.goes13.2015.01.01.0145.v01 - C-MAN/Wx buoy at-CO for US.goe, deployment 3</englishtitle><filesize>3452</filesize><path>/</path></netcdf>" in data)
 
     def test_xsltproc_to_iso(self):
         file = open("./iso_xml/GridSat-CONUS.goes13.2015.01.01.0145.v01.xml", "r")
@@ -60,7 +60,7 @@ class Testcman(unittest.TestCase):
     def test_get_english_title(self):
         file = open("./final_xml/GridSat-CONUS.goes13.2015.01.01.0145.v01.xml", "r")
         data = file.read()
-        self.assertTrue("NDBC-CMANWx_44020_201605_D6_v00 - C-MAN/Wx buoy 44020 for 201605, deployment 6" in data)
+        self.assertTrue("NDBC-CMANWxSat-CONUS.goes13.2015.01.01.0145.v01 - C-MAN/Wx buoy at-CO for US.goe, deployment 3" in data)
 
 # __main__
 if __name__ == '__main__':
