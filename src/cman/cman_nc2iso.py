@@ -27,7 +27,7 @@ class CMAN:
         def find_nc_files(self):
             source_dir = "/nodc/web/data.nodc/htdocs/ndbc/cmanwx"
             for root, dirnames, filenames in os.walk(source_dir, followlinks=True):
-                for filename in fnmatch.filter(filenames, '*.nc'):
+                for filename in fnmatch.filter(filenames, 'NDBC_*.nc'):
                     self.ncFiles.append(os.path.join(root,filename))
             print("%d files found in source directory" % len(self.ncFiles))
             return self.ncFiles
