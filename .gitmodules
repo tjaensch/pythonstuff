@@ -1,0 +1,3 @@
+[submodule "belay"]
+	path = belay
+	url = git@git.ncdc.noaa.gov:metadata/belay.git
