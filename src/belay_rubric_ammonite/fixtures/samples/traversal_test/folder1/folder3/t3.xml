@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmi:MI_Metadata xmlns:gml="http://www.opengis.net/gml/3.2"
+	xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gss="http://www.isotc211.org/2005/gss"
+	xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:gsr="http://www.isotc211.org/2005/gsr"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gmi="http://www.isotc211.org/2005/gmi" xmlns:srv="http://www.isotc211.org/2005/srv"
+	xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xsi:schemaLocation="http://www.isotc211.org/2005/gmi http://ngdc.noaa.gov/metadata/published/xsd/schema.xsd">
+	<gmd:fileIdentifier>
+		<gco:CharacterString>gov.noaa.nos.14001-16000:</gco:CharacterString>
+	</gmd:fileIdentifier>
+	<gmd:language>
+		<gco:CharacterString>eng</gco:CharacterString>
+	</gmd:language>
+	<gmd:characterSet>
+		<gmd:MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
+	</gmd:characterSet>
+	<gmd:parentIdentifier>
+		<gco:CharacterString>NOS_Hydrographic_Survey_Collection</gco:CharacterString>
+	</gmd:parentIdentifier>
+	<gmd:hierarchyLevel>
+		<gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="series">series</gmd:MD_ScopeCode>
+	</gmd:hierarchyLevel>
+	<gmd:hierarchyLevelName>
+		<gco:CharacterString>Granule</gco:CharacterString>
+	</gmd:hierarchyLevelName>
+	<gmd:contact>
+		<gmd:CI_ResponsibleParty>
+			<gmd:organisationName>
+				<gco:CharacterString>DOC/NOAA/NOS/OCS &gt; Office of Coast Survey, National Ocean Service, NOAA, U.S. Department of Commerce</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:positionName>
+				<gco:CharacterString>Hydrographic Services Division, IT Specialist</gco:CharacterString>
+			</gmd:positionName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:phone>
+						<gmd:CI_Telephone>
+							<gmd:voice>
+								<gco:CharacterString>(301) 713-2698 x118</gco:CharacterString>
+							</gmd:voice>
+							<gmd:facsimile>
+								<gco:CharacterString>(301) 713-4533</gco:CharacterString>
+							</gmd:facsimile>
+						</gmd:CI_Telephone>
+					</gmd:phone>
+					<gmd:address>
+						<gmd:CI_Address>
+							<gmd:deliveryPoint>
+								<gco:CharacterString>NOAA/NOS/OCS/HSD</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<gmd:deliveryPoint>
+								<gco:CharacterString>1315 East-West Highway, SSMC3</gco:CharacterString>
+							</gmd:deliveryPoint>
+							<gmd:city>
+								<gco:CharacterString>Silver Spring</gco:CharacterString>
+							</gmd:city>
+							<gmd:administrativeArea>
+								<gco:CharacterString>MD</gco:CharacterString>
+							</gmd:administrativeArea>
+							<gmd:postalCode>
+								<gco:CharacterString>20910</gco:CharacterString>
+							</gmd:postalCode>
+							<gmd:country>
+								<gco:CharacterString>USA</gco:CharacterString>
+							</gmd:country>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>hydro.info@noaa.gov</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<gmd:role>
+				<gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:contact>
+	<gmd:dateStamp>
+		<gco:Date>2016-09-29</gco:Date>
+	</gmd:dateStamp>
+	<gmd:metadataStandardName>
+		<gco:CharacterString>ISO 19115-2 Geographic Information - Metadata - Part 2: Extensions for Imagery and Gridded Data</gco:CharacterString>
+	</gmd:metadataStandardName>
+	<gmd:metadataStandardVersion>
+		<gco:CharacterString>ISO 19115-2:2009(E)</gco:CharacterString>
+	</gmd:metadataStandardVersion>
+	<gmd:dataSetURI>
+		<gco:CharacterString>http://www.ngdc.noaa.gov/metaview/page?url=http://surveys.ngdc.noaa.gov/mgg/NOS/hsmdb/14001-16000/_hsmdb.xml&amp;view=hydro/rapsheet&amp;header=none</gco:CharacterString>
+	</gmd:dataSetURI>
+	<gmd:referenceSystemInfo
+		xlink:href="https://www.ngdc.noaa.gov/docucomp/ba2c932c-1d16-42c1-a4dc-a09142bd0d68"
+		xlink:title=""/>
+	<gmd:referenceSystemInfo
+		xlink:href="https://www.ngdc.noaa.gov/docucomp/7c117ac4-dc18-4aec-b0a0-ef6f4da007d0"
+		xlink:title=""/>
+	<gmd:metadataExtensionInfo>
+		<gmd:MD_MetadataExtensionInformation>
+			<gmd:extensionOnLineResource
+				xlink:href="http://www.ngdc.noaa.gov/docucomp/component/00362270-9ce0-11e0-aa82-0800200c9a66"
+				xlink:title="Metadata Extension Information"/>
+		</gmd:MD_MetadataExtensionInformation>
+	</gmd:metadataExtensionInfo>
+	<gmd:identificationInfo>
+		<gmd:MD_DataIdentification>
+			<gmd:citation>
+				<gmd:CI_Citation>
+					<gmd:title>
+						<gco:CharacterString>: NOS Hydrographic Survey </gco:CharacterString>
+					</gmd:title>
+					<gmd:date>
+						<gmd:CI_Date>
+							<gmd:date>
+								<gco:Date>1900-01-01</gco:Date>
+							</gmd:date>
+							<gmd:dateType>
+								<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+							</gmd:dateType>
+						</gmd:CI_Date>
+					</gmd:date>
+					<gmd:identifier>
+						<gmd:MD_Identifier>
+							<gmd:code>
+								<gco:CharacterString>Survey ID: </gco:CharacterString>
+							</gmd:code>
+						</gmd:MD_Identifier>
+					</gmd:identifier>
+					<gmd:citedResponsibleParty xlink:title="NCEI (publisher)"
+						xlink:href="https://www.ngdc.noaa.gov/docucomp/f5f40828-3d4a-42fa-b938-d3b5f965b1b7"/>
+					<gmd:citedResponsibleParty>
+						<gmd:CI_ResponsibleParty>
+							<gmd:organisationName>
+								<gco:CharacterString>DOC/NOAA/NOS/OCS/HSD &gt; Hydrographic Surveys Division, Office of Coast Survey, National Ocean Service, NOAA, U.S. Department of Commerce</gco:CharacterString>
+							</gmd:organisationName>
+							<gmd:role>
+								<gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="originator">originator</gmd:CI_RoleCode>
+							</gmd:role>
+						</gmd:CI_ResponsibleParty>
+					</gmd:citedResponsibleParty>
+					<gmd:otherCitationDetails>
+						<gco:CharacterString>Field Number:  Sheet: </gco:CharacterString>
+					</gmd:otherCitationDetails>
+				</gmd:CI_Citation>
+			</gmd:citation>
+			<gmd:abstract>
+				<gco:CharacterString>The National Oceanic and Atmospheric Administration (NOAA) has the statutory mandate to collect hydrographic data in support of nautical chart compilation for safe navigation and to provide background data for engineers, scientific, and other commercial and industrial activities. Hydrographic survey data primarily consist of water depths, but may also include features (e.g. rocks, wrecks), navigation aids, shoreline identification, and bottom type information.
+							NOAA is responsible for archiving and distributing the source data as described in this metadata record.</gco:CharacterString>
+			</gmd:abstract>
+			<gmd:purpose>
+				<gco:CharacterString>These hydrographic data are made available to the public for a wide variety of uses, such as sea-bottom characterization, habitat classification, coastal studies, boundary issues, and tsunami forecasting. These data are not intended to be used for navigation. Nautical charts produced and certified by NOAA should be used for navigation purposes.</gco:CharacterString>
+			</gmd:purpose>
+			<gmd:status>
+				<gmd:MD_ProgressCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeListValue="completed">completed</gmd:MD_ProgressCode>
+			</gmd:status>
+			<gmd:pointOfContact>
+				<gmd:CI_ResponsibleParty>
+					<gmd:organisationName>
+						<gco:CharacterString>DOC/NOAA/NOS/OCS/HSD &gt; Hydrographic Surveys Division, Office of Coast Survey, National Ocean Service, NOAA, U.S. Department of Commerce</gco:CharacterString>
+					</gmd:organisationName>
+					<gmd:positionName>
+						<gco:CharacterString>Chief, Hydrographic Surveys Division</gco:CharacterString>
+					</gmd:positionName>
+					<gmd:contactInfo>
+						<gmd:CI_Contact>
+							<gmd:phone>
+								<gmd:CI_Telephone>
+									<gmd:voice>
+										<gco:CharacterString>(301) 713-2700</gco:CharacterString>
+									</gmd:voice>
+								</gmd:CI_Telephone>
+							</gmd:phone>
+							<gmd:address>
+								<gmd:CI_Address>
+									<gmd:deliveryPoint>
+										<gco:CharacterString>NOAA/NOS/OCS/HSD</gco:CharacterString>
+									</gmd:deliveryPoint>
+									<gmd:deliveryPoint>
+										<gco:CharacterString>1315 East West Highway, SSMC3</gco:CharacterString>
+									</gmd:deliveryPoint>
+									<gmd:city>
+										<gco:CharacterString>Silver Spring</gco:CharacterString>
+									</gmd:city>
+									<gmd:administrativeArea>
+										<gco:CharacterString>MD</gco:CharacterString>
+									</gmd:administrativeArea>
+									<gmd:postalCode>
+										<gco:CharacterString>20910-3282</gco:CharacterString>
+									</gmd:postalCode>
+									<gmd:country>
+										<gco:CharacterString>USA</gco:CharacterString>
+									</gmd:country>
+									<gmd:electronicMailAddress>
+										<gco:CharacterString>HSD.Inquiries@noaa.gov</gco:CharacterString>
+									</gmd:electronicMailAddress>
+								</gmd:CI_Address>
+							</gmd:address>
+						</gmd:CI_Contact>
+					</gmd:contactInfo>
+					<gmd:role>
+						<gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</gmd:CI_RoleCode>
+					</gmd:role>
+				</gmd:CI_ResponsibleParty>
+			</gmd:pointOfContact>
+			<gmd:resourceMaintenance>
+				<gmd:MD_MaintenanceInformation>
+					<gmd:maintenanceAndUpdateFrequency>
+						<gmd:MD_MaintenanceFrequencyCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeListValue="notPlanned">notPlanned</gmd:MD_MaintenanceFrequencyCode>
+					</gmd:maintenanceAndUpdateFrequency>
+				</gmd:MD_MaintenanceInformation>
+			</gmd:resourceMaintenance>
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gco:CharacterString> Hydrographic Surveys for Selected Locations Within the United States (hydro_bathy_2006) </gco:CharacterString>
+					</gmd:keyword>
+					<gmd:type>
+						<gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="project">project</gmd:MD_KeywordTypeCode>
+					</gmd:type>
+					<gmd:thesaurusName gco:nilReason="inapplicable"/>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gco:CharacterString>EARTH SCIENCE &gt; Oceans &gt; Bathymetry/Seafloor Topography &gt; Bathymetry</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:keyword>
+						<gco:CharacterString>EARTH SCIENCE &gt; Oceans &gt; Bathymetry/Seafloor Topography &gt; Seafloor Topography</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:keyword>
+						<gco:CharacterString>EARTH SCIENCE &gt; Oceans &gt; Bathymetry/Seafloor Topography &gt; Water Depth</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:keyword>
+						<gco:CharacterString>EARTH SCIENCE &gt; Oceans &gt; Marine Sediments &gt; Sediment Composition</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:type>
+						<gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+					</gmd:type>
+					<gmd:thesaurusName xlink:title="NASA/GCMD Science Keyword Thesaurus"
+						xlink:href="http://www.ngdc.noaa.gov/docucomp/227737d0-428b-11df-9879-0800200c9a66"
+					/>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<gmd:descriptiveKeywords xlink:title="Data Center Keywords"
+				xlink:href="https://www.ngdc.noaa.gov/docucomp/ed3077e6-911d-4f62-8d4a-09b68d12926b"/>
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gco:CharacterString>In Situ Ocean-based Platforms &gt; SHIPS</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:type>
+						<gmd:MD_KeywordTypeCode codeListValue="platform" codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode">platform</gmd:MD_KeywordTypeCode>
+					</gmd:type>
+					<gmd:thesaurusName xlink:title="NASA/GCMD Platform Keyword Thesaurus"
+						xlink:href="https://ngdc.noaa.gov/docucomp/82A5DD195659CBECE040AC8C5AB41A40"
+					/>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gco:CharacterString>In Situ/Laboratory Instruments &gt; Profilers/Sounders &gt; Acoustic Sounders &gt; &gt; MSBS &gt; Multibeam Swath Bathymetry System</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:keyword>
+						<gco:CharacterString>In Situ/Laboratory Instruments &gt; Profilers/Sounders &gt; Acoustic Sounders &gt; &gt; MBES &gt; Multibeam Mapping System</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:keyword>
+						<gco:CharacterString>In Situ/Laboratory Instruments &gt; Profilers/Sounders &gt; Acoustic Sounders &gt; &gt; SONAR &gt; Sound Navigation and Ranging</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:keyword>
+						<gco:CharacterString>In Situ/Laboratory Instruments &gt; Profilers/Sounders &gt; Acoustic Sounders</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:keyword>
+						<gco:CharacterString>Earth Remote Sensing Instruments &gt; Passive Remote Sensing &gt; Positioning/Navigation &gt; GPS &gt; GPS RECEIVERS</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:keyword>
+						<gco:CharacterString>Earth Remote Sensing Instruments &gt; Passive Remote Sensing &gt; Positioning/Navigation &gt; GPS &gt; GPS/IMU &gt; Global Positioning System/Inertial Measurement Unit</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:type>
+						<gmd:MD_KeywordTypeCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="instrument">instrument</gmd:MD_KeywordTypeCode>
+					</gmd:type>
+					<gmd:thesaurusName xlink:title="NASA/GCMD Instrument Keyword Thesaurus"
+						xlink:href="https://www.ngdc.noaa.gov/docucomp/82A5DD195658CBECE040AC8C5AB41A40"
+					/>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gco:CharacterString>
+											OCEAN
+										</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:keyword>
+						<gco:CharacterString>
+									CONTINENT &gt; NORTH AMERICA &gt; UNITED STATES OF AMERICA
+								</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:type>
+						<gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="place">place</gmd:MD_KeywordTypeCode>
+					</gmd:type>
+					<gmd:thesaurusName xlink:title="Getty Thesaurus of Geographic Names"
+						xlink:href="https://www.ngdc.noaa.gov/docucomp/e198a6e9-1fbc-4e65-9366-24df2b1eca76"
+					/>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<gmd:resourceConstraints xlink:title="NOAA Disclaimer"
+				xlink:href="https://www.ngdc.noaa.gov/docucomp/dadd4ac3-2b9f-4db5-8603-71285b94c3d7"/>
+			<gmd:resourceConstraints xlink:title="Not for Navigation"
+				xlink:href="https://www.ngdc.noaa.gov/docucomp/103da706-402a-41cf-adc9-e709dd0ebea5"/>
+			<gmd:resourceConstraints xlink:title="Raw Data Disclaimer"
+				xlink:href="https://www.ngdc.noaa.gov/docucomp/0bd1a446-d7fa-4be0-a289-dfcae9bcf462"/>
+			<gmd:spatialRepresentationType>
+				<gmd:MD_SpatialRepresentationTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeListValue="grid">grid</gmd:MD_SpatialRepresentationTypeCode>
+			</gmd:spatialRepresentationType>
+			<gmd:spatialResolution>
+				<gmd:MD_Resolution>
+					<gmd:equivalentScale>
+						<gmd:MD_RepresentativeFraction>
+							<gmd:denominator>
+								<gco:Integer>100000</gco:Integer>
+							</gmd:denominator>
+						</gmd:MD_RepresentativeFraction>
+					</gmd:equivalentScale>
+				</gmd:MD_Resolution>
+			</gmd:spatialResolution>
+			<gmd:language>
+				<gco:CharacterString>eng; USA</gco:CharacterString>
+			</gmd:language>
+			<gmd:characterSet gco:nilReason="inapplicable"/>
+			<gmd:topicCategory>
+				<gmd:MD_TopicCategoryCode>oceans</gmd:MD_TopicCategoryCode>
+			</gmd:topicCategory>
+			<gmd:extent>
+				<gmd:EX_Extent id="boundingExtent">
+					<gmd:description>
+						<gco:CharacterString>Coastal, navigationally significant waters of the United States of America, U.S. protectorates, and partner sovereign nations.</gco:CharacterString>
+					</gmd:description>
+					<gmd:geographicElement>
+						<gmd:EX_GeographicBoundingBox id="boundingGeographicBoundingBox">
+							<gmd:westBoundLongitude>
+								<gco:Decimal>-105</gco:Decimal>
+							</gmd:westBoundLongitude>
+							<gmd:eastBoundLongitude>
+								<gco:Decimal>-104</gco:Decimal>
+							</gmd:eastBoundLongitude>
+							<gmd:southBoundLatitude>
+								<gco:Decimal>39</gco:Decimal>
+							</gmd:southBoundLatitude>
+							<gmd:northBoundLatitude>
+								<gco:Decimal>40</gco:Decimal>
+							</gmd:northBoundLatitude>
+						</gmd:EX_GeographicBoundingBox>
+					<gmd:temporalElement gco:nilReason="missing"/>
+					</gmd:geographicElement>
+					<gmd:verticalElement>
+						<gmd:EX_VerticalExtent id="boundingVerticalExtent">
+							<gmd:minimumValue>
+								<gco:Real>NaN</gco:Real>
+							</gmd:minimumValue>
+							<gmd:maximumValue>
+								<gco:Real>NaN</gco:Real>
+							</gmd:maximumValue>
+							<gmd:verticalCRS
+								xlink:href="http://www.epsg-registry.org/export.htm?gml=urn:ogc:def:crs:EPSG::5715"
+								xlink:title="msl depth in meters" xlink:actuate="onRequest"/>
+						</gmd:EX_VerticalExtent>
+					</gmd:verticalElement>
+				</gmd:EX_Extent>
+			</gmd:extent>
+		</gmd:MD_DataIdentification>
+	</gmd:identificationInfo>
+	<gmd:contentInfo gco:nilReason="inapplicable"/>
+	<gmd:distributionInfo>
+		<gmd:MD_Distribution>
+			<gmd:distributor>
+				<gmd:MD_Distributor>
+					<gmd:distributorContact>
+						<gmd:CI_ResponsibleParty>
+							<gmd:organisationName>
+								<gco:CharacterString>DOC/NOAA/NESDIS/NCEI &gt; National Centers for Environmental Information, NESDIS, NOAA, U.S. Department of Commerce</gco:CharacterString>
+							</gmd:organisationName>
+							<gmd:positionName>
+								<gco:CharacterString>National Ocean Service Hydrographic Database Manager</gco:CharacterString>
+							</gmd:positionName>
+							<gmd:contactInfo>
+								<gmd:CI_Contact>
+									<gmd:phone>
+										<gmd:CI_Telephone>
+											<gmd:voice>
+												<gco:CharacterString>(303) 497-6390</gco:CharacterString>
+											</gmd:voice>
+											<gmd:facsimile>
+												<gco:CharacterString>(303) 497-6513</gco:CharacterString>
+											</gmd:facsimile>
+										</gmd:CI_Telephone>
+									</gmd:phone>
+									<gmd:address>
+										<gmd:CI_Address>
+											<gmd:deliveryPoint>
+												<gco:CharacterString>325 Broadway E/GC3</gco:CharacterString>
+											</gmd:deliveryPoint>
+											<gmd:city>
+												<gco:CharacterString>Boulder</gco:CharacterString>
+											</gmd:city>
+											<gmd:administrativeArea>
+												<gco:CharacterString>CO</gco:CharacterString>
+											</gmd:administrativeArea>
+											<gmd:postalCode>
+												<gco:CharacterString>80305-3328</gco:CharacterString>
+											</gmd:postalCode>
+											<gmd:country>
+												<gco:CharacterString>USA</gco:CharacterString>
+											</gmd:country>
+											<gmd:electronicMailAddress>
+												<gco:CharacterString>Hydro.Info@noaa.gov</gco:CharacterString>
+											</gmd:electronicMailAddress>
+										</gmd:CI_Address>
+									</gmd:address>
+								</gmd:CI_Contact>
+							</gmd:contactInfo>
+							<gmd:role>
+								<gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="distributor">distributor</gmd:CI_RoleCode>
+							</gmd:role>
+						</gmd:CI_ResponsibleParty>
+					</gmd:distributorContact>
+					<gmd:distributionOrderProcess>
+						<gmd:MD_StandardOrderProcess>
+							<gmd:fees>
+								<gco:CharacterString>None</gco:CharacterString>
+							</gmd:fees>
+							<gmd:orderingInstructions>
+								<gco:CharacterString>Download</gco:CharacterString>
+							</gmd:orderingInstructions>
+						</gmd:MD_StandardOrderProcess>
+					</gmd:distributionOrderProcess>
+					<gmd:distributorFormat>
+						<gmd:MD_Format>
+							<gmd:name>
+								<gco:CharacterString>XML</gco:CharacterString>
+							</gmd:name>
+							<gmd:version gco:nilReason="unknown"/>
+							<gmd:specification>
+								<gco:CharacterString>Structured markup metadata document.</gco:CharacterString>
+							</gmd:specification>
+						</gmd:MD_Format>
+					</gmd:distributorFormat>
+					<gmd:distributorTransferOptions>
+						<gmd:MD_DigitalTransferOptions>
+							<gmd:onLine>
+								<gmd:CI_OnlineResource>
+									<gmd:linkage>
+										<gmd:URL>http://www.ngdc.noaa.gov/metadata/published/NOAA/NESDIS/NGDC/MGG/NOS/14001-16000/iso/xml/.xml</gmd:URL>
+									</gmd:linkage>
+									<gmd:protocol>
+										<gco:CharacterString>HTTPS</gco:CharacterString>
+									</gmd:protocol>
+									<gmd:name>
+										<gco:CharacterString>.xml</gco:CharacterString>
+									</gmd:name>
+									<gmd:description>
+										<gco:CharacterString>Survey metadata record.</gco:CharacterString>
+									</gmd:description>
+									<gmd:function>
+										<gmd:CI_OnLineFunctionCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">download</gmd:CI_OnLineFunctionCode>
+									</gmd:function>
+								</gmd:CI_OnlineResource>
+							</gmd:onLine>
+						</gmd:MD_DigitalTransferOptions>
+					</gmd:distributorTransferOptions>
+				</gmd:MD_Distributor>
+			</gmd:distributor>
+		</gmd:MD_Distribution>
+	</gmd:distributionInfo>
+	<gmd:dataQualityInfo>
+		<gmd:DQ_DataQuality>
+			<gmd:scope>
+				<gmd:DQ_Scope>
+					<gmd:level>
+						<gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+					</gmd:level>
+				</gmd:DQ_Scope>
+			</gmd:scope>
+			<gmd:lineage>
+				<gmd:LI_Lineage>
+					<gmd:statement>
+						<gco:CharacterString>NOS Survey data is collect by surface vessels of varying characteristics. The three primary sources of survey data are NOAA survey ships, national response teams, and contract vessels. The ships collect data, conduct basic on board data processing and then send these data to NCEI (formerly NGDC) for archival and "RAW" data. After archiving the RAW data NCEI sends the data to the processing branches (Atlantic or Pacific) for further processing. The processing
+									branches complete processing of these data and generate products. The processed survey data is sent to NCEI for archival and the products are sent to the Hydrographic Surveys Division (HSD) for approval. Once products are approved by HSD, these survey products are sent to NCEI for archival and posting on-line.</gco:CharacterString>
+					</gmd:statement>
+				</gmd:LI_Lineage>
+			</gmd:lineage>
+		</gmd:DQ_DataQuality>
+	</gmd:dataQualityInfo>
+	<gmd:dataQualityInfo
+		xlink:href="https://www.ngdc.noaa.gov/docucomp/b24b7720-4d3e-42f9-b6b8-88429d75e36b"
+		xlink:title="NCEI repository history"/>
+	<gmd:metadataMaintenance>
+		<gmd:MD_MaintenanceInformation>
+			<gmd:maintenanceAndUpdateFrequency>
+				<gmd:MD_MaintenanceFrequencyCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeListValue="irregular">irregular</gmd:MD_MaintenanceFrequencyCode>
+			</gmd:maintenanceAndUpdateFrequency>
+			<gmd:maintenanceNote>
+				<gco:CharacterString> This record was automatically generated on 2016-09-29 from the hydrographic survey metadata database.</gco:CharacterString>
+			</gmd:maintenanceNote>
+		</gmd:MD_MaintenanceInformation>
+	</gmd:metadataMaintenance>
+	<gmi:acquisitionInformation>
+		<gmi:MI_AcquisitionInformation>
+			<gmi:acquisitionPlan>
+				<gmi:MI_Plan>
+					<gmi:status>
+						<gmd:MD_ProgressCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeListValue="completed">completed</gmd:MD_ProgressCode>
+					</gmi:status>
+					<gmi:citation>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>NOS Hydrographic Survey Descriptive Report</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date gco:nilReason="unknown"/>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="creation">creation</gmd:CI_DateTypeCode>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmi:citation>
+				</gmi:MI_Plan>
+			</gmi:acquisitionPlan>
+		</gmi:MI_AcquisitionInformation>
+	</gmi:acquisitionInformation>
+</gmi:MI_Metadata>

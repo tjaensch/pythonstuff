@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>GCMD Keyword Checker</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="description">
+    <meta content="National Centers for Environmental Information (NCEI)" name="keywords">
+    <meta content="National Centers for Environmental Information (NCEI)" name="author">
+    <meta content="" name="application-name">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/images/favicon.ico" rel="shortcut icon">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/images/apple-touch-icon-144x144.png" rel="apple-touch-icon" sizes="144x144">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/images/apple-touch-icon-57x57.png" rel="apple-touch-icon" sizes="57x57">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/images/apple-touch-icon.png" rel="apple-touch-icon">
+    <meta content="" name="msapplication-tooltip">
+    <meta content="name=NCEI;action-uri=https://www.ncdc.noaa.gov/;icon-uri=https://www.ncdc.noaa.gov/favicon.ico" name="msapplication-task">
+    <meta content="#007EC6" name="msapplication-TileColor">
+    <meta content="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/images/apple-touch-icon-144.png" name="msapplication-TileImage">
+    <meta content="DjxBYfR0oM2KSNJl6i2BbxfTcXOGUnbglkT0QQj5KtI=" name="verify-v1">
+    <meta content="emma.metadata-support" name="questions">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/css/reset.css" media="all" rel="stylesheet" type="text/css">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/css/application.css" media="all" rel="stylesheet" type="text/css">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/css/rubric-display.css" media="all" rel="stylesheet" type="text/css">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/css/layout_320.css" media="screen and (max-width: 659px)" rel="stylesheet" type="text/css">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/css/layout_640.css" media="screen and (min-width: 660px) and (max-width: 1023px)" rel="stylesheet" type="text/css">
+    <link href="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/css/layout_1024.css" media="screen and (min-width: 1024px)" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
+    </script>
+    <script src="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/js/lib/html5.min.js" type="text/javascript">
+    </script>
+    <script src="https://www.ngdc.noaa.gov/metadata/published/xsl/rubricv2/js/application.js" type="text/javascript">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js">
+    </script>
+    <link href="levels.css" rel="stylesheet"><!-- My StyleSheet! (AMR) -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div style="width: 100%;height: 55px;background-color: #ffffff;min-width: 625px;">
+            <div style="position: absolute;top: 0;right: 0;background-color: #ffffff;width: 440px;height: 55px;margin:0;">
+                <a href="https://www.ncei.noaa.gov/" target="_blank"><img alt="NCEI (formerly NGDC)" border="0" height="50" src="http://www.ngdc.noaa.gov/image/nesdisngdcleft.gif" width="440"></a>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <h1>GCMD Keyword Checker</h1><!--<a href="#" data-toggle="tooltip" title="Hooray!">Hover over me</a>-->
+        <div class="panel-group" style="border:0">
+            <div class="panel panel-default" style="border:0;box-shadow:none">
+                <div class="well-sm">
+                    <p><a data-toggle="collapse" href="#collapse1" style="font-size:100%">Evaluated Records&nbsp;({{file-count}})&nbsp;<span aria-hidden="true" class="glyphicon glyphicon-menu-down"></span></a></p>
+                </div>
+                <div class="panel-collapse collapse" id="collapse1" >
+                    {{files}}
+                </div>
+            </div>
+        </div>
+        <div style="width:95%;margin:auto">
+            <p>Parses ISO XML metadata record and validates relevant keywords against library of possible <a href="https://wiki.earthdata.nasa.gov/display/CMR/GCMD+Keyword+Access" target="_blank">NASA Global Change Master Directory (GCMD) keywords</a>. Cosine similarity analysis is performed on invalid keywords to recommend valid phrases. Scores range from 0.0 (completely dissimilar) to 1.0 (a content match). More on applying cosine similarity: <a href="http://blog.christianperone.com/2013/09/machine-learning-cosine-similarity-for-vector-space-models-part-iii/">cosine similarity for vector space models</a>. For NOAA guidance on GCMD Keywords visit the <a href="https://geo-ide.noaa.gov/wiki/index.php?title=Recommended_Practice_for_GCMD_Keywords" target="_blank">EDM Wiki Keywords Best Pracices</a>.</p>
+        </div><br>
+        <h6>Date Produced: {{date}}</h6>
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#invalid">Invalid Keywords ({{invalid-count}})</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#valid">Valid Keywords ({{valid-count}})</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#non-gcmd">Non-GCMD Keywords ({{non-gcmd-count}})</a>
+            </li>
+            <!--<li>-->
+            <!--    <a data-toggle="tab" href="#evaluated">Evaluated Records ({{record-count}})</a>-->
+            <!--</li>-->
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade" id="valid">
+                <br>
+                <br>
+                {{valid-table}}<br>
+                <br>
+            </div>
+            <div class="tab-pane fade in active" id="invalid">
+                <center>
+                    <br>
+                    <br>
+                    <div id="t2" style="width:100%">
+                        {{invalid-table}}
+                    </div><br>
+                    <br>
+                </center>
+            </div>
+            <div class="tab-pane fade" id="non-gcmd">
+                <br>
+                <br>
+                {{non-gcmd-table}}<br>
+                <br>
+            </div>
+            <!--<div class="tab-pane fade" id="evaluated">-->
+                <!--<p><b>evaluated records:</b> {{title}}</p>-->
+            <!--<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>-->
+        </div>
+    </div>
+<br>
+<br>
+</body>
+</html>

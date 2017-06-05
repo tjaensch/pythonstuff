@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmi:MI_Metadata xmlns:gco="http://www.isotc211.org/2005/gco"
+    xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gmi="http://www.isotc211.org/2005/gmi"
+    xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gsr="http://www.isotc211.org/2005/gsr"
+    xmlns:gss="http://www.isotc211.org/2005/gss" xmlns:gts="http://www.isotc211.org/2005/gts"
+    xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.isotc211.org/2005/gmi http://www.ngdc.noaa.gov/metadata/published/xsd/schema.xsd">
+    <gmd:fileIdentifier>
+        <gco:CharacterString>gov.noaa.ngdc.mgg.dem:464</gco:CharacterString>
+    </gmd:fileIdentifier>
+    <gmd:language>
+        <gco:CharacterString>eng; USA</gco:CharacterString>
+    </gmd:language>
+    <gmd:characterSet>
+        <gmd:MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
+    </gmd:characterSet>
+    <gmd:hierarchyLevel>
+        <gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+    </gmd:hierarchyLevel>
+    <gmd:contact xlink:title="DEM Info"
+        xlink:href="http://www.ngdc.noaa.gov/docucomp/936e0d44-7e51-4b06-be51-e9b445e19a7d"/>
+    <gmd:dateStamp>
+        <gco:Date>2015-09-03</gco:Date>
+    </gmd:dateStamp>
+    <gmd:metadataStandardName>
+        <gco:CharacterString>ISO 19115-2 Geographic Information - Metadata - Part 2: Extensions for Imagery and Gridded Data</gco:CharacterString>
+    </gmd:metadataStandardName>
+    <gmd:metadataStandardVersion>
+        <gco:CharacterString>ISO 19115-2:2009(E)</gco:CharacterString>
+    </gmd:metadataStandardVersion>
+    <gmd:spatialRepresentationInfo>
+        <gmd:MD_GridSpatialRepresentation>
+            <gmd:numberOfDimensions>
+                <gco:Integer>3</gco:Integer>
+            </gmd:numberOfDimensions>
+            <gmd:axisDimensionProperties>
+                <gmd:MD_Dimension>
+                    <gmd:dimensionName>
+                        <gmd:MD_DimensionNameTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_DimensionNameTypeCode" codeListValue="row">row</gmd:MD_DimensionNameTypeCode>
+                    </gmd:dimensionName>
+                    <gmd:dimensionSize>
+                        <gco:Integer>4320</gco:Integer>
+                    </gmd:dimensionSize>
+                    <gmd:resolution>
+                        <gco:Measure uom="decimalDegrees">.000093</gco:Measure>
+                    </gmd:resolution>
+                </gmd:MD_Dimension>
+            </gmd:axisDimensionProperties>
+            <gmd:axisDimensionProperties>
+                <gmd:MD_Dimension>
+                    <gmd:dimensionName>
+                        <gmd:MD_DimensionNameTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_DimensionNameTypeCode" codeListValue="column">column</gmd:MD_DimensionNameTypeCode>
+                    </gmd:dimensionName>
+                    <gmd:dimensionSize>
+                        <gco:Integer>4320</gco:Integer>
+                    </gmd:dimensionSize>
+                    <gmd:resolution>
+                        <gco:Measure uom="decimalDegrees">.000093</gco:Measure>
+                    </gmd:resolution>
+                </gmd:MD_Dimension>
+            </gmd:axisDimensionProperties>
+            <gmd:axisDimensionProperties>
+                <gmd:MD_Dimension>
+                    <gmd:dimensionName>
+                        <gmd:MD_DimensionNameTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_DimensionNameTypeCode" codeListValue="vertical">vertical</gmd:MD_DimensionNameTypeCode>
+                    </gmd:dimensionName>
+                    <gmd:dimensionSize>
+                        <gco:Integer>1</gco:Integer>
+                    </gmd:dimensionSize>
+                </gmd:MD_Dimension>
+            </gmd:axisDimensionProperties>
+            <gmd:cellGeometry>
+                <gmd:MD_CellGeometryCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CellGeometryCode" codeListValue="area">area</gmd:MD_CellGeometryCode>
+            </gmd:cellGeometry>
+            <gmd:transformationParameterAvailability gco:nilReason="unknown"/>
+        </gmd:MD_GridSpatialRepresentation>
+    </gmd:spatialRepresentationInfo>
+    <!--D_WGS_1984-->
+    <gmd:referenceSystemInfo
+        xlink:href="http://www.ngdc.noaa.gov/docucomp/2504d000-8345-11e1-b0c4-0800200c9a66"
+        xlink:title="WGS84"/>
+    <!-- Mean Lower Low Water height-->
+    <gmd:referenceSystemInfo xlink:title="Mean Lower Low Water depth"
+        xlink:href="http://www.ngdc.noaa.gov/docucomp/defe1bdc-40fd-426b-a262-a57b9909d08c"/>
+    <gmd:identificationInfo>
+        <gmd:MD_DataIdentification>
+            <gmd:citation>
+                <gmd:CI_Citation>
+                    <gmd:title>
+                        <gco:CharacterString>Nawiliwili, Hawaii 1/3 arc-second DEM</gco:CharacterString>
+                    </gmd:title>
+                    <gmd:date>
+                        <gmd:CI_Date>
+                            <gmd:date>
+                                <gco:Date>2005-01-01</gco:Date>
+                            </gmd:date>
+                            <gmd:dateType>
+                                <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                            </gmd:dateType>
+                        </gmd:CI_Date>
+                    </gmd:date>
+                    <gmd:edition>
+                        <gco:CharacterString>2005</gco:CharacterString>
+                    </gmd:edition>
+                    <gmd:citedResponsibleParty xlink:title="NCEI (publisher)"
+                        xlink:href="https://www.ngdc.noaa.gov/docucomp/f5f40828-3d4a-42fa-b938-d3b5f965b1b7"/>
+                    <gmd:citedResponsibleParty
+                        xlink:title="publisher - NOAA/PMEL/Center for Tsunami Research (NCTR)"
+                        xlink:href="http://www.ngdc.noaa.gov/docucomp/0367d2c8-845e-4b9a-b87c-931721c8a7f2"/>
+                    <gmd:presentationForm>
+                        <gmd:CI_PresentationFormCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="mapDigital">mapDigital</gmd:CI_PresentationFormCode>
+                    </gmd:presentationForm>
+                    <gmd:series>
+                        <gmd:CI_Series>
+                            <gmd:name>
+                                <gco:CharacterString>Hawaii Grids</gco:CharacterString>
+                            </gmd:name>
+                            <gmd:issueIdentification>
+                                <gco:CharacterString>Hawaii 2005</gco:CharacterString>
+                            </gmd:issueIdentification>
+                        </gmd:CI_Series>
+                    </gmd:series>
+                </gmd:CI_Citation>
+            </gmd:citation>
+            <gmd:abstract>
+                <gco:CharacterString>The 1/3-second Nawiliwili Hawaii Elevation Grid provides bathymetric data in ASCII raster format of 1/3-second resolution in geographic coordinates. This grid is strictly for tsunami inundation modeling</gco:CharacterString>
+            </gmd:abstract>
+            <gmd:purpose>
+                <gco:CharacterString>This grid was constructed for use in tsunami inundation modeling</gco:CharacterString>
+            </gmd:purpose>
+            <gmd:credit>
+                <gco:CharacterString>NGDC, NOS, USGS</gco:CharacterString>
+            </gmd:credit>
+            <gmd:status>
+                <gmd:MD_ProgressCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeListValue="completed">completed</gmd:MD_ProgressCode>
+            </gmd:status>
+            <gmd:pointOfContact
+                xlink:title="publisher - NOAA/PMEL/Center for Tsunami Research (NCTR)"
+                xlink:href="http://www.ngdc.noaa.gov/docucomp/0367d2c8-845e-4b9a-b87c-931721c8a7f2"/>
+            <gmd:resourceMaintenance>
+                <gmd:MD_MaintenanceInformation>
+                    <gmd:maintenanceAndUpdateFrequency>
+                        <gmd:MD_MaintenanceFrequencyCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeListValue="irregular">irregular</gmd:MD_MaintenanceFrequencyCode>
+                    </gmd:maintenanceAndUpdateFrequency>
+                </gmd:MD_MaintenanceInformation>
+            </gmd:resourceMaintenance>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>Earth Science &gt; Oceans &gt; Bathymetry/Seafloor Topography &gt; Seafloor Topography</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Earth Science &gt; Oceans &gt; Bathymetry/Seafloor Topography &gt; Bathymetry</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Earth Science &gt; Oceans &gt; Bathymetry/Seafloor Topography &gt; Water Depth</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Earth Science &gt; Oceans &gt; Coastal Processes &gt; Coastal Elevation</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+                                <gco:CharacterString>NASA/GCMD Earth Science Keywords</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date gco:nilReason="unknown"/>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>DEM &gt; Digital Elevation Model</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+                                <gco:CharacterString>NASA/GCMD Platform Keywords</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date gco:nilReason="unknown"/>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords xlink:title="WDS Project Keyword"
+                xlink:href="https://www.ngdc.noaa.gov/docucomp/62b487f4-c728-42b5-b24a-dbd7cc17c8e6"/>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>H: 1 meter - &lt; 30 meters</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>V: &lt; 1 meter</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+                                <gco:CharacterString>NASA/GCMD Data Resolution Keywords</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date gco:nilReason="unknown"/>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>Coastal Relief</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Gridded elevations</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+                                <gco:CharacterString>Uncontrolled</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date gco:nilReason="unknown"/>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>Continent &gt; North America &gt; United States of America &gt; Hawaii &gt; Kauai</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Ocean &gt; Pacific Ocean</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Vertical Location &gt; Land Surface</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Vertical Location &gt; Sea Floor</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="place">place</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+                                <gco:CharacterString>NASA/GCMD Location Keywords</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date gco:nilReason="unknown"/>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>Hawaii</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Hawaiian Islands</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Nawiliwili</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="place">place</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+                                <gco:CharacterString>Uncontrolled</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date gco:nilReason="unknown"/>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>2005</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="temporal">temporal</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+                                <gco:CharacterString>None</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date gco:nilReason="unknown"/>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords xlink:title="Data Center Keywords"
+                xlink:href="https://www.ngdc.noaa.gov/docucomp/ed3077e6-911d-4f62-8d4a-09b68d12926b"/>
+            <gmd:resourceConstraints
+                xlink:href="http://www.ngdc.noaa.gov/docucomp/103da706-402a-41cf-adc9-e709dd0ebea5"
+                xlink:title="not for navigation"/>
+            <gmd:resourceConstraints
+                xlink:href="http://www.ngdc.noaa.gov/docucomp/295cb881-4997-4a93-b31a-10855ef59b83"
+                xlink:title="copyright statement"/>
+            <gmd:resourceConstraints
+                xlink:href="http://www.ngdc.noaa.gov/docucomp/dadd4ac3-2b9f-4db5-8603-71285b94c3d7"
+                xlink:title="NOAA disclaimer"/>
+            <gmd:spatialRepresentationType>
+                <gmd:MD_SpatialRepresentationTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeListValue="grid">grid</gmd:MD_SpatialRepresentationTypeCode>
+            </gmd:spatialRepresentationType>
+            <gmd:language>
+                <gco:CharacterString>eng; USA</gco:CharacterString>
+            </gmd:language>
+            <gmd:topicCategory>
+                <gmd:MD_TopicCategoryCode>geoscientificInformation</gmd:MD_TopicCategoryCode>
+            </gmd:topicCategory>
+            <gmd:environmentDescription>
+                <gco:CharacterString>Native Dataset Environment: Microsoft Windows 2000 Version 5.2 (Build 3790) Service Pack 2; ESRI ArcCatalog 9.2.4.1420</gco:CharacterString>
+            </gmd:environmentDescription>
+            <gmd:extent>
+                <gmd:EX_Extent id="boundingExtent">
+                    <gmd:geographicElement>
+                        <gmd:EX_GeographicBoundingBox id="boundingGeographicBoundingBox">
+                            <gmd:westBoundLongitude>
+                                <gco:Decimal> -159.5</gco:Decimal>
+                            </gmd:westBoundLongitude>
+                            <gmd:eastBoundLongitude>
+                                <gco:Decimal> -159.1</gco:Decimal>
+                            </gmd:eastBoundLongitude>
+                            <gmd:southBoundLatitude>
+                                <gco:Decimal> 21.7</gco:Decimal>
+                            </gmd:southBoundLatitude>
+                            <gmd:northBoundLatitude>
+                                <gco:Decimal> 22.1</gco:Decimal>
+                            </gmd:northBoundLatitude>
+                        </gmd:EX_GeographicBoundingBox>
+                    </gmd:geographicElement>
+                    <gmd:temporalElement>
+                        <gmd:EX_TemporalExtent>
+                            <gmd:extent>
+                                <gml:TimeInstant gml:id="d1e67">
+                                    <gml:timePosition>2005-12-01</gml:timePosition>
+                                </gml:TimeInstant>
+                            </gmd:extent>
+                        </gmd:EX_TemporalExtent>
+                    </gmd:temporalElement>
+                </gmd:EX_Extent>
+            </gmd:extent>
+            <gmd:supplementalInformation>
+                <gco:CharacterString>This grid was developed through funding from the National Tsunami Hazard Mitigation Program. It will be updated as better data become available.</gco:CharacterString>
+            </gmd:supplementalInformation>
+        </gmd:MD_DataIdentification>
+    </gmd:identificationInfo>
+    <gmd:identificationInfo
+        xlink:href="http://www.ngdc.noaa.gov/docucomp/4486d41a-c4ff-4c08-8315-9d22a2be8b73"
+        xlink:title="Footprints ArcGIS Map Service"/>
+    <gmd:distributionInfo>
+        <gmd:MD_Distribution>
+            <gmd:distributionFormat>
+                <gmd:MD_Format>
+                    <gmd:name>
+                        <gco:CharacterString>ESRI Arc ASCII</gco:CharacterString>
+                    </gmd:name>
+                    <gmd:version>
+                        <gco:CharacterString>1</gco:CharacterString>
+                    </gmd:version>
+                    <gmd:specification>
+                        <gco:CharacterString>ASCII text version of ESRI ArcGIS raster format</gco:CharacterString>
+                    </gmd:specification>
+                    <gmd:fileDecompressionTechnique>
+                        <gco:CharacterString>WINZIP</gco:CharacterString>
+                    </gmd:fileDecompressionTechnique>
+                </gmd:MD_Format>
+            </gmd:distributionFormat>
+            <gmd:distributor>
+                <gmd:MD_Distributor>
+                    <gmd:distributorContact
+                        xlink:href="http://www.ngdc.noaa.gov/docucomp/936e0d44-7e51-4b06-be51-e9b445e19a7d"
+                        xlink:title="DEM information"/>
+                </gmd:MD_Distributor>
+            </gmd:distributor>
+            <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                    <gmd:transferSize>
+                        <gco:Real>61172040</gco:Real>
+                    </gmd:transferSize>
+                    <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+                                <gmd:URL>http://www.ngdc.noaa.gov/dem/squareCellGrid/getArchive/464?gridFormat=ESRI+Arc+ASCII</gmd:URL>
+                            </gmd:linkage>
+                            <gmd:name>
+                                <gco:CharacterString>Nawiliwili, HI 1/3 arc-second MHW Digital Elevation Model ASCII DEM</gco:CharacterString>
+                            </gmd:name>
+                            <gmd:description>
+                                <gco:CharacterString>Download DEM, metadata and readme file.</gco:CharacterString>
+                            </gmd:description>
+                            <gmd:function>
+                                <gmd:CI_OnLineFunctionCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">download</gmd:CI_OnLineFunctionCode>
+                            </gmd:function>
+                        </gmd:CI_OnlineResource>
+                    </gmd:onLine>
+                </gmd:MD_DigitalTransferOptions>
+            </gmd:transferOptions>
+            <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                    <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+                                <gmd:URL>http://www.ngdc.noaa.gov/dem/squareCellGrid/download/464</gmd:URL>
+                            </gmd:linkage>
+                            <gmd:name>
+                                <gco:CharacterString>Nawiliwili, HI 1/3 arc-second MHW Digital Elevation Model Homepage</gco:CharacterString>
+                            </gmd:name>
+                            <gmd:description>
+                                <gco:CharacterString>Information, preview and access DEM, metadata record and development report. </gco:CharacterString>
+                            </gmd:description>
+                            <gmd:function>
+                                <gmd:CI_OnLineFunctionCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information">information</gmd:CI_OnLineFunctionCode>
+                            </gmd:function>
+                        </gmd:CI_OnlineResource>
+                    </gmd:onLine>
+                </gmd:MD_DigitalTransferOptions>
+            </gmd:transferOptions>
+            <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                    <gmd:onLine
+                        xlink:href="http://www.ngdc.noaa.gov/docucomp/eac4bad6-f579-4d6a-bd74-1821f2f02959"
+                        xlink:title="DEM text search"/>
+                </gmd:MD_DigitalTransferOptions>
+            </gmd:transferOptions>
+            <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                    <gmd:onLine
+                        xlink:href="http://www.ngdc.noaa.gov/docucomp/ec5e3f2b-4ed9-448f-b801-25d039f1922d"
+                        xlink:title="DEM map search"/>
+                </gmd:MD_DigitalTransferOptions>
+            </gmd:transferOptions>
+        </gmd:MD_Distribution>
+    </gmd:distributionInfo>
+    <gmd:dataQualityInfo
+        xlink:href="https://www.ngdc.noaa.gov/docucomp/b24b7720-4d3e-42f9-b6b8-88429d75e36b"
+        xlink:title="NCEI repository history"/>
+    <gmd:dataQualityInfo>
+        <gmd:DQ_DataQuality>
+            <gmd:scope>
+                <gmd:DQ_Scope>
+                    <gmd:level>
+                        <gmd:MD_ScopeCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+                    </gmd:level>
+                </gmd:DQ_Scope>
+            </gmd:scope>
+            <gmd:report>
+                <gmd:DQ_AbsoluteExternalPositionalAccuracy>
+                    <gmd:nameOfMeasure>
+                        <gco:CharacterString>Horizontal Positional Accuracy Report</gco:CharacterString>
+                    </gmd:nameOfMeasure>
+                    <gmd:evaluationMethodDescription>
+                        <gco:CharacterString>The horizontal accuracy of the grid is expressed as an estimated root mean square error (RMSE). The estimate of the RMSE is based on horizontal accuracy tests of the source data which are selected as equal to or less than the intended horizontal RMSE error of the grid. Horizontal positioning of the various source points were compared with each other to verify grid accuracy.</gco:CharacterString>
+                    </gmd:evaluationMethodDescription>
+                    <gmd:result gco:nilReason="missing"/>
+                </gmd:DQ_AbsoluteExternalPositionalAccuracy>
+            </gmd:report>
+            <gmd:report>
+                <gmd:DQ_AbsoluteExternalPositionalAccuracy>
+                    <gmd:nameOfMeasure>
+                        <gco:CharacterString>Vertical Positional Accuracy Report</gco:CharacterString>
+                    </gmd:nameOfMeasure>
+                    <gmd:evaluationMethodDescription>
+                        <gco:CharacterString>The vertical RMSE is used to determine vertical accuracy of the grid. It accounts for systematic and random errors. The accuracy of bathymetric soundings are within 2% of depth. The original topographic soundings are accurate within one-half the contour interval.</gco:CharacterString>
+                    </gmd:evaluationMethodDescription>
+                    <gmd:result gco:nilReason="missing"/>
+                </gmd:DQ_AbsoluteExternalPositionalAccuracy>
+            </gmd:report>
+            <gmd:report>
+                <gmd:DQ_CompletenessCommission>
+                    <gmd:evaluationMethodDescription>
+                        <gco:CharacterString>Errant data points were removed from the various sources before processing the grid. The final grid was visually and statistically inspected for completeness using ArcGIS.</gco:CharacterString>
+                    </gmd:evaluationMethodDescription>
+                    <gmd:result gco:nilReason="unknown"/>
+                </gmd:DQ_CompletenessCommission>
+            </gmd:report>
+            <gmd:report>
+                <gmd:DQ_ConceptualConsistency>
+                    <gmd:measureDescription>
+                        <gco:CharacterString>Each data set went through a stringent quality control procedure from their respective originators. The developed grid was compared with initial sources, other source control data, and corresponding data between datasets to verify accuracy.</gco:CharacterString>
+                    </gmd:measureDescription>
+                    <gmd:result gco:nilReason="unknown"/>
+                </gmd:DQ_ConceptualConsistency>
+            </gmd:report>
+            <gmd:lineage>
+                <gmd:LI_Lineage>
+                    <gmd:processStep>
+                        <gmi:LE_ProcessStep>
+                            <gmd:description>
+                                <gco:CharacterString>Metadata imported.</gco:CharacterString>
+                            </gmd:description>
+                            <gmd:dateTime>
+                                <gco:DateTime>2008-11-04T00:00:00</gco:DateTime>
+                            </gmd:dateTime>
+                            <gmd:processor
+                                xlink:href="http://www.ngdc.noaa.gov/docucomp/A5B0BAEE-2A90-103F-E040-0AC8C5BB459F"
+                                xlink:title="Barry Eakins"/>
+                        </gmi:LE_ProcessStep>
+                    </gmd:processStep>
+                    <gmd:source>
+                        <gmd:LI_Source>
+                            <gmd:description>
+                                <gco:CharacterString>Source Contribution: bathymetric data values; Source Type: online</gco:CharacterString>
+                            </gmd:description>
+                            <gmd:sourceCitation>
+                                <gmd:CI_Citation>
+                                    <gmd:title>
+                                        <gco:CharacterString>GEODAS Vol 2, Ver 4.1 and Global Relief</gco:CharacterString>
+                                    </gmd:title>
+                                    <gmd:date>
+                                        <gmd:CI_Date>
+                                            <gmd:date>
+                                                <gco:Date>2005-01-01</gco:Date>
+                                            </gmd:date>
+                                            <gmd:dateType>
+                                                <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                                            </gmd:dateType>
+                                        </gmd:CI_Date>
+                                    </gmd:date>
+                                    <gmd:citedResponsibleParty>
+                                        <gmd:CI_ResponsibleParty>
+                                            <gmd:organisationName>
+                                                <gco:CharacterString>NOAA National Geophysical Data Center</gco:CharacterString>
+                                            </gmd:organisationName>
+                                            <gmd:contactInfo>
+                                                <gmd:CI_Contact>
+                                                  <gmd:address>
+                                                  <gmd:CI_Address>
+                                                  <gmd:city>
+                                                  <gco:CharacterString>Boulder</gco:CharacterString>
+                                                  </gmd:city>
+                                                  <gmd:administrativeArea>
+                                                  <gco:CharacterString> Colorado, USA</gco:CharacterString>
+                                                  </gmd:administrativeArea>
+                                                  </gmd:CI_Address>
+                                                  </gmd:address>
+                                                </gmd:CI_Contact>
+                                            </gmd:contactInfo>
+                                            <gmd:role>
+                                                <gmd:CI_RoleCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="publisher">publisher</gmd:CI_RoleCode>
+                                            </gmd:role>
+                                        </gmd:CI_ResponsibleParty>
+                                    </gmd:citedResponsibleParty>
+                                    <gmd:citedResponsibleParty>
+                                        <gmd:CI_ResponsibleParty>
+                                            <gmd:organisationName>
+                                                <gco:CharacterString>NOAA National Geophysical Data Center</gco:CharacterString>
+                                            </gmd:organisationName>
+                                            <gmd:role>
+                                                <gmd:CI_RoleCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="originator">originator</gmd:CI_RoleCode>
+                                            </gmd:role>
+                                        </gmd:CI_ResponsibleParty>
+                                    </gmd:citedResponsibleParty>
+                                    <gmd:otherCitationDetails>
+                                        <gco:CharacterString>Data obtained include NOS Hydrographic Surveys</gco:CharacterString>
+                                    </gmd:otherCitationDetails>
+                                </gmd:CI_Citation>
+                            </gmd:sourceCitation>
+                            <gmd:sourceExtent>
+                                <gmd:EX_Extent>
+                                    <gmd:temporalElement>
+                                        <gmd:EX_TemporalExtent>
+                                            <gmd:extent>
+                                                <gml:TimePeriod gml:id="d1e292">
+                                                  <gml:beginPosition>1890-01-01</gml:beginPosition>
+                                                  <gml:endPosition>2001-01-01</gml:endPosition>
+                                                </gml:TimePeriod>
+                                            </gmd:extent>
+                                        </gmd:EX_TemporalExtent>
+                                    </gmd:temporalElement>
+                                </gmd:EX_Extent>
+                            </gmd:sourceExtent>
+                        </gmd:LI_Source>
+                    </gmd:source>
+                    <gmd:source>
+                        <gmd:LI_Source>
+                            <gmd:description>
+                                <gco:CharacterString>Source Contribution: topographic elevation contours and shoreline; Source Type: online</gco:CharacterString>
+                            </gmd:description>
+                            <gmd:sourceCitation>
+                                <gmd:CI_Citation>
+                                    <gmd:title>
+                                        <gco:CharacterString>1:25000 and 1:63360 hydrographic vectors, 7.5-minute digital raster graphics</gco:CharacterString>
+                                    </gmd:title>
+                                    <gmd:date>
+                                        <gmd:CI_Date>
+                                            <gmd:date>
+                                                <gco:Date>1997-01-01</gco:Date>
+                                            </gmd:date>
+                                            <gmd:dateType>
+                                                <gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                                            </gmd:dateType>
+                                        </gmd:CI_Date>
+                                    </gmd:date>
+                                    <gmd:citedResponsibleParty>
+                                        <gmd:CI_ResponsibleParty>
+                                            <gmd:organisationName>
+                                                <gco:CharacterString>USGS National Mapping Division</gco:CharacterString>
+                                            </gmd:organisationName>
+                                            <gmd:contactInfo>
+                                                <gmd:CI_Contact>
+                                                  <gmd:address>
+                                                  <gmd:CI_Address>
+                                                  <gmd:city>
+                                                  <gco:CharacterString>Reston</gco:CharacterString>
+                                                  </gmd:city>
+                                                  <gmd:administrativeArea>
+                                                  <gco:CharacterString> Virginia, USA</gco:CharacterString>
+                                                  </gmd:administrativeArea>
+                                                  </gmd:CI_Address>
+                                                  </gmd:address>
+                                                </gmd:CI_Contact>
+                                            </gmd:contactInfo>
+                                            <gmd:role>
+                                                <gmd:CI_RoleCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="publisher">publisher</gmd:CI_RoleCode>
+                                            </gmd:role>
+                                        </gmd:CI_ResponsibleParty>
+                                    </gmd:citedResponsibleParty>
+                                    <gmd:citedResponsibleParty>
+                                        <gmd:CI_ResponsibleParty>
+                                            <gmd:organisationName>
+                                                <gco:CharacterString>USGS National Mapping Division</gco:CharacterString>
+                                            </gmd:organisationName>
+                                            <gmd:role>
+                                                <gmd:CI_RoleCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="originator">originator</gmd:CI_RoleCode>
+                                            </gmd:role>
+                                        </gmd:CI_ResponsibleParty>
+                                    </gmd:citedResponsibleParty>
+                                </gmd:CI_Citation>
+                            </gmd:sourceCitation>
+                            <gmd:sourceExtent>
+                                <gmd:EX_Extent>
+                                    <gmd:temporalElement>
+                                        <gmd:EX_TemporalExtent>
+                                            <gmd:extent>
+                                                <gml:TimePeriod gml:id="d1e349">
+                                                  <gml:beginPosition>1982-01-01</gml:beginPosition>
+                                                  <gml:endPosition>1982-01-01</gml:endPosition>
+                                                </gml:TimePeriod>
+                                            </gmd:extent>
+                                        </gmd:EX_TemporalExtent>
+                                    </gmd:temporalElement>
+                                </gmd:EX_Extent>
+                            </gmd:sourceExtent>
+                        </gmd:LI_Source>
+                    </gmd:source>
+                </gmd:LI_Lineage>
+            </gmd:lineage>
+        </gmd:DQ_DataQuality>
+    </gmd:dataQualityInfo>
+    <gmd:metadataMaintenance>
+        <gmd:MD_MaintenanceInformation>
+            <gmd:maintenanceAndUpdateFrequency>
+                <gmd:MD_MaintenanceFrequencyCode codeList="http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeListValue="annually">annually</gmd:MD_MaintenanceFrequencyCode>
+            </gmd:maintenanceAndUpdateFrequency>
+            <gmd:dateOfNextUpdate>
+                <gco:Date>2013-01-18</gco:Date>
+            </gmd:dateOfNextUpdate>
+            <gmd:maintenanceNote>
+                <gco:CharacterString> This metadata was automatically generated from the FGDC Content Standards for Digital Geospatial Metadata standard (version FGDC-STD-001-1998) using the 2012-07-27 version of the FGDC RSE to ISO 19115-2 transform for DEMs.</gco:CharacterString>
+            </gmd:maintenanceNote>
+            <gmd:maintenanceNote>
+                <gco:CharacterString>Last Translation from FGDC 2012-12-21T11:51:21.169-07:00</gco:CharacterString>
+            </gmd:maintenanceNote>
+            <gmd:maintenanceNote>
+                <gco:CharacterString>Last Metadata Review Date: 2012-01-18</gco:CharacterString>
+            </gmd:maintenanceNote>
+            <gmd:maintenanceNote>
+                <gco:CharacterString> This record was automatically modified on 2015-09-03 to include references to NCEI where applicable.</gco:CharacterString>
+            </gmd:maintenanceNote>
+            <gmd:contact
+                xlink:href="http://www.ngdc.noaa.gov/docucomp/dad4ff9a-31bd-47dc-a653-8ae3e7948944"
+                xlink:title="Kelly Carignan"/>
+            <gmd:contact
+                xlink:href="https://www.ngdc.noaa.gov/docucomp/8294BEE08AD7359FE040AC8C5AB460D1"
+                xlink:title="Anna Milan"/>
+        </gmd:MD_MaintenanceInformation>
+    </gmd:metadataMaintenance>
+</gmi:MI_Metadata>

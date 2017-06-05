@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmi:MI_Metadata xmlns:gmi="http://www.isotc211.org/2005/gmi" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gss="http://www.isotc211.org/2005/gss" xmlns:gsr="http://www.isotc211.org/2005/gsr" xmlns:gts="http://www.isotc211.org/2005/gts"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.isotc211.org/2005/gmi https://www.ngdc.noaa.gov/metadata/published/xsd/schema.xsd">
+	<gmd:fileIdentifier>
+		<gco:CharacterString>[REQUIRED]</gco:CharacterString>
+	</gmd:fileIdentifier>
+	<gmd:parentIdentifier>
+		<gmx:Anchor xlink:href="http:dx.doi.org/[DOI] [REQUIRED]" xlink:title="Parent [DOI]">doi:[DOI]</gmx:Anchor>
+	</gmd:parentIdentifier>
+	<!-- if doi does not exist for parent collection-->
+	<!--<gmd:parentIdentifier>
+		<gmx:Anchor xlink:href="http://URLtoMetadataLandingPage" xlink:title="Parent Metadata">[PARENT ID]</gmx:Anchor>
+	</gmd:parentIdentifier>-->
+	<gmd:hierarchyLevelName>
+		<gco:CharacterString>Granule</gco:CharacterString>
+	</gmd:hierarchyLevelName>
+	<gmd:contact gco:nilReason="inapplicable"/>
+	<gmd:dateStamp>
+		<gco:Date>2016-10-18</gco:Date>
+	</gmd:dateStamp>
+	<gmd:metadataStandardName>
+		<gco:CharacterString>REQUIRED ISO 19115-2 Geographic Information - Metadata - Part 2: Extensions for Imagery and Gridded Data</gco:CharacterString>
+	</gmd:metadataStandardName>
+	<gmd:metadataStandardVersion>
+		<gco:CharacterString>REQUIRED ISO 19115-2:2009(E)</gco:CharacterString>
+	</gmd:metadataStandardVersion>
+	<gmd:identificationInfo>
+		<gmd:MD_DataIdentification>
+			<gmd:citation>
+				<gmd:CI_Citation>
+					<gmd:title>
+						<gco:CharacterString>ISOLite Template for OneStop [TITLE REQUIRED]</gco:CharacterString>
+					</gmd:title>
+					<gmd:date>
+						<gmd:CI_Date>
+							<gmd:date>
+								<gco:Date> 2016-10-18 </gco:Date>
+							</gmd:date>
+							<gmd:dateType>
+								<gmd:CI_DateTypeCode codeList="https://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+							</gmd:dateType>
+						</gmd:CI_Date>
+					</gmd:date>
+				</gmd:CI_Citation>
+			</gmd:citation>
+			<gmd:abstract>
+				<gco:CharacterString>[ABSTRACT: REQUIRED] This template record contains only the fields required and recommended for OneStop granule metadata.</gco:CharacterString>
+			</gmd:abstract>
+			<gmd:descriptiveKeywords gco:nilReason="inapplicable"/>
+			<!--Only document when there are unique theme, place, instrument, or platform are unique to that granule and differs from the entire collection. Otherwise use @gco:nilReason="inapplicable".-->
+			<!--<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gco:CharacterString> [GCMD SCIENCE KEYWORDS (REQUIRED)]</gco:CharacterString>
+					</gmd:keyword>
+					<gmd:type>
+						<gmd:MD_KeywordTypeCode codeList="https://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+					</gmd:type>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gco:CharacterString>REQUIRED</gco:CharacterString>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2016-10-18</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="https://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>-->
+			<!--<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gco:CharacterString> [GCMD PLACE KEYWORDS (REQUIRED)]</gco:CharacterString>
+					</gmd:keyword>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>-->
+			<gmd:language gco:nilReason="inapplicable"/>
+			<!-- REQUIRED, use relevant code for collection and repeat if you need more than one -->
+			<gmd:extent>
+				<gmd:EX_Extent id="boundingExtent">
+					<gmd:geographicElement>
+						<gmd:EX_GeographicBoundingBox>
+							<!--CONDITIONAL-->
+							<gmd:westBoundLongitude>
+								<gco:Decimal>-180</gco:Decimal>
+							</gmd:westBoundLongitude>
+							<gmd:eastBoundLongitude>
+								<gco:Decimal>180</gco:Decimal>
+							</gmd:eastBoundLongitude>
+							<gmd:southBoundLatitude>
+								<gco:Decimal>-90</gco:Decimal>
+							</gmd:southBoundLatitude>
+							<gmd:northBoundLatitude>
+								<gco:Decimal>90</gco:Decimal>
+							</gmd:northBoundLatitude>
+						</gmd:EX_GeographicBoundingBox>
+					</gmd:geographicElement>
+					<gmd:temporalElement>
+						<gmd:EX_TemporalExtent id="boundingTemporalExtent">
+							<gmd:extent>
+								<gml:TimePeriod gml:id="ID072">
+									<gml:beginPosition>9999-01-01</gml:beginPosition>
+									<gml:endPosition>9999-01-01</gml:endPosition>
+									<!-- REQUIRED for time resolution -->
+									<!--<gml:timeInterval unit="day">99</gml:timeInterval>-->
+								</gml:TimePeriod>
+							</gmd:extent>
+						</gmd:EX_TemporalExtent>
+					</gmd:temporalElement>
+				</gmd:EX_Extent>
+			</gmd:extent>
+		</gmd:MD_DataIdentification>
+	</gmd:identificationInfo>
+	<gmd:distributionInfo>
+		<gmd:MD_Distribution>
+			<!-- repeat as needed for each format type -->
+			<gmd:distributionFormat>
+				<gmd:MD_Format>
+					<gmd:name>
+						<gco:CharacterString>[REQUIRED]</gco:CharacterString>
+					</gmd:name>
+					<!--<gmd:version>
+						<gco:CharacterString>[REQUIRED]</gco:CharacterString>
+					</gmd:version>-->
+					<!-- if version is unknown -->
+					<gmd:version gco:nilReason="unknown"/>
+				</gmd:MD_Format>
+			</gmd:distributionFormat>
+			<!-- repeat as needed for each download option -->
+			<gmd:transferOptions>
+				<gmd:MD_DigitalTransferOptions>
+					<gmd:onLine>
+						<gmd:CI_OnlineResource>
+							<gmd:linkage>
+								<gmd:URL>http://www.example.org</gmd:URL>
+							</gmd:linkage>
+							<!-- use codelist from: https://github.com/OSGeo/Cat-Interop/blob/master/LinkPropertyLookupTable.csv -->
+							<gmd:protocol>
+								<gco:CharacterString>[REQUIRED]</gco:CharacterString>
+							</gmd:protocol>
+						</gmd:CI_OnlineResource>
+					</gmd:onLine>
+				</gmd:MD_DigitalTransferOptions>
+			</gmd:transferOptions>
+		</gmd:MD_Distribution>
+	</gmd:distributionInfo>
+</gmi:MI_Metadata>
