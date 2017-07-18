@@ -8,6 +8,7 @@ import requests
 import numpy
 import math
 import urllib2
+import time
 
 global log
 logFormat = '%(asctime)s %(levelname)s %(name)s %(message)s'
@@ -209,7 +210,7 @@ class RubricV3:
     """Evaluates a single record and returns standard results"""
     def __init__(self, belay_args, record):
         log.debug('evaluating record :: %s', record)
-        print("evaluating record %s" % record)
+        # print("evaluating record %s" % record)
         self.record = record
         self.mrr = belay_args.mrr
         self.rubric_type = belay_args.rubric_type
@@ -544,16 +545,17 @@ def Evaluate(target, rubric_type='collection', traverse=False):
 
 
 if __name__ == '__main__':
-    # b = Evaluate('ftp://ftp.nodc.noaa.gov/pub/outgoing/Li/metadata/FNCM_201010_5508V1.nc.xml', 'granule')
-    # print b.target
-    # print b.results.keys()
-    # print b.master_score()
+    start = time.time()
+    b = Evaluate('ftp://ftp.nodc.noaa.gov/pub/outgoing/Li/metadata/FNCM_201010_5508V1.nc.xml', 'granule')
+    print b.target
+    print b.results.keys()
+    print b.master_score()
     # b.output_csv('blah.csv')
     # report = Evaluate('https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.nodc:0114815;view=xml')
     # import json
     # print json.dumps(report.results['coverageDetails'], indent=2)
-    report = BelayBatch('/nodc/projects/satdata/Granule_OneStop/WOA13/xml', rubric_type='granule', traverse=True)
-    report.output_csv('rubric_scores.csv')
+    # report = BelayBatch('/nodc/projects/satdata/Granule_OneStop/WOA13/xml', rubric_type='granule', traverse=True)
+    # report.output_csv('rubric_scores.csv')
     # print len(report.records)
     # for record in report.records:
     #     print record
@@ -566,3 +568,4 @@ if __name__ == '__main__':
 
     # import json
     # print json.dumps(record.results, indent=4)
+    print 'The program took ', time.time()-start, 'seconds to complete.'
