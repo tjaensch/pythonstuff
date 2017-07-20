@@ -2,7 +2,7 @@ import numpy as np
 import netCDF4
 
 # Load source CSV file into variable
-data = np.genfromtxt('/nodc/projects/satdata/Granule_OneStop/GHCN/source_csv_by_year/1763.csv', dtype=str, delimiter=',')
+data = np.genfromtxt('/nodc/projects/satdata/Granule_OneStop/GHCN/source_dly_daily/ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all/AG000060611.dly', dtype=str, delimiter=',')
 
 # Create a netcdf Data object
 with netCDF4.Dataset('TEST_file.nc', mode="w", format='NETCDF4') as ds:
@@ -22,6 +22,7 @@ with netCDF4.Dataset('TEST_file.nc', mode="w", format='NETCDF4') as ds:
     for i in range(data.shape[1]):
         var = ds.createVariable('var%i'%i,data.dtype, ('level',))
         var[:] = data[:,i]
+        print var
         # Add attributes
         # var.units = 'the_proper_unit_string'
         # var.long_name = 'long name that describes the data'
