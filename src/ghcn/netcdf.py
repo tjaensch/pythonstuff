@@ -2,7 +2,8 @@ import numpy as np
 import netCDF4
 
 # Load source CSV file into variable
-data = np.genfromtxt('/nodc/projects/satdata/Granule_OneStop/GHCN/source_dly_daily/ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all/AG000060611.dly', dtype=str, delimiter=',')
+data = np.genfromtxt('/nodc/users/tjaensch/python_onestop.git/src/ghcn/dly_data_as_txt/AGE00147710.csv', dtype=str, delimiter=',')
+print data
 
 # Create a netcdf Data object
 with netCDF4.Dataset('TEST_file.nc', mode="w", format='NETCDF4') as ds:
