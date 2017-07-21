@@ -63,6 +63,10 @@ class GHCN:
             station_data.standard_name = 'CF_standard_name'
             print ds
 
+    def run_combined_defs(self, fileId):
+            self.download_dly_file(fileId)
+            self.parse_to_netCDF(fileId)
+
 
 # __main__
 if __name__ == '__main__':
@@ -74,8 +78,7 @@ if __name__ == '__main__':
     stationIds = ghcn.get_ids()
     
     for fileId in stationIds:
-        ghcn.download_dly_file(fileId)
-        ghcn.parse_to_netCDF(fileId)
+        ghcn.run_combined_defs(fileId)
 
     print 'The program took ', time.time()-start, 'seconds to complete.'
                 
