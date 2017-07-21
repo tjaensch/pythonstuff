@@ -14,7 +14,7 @@ class Testghcn(unittest.TestCase):
         self.assertTrue(len(self.stationIds) > 103000)
 
     def test_download_dly_file(self):
-        self.assertTrue(os.path.isfile("./dly_data_as_txt/AGE00147710.csv"))
+        self.assertTrue(os.path.isfile("./dly_data_as_txt/AGE00147710.txt"))
 
 # __main__
 if __name__ == '__main__':

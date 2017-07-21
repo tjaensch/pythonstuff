@@ -23,7 +23,7 @@ class GHCN:
 
     def download_dly_file(self, fileId):
             url = 'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all/%s.dly' %fileId
-            urllib.urlretrieve(url, 'dly_data_as_txt/' + fileId + '.csv')
+            urllib.urlretrieve(url, 'dly_data_as_txt/' + fileId + '.txt')
 
     '''def convert_to_csv(self, fileId):
         txt_file = r"dly_data_as_txt/AGE00147710.txt"
