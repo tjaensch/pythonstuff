@@ -1,4 +1,6 @@
-import csv
+#import csv
+import netCDF4
+import numpy as np
 import time
 import urllib
 import urllib2
@@ -25,12 +27,35 @@ class GHCN:
             url = 'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all/%s.dly' %fileId
             urllib.urlretrieve(url, 'dly_data_as_txt/' + fileId + '.txt')
 
-    '''def convert_to_csv(self, fileId):
-        txt_file = r"dly_data_as_txt/AGE00147710.txt"
-        csv_file = r"dly_data_as_txt/AGE00147710.csv"
-        in_txt = csv.reader(open(txt_file, "rb"))
-        out_csv = csv.writer(open(csv_file, 'wb'))
-        out_csv.writerows(in_txt)'''
+    def parse_to_netCDF(self, fileId):
+        # Load source ASCII file into variable
+        data = np.genfromtxt('/nodc/users/tjaensch/python_onestop.git/src/ghcn/dly_data_as_txt/%s' %fileId + '.txt', dtype=str, delimiter='\t')
+        #print data
+
+        # Create netcdf data object
+        with netCDF4.Dataset('/nodc/users/tjaensch/python_onestop.git/src/ghcn/netcdf/%s.nc' %fileId, mode="w", format='NETCDF4') as ds:
+            # File-level metadata attributes
+            ds.Conventions = "CF-1.6" 
+            ds.title = 'TBA'
+            ds.institution = 'TBA'
+            ds.source = 'TBA'
+            ds.history = 'TBA'
+            ds.references = 'TBA'
+            ds.comment = 'TBA'
+
+            # Define array dimensions
+            station = ds.createDimension('station', data.shape[0])
+
+            # Variable definitions
+            station_data = ds.createVariable(fileId, data.dtype, ('station',))
+            station_data[:] = data[:]
+            print station_data
+            # Add attributes
+            station_data.units = 'the_proper_unit_string'
+            station_data.long_name = 'long name that describes the data'
+            station_data.standard_name = 'CF_standard_name'
+            print ds
+
 
 # __main__
 if __name__ == '__main__':
@@ -41,6 +66,7 @@ if __name__ == '__main__':
     
     for fileId in stationIds:
         ghcn.download_dly_file(fileId)
+        ghcn.parse_to_netCDF(fileId)
 
     print 'The program took ', time.time()-start, 'seconds to complete.'
                 
