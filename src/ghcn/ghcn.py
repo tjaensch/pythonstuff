@@ -1,10 +1,17 @@
 #import csv
 import netCDF4
 import numpy as np
+import os
 import time
 import urllib
 import urllib2
 
+
+def create_output_dirs():
+    if not os.path.exists("./dly_data_as_txt/"):
+            os.makedirs("./dly_data_as_txt/")
+    if not os.path.exists("./netcdf/"):
+            os.makedirs("./netcdf/")
 
 class GHCN:
     """docstring for ghcn"""
@@ -60,6 +67,8 @@ class GHCN:
 # __main__
 if __name__ == '__main__':
     start = time.time()
+
+    create_output_dirs()
 
     ghcn = GHCN()
     stationIds = ghcn.get_ids()
