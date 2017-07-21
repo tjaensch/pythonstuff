@@ -36,11 +36,11 @@ class GHCN:
 
     def parse_to_netCDF(self, fileId):
         # Load source ASCII file into variable
-        data = np.genfromtxt('/nodc/users/tjaensch/python_onestop.git/src/ghcn/dly_data_as_txt/%s' %fileId + '.txt', dtype=str, delimiter='\t')
+        data = np.genfromtxt('./dly_data_as_txt/%s' %fileId + '.txt', dtype=str, delimiter='\t')
         #print data
 
         # Create netcdf data object
-        with netCDF4.Dataset('/nodc/users/tjaensch/python_onestop.git/src/ghcn/netcdf/%s.nc' %fileId, mode="w", format='NETCDF4') as ds:
+        with netCDF4.Dataset('./netcdf/%s.nc' %fileId, mode="w", format='NETCDF4') as ds:
             # File-level metadata attributes
             ds.Conventions = "CF-1.6" 
             ds.title = 'TBA'
