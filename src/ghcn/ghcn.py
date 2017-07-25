@@ -5,6 +5,7 @@ import os
 import time
 import urllib
 import urllib2
+from multiprocessing import Pool
 
 
 def create_output_dirs():
@@ -32,41 +33,58 @@ class GHCN:
         return self.stationIds
 
     def download_dly_file(self, fileId):
+        try:
             url = 'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all/%s.dly' %fileId
             urllib.urlretrieve(url, 'dly_data_as_txt/' + fileId + '.txt')
+        except:
+            logging.exception(fileId + ": ")
+        finally:
+            pass
 
     def parse_to_netCDF(self, fileId):
-        # Load source ASCII file into variable
-        data = np.genfromtxt('./dly_data_as_txt/%s' %fileId + '.txt', dtype=str, delimiter='\t')
-        #print data
+        try:
+            # Load source ASCII file into variable
+            data = np.genfromtxt('./dly_data_as_txt/%s' %fileId + '.txt', dtype=str, delimiter='\t')
+            #print data
 
-        # Create netcdf data object
-        with netCDF4.Dataset('./netcdf/%s.nc' %fileId, mode="w", format='NETCDF4') as ds:
-            # File-level metadata attributes
-            ds.Conventions = "CF-1.6" 
-            ds.title = 'TBA'
-            ds.institution = 'TBA'
-            ds.source = 'TBA'
-            ds.history = 'TBA'
-            ds.references = 'TBA'
-            ds.comment = 'TBA'
+            # Create netcdf data object
+            with netCDF4.Dataset('./netcdf/%s.nc' %fileId, mode="w", format='NETCDF4') as ds:
+                # File-level metadata attributes
+                ds.Conventions = "CF-1.6" 
+                ds.title = 'TBA'
+                ds.institution = 'TBA'
+                ds.source = 'TBA'
+                ds.history = 'TBA'
+                ds.references = 'TBA'
+                ds.comment = 'TBA'
 
-            # Define array dimensions
-            station = ds.createDimension('station', data.shape[0])
+                # Define array dimensions
+                station = ds.createDimension('station', data.shape[0])
 
-            # Variable definitions
-            station_data = ds.createVariable(fileId, data.dtype, ('station',))
-            station_data[:] = data[:]
-            print station_data
-            # Add attributes
-            station_data.units = 'the_proper_unit_string'
-            station_data.long_name = 'long name that describes the data'
-            station_data.standard_name = 'CF_standard_name'
-            print ds
+                # Variable definitions
+                station_data = ds.createVariable(fileId, data.dtype, ('station',))
+                station_data[:] = data[:]
+                print station_data
+                # Add attributes
+                station_data.units = 'the_proper_unit_string'
+                station_data.long_name = 'long name that describes the data'
+                station_data.standard_name = 'CF_standard_name'
+                print ds
+        except:
+            logging.exception(fileId + ": ")
+        finally:
+            pass
 
     def run_combined_defs(self, fileId):
             self.download_dly_file(fileId)
             self.parse_to_netCDF(fileId)
+
+    def go(self):
+            p = Pool(3)
+            p.map(self, self.get_ids())
+
+    def __call__(self, fileId):
+        return self.run_combined_defs(fileId)
 
 
 # __main__
@@ -76,16 +94,8 @@ if __name__ == '__main__':
     create_output_dirs()
 
     ghcn = GHCN()
-    stationIds = ghcn.get_ids()
-    
-    for fileId in stationIds[34290:34300]:
-        try:
-            ghcn.run_combined_defs(fileId)
-        except:
-            logging.exception(fileId + ": ")
-        finally:
-            pass
+    ghcn.go()
 
-    print 'The program took ', time.time()-start, 'seconds to complete.'
+    print 'The program took ', (time.time()-start)/60, 'minutes to complete.'
                 
 # End __main__
