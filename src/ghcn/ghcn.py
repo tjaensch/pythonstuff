@@ -1,4 +1,4 @@
-#import csv
+import logging
 import netCDF4
 import numpy as np
 import os
@@ -8,6 +8,7 @@ import urllib2
 
 
 def create_output_dirs():
+    logging.basicConfig(level=logging.DEBUG, filename='./errors.log')
     if not os.path.exists("./dly_data_as_txt/"):
             os.makedirs("./dly_data_as_txt/")
     if not os.path.exists("./netcdf/"):
@@ -77,8 +78,13 @@ if __name__ == '__main__':
     ghcn = GHCN()
     stationIds = ghcn.get_ids()
     
-    for fileId in stationIds:
-        ghcn.run_combined_defs(fileId)
+    for fileId in stationIds[34290:34300]:
+        try:
+            ghcn.run_combined_defs(fileId)
+        except:
+            logging.exception(fileId + ": ")
+        finally:
+            pass
 
     print 'The program took ', time.time()-start, 'seconds to complete.'
                 
