@@ -27,9 +27,9 @@ class Testghcn(unittest.TestCase):
     def test_parse_to_netCDF(self):
         self.assertTrue(os.path.isfile("./netcdf/AGE00147710.nc"))
 
-    def tearDown(self):
+    '''def tearDown(self):
         shutil.rmtree("./dly_data_as_txt/")
-        shutil.rmtree("./netcdf/")
+        shutil.rmtree("./netcdf/")'''
 
 # __main__
 if __name__ == '__main__':

@@ -59,10 +59,10 @@ class GHCN:
                 ds.comment = 'TBA'
 
                 # Define array dimensions
-                station = ds.createDimension('station', data.shape[0])
+                timeSeriesProfile = ds.createDimension('timeSeriesProfile', data.shape[0])
 
                 # Variable definitions
-                station_data = ds.createVariable(fileId, data.dtype, ('station',))
+                station_data = ds.createVariable(fileId, data.dtype, ('timeSeriesProfile',))
                 station_data[:] = data[:]
                 print station_data
                 # Add attributes
