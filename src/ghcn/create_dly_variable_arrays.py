@@ -1,44 +1,43 @@
 fileId = "AGE00147710"
 
-# Empty lists for variables, more information here ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
-ID = []
-YEAR = []
-MONTH = []
-ELEMENT = []
-# 4 lists for each day of the month 1-31
-VALUE1 = []; MFLAG1 = []; QFLAG1 = []; SFLAG1 = [];
-VALUE2 = []; MFLAG2 = []; QFLAG2 = []; SFLAG2 = [];
-VALUE3 = []; MFLAG3 = []; QFLAG3 = []; SFLAG3 = [];
-VALUE4 = []; MFLAG4 = []; QFLAG4 = []; SFLAG4 = [];
-VALUE5 = []; MFLAG5 = []; QFLAG5 = []; SFLAG5 = [];
-VALUE6 = []; MFLAG6 = []; QFLAG6 = []; SFLAG6 = [];
-VALUE7 = []; MFLAG7 = []; QFLAG7 = []; SFLAG7 = [];
-VALUE8 = []; MFLAG8 = []; QFLAG8 = []; SFLAG8 = [];
-VALUE9 = []; MFLAG9 = []; QFLAG9 = []; SFLAG9 = [];
-VALUE10 = []; MFLAG10 = []; QFLAG10 = []; SFLAG10 = [];
-VALUE11 = []; MFLAG11 = []; QFLAG11 = []; SFLAG11 = [];
-VALUE12 = []; MFLAG12 = []; QFLAG12 = []; SFLAG12 = [];
-VALUE13 = []; MFLAG13 = []; QFLAG13 = []; SFLAG13 = [];
-VALUE14 = []; MFLAG14 = []; QFLAG14 = []; SFLAG14 = [];
-VALUE15 = []; MFLAG15 = []; QFLAG15 = []; SFLAG15 = [];
-VALUE16 = []; MFLAG16 = []; QFLAG16 = []; SFLAG16 = [];
-VALUE17 = []; MFLAG17 = []; QFLAG17 = []; SFLAG17 = [];
-VALUE18 = []; MFLAG18 = []; QFLAG18 = []; SFLAG18 = [];
-VALUE19 = []; MFLAG19 = []; QFLAG19 = []; SFLAG19 = [];
-VALUE20 = []; MFLAG20 = []; QFLAG20 = []; SFLAG20 = [];
-VALUE21 = []; MFLAG21 = []; QFLAG21 = []; SFLAG21 = [];
-VALUE22 = []; MFLAG22 = []; QFLAG22 = []; SFLAG22 = [];
-VALUE23 = []; MFLAG23 = []; QFLAG23 = []; SFLAG23 = [];
-VALUE24 = []; MFLAG24 = []; QFLAG24 = []; SFLAG24 = [];
-VALUE25 = []; MFLAG25 = []; QFLAG25 = []; SFLAG25 = [];
-VALUE26 = []; MFLAG26 = []; QFLAG26 = []; SFLAG26 = [];
-VALUE27 = []; MFLAG27 = []; QFLAG27 = []; SFLAG27 = [];
-VALUE28 = []; MFLAG28 = []; QFLAG28 = []; SFLAG28 = [];
-VALUE29 = []; MFLAG29 = []; QFLAG29 = []; SFLAG29 = [];
-VALUE30 = []; MFLAG30 = []; QFLAG30 = []; SFLAG30 = [];
-VALUE31 = []; MFLAG31 = []; QFLAG31 = []; SFLAG31 = [];
-
 def create_dly_variable_arrays(fileId):
+	# Empty lists for variables, more information here ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
+	ID = []
+	YEAR = []
+	MONTH = []
+	ELEMENT = []
+	# 4 lists for each day of the month 1-31
+	VALUE1 = []; MFLAG1 = []; QFLAG1 = []; SFLAG1 = [];
+	VALUE2 = []; MFLAG2 = []; QFLAG2 = []; SFLAG2 = [];
+	VALUE3 = []; MFLAG3 = []; QFLAG3 = []; SFLAG3 = [];
+	VALUE4 = []; MFLAG4 = []; QFLAG4 = []; SFLAG4 = [];
+	VALUE5 = []; MFLAG5 = []; QFLAG5 = []; SFLAG5 = [];
+	VALUE6 = []; MFLAG6 = []; QFLAG6 = []; SFLAG6 = [];
+	VALUE7 = []; MFLAG7 = []; QFLAG7 = []; SFLAG7 = [];
+	VALUE8 = []; MFLAG8 = []; QFLAG8 = []; SFLAG8 = [];
+	VALUE9 = []; MFLAG9 = []; QFLAG9 = []; SFLAG9 = [];
+	VALUE10 = []; MFLAG10 = []; QFLAG10 = []; SFLAG10 = [];
+	VALUE11 = []; MFLAG11 = []; QFLAG11 = []; SFLAG11 = [];
+	VALUE12 = []; MFLAG12 = []; QFLAG12 = []; SFLAG12 = [];
+	VALUE13 = []; MFLAG13 = []; QFLAG13 = []; SFLAG13 = [];
+	VALUE14 = []; MFLAG14 = []; QFLAG14 = []; SFLAG14 = [];
+	VALUE15 = []; MFLAG15 = []; QFLAG15 = []; SFLAG15 = [];
+	VALUE16 = []; MFLAG16 = []; QFLAG16 = []; SFLAG16 = [];
+	VALUE17 = []; MFLAG17 = []; QFLAG17 = []; SFLAG17 = [];
+	VALUE18 = []; MFLAG18 = []; QFLAG18 = []; SFLAG18 = [];
+	VALUE19 = []; MFLAG19 = []; QFLAG19 = []; SFLAG19 = [];
+	VALUE20 = []; MFLAG20 = []; QFLAG20 = []; SFLAG20 = [];
+	VALUE21 = []; MFLAG21 = []; QFLAG21 = []; SFLAG21 = [];
+	VALUE22 = []; MFLAG22 = []; QFLAG22 = []; SFLAG22 = [];
+	VALUE23 = []; MFLAG23 = []; QFLAG23 = []; SFLAG23 = [];
+	VALUE24 = []; MFLAG24 = []; QFLAG24 = []; SFLAG24 = [];
+	VALUE25 = []; MFLAG25 = []; QFLAG25 = []; SFLAG25 = [];
+	VALUE26 = []; MFLAG26 = []; QFLAG26 = []; SFLAG26 = [];
+	VALUE27 = []; MFLAG27 = []; QFLAG27 = []; SFLAG27 = [];
+	VALUE28 = []; MFLAG28 = []; QFLAG28 = []; SFLAG28 = [];
+	VALUE29 = []; MFLAG29 = []; QFLAG29 = []; SFLAG29 = [];
+	VALUE30 = []; MFLAG30 = []; QFLAG30 = []; SFLAG30 = [];
+	VALUE31 = []; MFLAG31 = []; QFLAG31 = []; SFLAG31 = [];
 	with open ("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
 		for line in file:
 			ID.append(line[0:11])
@@ -75,8 +74,6 @@ def create_dly_variable_arrays(fileId):
 			VALUE28.append(line[237:242]); MFLAG28.append(line[242:243]); QFLAG28.append(line[243:244]); SFLAG28.append(line[244:245])
 			VALUE29.append(line[245:250]); MFLAG29.append(line[250:251]); QFLAG29.append(line[251:252]); SFLAG29.append(line[252:253])
 			VALUE30.append(line[253:258]); MFLAG30.append(line[258:259]); QFLAG30.append(line[259:260]); SFLAG30.append(line[260:261])
-			VALUE31.append(line[261:266]); MFLAG31.append(line[266:267]); QFLAG31.append(line[267:268]); SFLAG31.append(line[268:269])
+			VALUE31.append(line[261:266]); MFLAG31.append(line[266:267]); QFLAG31.append(line[267:268]); SFLAG31.append(line[268:269])        
 
 create_dly_variable_arrays(fileId)
-
-print(ID, YEAR, MONTH, ELEMENT, VALUE27)
