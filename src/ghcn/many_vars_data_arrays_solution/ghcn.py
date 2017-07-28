@@ -23,7 +23,7 @@ class GHCN:
         self.stationIds = []
 
     def get_ids(self):
-        data = urllib2.urlopen("ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt")
+        data = urllib2.urlopen("https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt")
         for line in data:
             if not line:
                 break
@@ -35,7 +35,7 @@ class GHCN:
 
     def download_dly_file(self, fileId):
         try:
-            url = 'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all/%s.dly' %fileId
+            url = 'https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/all/%s.dly' %fileId
             urllib.urlretrieve(url, 'dly_data_as_txt/' + fileId + '.txt')
         except:
             logging.exception(fileId + ": ")
@@ -43,6 +43,7 @@ class GHCN:
             pass
 
     def parse_to_netCDF(self, fileId):
+        print(fileId)
         try:
             # Empty lists for variables, more information here ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
             ID = []
@@ -1043,7 +1044,7 @@ class GHCN:
             self.parse_to_netCDF(fileId)
 
     def go(self):
-            p = Pool(3)
+            p = Pool(50)
             p.map(self, self.get_ids())
 
     def __call__(self, fileId):
