@@ -13,19 +13,20 @@ class Testghcn(unittest.TestCase):
         if not os.path.exists("./netcdf/"):
             os.makedirs("./netcdf/")
         ghcn = GHCN()
-        self.stationIds = ghcn.get_ids()
+        self.stationIds = ghcn.get_stationInfo()
         #Working ID AGE00147710; not working GMM00010686
-        ghcn.download_dly_file("SWE00139184")
-        ghcn.parse_to_netCDF("SWE00139184")
+        ghcn.download_dly_file("AGE00147710")
+        ghcn.parse_to_netCDF("AGE00147710")
 
-    def test_getIDs(self):
+    def test_get_stationInfo(self):
         self.assertTrue(len(self.stationIds) > 103000)
 
     def test_download_dly_file(self):
-        self.assertTrue(os.path.isfile("./dly_data_as_txt/SWE00139184.txt"))
+        self.assertTrue(os.path.isfile("./dly_data_as_txt/AGE00147710.txt"))
 
     def test_parse_to_netCDF(self):
-        self.assertTrue(os.path.isfile("./netcdf/SWE00139184.nc"))
+        self.assertTrue(os.path.isfile("./netcdf/AGE00147710.nc"))
+
 
     '''def tearDown(self):
         shutil.rmtree("./dly_data_as_txt/")
