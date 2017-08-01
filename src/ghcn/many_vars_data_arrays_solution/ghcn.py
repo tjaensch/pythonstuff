@@ -21,20 +21,23 @@ class GHCN:
     '''thomas.jaensch@noaa.gov'''
 
     def __init__(self):
+        # Lists and dictionaries with information from https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt to be used in netCDF variables derived with def get_stationInfo
         self.stationIds = []
         self.latDict = {}
         self.lonDict = {}
+        self.stationLongNameDict = {}
 
     def get_stationInfo(self):
         data = urllib2.urlopen("https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt")
         for line in data:
             if not line:
                 break
-            # Get station IDs as substrings from each line in source file
+            # Get station IDs as substrings from each line in source file, etc.
             self.stationIds.append(line[0:11])
             self.latDict[line[0:11]] = line[12:20]
             self.lonDict[line[0:11]] = line[21:30]
-        #print(self.latDict)
+            self.stationLongNameDict[line[0:11]] = line[38:71]
+        print(self.stationLongNameDict)
         #print(len(self.stationIds))
         return self.stationIds
 
@@ -165,44 +168,31 @@ class GHCN:
                 ds.references = 'https://doi.org/10.1175/JTECH-D-11-00103.1, https://doi.org/10.1175/2010JAMC2375.1, https://doi.org/10.1175/2007JAMC1706.1'
                 ds.comment = 'Data was converted from native fixed-length text (DLY) format to NetCDF-4 format following metadata conventions.'
 
-
-
-                # Define YEAR dimension
-                YEAR = np.array(YEAR)
-                timeSeriesProfile = ds.createDimension('station_YEAR', YEAR.shape[0])
                 # Variable definitions
-                station_YEAR = ds.createVariable('station_YEAR', YEAR.dtype, ('station_YEAR',))
-                station_YEAR[:] = YEAR[:]
 
-                # Define MONTH dimension
-                MONTH = np.array(MONTH)
-                timeSeriesProfile = ds.createDimension('station_MONTH', MONTH.shape[0])
-                # Variable definitions
-                station_MONTH = ds.createVariable('station_MONTH', MONTH.dtype, ('station_MONTH',))
-                station_MONTH[:] = MONTH[:]
-
-                # Define ELEMENT dimension
                 ELEMENT = np.array(ELEMENT)
-                timeSeriesProfile = ds.createDimension('station_ELEMENT', ELEMENT.shape[0])
-                # Variable definitions
-                station_ELEMENT = ds.createVariable('station_ELEMENT', ELEMENT.dtype, ('station_ELEMENT',))
+                station_ELEMENT = ds.createVariable('ELEMENT', ELEMENT.dtype, ('time',))
                 station_ELEMENT[:] = ELEMENT[:]
-
-                # Define VALUE1 dimension
+                
                 VALUE1 = np.array(VALUE1)
-                timeSeriesProfile = ds.createDimension('station_VALUE1', VALUE1.shape[0])
-                # Variable definitions
-                station_VALUE1 = ds.createVariable('station_VALUE1', VALUE1.dtype, ('station_VALUE1',))
+                station_VALUE1 = ds.createVariable('VALUE1', VALUE1.dtype, ('time',))
                 station_VALUE1[:] = VALUE1[:]
+                
                 MFLAG1 = np.array(MFLAG1)
-                station_MFLAG1 = ds.createVariable('station_MFLAG1', MFLAG1.dtype, ('station_VALUE1',))
+                station_MFLAG1 = ds.createVariable('MFLAG1', MFLAG1.dtype, ('time',))
                 station_MFLAG1[:] = MFLAG1[:]
+                
                 QFLAG1 = np.array(QFLAG1)
-                station_QFLAG1 = ds.createVariable('station_QFLAG1', QFLAG1.dtype, ('station_VALUE1',))
+                station_QFLAG1 = ds.createVariable('QFLAG1', QFLAG1.dtype, ('time',))
                 station_QFLAG1[:] = QFLAG1[:]
+                
                 SFLAG1 = np.array(SFLAG1)
-                station_SFLAG1 = ds.createVariable('station_SFLAG1', SFLAG1.dtype, ('station_VALUE1',))
+                station_SFLAG1 = ds.createVariable('SFLAG1', SFLAG1.dtype, ('time',))
                 station_SFLAG1[:] = SFLAG1[:]
+
+                station_name = ds.createVariable('station_name', 'string', ('time',))
+                station_name[:] = np.array(ID[:])
+                station_name.long_name = self.stationLongNameDict[fileId]
                 
                 # Write dataset to file
                 print ds
