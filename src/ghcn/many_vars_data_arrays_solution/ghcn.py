@@ -333,7 +333,7 @@ class GHCN:
             self.parse_to_netCDF(fileId)
 
     def go(self):
-            p = Pool(5)
+            p = Pool(500)
             p.map(self, self.get_stationInfo())
 
     def __call__(self, fileId):

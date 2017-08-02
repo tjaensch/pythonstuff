@@ -1,3 +1,4 @@
+import netCDF4
 import os
 import shutil
 import unittest
@@ -26,6 +27,9 @@ class Testghcn(unittest.TestCase):
 
     def test_parse_to_netCDF(self):
         self.assertTrue(os.path.isfile("./netcdf/ghcn-daily_v3.22.2017-08-02_AGE00147710.nc"))
+        f = netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.2017-08-02_AGE00147710.nc','r')
+        self.assertTrue(len(f.dimensions) == 2)
+        self.assertTrue(len(f.variables) > 15)
 
 
     '''def tearDown(self):
