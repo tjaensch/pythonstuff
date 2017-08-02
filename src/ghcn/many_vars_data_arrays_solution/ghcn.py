@@ -179,26 +179,38 @@ class GHCN:
                 station_name.cf_role = 'timeseries_id'
                 station_name.coverage_content_type = 'coordinate'
 
+                prcp = ds.createVariable('prcp', 'short')
+                prcp.long_name = 'Total Daily Precipitation (mm)'
+                prcp.standard_name = 'precipitation_amount'
+                prcp.units = 'mm'
+                prcp.scale_factor = 0.1
+                prcp.missing_value = -9999
+                prcp.FillValue = -9999
+                prcp.valid_min = 0
+                prcp.valid_max = 10000
+                prcp.coordinates = 'lat lon alt station_name'
+                prcp.ancillary_variables = 'mflag qflag sflag'
+
 
                 ELEMENT = np.array(ELEMENT)
-                station_ELEMENT = ds.createVariable('element', ELEMENT.dtype, ('time',))
-                station_ELEMENT[:] = ELEMENT[:]
+                element = ds.createVariable('element', ELEMENT.dtype, ('time',))
+                element[:] = ELEMENT[:]
                 
                 VALUE1 = np.array(VALUE1)
-                station_VALUE1 = ds.createVariable('value1', VALUE1.dtype, ('time',))
-                station_VALUE1[:] = VALUE1[:]
+                value1 = ds.createVariable('value1', VALUE1.dtype, ('time',))
+                value1[:] = VALUE1[:]
                 
                 MFLAG1 = np.array(MFLAG1)
-                station_MFLAG1 = ds.createVariable('mflag1', MFLAG1.dtype, ('time',))
-                station_MFLAG1[:] = MFLAG1[:]
+                mflag1 = ds.createVariable('mflag1', MFLAG1.dtype, ('time',))
+                mflag1[:] = MFLAG1[:]
                 
                 QFLAG1 = np.array(QFLAG1)
-                station_QFLAG1 = ds.createVariable('qflag1', QFLAG1.dtype, ('time',))
-                station_QFLAG1[:] = QFLAG1[:]
+                qflag1 = ds.createVariable('qflag1', QFLAG1.dtype, ('time',))
+                qflag1[:] = QFLAG1[:]
                 
                 SFLAG1 = np.array(SFLAG1)
-                station_SFLAG1 = ds.createVariable('sflag1', SFLAG1.dtype, ('time',))
-                station_SFLAG1[:] = SFLAG1[:]
+                sflag1 = ds.createVariable('sflag1', SFLAG1.dtype, ('time',))
+                sflag1[:] = SFLAG1[:]
                 
                 # Write dataset to file
                 print ds
