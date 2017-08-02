@@ -25,7 +25,7 @@ class Testghcn(unittest.TestCase):
         self.assertTrue(os.path.isfile("./dly_data_as_txt/AGE00147710.txt"))
 
     def test_parse_to_netCDF(self):
-        self.assertTrue(os.path.isfile("./netcdf/AGE00147710.nc"))
+        self.assertTrue(os.path.isfile("./netcdf/ghcn-daily_v3.22.2017-08-02_AGE00147710.nc"))
 
 
     '''def tearDown(self):

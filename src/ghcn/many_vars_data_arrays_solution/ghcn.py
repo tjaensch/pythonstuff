@@ -37,7 +37,7 @@ class GHCN:
             self.latDict[line[0:11]] = line[12:20]
             self.lonDict[line[0:11]] = line[21:30]
             self.stationLongNameDict[line[0:11]] = line[38:71]
-        print(self.stationLongNameDict)
+        #print(self.stationLongNameDict)
         #print(len(self.stationIds))
         return self.stationIds
 
@@ -129,12 +129,12 @@ class GHCN:
                     VALUE31.append(line[261:266]); MFLAG31.append(line[266:267]); QFLAG31.append(line[267:268]); SFLAG31.append(line[268:269]) 
 
             # Create netcdf data object
-            with netCDF4.Dataset('./netcdf/%s.nc' %fileId, mode="w", format='NETCDF4') as ds:
+            with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4') as ds:
                 # Define dimensions
                 ds.createDimension('time')
                 ds.createDimension('station', 1)
 
-                # File-level metadata attributes
+                # Global metadata attributes
                 ds.Conventions = "CF-1.6, ACDD-1.3" 
                 ds.ncei_template_version = "NCEI_NetCDF_Grid_Template_v2.0"
                 ds.title = 'GHCN-Daily Surface Observations from ' + fileId
