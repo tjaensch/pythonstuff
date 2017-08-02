@@ -169,6 +169,11 @@ class GHCN:
                 ds.comment = 'Data was converted from native fixed-length text (DLY) format to NetCDF-4 format following metadata conventions.'
 
                 # Variable definitions
+                station_id = ds.createVariable('station_id', 'string')
+                station_id.long_name = ID[0]
+
+                station_name = ds.createVariable('station_name', 'string')
+                station_name.long_name = self.stationLongNameDict[fileId]
 
                 ELEMENT = np.array(ELEMENT)
                 station_ELEMENT = ds.createVariable('ELEMENT', ELEMENT.dtype, ('time',))
@@ -189,10 +194,6 @@ class GHCN:
                 SFLAG1 = np.array(SFLAG1)
                 station_SFLAG1 = ds.createVariable('SFLAG1', SFLAG1.dtype, ('time',))
                 station_SFLAG1[:] = SFLAG1[:]
-
-                station_name = ds.createVariable('station_name', 'string', ('time',))
-                station_name[:] = np.array(ID[:])
-                station_name.long_name = self.stationLongNameDict[fileId]
                 
                 # Write dataset to file
                 print ds
