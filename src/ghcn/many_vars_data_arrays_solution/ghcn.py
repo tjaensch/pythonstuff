@@ -171,28 +171,33 @@ class GHCN:
                 # Variable definitions
                 station_id = ds.createVariable('station_id', 'string')
                 station_id.long_name = ID[0]
+                station_id.standard_name = 'platform_id'
 
                 station_name = ds.createVariable('station_name', 'string')
                 station_name.long_name = self.stationLongNameDict[fileId]
+                station_name.standard_name = 'platform_name'
+                station_name.cf_role = 'timeseries_id'
+                station_name.coverage_content_type = 'coordinate'
+
 
                 ELEMENT = np.array(ELEMENT)
-                station_ELEMENT = ds.createVariable('ELEMENT', ELEMENT.dtype, ('time',))
+                station_ELEMENT = ds.createVariable('element', ELEMENT.dtype, ('time',))
                 station_ELEMENT[:] = ELEMENT[:]
                 
                 VALUE1 = np.array(VALUE1)
-                station_VALUE1 = ds.createVariable('VALUE1', VALUE1.dtype, ('time',))
+                station_VALUE1 = ds.createVariable('value1', VALUE1.dtype, ('time',))
                 station_VALUE1[:] = VALUE1[:]
                 
                 MFLAG1 = np.array(MFLAG1)
-                station_MFLAG1 = ds.createVariable('MFLAG1', MFLAG1.dtype, ('time',))
+                station_MFLAG1 = ds.createVariable('mflag1', MFLAG1.dtype, ('time',))
                 station_MFLAG1[:] = MFLAG1[:]
                 
                 QFLAG1 = np.array(QFLAG1)
-                station_QFLAG1 = ds.createVariable('QFLAG1', QFLAG1.dtype, ('time',))
+                station_QFLAG1 = ds.createVariable('qflag1', QFLAG1.dtype, ('time',))
                 station_QFLAG1[:] = QFLAG1[:]
                 
                 SFLAG1 = np.array(SFLAG1)
-                station_SFLAG1 = ds.createVariable('SFLAG1', SFLAG1.dtype, ('time',))
+                station_SFLAG1 = ds.createVariable('sflag1', SFLAG1.dtype, ('time',))
                 station_SFLAG1[:] = SFLAG1[:]
                 
                 # Write dataset to file
