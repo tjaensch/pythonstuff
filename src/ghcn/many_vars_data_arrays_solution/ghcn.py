@@ -328,12 +328,23 @@ class GHCN:
             pass
     # End def parse_to_netCDF(self, fileId)
 
+    def initialize_numbered_1_31_VALUE_MFLAG_QFLAG_SFLAG_lists(self):
+        numberedList = {}
+        for i in range(1,32):
+            numberedList['VALUE' + str(i)] = []
+            numberedList['MFLAG' + str(i)] = []
+            numberedList['QFLAG' + str(i)] = []
+            numberedList['SFLAG' + str(i)] = []
+        #print(numberedLists)  
+        #print(len(numberedLists))
+        return numberedList
+
     def run_combined_defs(self, fileId):
             self.download_dly_file(fileId)
             self.parse_to_netCDF(fileId)
 
     def go(self):
-            p = Pool(500)
+            p = Pool(5)
             p.map(self, self.get_stationInfo())
 
     def __call__(self, fileId):
