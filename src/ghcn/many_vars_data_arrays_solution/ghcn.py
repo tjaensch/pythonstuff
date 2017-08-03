@@ -18,7 +18,7 @@ def create_output_dirs():
 
 class GHCN:
     """Program to convert GHCN daily files to netCDF; source files and information can be found here ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily"""
-    '''thomas.jaensch@noaa.gov'''
+    """thomas.jaensch@noaa.gov"""
 
     def __init__(self):
         # Lists and dictionaries with information from ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt to be used in netCDF variables derived with def get_stationInfo
@@ -37,8 +37,6 @@ class GHCN:
             self.latDict[line[0:11]] = line[12:20]
             self.lonDict[line[0:11]] = line[21:30]
             self.stationLongNameDict[line[0:11]] = line[38:71]
-        #print(self.stationLongNameDict)
-        #print(len(self.stationIds))
         return self.stationIds
 
     def download_dly_file(self, fileId):
@@ -50,6 +48,15 @@ class GHCN:
         finally:
             pass
 
+    def initialize_numbered_1_31_VALUE_MFLAG_QFLAG_SFLAG_lists(self):
+        numberedList = {}
+        for i in range(1,32):
+            numberedList['VALUE' + str(i)] = []
+            numberedList['MFLAG' + str(i)] = []
+            numberedList['QFLAG' + str(i)] = []
+            numberedList['SFLAG' + str(i)] = []
+        return numberedList
+
     def parse_to_netCDF(self, fileId):
         print(fileId)
         try:
@@ -59,6 +66,8 @@ class GHCN:
             MONTH = []
             ELEMENT = []
             numberedList = self.initialize_numbered_1_31_VALUE_MFLAG_QFLAG_SFLAG_lists()
+
+            # Fill lists with substring values 0-269 per record per line from .dly file
             with open ("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
                 for line in file:
                     ID.append(line[0:11])
@@ -265,29 +274,15 @@ class GHCN:
 
 
                 # Actual source data arrays
-                YEAR = np.array(YEAR)
-                year = ds.createVariable('year', YEAR.dtype, ('time',))
-                year[:] = YEAR[:]
-
-                ELEMENT = np.array(ELEMENT)
-                element = ds.createVariable('element', ELEMENT.dtype, ('time',))
-                element[:] = ELEMENT[:]
+                ds.createVariable('year', np.array(YEAR).dtype, ('time',))[:] = np.array(YEAR)[:]
+                ds.createVariable('element', np.array(ELEMENT).dtype, ('time',))[:] = np.array(ELEMENT)[:]
                 
-                VALUE1 = np.array(numberedList['VALUE1'])
-                value1 = ds.createVariable('value1', VALUE1.dtype, ('time',))
-                value1[:] = VALUE1[:]
-                
-                MFLAG1 = np.array(numberedList['MFLAG1'])
-                mflag1 = ds.createVariable('mflag1', MFLAG1.dtype, ('time',))
-                mflag1[:] = MFLAG1[:]
-                
-                QFLAG1 = np.array(numberedList['QFLAG1'])
-                qflag1 = ds.createVariable('qflag1', QFLAG1.dtype, ('time',))
-                qflag1[:] = QFLAG1[:]
-                
-                SFLAG1 = np.array(numberedList['SFLAG1'])
-                sflag1 = ds.createVariable('sflag1', SFLAG1.dtype, ('time',))
-                sflag1[:] = SFLAG1[:]
+                # Loop over VALUE/MFLAG/QFLAG/SFLAG:1-31 data arrays
+                for i in range (1,32):
+                    ds.createVariable('value' + str(i), np.array(numberedList['VALUE' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['VALUE' + str(i)])[:] 
+                    ds.createVariable('mflag' + str(i), np.array(numberedList['MFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['MFLAG' + str(i)])[:]
+                    ds.createVariable('qflag' + str(i), np.array(numberedList['QFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['QFLAG' + str(i)])[:]
+                    ds.createVariable('sflag' + str(i), np.array(numberedList['SFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['SFLAG' + str(i)])[:]
                 
                 # Write dataset to file
                 print ds
@@ -296,15 +291,6 @@ class GHCN:
         finally:
             pass
     # End def parse_to_netCDF(self, fileId)
-
-    def initialize_numbered_1_31_VALUE_MFLAG_QFLAG_SFLAG_lists(self):
-        numberedList = {}
-        for i in range(1,32):
-            numberedList['VALUE' + str(i)] = []
-            numberedList['MFLAG' + str(i)] = []
-            numberedList['QFLAG' + str(i)] = []
-            numberedList['SFLAG' + str(i)] = []
-        return numberedList
 
     def run_combined_defs(self, fileId):
             self.download_dly_file(fileId)
