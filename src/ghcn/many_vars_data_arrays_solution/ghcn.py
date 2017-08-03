@@ -28,7 +28,8 @@ class GHCN:
         self.stationLongNameDict = {}
 
     def get_stationInfo(self):
-        data = urllib2.urlopen("ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt")
+        # Alternatively https://www1.ncdc.noaa.gov/ OR ftp://ftp.ncdc.noaa.gov/
+        data = urllib2.urlopen("https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt")
         for line in data:
             if not line:
                 break
@@ -41,7 +42,8 @@ class GHCN:
 
     def download_dly_file(self, fileId):
         try:
-            url = 'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all/%s.dly' %fileId
+            # Alternatively https://www1.ncdc.noaa.gov/ OR ftp://ftp.ncdc.noaa.gov/
+            url = 'https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/all/%s.dly' %fileId
             urllib.urlretrieve(url, 'dly_data_as_txt/' + fileId + '.txt')
         except:
             logging.exception(fileId + ": ")
@@ -284,8 +286,6 @@ class GHCN:
                     ds.createVariable('qflag' + str(i), np.array(numberedList['QFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['QFLAG' + str(i)])[:]
                     ds.createVariable('sflag' + str(i), np.array(numberedList['SFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['SFLAG' + str(i)])[:]
                 
-                # Write dataset to file
-                print ds
         except:
             logging.exception(fileId + ": ")
         finally:
@@ -297,7 +297,7 @@ class GHCN:
             self.parse_to_netCDF(fileId)
 
     def go(self):
-            p = Pool(3)
+            p = Pool(10)
             p.map(self, self.get_stationInfo())
 
     def __call__(self, fileId):
