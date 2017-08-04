@@ -45,6 +45,8 @@ class GHCN:
             # Alternatively https://www1.ncdc.noaa.gov/ OR ftp://ftp.ncdc.noaa.gov/
             url = 'https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/all/%s.dly' %fileId
             urllib.urlretrieve(url, 'dly_data_as_txt/' + fileId + '.txt')
+        except KeyboardInterrupt:
+            print(sys.exc_info()[0])
         except:
             logging.exception(fileId + ": ")
         finally:
@@ -285,7 +287,9 @@ class GHCN:
                     ds.createVariable('mflag' + str(i), np.array(numberedList['MFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['MFLAG' + str(i)])[:] 
                     ds.createVariable('qflag' + str(i), np.array(numberedList['QFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['QFLAG' + str(i)])[:]  
                     ds.createVariable('sflag' + str(i), np.array(numberedList['SFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['SFLAG' + str(i)])[:]
-                
+        
+        except KeyboardInterrupt:
+            print(sys.exc_info()[0])      
         except:
             logging.exception(fileId + ": ")
         finally:

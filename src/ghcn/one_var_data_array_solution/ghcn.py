@@ -36,6 +36,8 @@ class GHCN:
         try:
             url = 'ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/all/%s.dly' %fileId
             urllib.urlretrieve(url, 'dly_data_as_txt/' + fileId + '.txt')
+        except KeyboardInterrupt:
+            print(sys.exc_info()[0]) 
         except:
             logging.exception(fileId + ": ")
         finally:
@@ -70,6 +72,8 @@ class GHCN:
                 station_data.long_name = 'long name that describes the data'
                 station_data.standard_name = 'CF_standard_name'
                 print ds
+        except KeyboardInterrupt:
+            print(sys.exc_info()[0]) 
         except:
             logging.exception(fileId + ": ")
         finally:
