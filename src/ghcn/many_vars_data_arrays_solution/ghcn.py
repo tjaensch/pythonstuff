@@ -264,13 +264,13 @@ class GHCN:
                 alt.coverage_content_type = 'coordinate'
                 alt.positive = 'up'
 
-                station_name = ds.createVariable('station_name', 'str')
+                station_name = ds.createVariable('station_name', 'S1')
                 station_name.long_name = self.stationLongNameDict[fileId]
                 station_name.standard_name = 'platform_name'
                 station_name.cf_role = 'timeseries_id'
                 station_name.coverage_content_type = 'coordinate'
 
-                station_id = ds.createVariable('station_id', 'str')
+                station_id = ds.createVariable('station_id', 'S1')
                 station_id.long_name = ID[0]
                 station_id.standard_name = 'platform_id'
 
