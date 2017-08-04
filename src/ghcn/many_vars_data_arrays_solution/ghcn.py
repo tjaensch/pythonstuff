@@ -52,7 +52,7 @@ class GHCN:
 
     def initialize_numbered_1_31_VALUE_MFLAG_QFLAG_SFLAG_lists(self):
         numberedList = {}
-        for i in range(1,32):
+        for i in xrange(1,32):
             numberedList['VALUE' + str(i)] = []
             numberedList['MFLAG' + str(i)] = []
             numberedList['QFLAG' + str(i)] = []
@@ -280,10 +280,10 @@ class GHCN:
                 ds.createVariable('element', np.array(ELEMENT).dtype, ('time',))[:] = np.array(ELEMENT)[:]
                 
                 # Loop over VALUE/MFLAG/QFLAG/SFLAG:1-31 data arrays
-                for i in range (1,32):
-                    ds.createVariable('value' + str(i), np.array(numberedList['VALUE' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['VALUE' + str(i)])[:] 
-                    ds.createVariable('mflag' + str(i), np.array(numberedList['MFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['MFLAG' + str(i)])[:]
-                    ds.createVariable('qflag' + str(i), np.array(numberedList['QFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['QFLAG' + str(i)])[:]
+                for i in xrange (1,32):
+                    ds.createVariable('value' + str(i), np.array(numberedList['VALUE' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['VALUE' + str(i)])[:]  
+                    ds.createVariable('mflag' + str(i), np.array(numberedList['MFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['MFLAG' + str(i)])[:] 
+                    ds.createVariable('qflag' + str(i), np.array(numberedList['QFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['QFLAG' + str(i)])[:]  
                     ds.createVariable('sflag' + str(i), np.array(numberedList['SFLAG' + str(i)]).dtype, ('time',))[:] = np.array(numberedList['SFLAG' + str(i)])[:]
                 
         except:
@@ -297,7 +297,7 @@ class GHCN:
             self.parse_to_netCDF(fileId)
 
     def go(self):
-            p = Pool(25)
+            p = Pool(10)
             p.map(self, self.get_stationInfo())
 
     def __call__(self, fileId):
