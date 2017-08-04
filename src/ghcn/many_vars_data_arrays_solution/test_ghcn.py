@@ -1,3 +1,4 @@
+import datetime
 import netCDF4
 import os
 import shutil
@@ -27,8 +28,8 @@ class Testghcn(unittest.TestCase):
         self.assertTrue(os.path.isfile("./dly_data_as_txt/CA006106362.txt"))
 
     def test_parse_to_netCDF(self):
-        self.assertTrue(os.path.isfile("./netcdf/ghcn-daily_v3.22.2017-08-03_CA006106362.nc"))
-        f = netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.2017-08-03_CA006106362.nc','r')
+        self.assertTrue(os.path.isfile('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_CA006106362.nc'))
+        f = netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_CA006106362.nc','r')
         self.assertTrue(len(f.dimensions) == 2)
         self.assertTrue(len(f.variables) == 140)
 
