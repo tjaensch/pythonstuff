@@ -297,7 +297,7 @@ class GHCN:
             self.parse_to_netCDF(fileId)
 
     def go(self):
-            p = Pool(10)
+            p = Pool(5)
             p.map(self, self.get_stationInfo())
 
     def __call__(self, fileId):
@@ -313,6 +313,6 @@ if __name__ == '__main__':
     ghcn = GHCN()
     ghcn.go()
 
-    print 'The program took ', (time.time()-start)/60, 'minutes to complete.'
+    print('The program took ', (time.time()-start)/60, 'minutes to complete.')
                 
 # End __main__
