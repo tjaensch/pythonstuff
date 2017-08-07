@@ -1,0 +1,15 @@
+ERROR:root:AGE00147710: 
+Traceback (most recent call last):
+  File "ghcn.py", line 71, in parse_to_netCDF
+    print(netCDF4.date2num(datetime.datetime(int(YEAR[0]), int(MONTH[0]), 1, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian'))
+NameError: global name 'YEAR' is not defined
+ERROR:root:AGE00147710: 
+Traceback (most recent call last):
+  File "ghcn.py", line 72, in parse_to_netCDF
+    timeID = netCDF4.date2num(datetime.datetime(int(line[11:15]), int(line[15:17]), i, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian')
+ValueError: day is out of range for month
+ERROR:root:AGE00147710: 
+Traceback (most recent call last):
+  File "ghcn.py", line 72, in parse_to_netCDF
+    timeID = netCDF4.date2num(datetime.datetime(int(line[11:15]), int(line[15:17]), i, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian')
+ValueError: day is out of range for month
