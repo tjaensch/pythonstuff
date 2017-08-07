@@ -3,6 +3,7 @@ import logging
 import netCDF4
 import numpy as np
 import os
+import sys
 import time
 import urllib
 import urllib2

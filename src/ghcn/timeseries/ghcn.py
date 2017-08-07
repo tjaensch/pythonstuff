@@ -3,6 +3,7 @@ import logging
 import netCDF4
 import numpy as np
 import os
+import sys
 import time
 import urllib
 import urllib2
@@ -52,37 +53,33 @@ class GHCN:
         finally:
             pass
 
-    def initialize_numbered_1_31_VALUE_MFLAG_QFLAG_SFLAG_lists(self):
-        numberedList = {}
-        for i in xrange(1,32):
-            numberedList['VALUE' + str(i)] = []
-            numberedList['MFLAG' + str(i)] = []
-            numberedList['QFLAG' + str(i)] = []
-            numberedList['SFLAG' + str(i)] = []
-        return numberedList
-
-    def parse_to_netCDF(self, fileId):
-        print(fileId)
+    def get_unique_time_values(self, fileId):
+        timeValues = set()
         try:
-
-            # Fill lists with substring values 0-269 per record per line from .dly file
             with open ("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
                 for line in file:
+                    # Loop over days of month in line
                     for i in range (1,32):
                         try: 
-                            timeID = netCDF4.date2num(datetime.datetime(int(line[11:15]), int(line[15:17]), i, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian')
-                            print(timeID)
-                            element = line[17:21]
-                            print(element)
+                            timeValues.add(netCDF4.date2num(datetime.datetime(int(line[11:15]), int(line[15:17]), i, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian'))
                         except:
                             pass
+                return sorted(timeValues)
         
         except KeyboardInterrupt:
-            print(sys.exc_info()[0])      
-        except:
-            logging.exception(fileId + ": ")
+            print(sys.exc_info()[0])
         finally:
             pass
+
+    def parse_to_netCDF(self, fileId):
+        uniqueTimeValues = self.get_unique_time_values(fileId)
+        # Create netcdf data object
+        with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4') as ds:
+            # Define dimensions
+            ds.createDimension('time', len(uniqueTimeValues))
+            ds.createDimension('station', 1)
+
+            ds.createVariable('time', np.array(uniqueTimeValues).dtype, ('time',))[:] = np.array(self.get_unique_time_values(fileId))[:]
     # End def parse_to_netCDF(self, fileId)
 
 # __main__
@@ -93,6 +90,7 @@ if __name__ == '__main__':
 
     ghcn = GHCN()
     ghcn.download_dly_file('AGE00147710')
+    ghcn.get_unique_time_values('AGE00147710')
     ghcn.parse_to_netCDF('AGE00147710')
 
     print('The program took ', (time.time()-start)/60, 'minutes to complete.')
