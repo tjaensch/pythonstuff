@@ -79,8 +79,7 @@ class GHCN:
             with open ("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
                 for line in file:
                     uniqueElements.add(line[17:21])
-                print list(uniqueElements)[0]
-                return list(uniqueElements)
+                return dict(enumerate(list(uniqueElements)))
         
         except KeyboardInterrupt:
             print(sys.exc_info()[0])
@@ -91,6 +90,23 @@ class GHCN:
         list1 = self.get_unique_time_values(fileId)
         dictList = dict(enumerate(list1))
         return dictList
+
+    def initialize_empty_element_lists(self, fileId):
+        uniqueElements = self.get_unique_elements(fileId)
+        uniqueElementFlags = []
+        for i in uniqueElements.values():
+            x = i + str('_mflag')
+            y = i + str('_qflag')
+            z = i + str('_sflag')
+            uniqueElementFlags.append(x.lower())
+            uniqueElementFlags.append(y.lower())
+            uniqueElementFlags.append(z.lower())
+        print uniqueElementFlags
+
+        '''with open ("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
+                for line in file:
+                    # Loop over element items and process'''
+                    
 
     def parse_to_netCDF(self, fileId):
         uniqueTimeValues = self.get_unique_time_values(fileId)
@@ -115,6 +131,7 @@ if __name__ == '__main__':
     ghcn.get_unique_time_values('AGE00147710')
     ghcn.create_dict_from_unique_time_values_list('AGE00147710')
     ghcn.get_unique_elements('AGE00147710')
+    ghcn.initialize_empty_element_lists('AGE00147710')
     ghcn.parse_to_netCDF('AGE00147710')
 
     print('The program took ', (time.time()-start), 'seconds to complete.')
