@@ -1,9 +1,12 @@
 import datetime
 import netCDF4
 import os
+import random
 import shutil
 import unittest
 from ghcn import GHCN
+
+testfile = "AGE00147710"
 
 # Tests
 class Testghcn(unittest.TestCase):
@@ -17,18 +20,19 @@ class Testghcn(unittest.TestCase):
         ghcn = GHCN()
         self.stationIds = ghcn.get_station_info()
         #Working ID AGE00147710; not working GMM00010686
-        ghcn.download_dly_file("AGE00147710")
-        self.timeValues = ghcn.get_unique_time_values("AGE00147710")
-        self.uniqueElements = ghcn.get_unique_elements("AGE00147710")
-        self.dictTimeValues = ghcn.create_dict_from_unique_time_values_list("AGE00147710")
-        self.emptyElementFlagsList = ghcn.initialize_empty_element_lists("AGE00147710")
-        ghcn.parse_to_netCDF("AGE00147710")
+        ghcn.download_dly_file(testfile)
+        self.timeValues = ghcn.get_unique_time_values(testfile)
+        self.uniqueElements = ghcn.get_unique_elements(testfile)
+        self.dictTimeValues = ghcn.create_dict_from_unique_time_values_list(testfile)
+        self.emptyElementFlagsList = ghcn.initialize_empty_element_lists(testfile)
+        self.elementAndFlagArrays = ghcn.create_elements_flags_data_lists(testfile)
+        ghcn.parse_to_netCDF(testfile)
 
     def test_get_station_info(self):
         self.assertTrue(len(self.stationIds) > 103000)
 
     def test_download_dly_file(self):
-        self.assertTrue(os.path.isfile("./dly_data_as_txt/AGE00147710.txt"))
+        self.assertTrue(os.path.isfile('./dly_data_as_txt/' + testfile + '.txt'))
 
     def test_get_unique_time_values(self):
         self.assertTrue(len(self.timeValues) > 28)
@@ -41,6 +45,9 @@ class Testghcn(unittest.TestCase):
 
     def test_initialize_empty_element_lists(self):
         self.assertTrue(len(self.emptyElementFlagsList) == len(self.uniqueElements)*4)
+
+    def test_create_elements_flags_data_lists(self):
+        self.assertTrue(len(random.choice(self.elementAndFlagArrays.keys())) > 0)
 
     def test_parse_to_netCDF(self):
         pass
