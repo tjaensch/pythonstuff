@@ -54,31 +54,53 @@ class GHCN:
             pass
 
     def get_unique_time_values(self, fileId):
-        timeValues = set()
+        uniqueTimeValues = set()
         try:
             with open ("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
                 for line in file:
                     # Loop over days of month in line
                     for i in range (1,32):
                         try: 
-                            timeValues.add(netCDF4.date2num(datetime.datetime(int(line[11:15]), int(line[15:17]), i, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian'))
+                            uniqueTimeValues.add(netCDF4.date2num(datetime.datetime(int(line[11:15]), int(line[15:17]), i, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian'))
                         except:
                             pass
-                return sorted(timeValues)
+                #print list(sorted(uniqueTimeValues))
+                return list(sorted(uniqueTimeValues))
         
         except KeyboardInterrupt:
             print(sys.exc_info()[0])
         finally:
             pass
 
+    # Find elements like "TMIN", "TMAX", etc.
+    def get_unique_elements(self, fileId):
+        uniqueElements = set()
+        try:
+            with open ("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
+                for line in file:
+                    uniqueElements.add(line[17:21])
+                print list(uniqueElements)[0]
+                return list(uniqueElements)
+        
+        except KeyboardInterrupt:
+            print(sys.exc_info()[0])
+        finally:
+            pass
+
+    def create_dict_from_unique_time_values_list(self, fileId):
+        list1 = self.get_unique_time_values(fileId)
+        dictList = dict(enumerate(list1))
+        return dictList
+
     def parse_to_netCDF(self, fileId):
         uniqueTimeValues = self.get_unique_time_values(fileId)
         # Create netcdf data object
         with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4') as ds:
             # Define dimensions
-            ds.createDimension('time', len(uniqueTimeValues))
+            ds.createDimension('time')
             ds.createDimension('station', 1)
 
+            # Define variables
             ds.createVariable('time', np.array(uniqueTimeValues).dtype, ('time',))[:] = np.array(self.get_unique_time_values(fileId))[:]
     # End def parse_to_netCDF(self, fileId)
 
@@ -91,8 +113,10 @@ if __name__ == '__main__':
     ghcn = GHCN()
     ghcn.download_dly_file('AGE00147710')
     ghcn.get_unique_time_values('AGE00147710')
+    ghcn.create_dict_from_unique_time_values_list('AGE00147710')
+    ghcn.get_unique_elements('AGE00147710')
     ghcn.parse_to_netCDF('AGE00147710')
 
-    print('The program took ', (time.time()-start)/60, 'minutes to complete.')
+    print('The program took ', (time.time()-start), 'seconds to complete.')
                 
 # End __main__

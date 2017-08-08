@@ -19,6 +19,8 @@ class Testghcn(unittest.TestCase):
         #Working ID AGE00147710; not working GMM00010686
         ghcn.download_dly_file("AGE00147710")
         self.timeValues = ghcn.get_unique_time_values("AGE00147710")
+        self.uniqueElements = ghcn.get_unique_elements("AGE00147710")
+        self.dictTimeValues = ghcn.create_dict_from_unique_time_values_list("AGE00147710")
         ghcn.parse_to_netCDF("AGE00147710")
 
     def test_get_stationInfo(self):
@@ -29,6 +31,12 @@ class Testghcn(unittest.TestCase):
 
     def test_get_unique_time_values(self):
         self.assertTrue(len(self.timeValues) > 28)
+
+    def test_get_unique_elementes(self):
+        self.assertTrue(len(self.uniqueElements) > 0)
+
+    def test_create_dict_from_unique_time_values_list(self):
+        self.assertTrue(self.dictTimeValues[23] == self.timeValues[23])
 
     def test_parse_to_netCDF(self):
         pass
