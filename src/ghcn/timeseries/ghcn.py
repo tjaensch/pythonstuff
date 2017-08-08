@@ -28,7 +28,7 @@ class GHCN:
         self.lonDict = {}
         self.stationLongNameDict = {}
 
-    def get_stationInfo(self):
+    def get_station_info(self):
         # Alternatively https://www1.ncdc.noaa.gov/ OR ftp://ftp.ncdc.noaa.gov/
         data = urllib2.urlopen("https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt")
         for line in data:
@@ -95,9 +95,11 @@ class GHCN:
         uniqueElements = self.get_unique_elements(fileId)
         uniqueElementFlags = []
         for i in uniqueElements.values():
+            w = i
             x = i + str('_mflag')
             y = i + str('_qflag')
             z = i + str('_sflag')
+            uniqueElementFlags.append(w.lower())
             uniqueElementFlags.append(x.lower())
             uniqueElementFlags.append(y.lower())
             uniqueElementFlags.append(z.lower())
@@ -105,6 +107,10 @@ class GHCN:
         for item in uniqueElementFlags:
             emptyElementFlagsList[item] = []
         return emptyElementFlagsList
+
+    def create_flags_data_lists(self, fileId):
+        flagArrays = self.initialize_empty_element_lists(fileId)
+        print flagArrays
 
     def parse_to_netCDF(self, fileId):
         uniqueTimeValues = self.get_unique_time_values(fileId)
@@ -124,13 +130,16 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
+    testfile = 'AGE00147710'
+
     ghcn = GHCN()
-    ghcn.download_dly_file('AGE00147710')
-    ghcn.get_unique_time_values('AGE00147710')
-    ghcn.create_dict_from_unique_time_values_list('AGE00147710')
-    ghcn.get_unique_elements('AGE00147710')
-    ghcn.initialize_empty_element_lists('AGE00147710')
-    ghcn.parse_to_netCDF('AGE00147710')
+    ghcn.download_dly_file(testfile)
+    ghcn.get_unique_time_values(testfile)
+    ghcn.create_dict_from_unique_time_values_list(testfile)
+    ghcn.get_unique_elements(testfile)
+    ghcn.initialize_empty_element_lists(testfile)
+    ghcn.create_flags_data_lists(testfile)
+    ghcn.parse_to_netCDF(testfile)
 
     print('The program took ', (time.time()-start), 'seconds to complete.')
                 

@@ -15,7 +15,7 @@ class Testghcn(unittest.TestCase):
         if not os.path.exists("./netcdf/"):
             os.makedirs("./netcdf/")
         ghcn = GHCN()
-        self.stationIds = ghcn.get_stationInfo()
+        self.stationIds = ghcn.get_station_info()
         #Working ID AGE00147710; not working GMM00010686
         ghcn.download_dly_file("AGE00147710")
         self.timeValues = ghcn.get_unique_time_values("AGE00147710")
@@ -24,7 +24,7 @@ class Testghcn(unittest.TestCase):
         self.emptyElementFlagsList = ghcn.initialize_empty_element_lists("AGE00147710")
         ghcn.parse_to_netCDF("AGE00147710")
 
-    def test_get_stationInfo(self):
+    def test_get_station_info(self):
         self.assertTrue(len(self.stationIds) > 103000)
 
     def test_download_dly_file(self):
@@ -40,7 +40,7 @@ class Testghcn(unittest.TestCase):
         self.assertTrue(self.dictTimeValues[23] == self.timeValues[23])
 
     def test_initialize_empty_element_lists(self):
-        self.assertTrue(len(self.emptyElementFlagsList) == len(self.uniqueElements)*3)
+        self.assertTrue(len(self.emptyElementFlagsList) == len(self.uniqueElements)*4)
 
     def test_parse_to_netCDF(self):
         pass
