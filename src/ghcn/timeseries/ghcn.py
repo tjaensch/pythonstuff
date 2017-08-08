@@ -101,12 +101,10 @@ class GHCN:
             uniqueElementFlags.append(x.lower())
             uniqueElementFlags.append(y.lower())
             uniqueElementFlags.append(z.lower())
-        print uniqueElementFlags
-
-        '''with open ("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
-                for line in file:
-                    # Loop over element items and process'''
-                    
+        emptyElementFlagsList = {}
+        for item in uniqueElementFlags:
+            emptyElementFlagsList[item] = []
+        return emptyElementFlagsList
 
     def parse_to_netCDF(self, fileId):
         uniqueTimeValues = self.get_unique_time_values(fileId)
