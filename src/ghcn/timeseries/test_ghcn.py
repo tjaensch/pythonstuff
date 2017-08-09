@@ -33,7 +33,7 @@ class Testghcn(unittest.TestCase):
         self.elementAndFlagArrays = ghcn.create_elements_flags_data_lists(
             testfile)
         self.timeIndex = ghcn.get_time_index_for_day(
-            testfile + '190911TMAX-9999...', 1, self.timeValues)
+            testfile + '190911TMAX-9999...', 20, self.timeValues)
         ghcn.parse_to_netCDF(testfile)
 
     def test_get_station_info(self):

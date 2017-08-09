@@ -81,6 +81,8 @@ class GHCN:
             pass
 
     def get_time_index_for_day(self, line, dayIndex, allTimeValuesList):
+        # First timeValue must be first item in allTimeValuesList
+        timeValue = allTimeValuesList[0]
         try:
             timeValue = netCDF4.date2num(datetime.datetime(int(line[11:15]), int(
                 line[15:17]), dayIndex, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian')
@@ -148,281 +150,371 @@ class GHCN:
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[21:26])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[26:27])
+                        element + '_mflag'].insert(timeIndex, line[26:27])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[27:28])
+                        element + '_qflag'].insert(timeIndex, line[27:28])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[28:29])
+                        element + '_sflag'].insert(timeIndex, line[28:29])
 
                     # VALUE2
-                    elementAndFlagArrays[element].append(line[29:34])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 2, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[29:34])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[34:35])
+                        element + '_mflag'].insert(timeIndex, line[34:35])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[35:36])
+                        element + '_qflag'].insert(timeIndex, line[35:36])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[36:37])
+                        element + '_sflag'].insert(timeIndex, line[36:37])
 
                     # VALUE3
-                    elementAndFlagArrays[element].append(line[37:42])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 3, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[37:42])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[42:43])
+                        element + '_mflag'].insert(timeIndex, line[42:43])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[43:44])
+                        element + '_qflag'].insert(timeIndex, line[43:44])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[44:45])
+                        element + '_sflag'].insert(timeIndex, line[44:45])
 
                     # VALUE4
-                    elementAndFlagArrays[element].append(line[45:50])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 4, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[45:50])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[50:51])
+                        element + '_mflag'].insert(timeIndex, line[50:51])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[51:52])
+                        element + '_qflag'].insert(timeIndex, line[51:52])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[52:53])
+                        element + '_sflag'].insert(timeIndex, line[52:53])
 
                     # VALUE5
-                    elementAndFlagArrays[element].append(line[53:58])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 5, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[53:58])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[58:59])
+                        element + '_mflag'].insert(timeIndex, line[58:59])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[59:60])
+                        element + '_qflag'].insert(timeIndex, line[59:60])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[60:61])
+                        element + '_sflag'].insert(timeIndex, line[60:61])
 
                     # VALUE6
-                    elementAndFlagArrays[element].append(line[61:66])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 6, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[61:66])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[66:67])
+                        element + '_mflag'].insert(timeIndex, line[66:67])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[67:68])
+                        element + '_qflag'].insert(timeIndex, line[67:68])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[68:69])
+                        element + '_sflag'].insert(timeIndex, line[68:69])
 
                     # VALUE7
-                    elementAndFlagArrays[element].append(line[69:74])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 7, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[69:74])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[74:75])
+                        element + '_mflag'].insert(timeIndex, line[74:75])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[75:76])
+                        element + '_qflag'].insert(timeIndex, line[75:76])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[76:77])
+                        element + '_sflag'].insert(timeIndex, line[76:77])
 
                     # VALUE8
-                    elementAndFlagArrays[element].append(line[77:82])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 8, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[77:82])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[82:83])
+                        element + '_mflag'].insert(timeIndex, line[82:83])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[83:84])
+                        element + '_qflag'].insert(timeIndex, line[83:84])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[84:85])
+                        element + '_sflag'].insert(timeIndex, line[84:85])
 
                     # VALUE9
-                    elementAndFlagArrays[element].append(line[85:90])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 9, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[85:90])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[90:91])
+                        element + '_mflag'].insert(timeIndex, line[90:91])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[91:92])
+                        element + '_qflag'].insert(timeIndex, line[91:92])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[92:93])
+                        element + '_sflag'].insert(timeIndex, line[92:93])
 
                     # VALUE10
-                    elementAndFlagArrays[element].append(line[93:98])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 10, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[93:98])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[98:99])
+                        element + '_mflag'].insert(timeIndex, line[98:99])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[99:100])
+                        element + '_qflag'].insert(timeIndex, line[99:100])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[100:101])
+                        element + '_sflag'].insert(timeIndex, line[100:101])
 
                     # VALUE11
-                    elementAndFlagArrays[element].append(line[101:106])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 11, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[101:106])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[106:107])
+                        element + '_mflag'].insert(timeIndex, line[106:107])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[107:108])
+                        element + '_qflag'].insert(timeIndex, line[107:108])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[108:109])
+                        element + '_sflag'].insert(timeIndex, line[108:109])
 
                     # VALUE12
-                    elementAndFlagArrays[element].append(line[109:114])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 12, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[109:114])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[114:115])
+                        element + '_mflag'].insert(timeIndex, line[114:115])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[115:116])
+                        element + '_qflag'].insert(timeIndex, line[115:116])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[116:117])
+                        element + '_sflag'].insert(timeIndex, line[116:117])
 
                     # VALUE13
-                    elementAndFlagArrays[element].append(line[117:122])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 13, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[117:122])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[122:123])
+                        element + '_mflag'].insert(timeIndex, line[122:123])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[123:124])
+                        element + '_qflag'].insert(timeIndex, line[123:124])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[124:125])
+                        element + '_sflag'].insert(timeIndex, line[124:125])
 
                     # VALUE14
-                    elementAndFlagArrays[element].append(line[125:130])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 14, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[125:130])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[130:131])
+                        element + '_mflag'].insert(timeIndex, line[130:131])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[131:132])
+                        element + '_qflag'].insert(timeIndex, line[131:132])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[132:133])
+                        element + '_sflag'].insert(timeIndex, line[132:133])
 
                     # VALUE15
-                    elementAndFlagArrays[element].append(line[133:138])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 15, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[133:138])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[138:139])
+                        element + '_mflag'].insert(timeIndex, line[138:139])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[139:140])
+                        element + '_qflag'].insert(timeIndex, line[139:140])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[140:141])
+                        element + '_sflag'].insert(timeIndex, line[140:141])
 
                     # VALUE16
-                    elementAndFlagArrays[element].append(line[141:146])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 16, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[141:146])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[146:147])
+                        element + '_mflag'].insert(timeIndex, line[146:147])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[147:148])
+                        element + '_qflag'].insert(timeIndex, line[147:148])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[148:149])
+                        element + '_sflag'].insert(timeIndex, line[148:149])
 
                     # VALUE17
-                    elementAndFlagArrays[element].append(line[149:154])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 17, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[149:154])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[154:155])
+                        element + '_mflag'].insert(timeIndex, line[154:155])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[155:156])
+                        element + '_qflag'].insert(timeIndex, line[155:156])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[156:157])
+                        element + '_sflag'].insert(timeIndex, line[156:157])
 
                     # VALUE18
-                    elementAndFlagArrays[element].append(line[157:162])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 18, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[157:162])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[162:163])
+                        element + '_mflag'].insert(timeIndex, line[162:163])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[163:164])
+                        element + '_qflag'].insert(timeIndex, line[163:164])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[164:165])
+                        element + '_sflag'].insert(timeIndex, line[164:165])
 
                     # VALUE19
-                    elementAndFlagArrays[element].append(line[165:170])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 19, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[165:170])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[170:171])
+                        element + '_mflag'].insert(timeIndex, line[170:171])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[171:172])
+                        element + '_qflag'].insert(timeIndex, line[171:172])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[172:173])
+                        element + '_sflag'].insert(timeIndex, line[172:173])
 
                     # VALUE20
-                    elementAndFlagArrays[element].append(line[173:178])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 20, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[173:178])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[178:179])
+                        element + '_mflag'].insert(timeIndex, line[178:179])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[179:180])
+                        element + '_qflag'].insert(timeIndex, line[179:180])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[180:181])
+                        element + '_sflag'].insert(timeIndex, line[180:181])
 
                     # VALUE21
-                    elementAndFlagArrays[element].append(line[181:186])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 21, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[181:186])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[186:187])
+                        element + '_mflag'].insert(timeIndex, line[186:187])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[187:188])
+                        element + '_qflag'].insert(timeIndex, line[187:188])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[188:189])
+                        element + '_sflag'].insert(timeIndex, line[188:189])
 
                     # VALUE22
-                    elementAndFlagArrays[element].append(line[189:194])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 22, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[189:194])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[194:195])
+                        element + '_mflag'].insert(timeIndex, line[194:195])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[195:196])
+                        element + '_qflag'].insert(timeIndex, line[195:196])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[196:197])
+                        element + '_sflag'].insert(timeIndex, line[196:197])
 
                     # VALUE23
-                    elementAndFlagArrays[element].append(line[197:202])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 23, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[197:202])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[202:203])
+                        element + '_mflag'].insert(timeIndex, line[202:203])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[203:204])
+                        element + '_qflag'].insert(timeIndex, line[203:204])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[204:205])
+                        element + '_sflag'].insert(timeIndex, line[204:205])
 
                     # VALUE24
-                    elementAndFlagArrays[element].append(line[205:210])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 24, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[205:210])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[210:211])
+                        element + '_mflag'].insert(timeIndex, line[210:211])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[211:212])
+                        element + '_qflag'].insert(timeIndex, line[211:212])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[212:213])
+                        element + '_sflag'].insert(timeIndex, line[212:213])
 
                     # VALUE25
-                    elementAndFlagArrays[element].append(line[213:218])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 25, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[213:218])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[218:219])
+                        element + '_mflag'].insert(timeIndex, line[218:219])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[219:220])
+                        element + '_qflag'].insert(timeIndex, line[219:220])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[220:221])
+                        element + '_sflag'].insert(timeIndex, line[220:221])
 
                     # VALUE26
-                    elementAndFlagArrays[element].append(line[221:226])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 26, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[221:226])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[226:227])
+                        element + '_mflag'].insert(timeIndex, line[226:227])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[227:228])
+                        element + '_qflag'].insert(timeIndex, line[227:228])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[228:229])
+                        element + '_sflag'].insert(timeIndex, line[228:229])
 
                     # VALUE27
-                    elementAndFlagArrays[element].append(line[229:234])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 27, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[229:234])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[234:235])
+                        element + '_mflag'].insert(timeIndex, line[234:235])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[235:236])
+                        element + '_qflag'].insert(timeIndex, line[235:236])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[236:237])
+                        element + '_sflag'].insert(timeIndex, line[236:237])
 
                     # VALUE28
-                    elementAndFlagArrays[element].append(line[237:242])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 28, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[237:242])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[242:243])
+                        element + '_mflag'].insert(timeIndex, line[242:243])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[243:244])
+                        element + '_qflag'].insert(timeIndex, line[243:244])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[244:245])
+                        element + '_sflag'].insert(timeIndex, line[244:245])
 
                     # VALUE29
-                    elementAndFlagArrays[element].append(line[245:250])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 29, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[245:250])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[250:251])
+                        element + '_mflag'].insert(timeIndex, line[250:251])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[251:252])
+                        element + '_qflag'].insert(timeIndex, line[251:252])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[252:253])
+                        element + '_sflag'].insert(timeIndex, line[252:253])
 
                     # VALUE30
-                    elementAndFlagArrays[element].append(line[253:258])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 30, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[253:258])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[258:259])
+                        element + '_mflag'].insert(timeIndex, line[258:259])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[259:260])
+                        element + '_qflag'].insert(timeIndex, line[259:260])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[260:261])
+                        element + '_sflag'].insert(timeIndex, line[260:261])
 
                     # VALUE31
-                    elementAndFlagArrays[element].append(line[261:266])
+                    timeIndex = self.get_time_index_for_day(
+                        line, 31, allTimeValuesList)
+                    elementAndFlagArrays[element].insert(
+                        timeIndex, line[261:266])
                     elementAndFlagArrays[
-                        element + '_mflag'].append(line[266:267])
+                        element + '_mflag'].insert(timeIndex, line[266:267])
                     elementAndFlagArrays[
-                        element + '_qflag'].append(line[267:268])
+                        element + '_qflag'].insert(timeIndex, line[267:268])
                     elementAndFlagArrays[
-                        element + '_sflag'].append(line[268:269])
+                        element + '_sflag'].insert(timeIndex, line[268:269])
 
             return elementAndFlagArrays
 
