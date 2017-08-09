@@ -108,9 +108,9 @@ class GHCN:
             pass
 
     def create_dict_from_unique_time_values_list(self, fileId):
-        list1 = self.get_unique_time_values(fileId)
-        dictList = dict(enumerate(list1))
-        return dictList
+        uniqueTimeValuesList = self.get_unique_time_values(fileId)
+        uniqueTimeValuesDict = dict(enumerate(uniqueTimeValuesList))
+        return uniqueTimeValuesDict
 
     def initialize_empty_element_lists(self, fileId):
         uniqueElements = self.get_unique_elements(fileId)
@@ -528,7 +528,12 @@ class GHCN:
     # End create_elements_flags_data_lists(self, fileId)
 
     def parse_to_netCDF(self, fileId):
+        # Get unique time values of file for time variable array
         uniqueTimeValues = self.get_unique_time_values(fileId)
+
+        # Get element and flag arrays and their values
+        elementAndFlagArrays = self.create_elements_flags_data_lists(fileId)
+
         # Create netcdf data object
         with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4') as ds:
             # Define dimensions
@@ -538,7 +543,13 @@ class GHCN:
             # Define variables
             ds.createVariable('time', np.array(uniqueTimeValues).dtype, ('time',))[
                 :] = np.array(self.get_unique_time_values(fileId))[:]
-    # End def parse_to_netCDF(self, fileId)
+
+            # Variables from data arrays
+            for key, value in elementAndFlagArrays.iteritems():
+                ds.createVariable(key, np.array(value).dtype, ('time',))[
+                    :] = np.array(value)[:]
+
+        # End def parse_to_netCDF(self, fileId)
 
 # __main__
 if __name__ == '__main__':
