@@ -33,7 +33,7 @@ class Testghcn(unittest.TestCase):
         self.elementAndFlagArrays = ghcn.create_elements_flags_data_lists(
             testfile)
         self.timeIndex = ghcn.get_time_index_for_day(
-            'AGE00147710190911TMAX-9999...', 1, self.timeValues)
+            testfile + '190911TMAX-9999...', 1, self.timeValues)
         ghcn.parse_to_netCDF(testfile)
 
     def test_get_station_info(self):
@@ -47,7 +47,7 @@ class Testghcn(unittest.TestCase):
         self.assertTrue(len(self.timeValues) > 28)
 
     def test_get_time_index_for_day(self):
-        self.assertTrue(self.timeIndex == 0)
+        self.assertTrue(isinstance(self.timeIndex, int))
 
     def test_get_unique_elementes(self):
         self.assertTrue(len(self.uniqueElements) > 0)
