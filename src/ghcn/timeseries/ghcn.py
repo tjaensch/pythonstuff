@@ -88,7 +88,7 @@ class GHCN:
             timeValue = netCDF4.date2num(datetime.datetime(int(line[11:15]), int(
                 line[15:17]), dayIndex, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian')
         except:
-            pass
+            return -1
         return allTimeValuesList.index(timeValue)
 
     # Find elements like "TMIN", "TMAX", etc.
@@ -484,38 +484,47 @@ class GHCN:
                     # VALUE29
                     timeIndex = self.get_time_index_for_day(
                         line, 29, allTimeValuesList)
-                    elementAndFlagArrays[element].insert(
-                        timeIndex, line[245:250])
-                    elementAndFlagArrays[
-                        element + '_mflag'].insert(timeIndex, line[250:251])
-                    elementAndFlagArrays[
-                        element + '_qflag'].insert(timeIndex, line[251:252])
-                    elementAndFlagArrays[
-                        element + '_sflag'].insert(timeIndex, line[252:253])
+                    if timeIndex != -1:
+                        elementAndFlagArrays[element].insert(
+                            timeIndex, line[245:250])
+                        elementAndFlagArrays[
+                            element + '_mflag'].insert(timeIndex, line[250:251])
+                        elementAndFlagArrays[
+                            element + '_qflag'].insert(timeIndex, line[251:252])
+                        elementAndFlagArrays[
+                            element + '_sflag'].insert(timeIndex, line[252:253])
+                    else:
+                        pass
 
                     # VALUE30
                     timeIndex = self.get_time_index_for_day(
                         line, 30, allTimeValuesList)
-                    elementAndFlagArrays[element].insert(
-                        timeIndex, line[253:258])
-                    elementAndFlagArrays[
-                        element + '_mflag'].insert(timeIndex, line[258:259])
-                    elementAndFlagArrays[
-                        element + '_qflag'].insert(timeIndex, line[259:260])
-                    elementAndFlagArrays[
-                        element + '_sflag'].insert(timeIndex, line[260:261])
+                    if timeIndex != -1:
+                        elementAndFlagArrays[element].insert(
+                            timeIndex, line[253:258])
+                        elementAndFlagArrays[
+                            element + '_mflag'].insert(timeIndex, line[258:259])
+                        elementAndFlagArrays[
+                            element + '_qflag'].insert(timeIndex, line[259:260])
+                        elementAndFlagArrays[
+                            element + '_sflag'].insert(timeIndex, line[260:261])
+                    else:
+                        pass
 
                     # VALUE31
                     timeIndex = self.get_time_index_for_day(
                         line, 31, allTimeValuesList)
-                    elementAndFlagArrays[element].insert(
-                        timeIndex, line[261:266])
-                    elementAndFlagArrays[
-                        element + '_mflag'].insert(timeIndex, line[266:267])
-                    elementAndFlagArrays[
-                        element + '_qflag'].insert(timeIndex, line[267:268])
-                    elementAndFlagArrays[
-                        element + '_sflag'].insert(timeIndex, line[268:269])
+                    if timeIndex != -1:
+                        elementAndFlagArrays[element].insert(
+                            timeIndex, line[261:266])
+                        elementAndFlagArrays[
+                            element + '_mflag'].insert(timeIndex, line[266:267])
+                        elementAndFlagArrays[
+                            element + '_qflag'].insert(timeIndex, line[267:268])
+                        elementAndFlagArrays[
+                            element + '_sflag'].insert(timeIndex, line[268:269])
+                    else:
+                        pass
 
             return elementAndFlagArrays
 
