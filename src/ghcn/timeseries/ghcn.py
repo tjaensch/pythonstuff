@@ -126,8 +126,10 @@ class GHCN:
             uniqueElementFlags.append(z.lower())
         emptyElementFlagsList = {}
         for item in uniqueElementFlags:
-            emptyElementFlagsList[item] = ['.'] * \
-                len(self.get_unique_time_values(fileId))
+            if len(item) == 4:
+                emptyElementFlagsList[item] = ['-9999'] * len(self.get_unique_time_values(fileId))
+            else:
+                emptyElementFlagsList[item] = [' '] * len(self.get_unique_time_values(fileId))    
         # Returns dict of lists
         return emptyElementFlagsList
 
