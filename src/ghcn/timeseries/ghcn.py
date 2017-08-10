@@ -126,7 +126,8 @@ class GHCN:
             uniqueElementFlags.append(z.lower())
         emptyElementFlagsList = {}
         for item in uniqueElementFlags:
-            emptyElementFlagsList[item] = []
+            emptyElementFlagsList[item] = ['.'] * \
+                len(self.get_unique_time_values(fileId))
         # Returns dict of lists
         return emptyElementFlagsList
 
@@ -150,6 +151,8 @@ class GHCN:
                         line, 1, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[21:26])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
+
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[26:27])
                     elementAndFlagArrays[
@@ -157,11 +160,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[28:29])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE2
                     timeIndex = self.get_time_index_for_day(
                         line, 2, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[29:34])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[34:35])
                     elementAndFlagArrays[
@@ -169,11 +180,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[36:37])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE3
                     timeIndex = self.get_time_index_for_day(
                         line, 3, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[37:42])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[42:43])
                     elementAndFlagArrays[
@@ -181,11 +200,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[44:45])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE4
                     timeIndex = self.get_time_index_for_day(
                         line, 4, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[45:50])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[50:51])
                     elementAndFlagArrays[
@@ -193,11 +220,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[52:53])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE5
                     timeIndex = self.get_time_index_for_day(
                         line, 5, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[53:58])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[58:59])
                     elementAndFlagArrays[
@@ -205,11 +240,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[60:61])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE6
                     timeIndex = self.get_time_index_for_day(
                         line, 6, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[61:66])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[66:67])
                     elementAndFlagArrays[
@@ -217,11 +260,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[68:69])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE7
                     timeIndex = self.get_time_index_for_day(
                         line, 7, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[69:74])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[74:75])
                     elementAndFlagArrays[
@@ -229,11 +280,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[76:77])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE8
                     timeIndex = self.get_time_index_for_day(
                         line, 8, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[77:82])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[82:83])
                     elementAndFlagArrays[
@@ -241,11 +300,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[84:85])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE9
                     timeIndex = self.get_time_index_for_day(
                         line, 9, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[85:90])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[90:91])
                     elementAndFlagArrays[
@@ -253,11 +320,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[92:93])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE10
                     timeIndex = self.get_time_index_for_day(
                         line, 10, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[93:98])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[98:99])
                     elementAndFlagArrays[
@@ -265,11 +340,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[100:101])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE11
                     timeIndex = self.get_time_index_for_day(
                         line, 11, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[101:106])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[106:107])
                     elementAndFlagArrays[
@@ -277,11 +360,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[108:109])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE12
                     timeIndex = self.get_time_index_for_day(
                         line, 12, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[109:114])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[114:115])
                     elementAndFlagArrays[
@@ -289,11 +380,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[116:117])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE13
                     timeIndex = self.get_time_index_for_day(
                         line, 13, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[117:122])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[122:123])
                     elementAndFlagArrays[
@@ -301,11 +400,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[124:125])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE14
                     timeIndex = self.get_time_index_for_day(
                         line, 14, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[125:130])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[130:131])
                     elementAndFlagArrays[
@@ -313,11 +420,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[132:133])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE15
                     timeIndex = self.get_time_index_for_day(
                         line, 15, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[133:138])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[138:139])
                     elementAndFlagArrays[
@@ -325,11 +440,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[140:141])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE16
                     timeIndex = self.get_time_index_for_day(
                         line, 16, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[141:146])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[146:147])
                     elementAndFlagArrays[
@@ -337,11 +460,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[148:149])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE17
                     timeIndex = self.get_time_index_for_day(
                         line, 17, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[149:154])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[154:155])
                     elementAndFlagArrays[
@@ -349,11 +480,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[156:157])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE18
                     timeIndex = self.get_time_index_for_day(
                         line, 18, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[157:162])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[162:163])
                     elementAndFlagArrays[
@@ -361,11 +500,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[164:165])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE19
                     timeIndex = self.get_time_index_for_day(
                         line, 19, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[165:170])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[170:171])
                     elementAndFlagArrays[
@@ -373,11 +520,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[172:173])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE20
                     timeIndex = self.get_time_index_for_day(
                         line, 20, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[173:178])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[178:179])
                     elementAndFlagArrays[
@@ -385,11 +540,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[180:181])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE21
                     timeIndex = self.get_time_index_for_day(
                         line, 21, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[181:186])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[186:187])
                     elementAndFlagArrays[
@@ -397,11 +560,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[188:189])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE22
                     timeIndex = self.get_time_index_for_day(
                         line, 22, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[189:194])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[194:195])
                     elementAndFlagArrays[
@@ -409,11 +580,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[196:197])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE23
                     timeIndex = self.get_time_index_for_day(
                         line, 23, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[197:202])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[202:203])
                     elementAndFlagArrays[
@@ -421,11 +600,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[204:205])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE24
                     timeIndex = self.get_time_index_for_day(
                         line, 24, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[205:210])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[210:211])
                     elementAndFlagArrays[
@@ -433,11 +620,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[212:213])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE25
                     timeIndex = self.get_time_index_for_day(
                         line, 25, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[213:218])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[218:219])
                     elementAndFlagArrays[
@@ -445,11 +640,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[220:221])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE26
                     timeIndex = self.get_time_index_for_day(
                         line, 26, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[221:226])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[226:227])
                     elementAndFlagArrays[
@@ -457,11 +660,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[228:229])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE27
                     timeIndex = self.get_time_index_for_day(
                         line, 27, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[229:234])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[234:235])
                     elementAndFlagArrays[
@@ -469,11 +680,19 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[236:237])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE28
                     timeIndex = self.get_time_index_for_day(
                         line, 28, allTimeValuesList)
                     elementAndFlagArrays[element].insert(
                         timeIndex, line[237:242])
+                    elementAndFlagArrays[element].pop(timeIndex + 1)
                     elementAndFlagArrays[
                         element + '_mflag'].insert(timeIndex, line[242:243])
                     elementAndFlagArrays[
@@ -481,18 +700,33 @@ class GHCN:
                     elementAndFlagArrays[
                         element + '_sflag'].insert(timeIndex, line[244:245])
 
+                    elementAndFlagArrays[
+                        element + '_mflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_qflag'].pop(timeIndex + 1)
+                    elementAndFlagArrays[
+                        element + '_sflag'].pop(timeIndex + 1)
+
                     # VALUE29
                     timeIndex = self.get_time_index_for_day(
                         line, 29, allTimeValuesList)
                     if timeIndex != -1:
                         elementAndFlagArrays[element].insert(
                             timeIndex, line[245:250])
+                        elementAndFlagArrays[element].pop(timeIndex + 1)
                         elementAndFlagArrays[
                             element + '_mflag'].insert(timeIndex, line[250:251])
                         elementAndFlagArrays[
                             element + '_qflag'].insert(timeIndex, line[251:252])
                         elementAndFlagArrays[
                             element + '_sflag'].insert(timeIndex, line[252:253])
+
+                        elementAndFlagArrays[
+                            element + '_mflag'].pop(timeIndex + 1)
+                        elementAndFlagArrays[
+                            element + '_qflag'].pop(timeIndex + 1)
+                        elementAndFlagArrays[
+                            element + '_sflag'].pop(timeIndex + 1)
                     else:
                         pass
 
@@ -502,12 +736,20 @@ class GHCN:
                     if timeIndex != -1:
                         elementAndFlagArrays[element].insert(
                             timeIndex, line[253:258])
+                        elementAndFlagArrays[element].pop(timeIndex + 1)
                         elementAndFlagArrays[
                             element + '_mflag'].insert(timeIndex, line[258:259])
                         elementAndFlagArrays[
                             element + '_qflag'].insert(timeIndex, line[259:260])
                         elementAndFlagArrays[
                             element + '_sflag'].insert(timeIndex, line[260:261])
+
+                        elementAndFlagArrays[
+                            element + '_mflag'].pop(timeIndex + 1)
+                        elementAndFlagArrays[
+                            element + '_qflag'].pop(timeIndex + 1)
+                        elementAndFlagArrays[
+                            element + '_sflag'].pop(timeIndex + 1)
                     else:
                         pass
 
@@ -517,16 +759,26 @@ class GHCN:
                     if timeIndex != -1:
                         elementAndFlagArrays[element].insert(
                             timeIndex, line[261:266])
+                        elementAndFlagArrays[element].pop(timeIndex + 1)
                         elementAndFlagArrays[
                             element + '_mflag'].insert(timeIndex, line[266:267])
                         elementAndFlagArrays[
                             element + '_qflag'].insert(timeIndex, line[267:268])
                         elementAndFlagArrays[
                             element + '_sflag'].insert(timeIndex, line[268:269])
+
+                        elementAndFlagArrays[
+                            element + '_mflag'].pop(timeIndex + 1)
+                        elementAndFlagArrays[
+                            element + '_qflag'].pop(timeIndex + 1)
+                        elementAndFlagArrays[
+                            element + '_sflag'].pop(timeIndex + 1)
                     else:
                         pass
 
             return elementAndFlagArrays
+            '''for key, value in elementAndFlagArrays.iteritems():
+                print key, len(value)'''
 
         except KeyboardInterrupt:
             print(sys.exc_info()[0])
