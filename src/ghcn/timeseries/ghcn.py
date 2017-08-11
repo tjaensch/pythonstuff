@@ -797,20 +797,75 @@ class GHCN:
         # Get element and flag arrays and their values
         elementAndFlagArrays = self.create_elements_flags_data_lists(fileId)
 
-        # Create netcdf data object
-        with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4') as ds:
-            # Define dimensions
-            ds.createDimension('time')
-            ds.createDimension('station', 1)
+        print(fileId)
+        try:
+            # Empty lists for variables, more information here ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
+            ID = []
+            YEAR = []
+            MONTH = []
 
-            # Define variables
-            ds.createVariable('time', np.array(uniqueTimeValues).dtype, ('time',))[
-                :] = np.array(self.get_unique_time_values(fileId))[:]
+            # Fill lists with substring values 0-269 per record per line from .dly file
+            with open ("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
+                for line in file:
+                    ID.append(line[0:11])
+                    YEAR.append(line[11:15])
+                    MONTH.append(line[15:17])
 
-            # Variables from data arrays
-            for key, value in elementAndFlagArrays.iteritems():
-                ds.createVariable(key, np.array(value).dtype, ('time',))[
-                    :] = np.array(value)[:]
+            # Create netcdf data object
+            with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4') as ds:
+                # Define dimensions
+                ds.createDimension('time')
+                ds.createDimension('station', 1)
+
+                # Global metadata attributes
+                ds.Conventions = "CF-1.6, ACDD-1.3" 
+                ds.ncei_template_version = "NCEI_NetCDF_Grid_Template_v2.0"
+                ds.title = 'GHCN-Daily Surface Observations from ' + fileId
+                ds.source = 'Surface Observations: 1) the U.S. Collection; 2) the International Collection; 3) Government Exchange Data; and 4) the Global Summary of the Day'
+                ds.id = 'ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc'
+                ds.naming_authority = 'gov.noaa.ncei'
+                ds.summary = 'Global Historical Climatology Network - Daily (GHCN-Daily) is an integrated database of daily climate summaries from land surface stations across the globe. GHCN-Daily is comprised of daily climate records from numerous sources that have been integrated and subjected to a common suite of quality assurance reviews. GHCN-Daily contains records from over 100,000 stations in 180 countries and territories. NCEI provides numerous daily variables, including maximum and minimum temperature, total daily precipitation, snowfall, and snow depth; however, about one half of the stations report precipitation only. Both the record length and period of record vary by station and cover intervals ranging from less than a year to more than 175 years.'
+                ds.featureType = 'timeSeries'
+                ds.cdm_data_type = 'Point'
+                ds.history = 'File updated on ' + datetime.datetime.today().strftime('%Y-%m-%d-%H:%M:%S')
+                ds.date_modified = datetime.datetime.today().strftime('%Y-%m-%d-%H:%M:%S')
+                ds.date_created = datetime.datetime.today().strftime('%Y-%m-%d-%H:%M:%S')
+                ds.product_version = 'Version 3.22'
+                ds.processing_level = 'NOAA Level 2'
+                ds.institution = 'NOAA National Centers for Environmental Information'
+                ds.creator_url = 'https://www.ncei.noaa.gov/'
+                ds.creator_email = 'matthew.menne@noaa.gov'
+                ds.publisher_institution = 'NOAA National Centers for Environmental Information'
+                ds.publisher_url = 'http://www.ncei.noaa.gov/'
+                ds.publisher_email = 'ncei.orders@noaa.gov'
+                ds.geospatial_lat_min = self.latDict[fileId]
+                ds.geospatial_lat_max = self.latDict[fileId]
+                ds.geospatial_lon_min = self.lonDict[fileId]
+                ds.geospatial_lon_max = self.lonDict[fileId]
+                ds.time_coverage_start = YEAR[0] + '-' + MONTH[0] + '-01'
+                ds.time_coverage_end = YEAR[-1] + '-' + MONTH[-1] + '-01'
+                ds.keywords = 'Earth Science > Atmosphere > Precipitation > Precipitation Amount > 24 Hour Precipitation Amount, Earth Science > Terrestrial Hydrosphere > Snow/Ice > Snow Depth, Earth Science > Atmosphere > Atmospheric Temperature > Surface Temperature > Maximum/Minimum Temperature > 24 Hour Maximum Temperature, Earth Science > Atmosphere > Atmospheric Temperature > Surface Temperature > Maximum/Minimum Temperature > 24 Hour Minimum Temperature'
+                ds.keywords_vocabulary = 'Global Change Master Directory (GCMD) Earth Science Keywords'
+                ds.standard_name_vocabulary = 'CF Standard Name Table (v46, 25 July 2017)'
+                ds.metadata_link = 'https://doi.org/10.7289/V5D21VHZ'
+                ds.references = 'https://doi.org/10.1175/JTECH-D-11-00103.1, https://doi.org/10.1175/2010JAMC2375.1, https://doi.org/10.1175/2007JAMC1706.1'
+                ds.comment = 'Data was converted from native fixed-length text (DLY) format to NetCDF-4 format following metadata conventions.'
+
+                # Define variables
+                ds.createVariable('time', np.array(uniqueTimeValues).dtype, ('time',))[
+                    :] = np.array(self.get_unique_time_values(fileId))[:]
+
+                # Variables from data arrays
+                for key, value in elementAndFlagArrays.iteritems():
+                    ds.createVariable(key, np.array(value).dtype, ('time',))[
+                        :] = np.array(value)[:]
+
+        except KeyboardInterrupt:
+            print(sys.exc_info()[0])      
+        except:
+            logging.exception(fileId + ": ")
+        finally:
+            pass
 
         # End def parse_to_netCDF(self, fileId)
 
@@ -823,6 +878,8 @@ if __name__ == '__main__':
     testfile = 'AGE00147710'
 
     ghcn = GHCN()
+
+    stationIds = ghcn.get_station_info()
     ghcn.download_dly_file(testfile)
     ghcn.get_unique_time_values(testfile)
     ghcn.create_dict_from_unique_time_values_list(testfile)
