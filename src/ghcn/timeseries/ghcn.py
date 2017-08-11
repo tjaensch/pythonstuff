@@ -7,7 +7,7 @@ import sys
 import time
 import urllib
 import urllib2
-from multiprocessing import Pool
+#from multiprocessing import Pool
 
 
 def create_output_dirs():
@@ -999,19 +999,19 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    testfile = 'US1OHGR0011'
-
     ghcn = GHCN()
 
     stationIds = ghcn.get_station_info()
-    ghcn.download_dly_file(testfile)
-    ghcn.get_unique_time_values(testfile)
-    ghcn.create_dict_from_unique_time_values_list(testfile)
-    ghcn.get_unique_elements(testfile)
-    ghcn.initialize_empty_element_lists(testfile)
-    ghcn.create_elements_flags_data_lists(testfile)
-    ghcn.parse_to_netCDF(testfile)
 
-    print('The program took ', (time.time() - start), 'seconds to complete.')
+    for stationId in stationIds:
+        ghcn.download_dly_file(stationId)
+        ghcn.get_unique_time_values(stationId)
+        ghcn.create_dict_from_unique_time_values_list(stationId)
+        ghcn.get_unique_elements(stationId)
+        ghcn.initialize_empty_element_lists(stationId)
+        ghcn.create_elements_flags_data_lists(stationId)
+        ghcn.parse_to_netCDF(stationId)
+
+    print('The program took ', (time.time() - start)/2400, 'hours to complete.')
 
 # End __main__
