@@ -1,0 +1,5 @@
+ERROR:root:AGE00147710
+Traceback (most recent call last):
+  File "ghcn.py", line 667, in create_elements_flags_data_lists
+    print elementAndFlagDicts['qvag']
+KeyError: 'qvag'
