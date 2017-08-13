@@ -110,12 +110,6 @@ class GHCN:
 
     def initialize_element_lists_with_time_key_and_placeholder_value(self, fileId):
         dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
-        # Order by unique time value ascending and set all values to
-        # placeholder value
-        newDict1 = OrderedDict(sorted(dictOfUniqueTimeValues.fromkeys(
-            dictOfUniqueTimeValues, -9999).items()))
-        newDict2 = OrderedDict(sorted(dictOfUniqueTimeValues.fromkeys(
-            dictOfUniqueTimeValues, ' ').items()))
 
         uniqueElements = self.get_unique_elements(fileId)
         uniqueElementFlags = []
@@ -132,10 +126,12 @@ class GHCN:
         for item in uniqueElementFlags:
             if len(item) == 4:
                 placeholderElementsFlagsList[
-                    item] = newDict1
+                    item] = OrderedDict(sorted(dictOfUniqueTimeValues.fromkeys(
+                        dictOfUniqueTimeValues, -9999).items()))
             else:
                 placeholderElementsFlagsList[
-                    item] = newDict2
+                    item] = OrderedDict(sorted(dictOfUniqueTimeValues.fromkeys(
+                        dictOfUniqueTimeValues, ' ').items()))
 
         # print placeholderElementsFlagsList['tmax_mflag']
         # Returns dict of lists
@@ -663,7 +659,7 @@ class GHCN:
                             element + '_sflag'][indexInElementAndFlagDicts] = line[268:269]
                     else:
                         pass
-            # print elementAndFlagDicts['tmin']
+            # print elementAndFlagDicts['tmin'][7518]
             return elementAndFlagDicts
 
         except KeyboardInterrupt:
