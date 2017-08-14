@@ -704,22 +704,13 @@ class GHCN:
                 # Define variables
                 ds.createVariable('time', 'd', ('time',))[
                     :] = np.array(uniqueTimeValues)[:]
-
-                # Variables from data arrays
-                '''for key, value in elementAndFlagDicts.iteritems():
-                    ds.createVariable(key, np.array(value.values()).dtype, ('time',))[
-                        :] = np.array(value.values())[:]'''
-
-                for key in OrderedDict(sorted(elementAndFlagDicts.items())):
-                    print key
+                
+                # Create variables from data arrays
+                for key, value in OrderedDict(sorted(elementAndFlagDicts.items())).iteritems():
                     if len(key) == 4:
-                        for key, value in elementAndFlagDicts.iteritems():
-                            ds.createVariable(key, 'i2', ('time',))[
-                                :] = np.array(value.values())[:]
+                        ds.createVariable(key, 'i2', ('time',))[:] = np.array(value.values())[:]
                     else:
-                        for key, value in elementAndFlagDicts.iteritems():
-                            ds.createVariable(key, 'c', ('time',))[
-                                :] = np.array(value.values())[:]
+                        ds.createVariable(key, 'c', ('time',))[:] = np.array(value.values())[:]
 
         except KeyboardInterrupt:
             print(sys.exc_info()[0])
