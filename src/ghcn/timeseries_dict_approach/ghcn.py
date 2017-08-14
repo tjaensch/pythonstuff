@@ -673,8 +673,6 @@ class GHCN:
     def parse_to_netCDF(self, fileId):
         # Get unique time values of file for time variable array
         uniqueTimeValues = self.get_unique_time_values(fileId).values()
-        # Set type of list values
-        uniqueTimeValues = map(float, uniqueTimeValues)
 
         # Get element and flag arrays and their values
         elementAndFlagDicts = self.create_elements_flags_data_lists(fileId)
@@ -708,9 +706,9 @@ class GHCN:
                 # Create variables from data arrays
                 for key, value in OrderedDict(sorted(elementAndFlagDicts.items())).iteritems():
                     if len(key) == 4:
-                        ds.createVariable(key, 'i2', ('time',))[:] = np.array(value.values())[:]
+                        ds.createVariable(key, 'i2', ('time','station',))[:] = np.array(value.values())[:]
                     else:
-                        ds.createVariable(key, 'c', ('time',))[:] = np.array(value.values())[:]
+                        ds.createVariable(key, 'c', ('time','station',))[:] = np.array(value.values())[:]
 
         except KeyboardInterrupt:
             print(sys.exc_info()[0])
@@ -730,6 +728,16 @@ if __name__ == '__main__':
     testfile = "AGE00147710"
 
     ghcn = GHCN()
+
+    '''stationIds = ghcn.get_station_info()
+
+    for testfile in stationIds[50000:]:
+        ghcn.download_dly_file(testfile)
+        ghcn.get_unique_time_values(testfile)
+        ghcn.get_unique_elements(testfile)
+        ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile)
+        ghcn.create_elements_flags_data_lists(testfile)
+        ghcn.parse_to_netCDF(testfile)'''
 
     ghcn.download_dly_file(testfile)
     ghcn.get_unique_time_values(testfile)
