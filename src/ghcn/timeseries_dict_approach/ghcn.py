@@ -702,14 +702,24 @@ class GHCN:
                 ds.createDimension('station', 1)
 
                 # Define variables
-                ds.createVariable('time', np.array(uniqueTimeValues).dtype, ('time',))[
+                ds.createVariable('time', 'd', ('time',))[
                     :] = np.array(uniqueTimeValues)[:]
 
                 # Variables from data arrays
-                for key, value in elementAndFlagDicts.iteritems():
-                    value = value.values()
-                    ds.createVariable(key, np.array(value).dtype, ('time',))[
-                        :] = np.array(value)[:]
+                '''for key, value in elementAndFlagDicts.iteritems():
+                    ds.createVariable(key, np.array(value.values()).dtype, ('time',))[
+                        :] = np.array(value.values())[:]'''
+
+                for key in OrderedDict(sorted(elementAndFlagDicts.items())):
+                    print key
+                    if len(key) == 4:
+                        for key, value in elementAndFlagDicts.iteritems():
+                            ds.createVariable(key, 'i2', ('time',))[
+                                :] = np.array(value.values())[:]
+                    else:
+                        for key, value in elementAndFlagDicts.iteritems():
+                            ds.createVariable(key, 'c', ('time',))[
+                                :] = np.array(value.values())[:]
 
         except KeyboardInterrupt:
             print(sys.exc_info()[0])
