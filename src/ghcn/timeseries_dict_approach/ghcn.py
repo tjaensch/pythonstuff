@@ -703,12 +703,29 @@ class GHCN:
                 ds.createVariable('time', 'd', ('time',))[
                     :] = np.array(uniqueTimeValues)[:]
                 
-                # Create variables from data arrays
+                '''# Create variables from data arrays
                 for key, value in OrderedDict(sorted(elementAndFlagDicts.items())).iteritems():
                     if len(key) == 4:
                         ds.createVariable(key, 'i2', ('time','station',))[:] = np.array(value.values())[:]
                     else:
-                        ds.createVariable(key, 'c', ('time','station',))[:] = np.array(value.values())[:]
+                        ds.createVariable(key, 'c', ('time','station',))[:] = np.array(value.values())[:]'''
+
+                #print OrderedDict(sorted(elementAndFlagDicts.items()))['prcp']
+                #print np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())
+                
+                prcp = ds.createVariable('prcp', 'short', ('time','station',))[:] = np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())[:]
+                ds.variables['prcp'].long_name = 'Total Daily Precipitation (mm)'
+                ds.variables['prcp'].standard_name = 'precipitation_amount'
+                ds.variables['prcp'].units = 'mm'
+                ds.variables['prcp'].scale_factor = 0.1
+                ds.variables['prcp'].missing_value = -9999
+                ds.variables['prcp'].FillValue = -9999
+                ds.variables['prcp'].valid_min = 0
+                ds.variables['prcp'].valid_max = 10000
+                ds.variables['prcp'].coordinates = 'lat lon alt station_name'
+                ds.variables['prcp'].ancillary_variables = 'mflag qflag sflag'
+                #print ds.variables['prcp']
+                
 
                 # Global metadata attributes
                 ds.Conventions = "CF-1.6, ACDD-1.3" 
@@ -759,8 +776,8 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    testfile = "AGE00147710"
-    #testfile = "BR002141011"
+    #testfile = "AGE00147710"
+    testfile = "BR002141011"
 
     ghcn = GHCN()
 
