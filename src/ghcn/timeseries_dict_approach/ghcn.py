@@ -715,6 +715,12 @@ class GHCN:
                     ds.variables['prcp'].valid_max = 10000
                     ds.variables['prcp'].coordinates = 'lat lon alt station_name'
                     ds.variables['prcp'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['prcp']
+                except KeyError:
+                    pass
+
 
                 if 'snow' in elementAndFlagDicts:
                     snow = ds.createVariable('snow', 'short', ('time','station',))[:] = np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snow'].values())[:]
@@ -728,6 +734,11 @@ class GHCN:
                     ds.variables['snow'].valid_max = 1000
                     ds.variables['snow'].coordinates = 'lat lon alt station_name'
                     ds.variables['snow'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['snow']
+                except KeyError:
+                    pass
 
                 if 'snwd' in elementAndFlagDicts:
                     snwd = ds.createVariable('snwd', 'short', ('time','station',))[:] = np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snwd'].values())[:]
@@ -741,6 +752,11 @@ class GHCN:
                     ds.variables['snwd'].valid_max = 1000
                     ds.variables['snwd'].coordinates = 'lat lon alt station_name'
                     ds.variables['snwd'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['snwd']
+                except KeyError:
+                    pass
 
                 if 'tmax' in elementAndFlagDicts:
                     tmax = ds.createVariable('tmax', 'short', ('time','station',))[:] = np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tmax'].values())[:]
@@ -754,6 +770,11 @@ class GHCN:
                     ds.variables['tmax'].valid_max = 500
                     ds.variables['tmax'].coordinates = 'lat lon alt station_name'
                     ds.variables['tmax'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['tmax']
+                except KeyError:
+                    pass
 
                 if 'tmin' in elementAndFlagDicts:
                     tmin = ds.createVariable('tmin', 'short', ('time','station',))[:] = np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tmin'].values())[:]
@@ -767,6 +788,11 @@ class GHCN:
                     ds.variables['tmin'].valid_max = 500
                     ds.variables['tmin'].coordinates = 'lat lon alt station_name'
                     ds.variables['tmin'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['tmin']
+                except KeyError:
+                    pass
 
                 mflag = ds.createVariable('mflag', 'c')
                 mflag.long_name = 'Measurement flag for the first day of the month with ten possible values'
@@ -825,8 +851,10 @@ class GHCN:
                 station_id.long_name = ID[0]
                 station_id.standard_name = 'platform_id'
 
-                # Create flag variables from data arrays
+                # Dynamically create remaining variables from data arrays that have not been called out and processed previously 
                 for key, value in OrderedDict(sorted(elementAndFlagDicts.items())).iteritems():
+                    if len(key) == 4:
+                        ds.createVariable(key, 'short', ('time','station',))[:] = np.array(value.values())[:]
                     if len(key) > 4:
                         ds.createVariable(key, 'c', ('time','station',))[:] = np.array(value.values())[:]
 
