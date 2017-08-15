@@ -854,7 +854,7 @@ class GHCN:
                 # Dynamically create remaining variables from data arrays that have not been called out and processed previously 
                 for key, value in OrderedDict(sorted(elementAndFlagDicts.items())).iteritems():
                     if len(key) == 4:
-                        ds.createVariable(key, 'short', ('time','station',))[:] = np.array(value.values())[:]
+                        ds.createVariable(key, 'i2', ('time','station',))[:] = np.array(value.values())[:]
                     if len(key) > 4:
                         ds.createVariable(key, 'c', ('time','station',))[:] = np.array(value.values())[:]
 
@@ -907,8 +907,8 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    testfile = "AGE00147710"
-    #testfile = "BR002141011"
+    #testfile = "AGE00147710"
+    testfile = "BR002141011"
 
     ghcn = GHCN()
 
