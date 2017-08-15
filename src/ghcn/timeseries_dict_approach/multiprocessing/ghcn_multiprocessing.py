@@ -7,7 +7,7 @@ import sys
 import time
 import urllib
 import urllib2
-# from multiprocessing import Pool
+from multiprocessing import Pool
 from ordereddict import OrderedDict
 
 
@@ -26,7 +26,7 @@ class GHCN:
     def __init__(self):
         # Lists and dictionaries with information from
         # ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt to be
-        # used in netCDF variables derived with def get_stationInfo
+        # used in netCDF variables derived with def get_station_info
         self.stationIds = []
         self.latDict = {}
         self.lonDict = {}
@@ -896,34 +896,31 @@ class GHCN:
 
         # End def parse_to_netCDF(self, fileId)
 
+    def run_combined_defs(self, fileId):
+            self.download_dly_file(fileId)
+            self.get_unique_time_values(fileId)
+            self.get_unique_elements(fileId)
+            self.initialize_element_lists_with_time_key_and_placeholder_value(fileId)
+            self.create_elements_flags_data_lists(fileId)
+            self.parse_to_netCDF(fileId)
+
+    def go(self):
+            p = Pool(3)
+            p.map(self, self.get_station_info())
+
+    def __call__(self, fileId):
+        return self.run_combined_defs(fileId)
+
+
 # __main__
 if __name__ == '__main__':
     start = time.time()
 
     create_output_dirs()
 
-    #testfile = "AGE00147710"
-    #testfile = "BR002141011"
-
     ghcn = GHCN()
+    ghcn.go()
 
-    stationIds = ghcn.get_station_info()
-
-    for testfile in stationIds[50000:]:
-        ghcn.download_dly_file(testfile)
-        ghcn.get_unique_time_values(testfile)
-        ghcn.get_unique_elements(testfile)
-        ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile)
-        ghcn.create_elements_flags_data_lists(testfile)
-        ghcn.parse_to_netCDF(testfile)
-
-    '''ghcn.download_dly_file(testfile)
-    ghcn.get_unique_time_values(testfile)
-    ghcn.get_unique_elements(testfile)
-    ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile)
-    ghcn.create_elements_flags_data_lists(testfile)
-    ghcn.parse_to_netCDF(testfile)'''
-
-    print('The program took ', (time.time() - start), 'seconds to complete.')
-
+    print('The program took ', (time.time()-start)/60, 'minutes to complete.')
+                
 # End __main__
