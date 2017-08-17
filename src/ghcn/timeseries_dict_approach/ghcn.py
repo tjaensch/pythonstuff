@@ -704,7 +704,7 @@ class GHCN:
                     :] = np.array(uniqueTimeValues)[:]
                 
                 if 'prcp' in elementAndFlagDicts:
-                    prcp = ds.createVariable('prcp', 'short', ('time','station',))[:] = np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())[:]
+                    prcp = ds.createVariable('prcp', 'short', ('station','time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())][:]
                     ds.variables['prcp'].long_name = 'Total Daily Precipitation (mm)'
                     ds.variables['prcp'].standard_name = 'precipitation_amount'
                     ds.variables['prcp'].units = 'mm'
@@ -722,7 +722,7 @@ class GHCN:
 
 
                 if 'snow' in elementAndFlagDicts:
-                    snow = ds.createVariable('snow', 'short', ('time','station',))[:] = np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snow'].values())[:]
+                    snow = ds.createVariable('snow', 'short', ('station','time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snow'].values())][:]
                     ds.variables['snow'].long_name = 'Total Daily Snowfall (mm)'
                     ds.variables['snow'].standard_name = 'snowfall_amount'
                     ds.variables['snow'].units = 'mm'
@@ -739,7 +739,7 @@ class GHCN:
                     pass
 
                 if 'snwd' in elementAndFlagDicts:
-                    snwd = ds.createVariable('snwd', 'short', ('time','station',))[:] = np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snwd'].values())[:]
+                    snwd = ds.createVariable('snwd', 'short', ('station','time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snwd'].values())][:]
                     ds.variables['snwd'].long_name = 'Snow Depth at time of obs (mm)'
                     ds.variables['snwd'].standard_name = 'snowfall_amount'
                     ds.variables['snwd'].units = 'mm'
@@ -756,7 +756,7 @@ class GHCN:
                     pass
 
                 if 'tmax' in elementAndFlagDicts:
-                    tmax = ds.createVariable('tmax', 'short', ('time','station',))[:] = np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tmax'].values())[:]
+                    tmax = ds.createVariable('tmax', 'short', ('station','time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tmax'].values())][:]
                     ds.variables['tmax'].long_name = 'Maximum Temperature (degrees C)'
                     ds.variables['tmax'].standard_name = 'air_temperature'
                     ds.variables['tmax'].units = 'degrees_Celsius'
@@ -773,7 +773,7 @@ class GHCN:
                     pass
 
                 if 'tmin' in elementAndFlagDicts:
-                    tmin = ds.createVariable('tmin', 'short', ('time','station',))[:] = np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tmin'].values())[:]
+                    tmin = ds.createVariable('tmin', 'short', ('station','time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tmin'].values())][:]
                     ds.variables['tmin'].long_name = 'Minimum Temperature (degrees C)'
                     ds.variables['tmin'].standard_name = 'air_temperature'
                     ds.variables['tmin'].units = 'degrees_Celsius'
@@ -849,9 +849,9 @@ class GHCN:
                 # Dynamically create remaining variables from data arrays that have not been called out and processed previously 
                 for key, value in OrderedDict(sorted(elementAndFlagDicts.items())).iteritems():
                     if len(key) == 4:
-                        ds.createVariable(key, 'i2', ('time','station',))[:] = np.array(value.values())[:]
+                        ds.createVariable(key, 'i2', ('station','time',), fill_value=-9999)[:] = [np.array(value.values())][:]
                     if len(key) > 4:
-                        ds.createVariable(key, 'c', ('time','station',))[:] = np.array(value.values())[:]
+                        ds.createVariable(key, 'c', ('station','time',), fill_value=' ')[:] = [np.array(value.values())][:]
 
                 # Global metadata attributes
                 ds.Conventions = "CF-1.6, ACDD-1.3" 
@@ -902,27 +902,27 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    #testfile = "AGE00147710"
+    testfile = "AGE00147710"
     #testfile = "BR002141011"
 
     ghcn = GHCN()
 
     stationIds = ghcn.get_station_info()
 
-    for testfile in stationIds[50000:]:
+    '''for testfile in stationIds[50000:]:
         ghcn.download_dly_file(testfile)
         ghcn.get_unique_time_values(testfile)
         ghcn.get_unique_elements(testfile)
         ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile)
         ghcn.create_elements_flags_data_lists(testfile)
-        ghcn.parse_to_netCDF(testfile)
+        ghcn.parse_to_netCDF(testfile)'''
 
-    '''ghcn.download_dly_file(testfile)
+    ghcn.download_dly_file(testfile)
     ghcn.get_unique_time_values(testfile)
     ghcn.get_unique_elements(testfile)
     ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile)
     ghcn.create_elements_flags_data_lists(testfile)
-    ghcn.parse_to_netCDF(testfile)'''
+    ghcn.parse_to_netCDF(testfile)
 
     print('The program took ', (time.time() - start), 'seconds to complete.')
 
