@@ -696,8 +696,8 @@ class GHCN:
             # Create netcdf data object
             with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4') as ds:
                 # Define dimensions
-                ds.createDimension('time')
                 ds.createDimension('station', 1)
+                ds.createDimension('time', 0)
 
                 # Define variables
                 ds.createVariable('time', 'd', ('time',))[
@@ -789,31 +789,6 @@ class GHCN:
                 except KeyError:
                     pass
 
-                mflag = ds.createVariable('mflag', 'c')
-                mflag.long_name = 'Measurement flag for the first day of the month with ten possible values'
-                mflag.standard_name = 'status_flag'
-                mflag.missing_value = ' '
-                mflag.flag_values = '1 B D H K L O P T W'
-                mflag.flag_meanings = 'no_measurement_information_applicable precipitation_total_formed_from_two_12-hour_totals precipitation_total_formed_from_four_six-hour_totals represents_highest_or_lowest_hourly_temperature_(TMAX_or_TMIN)_or_the_average_of_hourly_values_(TAVG) converted_from_knots temperature_appears_to_be_lagged_with_respect_to_reported_hour_of_observation converted_from_oktas identified_as_missing_presumed_zero_in_DSI_3200_and_3206 trace_of_precipitation_snowfall_or_snow_depth converted_from_16-point_WBAN_code_(for_wind_direction)'
-                mflag.coordinates = 'lat lon alt station_name'
-
-                qflag = ds.createVariable('qflag', 'c')
-                qflag.long_name = 'Quality flag for the first day of the month with fifteen possible values'
-                qflag.standard_name = 'status_flag'
-                qflag.missing_value = ' '
-                qflag.flag_values = '1 D G I K L M N O R S T W X Z'
-                qflag.flag_meanings = 'did_not_fail_any_quality_assurance_check failed_duplicate_check failed_gap_check failed_internal_consistency_check failed_streak_frequent-value_check failed_check_on_length_of_multiday_period failed_megaconsistency_check failed_naught_check failed_climatological_outlier_check failed_lagged_range_check failed_spatial_consistency_check failed_temporal_consistency_check temperature_too_warm_for_snow failed_bounds_check flagged_as_a_result_of_an_official_Datzilla_investigation'
-                qflag.coordinates = 'lat lon alt station_name'
-
-                sflag = ds.createVariable('sflag', 'c')
-                sflag.long_name = 'Source flag for the first day of the month with twenty nine possible values'
-                sflag.standard_name = 'status_flag'
-                sflag.missing_value = ' '
-                sflag.flag_values = '1 0 6 7 A a B b C E F G H I K M N Q R r S s T U u W X Z z'
-                sflag.flag_meanings = 'No_source_(data_value_missing) US_Cooperative_Summary_of_the_Day_(NCDC_DSI-3200) CDMP_Cooperative_Summary_of_the_Day_(NCDC_DSI-3206) US_Cooperative_Summary_of_the_Day_--_Transmitted_via_WxCoder3_(NCDC_DSI-3207) US_Automated_Surface_Observing_System_(ASOS)_real-time_data_(since_01_January_2006) Australian_data_from_the_Australian_Bureau_of_Meteorology US_ASOS_data_for_October_2000_to_December_2005_(NCDC_DSI-3211) Belarus_update Environment_Canada European_Climate_Assessment_and_Dataset_(Klein_Tank_et_al_2002) US_Fort_data Official_Global_Climate_Observing_System_(GCOS)_or_other_government-supplied_data High_Plains_Regional_Climate_Center_real-time_data International_collection_(non_US_data_received_through_personal_contacts US_Cooperative_Summary_of_the_Day_data_digitized_from_paper_observer_forms_(from_2011_to_present) Monthly_METAR_Extract_(additional_ASOS_data) Community_Collaborative_Rain_Hail_and_Snow_(CoCoRaHS) Data_from_several_African_countries_that_had_been_quarantined_withheld_from_public_release_until_permission_was_granted_from_the_respective_meteorological_services NCEI_Reference_Network_Database_(Climate_Reference_Network_and_Regional_Climate_Reference_Network) All-Russian_Research_Institute_of_Hydrometeorological_Information-World_Data_Center Global_Summary_of_the_Day_(NCDC_DSI-9618) China_Meteorological_Administration_National_Meteorological_Information_Center_Climatic_Data_Center SNOwpack_TELemtry_(SNOTEL)_data_obtained_from_the_US_Department_of_Agriculture_s_Natural_Resources_Conservation_Service Remote_Automatic_Weather_Station_(RAWS)_data_obtained_from_the_Western_Regional_Climate_Center Ukraine_update WBAN_ASOS_Summary_of_the_Day_from_NCDC_s_Integrated_Surface_Data_(ISD) US_First-Order_Summary_of_the_Day_(NCDC_DSI-3210) Datzilla_official_additions_or_replacements Uzbekistan_update'
-                sflag.coordinates = 'lat lon alt station_name'
-                sflag.comment = 'When data are available for the same time from more than one source, the highest priority source is chosen according to the following priority order (from highest to lowest): Z,R,0,6,C,X,W,K,7,F,B,M,r,E,z,u,b,s,a,G,Q,I,A,N,T,U,H,S. NOTE for Global Summary of the Day: S values are derived from hourly synoptic reports exchanged on the Global Telecommunications System (GTS). Daily values derived in this fashion may differ significantly from true daily data, particularly for precipitation (i.e., use with caution).'
-
                 lat = ds.createVariable('lat', 'f')
                 lat.long_name = 'Latitude'
                 lat.standard_name = 'latitude'
@@ -852,6 +827,28 @@ class GHCN:
                         ds.createVariable(key, 'i2', ('station','time',), fill_value=-9999)[:] = [np.array(value.values())][:]
                     if len(key) > 4:
                         ds.createVariable(key, 'c', ('station','time',), fill_value=' ')[:] = [np.array(value.values())][:]
+                        if 'mflag' in key:
+                            ds.variables[key].long_name = 'Measurement flag for the day of the month with ten possible values'
+                            ds.variables[key].standard_name = 'status_flag'
+                            ds.variables[key].missing_value = ' '
+                            ds.variables[key].flag_values = '1 B D H K L O P T W'
+                            ds.variables[key].flag_meanings = 'no_measurement_information_applicable precipitation_total_formed_from_two_12-hour_totals precipitation_total_formed_from_four_six-hour_totals represents_highest_or_lowest_hourly_temperature_(TMAX_or_TMIN)_or_the_average_of_hourly_values_(TAVG) converted_from_knots temperature_appears_to_be_lagged_with_respect_to_reported_hour_of_observation converted_from_oktas identified_as_missing_presumed_zero_in_DSI_3200_and_3206 trace_of_precipitation_snowfall_or_snow_depth converted_from_16-point_WBAN_code_(for_wind_direction)'
+                            ds.variables[key].coordinates = 'lat lon alt station_name'
+                        if 'qflag' in key:
+                            ds.variables[key].long_name = 'Quality flag for the day of the month with fifteen possible values'
+                            ds.variables[key].standard_name = 'status_flag'
+                            ds.variables[key].missing_value = ' '
+                            ds.variables[key].flag_values = '1 D G I K L M N O R S T W X Z'
+                            ds.variables[key].flag_meanings = 'did_not_fail_any_quality_assurance_check failed_duplicate_check failed_gap_check failed_internal_consistency_check failed_streak_frequent-value_check failed_check_on_length_of_multiday_period failed_megaconsistency_check failed_naught_check failed_climatological_outlier_check failed_lagged_range_check failed_spatial_consistency_check failed_temporal_consistency_check temperature_too_warm_for_snow failed_bounds_check flagged_as_a_result_of_an_official_Datzilla_investigation'
+                            ds.variables[key].coordinates = 'lat lon alt station_name'
+                        if 'sflag' in key:
+                            ds.variables[key].long_name = 'Source flag for the day of the month with twenty nine possible values'
+                            ds.variables[key].standard_name = 'status_flag'
+                            ds.variables[key].missing_value = ' '
+                            ds.variables[key].flag_values = '1 0 6 7 A a B b C E F G H I K M N Q R r S s T U u W X Z z'
+                            ds.variables[key].flag_meanings = 'No_source_(data_value_missing) US_Cooperative_Summary_of_the_Day_(NCDC_DSI-3200) CDMP_Cooperative_Summary_of_the_Day_(NCDC_DSI-3206) US_Cooperative_Summary_of_the_Day_--_Transmitted_via_WxCoder3_(NCDC_DSI-3207) US_Automated_Surface_Observing_System_(ASOS)_real-time_data_(since_01_January_2006) Australian_data_from_the_Australian_Bureau_of_Meteorology US_ASOS_data_for_October_2000_to_December_2005_(NCDC_DSI-3211) Belarus_update Environment_Canada European_Climate_Assessment_and_Dataset_(Klein_Tank_et_al_2002) US_Fort_data Official_Global_Climate_Observing_System_(GCOS)_or_other_government-supplied_data High_Plains_Regional_Climate_Center_real-time_data International_collection_(non_US_data_received_through_personal_contacts US_Cooperative_Summary_of_the_Day_data_digitized_from_paper_observer_forms_(from_2011_to_present) Monthly_METAR_Extract_(additional_ASOS_data) Community_Collaborative_Rain_Hail_and_Snow_(CoCoRaHS) Data_from_several_African_countries_that_had_been_quarantined_withheld_from_public_release_until_permission_was_granted_from_the_respective_meteorological_services NCEI_Reference_Network_Database_(Climate_Reference_Network_and_Regional_Climate_Reference_Network) All-Russian_Research_Institute_of_Hydrometeorological_Information-World_Data_Center Global_Summary_of_the_Day_(NCDC_DSI-9618) China_Meteorological_Administration_National_Meteorological_Information_Center_Climatic_Data_Center SNOwpack_TELemtry_(SNOTEL)_data_obtained_from_the_US_Department_of_Agriculture_s_Natural_Resources_Conservation_Service Remote_Automatic_Weather_Station_(RAWS)_data_obtained_from_the_Western_Regional_Climate_Center Ukraine_update WBAN_ASOS_Summary_of_the_Day_from_NCDC_s_Integrated_Surface_Data_(ISD) US_First-Order_Summary_of_the_Day_(NCDC_DSI-3210) Datzilla_official_additions_or_replacements Uzbekistan_update'
+                            ds.variables[key].coordinates = 'lat lon alt station_name'
+                            ds.variables[key].comment = 'When data are available for the same time from more than one source, the highest priority source is chosen according to the following priority order (from highest to lowest): Z,R,0,6,C,X,W,K,7,F,B,M,r,E,z,u,b,s,a,G,Q,I,A,N,T,U,H,S. NOTE for Global Summary of the Day: S values are derived from hourly synoptic reports exchanged on the Global Telecommunications System (GTS). Daily values derived in this fashion may differ significantly from true daily data, particularly for precipitation (i.e., use with caution).'
 
                 # Global metadata attributes
                 ds.Conventions = "CF-1.6, ACDD-1.3" 
