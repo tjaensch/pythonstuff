@@ -694,10 +694,10 @@ class GHCN:
                     MONTH.append(line[15:17])
 
             # Create netcdf data object
-            with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4') as ds:
+            with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4_CLASSIC') as ds:
                 # Define dimensions
+                ds.createDimension('time')
                 ds.createDimension('station', 1)
-                ds.createDimension('time', 0)
 
                 # Define variables
                 ds.createVariable('time', 'd', ('time',))[
@@ -789,21 +789,21 @@ class GHCN:
                 except KeyError:
                     pass
 
-                lat = ds.createVariable('lat', 'f')
+                lat = ds.createVariable('lat', 'f', ('station',))
                 lat.long_name = 'Latitude'
                 lat.standard_name = 'latitude'
                 lat.units = 'degrees_north'
                 lat.axis = 'Y'
                 lat.coverage_content_type = 'coordinate'
 
-                lon = ds.createVariable('lon', 'f')
+                lon = ds.createVariable('lon', 'f', ('station',))
                 lon.long_name = 'Longitude'
                 lon.standard_name = 'longitude'
                 lon.units = 'degrees_east'
                 lon.axis = 'X'
                 lon.coverage_content_type = 'coordinate'
 
-                alt = ds.createVariable('alt', 'f')
+                alt = ds.createVariable('alt', 'f', ('station',))
                 alt.long_name = 'Station Altitude'
                 alt.standard_name = 'surface_altitude'
                 alt.units = 'm'
@@ -811,13 +811,13 @@ class GHCN:
                 alt.coverage_content_type = 'coordinate'
                 alt.positive = 'up'
 
-                station_name = ds.createVariable('station_name', 'S1')
+                station_name = ds.createVariable('station_name', 'S1', ('station',))
                 station_name.long_name = self.stationLongNameDict[fileId]
                 station_name.standard_name = 'platform_name'
                 station_name.cf_role = 'timeseries_id'
                 station_name.coverage_content_type = 'coordinate'
 
-                station_id = ds.createVariable('station_id', 'S1')
+                station_id = ds.createVariable('station_id', 'S1', ('station',))
                 station_id.long_name = ID[0]
                 station_id.standard_name = 'platform_id'
 
