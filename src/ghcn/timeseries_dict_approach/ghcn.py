@@ -30,6 +30,7 @@ class GHCN:
         self.stationIds = []
         self.latDict = {}
         self.lonDict = {}
+        self.elevationDict = {}
         self.stationLongNameDict = {}
 
     def get_station_info(self):
@@ -43,7 +44,9 @@ class GHCN:
             self.stationIds.append(line[0:11])
             self.latDict[line[0:11]] = line[12:20]
             self.lonDict[line[0:11]] = line[21:30]
+            self.elevationDict[line[0:11]] = line[31:37]
             self.stationLongNameDict[line[0:11]] = line[38:71]
+
         return self.stationIds
 
     def download_dly_file(self, fileId):
@@ -795,6 +798,7 @@ class GHCN:
                 lat.units = 'degrees_north'
                 lat.axis = 'Y'
                 lat.coverage_content_type = 'coordinate'
+                lat[:] = np.array(self.latDict[fileId])
 
                 lon = ds.createVariable('lon', 'f', ('station',))
                 lon.long_name = 'Longitude'
@@ -802,6 +806,7 @@ class GHCN:
                 lon.units = 'degrees_east'
                 lon.axis = 'X'
                 lon.coverage_content_type = 'coordinate'
+                lon[:] = np.array(self.lonDict[fileId])
 
                 alt = ds.createVariable('alt', 'f', ('station',))
                 alt.long_name = 'Station Altitude'
@@ -810,6 +815,7 @@ class GHCN:
                 alt.axis = 'Z'
                 alt.coverage_content_type = 'coordinate'
                 alt.positive = 'up'
+                alt[:] = np.array(self.elevationDict[fileId])
 
                 station_name = ds.createVariable('station_name', 'S1', ('station',))
                 station_name.long_name = self.stationLongNameDict[fileId]
@@ -899,8 +905,8 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    testfile = "AGE00147710"
-    #testfile = "BR002141011"
+    #testfile = "AGE00147710"
+    testfile = "BR002141011"
 
     ghcn = GHCN()
 
