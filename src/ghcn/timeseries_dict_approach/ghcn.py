@@ -713,8 +713,8 @@ class GHCN:
                     ds.variables['prcp'].units = 'mm'
                     ds.variables['prcp'].scale_factor = 0.1
                     ds.variables['prcp'].missing_value = -9999
-                    ds.variables['prcp'].valid_min = 0.0
-                    ds.variables['prcp'].valid_max = 10000.0
+                    ds.variables['prcp'].valid_min = 0
+                    ds.variables['prcp'].valid_max = 10000
                     ds.variables['prcp'].coordinates = 'lat lon alt station_name'
                     ds.variables['prcp'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
@@ -731,8 +731,8 @@ class GHCN:
                     ds.variables['snow'].units = 'mm'
                     ds.variables['snow'].scale_factor = 1.0
                     ds.variables['snow'].missing_value = -9999
-                    ds.variables['snow'].valid_min = 0.0
-                    ds.variables['snow'].valid_max = 1000.0
+                    ds.variables['snow'].valid_min = 0
+                    ds.variables['snow'].valid_max = 1000
                     ds.variables['snow'].coordinates = 'lat lon alt station_name'
                     ds.variables['snow'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
@@ -748,8 +748,8 @@ class GHCN:
                     ds.variables['snwd'].units = 'mm'
                     ds.variables['snwd'].scale_factor = 1.0
                     ds.variables['snwd'].missing_value = -9999
-                    ds.variables['snwd'].valid_min = 0.0
-                    ds.variables['snwd'].valid_max = 1000.0
+                    ds.variables['snwd'].valid_min = 0
+                    ds.variables['snwd'].valid_max = 1000
                     ds.variables['snwd'].coordinates = 'lat lon alt station_name'
                     ds.variables['snwd'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
@@ -765,8 +765,8 @@ class GHCN:
                     ds.variables['tmax'].units = 'degrees_Celsius'
                     ds.variables['tmax'].scale_factor = 0.1
                     ds.variables['tmax'].missing_value = -9999
-                    ds.variables['tmax'].valid_min = -500.0
-                    ds.variables['tmax'].valid_max = 500.0
+                    ds.variables['tmax'].valid_min = -500
+                    ds.variables['tmax'].valid_max = 500
                     ds.variables['tmax'].coordinates = 'lat lon alt station_name'
                     ds.variables['tmax'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
@@ -782,8 +782,8 @@ class GHCN:
                     ds.variables['tmin'].units = 'degrees_Celsius'
                     ds.variables['tmin'].scale_factor = 0.1
                     ds.variables['tmin'].missing_value = -9999
-                    ds.variables['tmin'].valid_min = -500.0
-                    ds.variables['tmin'].valid_max = 500.0
+                    ds.variables['tmin'].valid_min = -500
+                    ds.variables['tmin'].valid_max = 500
                     ds.variables['tmin'].coordinates = 'lat lon alt station_name'
                     ds.variables['tmin'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
@@ -905,8 +905,8 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    #testfile = "AGE00147710"
-    testfile = "BR002141011"
+    testfile = "AGE00147710"
+    #testfile = "BR002141011"
 
     ghcn = GHCN()
 

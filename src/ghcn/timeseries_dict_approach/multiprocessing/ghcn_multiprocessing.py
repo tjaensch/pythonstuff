@@ -30,6 +30,7 @@ class GHCN:
         self.stationIds = []
         self.latDict = {}
         self.lonDict = {}
+        self.elevationDict = {}
         self.stationLongNameDict = {}
 
     def get_station_info(self):
@@ -43,6 +44,7 @@ class GHCN:
             self.stationIds.append(line[0:11])
             self.latDict[line[0:11]] = line[12:20]
             self.lonDict[line[0:11]] = line[21:30]
+            self.elevationDict[line[0:11]] = line[31:37]
             self.stationLongNameDict[line[0:11]] = line[38:71]
         return self.stationIds
 
@@ -694,10 +696,10 @@ class GHCN:
                     MONTH.append(line[15:17])
 
             # Create netcdf data object
-            with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4') as ds:
+            with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4_CLASSIC') as ds:
                 # Define dimensions
+                ds.createDimension('time')
                 ds.createDimension('station', 1)
-                ds.createDimension('time', 0)
 
                 # Define variables
                 ds.createVariable('time', 'd', ('time',))[
@@ -710,8 +712,8 @@ class GHCN:
                     ds.variables['prcp'].units = 'mm'
                     ds.variables['prcp'].scale_factor = 0.1
                     ds.variables['prcp'].missing_value = -9999
-                    ds.variables['prcp'].valid_min = 0.0
-                    ds.variables['prcp'].valid_max = 10000.0
+                    ds.variables['prcp'].valid_min = 0
+                    ds.variables['prcp'].valid_max = 10000
                     ds.variables['prcp'].coordinates = 'lat lon alt station_name'
                     ds.variables['prcp'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
@@ -728,8 +730,8 @@ class GHCN:
                     ds.variables['snow'].units = 'mm'
                     ds.variables['snow'].scale_factor = 1.0
                     ds.variables['snow'].missing_value = -9999
-                    ds.variables['snow'].valid_min = 0.0
-                    ds.variables['snow'].valid_max = 1000.0
+                    ds.variables['snow'].valid_min = 0
+                    ds.variables['snow'].valid_max = 1000
                     ds.variables['snow'].coordinates = 'lat lon alt station_name'
                     ds.variables['snow'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
@@ -745,8 +747,8 @@ class GHCN:
                     ds.variables['snwd'].units = 'mm'
                     ds.variables['snwd'].scale_factor = 1.0
                     ds.variables['snwd'].missing_value = -9999
-                    ds.variables['snwd'].valid_min = 0.0
-                    ds.variables['snwd'].valid_max = 1000.0
+                    ds.variables['snwd'].valid_min = 0
+                    ds.variables['snwd'].valid_max = 1000
                     ds.variables['snwd'].coordinates = 'lat lon alt station_name'
                     ds.variables['snwd'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
@@ -762,8 +764,8 @@ class GHCN:
                     ds.variables['tmax'].units = 'degrees_Celsius'
                     ds.variables['tmax'].scale_factor = 0.1
                     ds.variables['tmax'].missing_value = -9999
-                    ds.variables['tmax'].valid_min = -500.0
-                    ds.variables['tmax'].valid_max = 500.0
+                    ds.variables['tmax'].valid_min = -500
+                    ds.variables['tmax'].valid_max = 500
                     ds.variables['tmax'].coordinates = 'lat lon alt station_name'
                     ds.variables['tmax'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
@@ -779,8 +781,8 @@ class GHCN:
                     ds.variables['tmin'].units = 'degrees_Celsius'
                     ds.variables['tmin'].scale_factor = 0.1
                     ds.variables['tmin'].missing_value = -9999
-                    ds.variables['tmin'].valid_min = -500.0
-                    ds.variables['tmin'].valid_max = 500.0
+                    ds.variables['tmin'].valid_min = -500
+                    ds.variables['tmin'].valid_max = 500
                     ds.variables['tmin'].coordinates = 'lat lon alt station_name'
                     ds.variables['tmin'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
@@ -789,35 +791,38 @@ class GHCN:
                 except KeyError:
                     pass
 
-                lat = ds.createVariable('lat', 'f')
+                lat = ds.createVariable('lat', 'f', ('station',))
                 lat.long_name = 'Latitude'
                 lat.standard_name = 'latitude'
                 lat.units = 'degrees_north'
                 lat.axis = 'Y'
                 lat.coverage_content_type = 'coordinate'
+                lat[:] = np.array(self.latDict[fileId])
 
-                lon = ds.createVariable('lon', 'f')
+                lon = ds.createVariable('lon', 'f', ('station',))
                 lon.long_name = 'Longitude'
                 lon.standard_name = 'longitude'
                 lon.units = 'degrees_east'
                 lon.axis = 'X'
                 lon.coverage_content_type = 'coordinate'
+                lon[:] = np.array(self.lonDict[fileId])
 
-                alt = ds.createVariable('alt', 'f')
+                alt = ds.createVariable('alt', 'f', ('station',))
                 alt.long_name = 'Station Altitude'
                 alt.standard_name = 'surface_altitude'
                 alt.units = 'm'
                 alt.axis = 'Z'
                 alt.coverage_content_type = 'coordinate'
                 alt.positive = 'up'
+                alt[:] = np.array(self.elevationDict[fileId])
 
-                station_name = ds.createVariable('station_name', 'S1')
+                station_name = ds.createVariable('station_name', 'S1', ('station',))
                 station_name.long_name = self.stationLongNameDict[fileId]
                 station_name.standard_name = 'platform_name'
                 station_name.cf_role = 'timeseries_id'
                 station_name.coverage_content_type = 'coordinate'
 
-                station_id = ds.createVariable('station_id', 'S1')
+                station_id = ds.createVariable('station_id', 'S1', ('station',))
                 station_id.long_name = ID[0]
                 station_id.standard_name = 'platform_id'
 
@@ -902,7 +907,7 @@ class GHCN:
             self.parse_to_netCDF(fileId)
 
     def go(self):
-            p = Pool(3)
+            p = Pool(5)
             p.map(self, self.get_station_info())
 
     def __call__(self, fileId):
