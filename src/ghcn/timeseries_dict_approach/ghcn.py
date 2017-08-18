@@ -13,8 +13,6 @@ from ordereddict import OrderedDict
 
 def create_output_dirs():
     logging.basicConfig(level=logging.DEBUG, filename='./errors.log')
-    if not os.path.exists("./dly_data_as_txt/"):
-        os.makedirs("./dly_data_as_txt/")
     if not os.path.exists("./netcdf/"):
         os.makedirs("./netcdf/")
 
@@ -54,7 +52,7 @@ class GHCN:
             # Alternatively https://www1.ncdc.noaa.gov/ OR
             # ftp://ftp.ncdc.noaa.gov/
             url = 'https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/all/%s.dly' % fileId
-            urllib.urlretrieve(url, 'dly_data_as_txt/' + fileId + '.txt')
+            urllib.urlretrieve(url, fileId + '.txt')
         except KeyboardInterrupt:
             print(sys.exc_info()[0])
         except:
@@ -62,11 +60,17 @@ class GHCN:
         finally:
             pass
 
+    def make_subdir_based_on_file_name(self, fileId):
+        dirName = fileId[:4]
+        if not os.path.exists('./netcdf/' + dirName):
+            os.makedirs('./netcdf/' + dirName)
+        return dirName
+
     # Returns dictionary of unique time values
     def get_unique_time_values(self, fileId):
         uniqueTimeValues = set()
         try:
-            with open("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
+            with open(fileId + ".txt", "r") as file:
                 for line in file:
                     # Loop over days of month in line
                     for i in range(1, 32):
@@ -99,7 +103,7 @@ class GHCN:
     def get_unique_elements(self, fileId):
         uniqueElements = set()
         try:
-            with open("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
+            with open(fileId + ".txt", "r") as file:
                 for line in file:
                     uniqueElements.add(line[17:21])
                 return dict(enumerate(list(uniqueElements)))
@@ -148,7 +152,7 @@ class GHCN:
         elementAndFlagDicts = self.initialize_element_lists_with_time_key_and_placeholder_value(
             fileId)
         try:
-            with open("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
+            with open(fileId + ".txt", "r") as file:
                 # Loop over values of month in line according to III. here
                 # ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
                 for line in file:
@@ -690,14 +694,14 @@ class GHCN:
 
             # Fill lists with substring values 0-269 per record per line from
             # .dly file
-            with open("./dly_data_as_txt/" + fileId + ".txt", "r") as file:
+            with open(fileId + ".txt", "r") as file:
                 for line in file:
                     ID.append(line[0:11])
                     YEAR.append(line[11:15])
                     MONTH.append(line[15:17])
 
             # Create netcdf data object
-            with netCDF4.Dataset('./netcdf/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4_CLASSIC') as ds:
+            with netCDF4.Dataset('./netcdf/' + self.make_subdir_based_on_file_name(fileId) + '/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4_CLASSIC') as ds:
                 # Define dimensions
                 ds.createDimension('time')
                 ds.createDimension('station', 1)
@@ -897,6 +901,9 @@ class GHCN:
         finally:
             pass
 
+        # Clean up text file
+        os.remove(fileId + ".txt")
+
         # End def parse_to_netCDF(self, fileId)
 
 # __main__
@@ -905,8 +912,8 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    #testfile = "AGE00147710"
-    testfile = "BR002141011"
+    testfile = "AGE00147710"
+    #testfile = "BR002141011"
 
     ghcn = GHCN()
 

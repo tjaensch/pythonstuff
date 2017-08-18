@@ -6,7 +6,7 @@ import shutil
 import unittest
 from ghcn_multiprocessing import GHCN
 
-testfile = "AGE00147710"
+testfile = "BR002141011"
 
 # Tests
 
@@ -16,8 +16,6 @@ class Testghcn(unittest.TestCase):
 
     def setUp(self):
         # Create dirs for testing
-        if not os.path.exists("./dly_data_as_txt/"):
-            os.makedirs("./dly_data_as_txt/")
         if not os.path.exists("./netcdf/"):
             os.makedirs("./netcdf/")
         ghcn = GHCN()
@@ -36,10 +34,6 @@ class Testghcn(unittest.TestCase):
 
     def test_get_station_info(self):
         self.assertTrue(len(self.stationIds) > 103000)
-
-    def test_download_dly_file(self):
-        self.assertTrue(os.path.isfile(
-            './dly_data_as_txt/' + testfile + '.txt'))
 
     def test_get_unique_time_values(self):
         self.assertTrue(len(self.timeValues) > 28)
@@ -62,7 +56,6 @@ class Testghcn(unittest.TestCase):
         pass
 
     def tearDown(self):
-        shutil.rmtree("./dly_data_as_txt/")
         shutil.rmtree("./netcdf/")
 
 # __main__
