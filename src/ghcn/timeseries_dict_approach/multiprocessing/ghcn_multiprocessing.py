@@ -709,6 +709,13 @@ class GHCN:
                 # Define variables
                 ds.createVariable('time', 'd', ('time',))[
                     :] = np.array(uniqueTimeValues)[:]
+                ds.variables['time'].long_name = 'Center time of day'
+                ds.variables['time'].standard_name = 'time'
+                ds.variables[
+                    'time'].units = 'days since 1700-01-01 12:00:00'
+                ds.variables['time'].axis = 'T'
+                ds.variables['time'].calendar = 'gregorian'
+                ds.variables['time'].coverage_content_type = 'coordinate'
 
                 if 'prcp' in elementAndFlagDicts:
                     prcp = ds.createVariable('prcp', 'short', ('station', 'time',), fill_value=-9999)[
@@ -950,11 +957,6 @@ class GHCN:
 
     def run_combined_defs(self, fileId):
         self.download_dly_file(fileId)
-        self.get_unique_time_values(fileId)
-        self.get_unique_elements(fileId)
-        self.initialize_element_lists_with_time_key_and_placeholder_value(
-            fileId)
-        self.create_elements_flags_data_lists(fileId)
         self.parse_to_netCDF(fileId)
 
     def go(self, stationIds):

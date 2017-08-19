@@ -709,6 +709,13 @@ class GHCN:
                 # Define variables
                 ds.createVariable('time', 'd', ('time',))[
                     :] = np.array(uniqueTimeValues)[:]
+                ds.variables['time'].long_name = 'Center time of day'
+                ds.variables['time'].standard_name = 'time'
+                ds.variables[
+                    'time'].units = 'days since 1700-01-01 12:00:00'
+                ds.variables['time'].axis = 'T'
+                ds.variables['time'].calendar = 'gregorian'
+                ds.variables['time'].coverage_content_type = 'coordinate'
 
                 if 'prcp' in elementAndFlagDicts:
                     prcp = ds.createVariable('prcp', 'short', ('station', 'time',), fill_value=-9999)[
@@ -954,28 +961,19 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    #testfile = "AGE00147710"
+    testfile = "AGE00147710"
     #testfile = "BR002141011"
 
     ghcn = GHCN()
 
     stationIds = ghcn.get_station_info()
 
-    for testfile in stationIds:
+    '''for testfile in stationIds:
         ghcn.download_dly_file(testfile)
-        ghcn.get_unique_time_values(testfile)
-        ghcn.get_unique_elements(testfile)
-        ghcn.initialize_element_lists_with_time_key_and_placeholder_value(
-            testfile)
-        ghcn.create_elements_flags_data_lists(testfile)
-        ghcn.parse_to_netCDF(testfile)
+        ghcn.parse_to_netCDF(testfile)'''
 
-    '''ghcn.download_dly_file(testfile)
-    ghcn.get_unique_time_values(testfile)
-    ghcn.get_unique_elements(testfile)
-    ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile)
-    ghcn.create_elements_flags_data_lists(testfile)
-    ghcn.parse_to_netCDF(testfile)'''
+    ghcn.download_dly_file(testfile)
+    ghcn.parse_to_netCDF(testfile)
 
     print('The program took ', (time.time() - start), 'seconds to complete.')
 
