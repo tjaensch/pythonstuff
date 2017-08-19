@@ -709,88 +709,112 @@ class GHCN:
                 # Define variables
                 ds.createVariable('time', 'd', ('time',))[
                     :] = np.array(uniqueTimeValues)[:]
-                
+
                 if 'prcp' in elementAndFlagDicts:
-                    prcp = ds.createVariable('prcp', 'short', ('station','time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())][:]
-                    ds.variables['prcp'].long_name = 'Total Daily Precipitation (mm)'
+                    prcp = ds.createVariable('prcp', 'short', ('station', 'time',), fill_value=-9999)[
+                        :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())][:]
+                    ds.variables[
+                        'prcp'].long_name = 'Total Daily Precipitation (mm)'
                     ds.variables['prcp'].standard_name = 'precipitation_amount'
                     ds.variables['prcp'].units = 'mm'
                     ds.variables['prcp'].scale_factor = 0.1
                     ds.variables['prcp'].missing_value = -9999
                     ds.variables['prcp'].valid_min = 0
                     ds.variables['prcp'].valid_max = 10000
-                    ds.variables['prcp'].coordinates = 'lat lon alt station_name'
-                    ds.variables['prcp'].ancillary_variables = 'mflag qflag sflag'
-                # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
+                    ds.variables[
+                        'prcp'].coordinates = 'lat lon alt station_name'
+                    ds.variables[
+                        'prcp'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
                 try:
                     del elementAndFlagDicts['prcp']
                 except KeyError:
                     pass
 
-
                 if 'snow' in elementAndFlagDicts:
-                    snow = ds.createVariable('snow', 'short', ('station','time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snow'].values())][:]
-                    ds.variables['snow'].long_name = 'Total Daily Snowfall (mm)'
+                    snow = ds.createVariable('snow', 'short', ('station', 'time',), fill_value=-9999)[
+                        :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snow'].values())][:]
+                    ds.variables[
+                        'snow'].long_name = 'Total Daily Snowfall (mm)'
                     ds.variables['snow'].standard_name = 'snowfall_amount'
                     ds.variables['snow'].units = 'mm'
                     ds.variables['snow'].scale_factor = 1.0
                     ds.variables['snow'].missing_value = -9999
                     ds.variables['snow'].valid_min = 0
                     ds.variables['snow'].valid_max = 1000
-                    ds.variables['snow'].coordinates = 'lat lon alt station_name'
-                    ds.variables['snow'].ancillary_variables = 'mflag qflag sflag'
-                # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
+                    ds.variables[
+                        'snow'].coordinates = 'lat lon alt station_name'
+                    ds.variables[
+                        'snow'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
                 try:
                     del elementAndFlagDicts['snow']
                 except KeyError:
                     pass
 
                 if 'snwd' in elementAndFlagDicts:
-                    snwd = ds.createVariable('snwd', 'short', ('station','time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snwd'].values())][:]
-                    ds.variables['snwd'].long_name = 'Snow Depth at time of obs (mm)'
+                    snwd = ds.createVariable('snwd', 'short', ('station', 'time',), fill_value=-9999)[
+                        :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snwd'].values())][:]
+                    ds.variables[
+                        'snwd'].long_name = 'Snow Depth at time of obs (mm)'
                     ds.variables['snwd'].standard_name = 'snowfall_amount'
                     ds.variables['snwd'].units = 'mm'
                     ds.variables['snwd'].scale_factor = 1.0
                     ds.variables['snwd'].missing_value = -9999
                     ds.variables['snwd'].valid_min = 0
                     ds.variables['snwd'].valid_max = 1000
-                    ds.variables['snwd'].coordinates = 'lat lon alt station_name'
-                    ds.variables['snwd'].ancillary_variables = 'mflag qflag sflag'
-                # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
+                    ds.variables[
+                        'snwd'].coordinates = 'lat lon alt station_name'
+                    ds.variables[
+                        'snwd'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
                 try:
                     del elementAndFlagDicts['snwd']
                 except KeyError:
                     pass
 
                 if 'tmax' in elementAndFlagDicts:
-                    tmax = ds.createVariable('tmax', 'short', ('station','time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tmax'].values())][:]
-                    ds.variables['tmax'].long_name = 'Maximum Temperature (degrees C)'
+                    tmax = ds.createVariable('tmax', 'short', ('station', 'time',), fill_value=-9999)[
+                        :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tmax'].values())][:]
+                    ds.variables[
+                        'tmax'].long_name = 'Maximum Temperature (degrees C)'
                     ds.variables['tmax'].standard_name = 'air_temperature'
                     ds.variables['tmax'].units = 'degrees_Celsius'
                     ds.variables['tmax'].scale_factor = 0.1
                     ds.variables['tmax'].missing_value = -9999
                     ds.variables['tmax'].valid_min = -500
                     ds.variables['tmax'].valid_max = 500
-                    ds.variables['tmax'].coordinates = 'lat lon alt station_name'
-                    ds.variables['tmax'].ancillary_variables = 'mflag qflag sflag'
-                # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
+                    ds.variables[
+                        'tmax'].coordinates = 'lat lon alt station_name'
+                    ds.variables[
+                        'tmax'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
                 try:
                     del elementAndFlagDicts['tmax']
                 except KeyError:
                     pass
 
                 if 'tmin' in elementAndFlagDicts:
-                    tmin = ds.createVariable('tmin', 'short', ('station','time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tmin'].values())][:]
-                    ds.variables['tmin'].long_name = 'Minimum Temperature (degrees C)'
+                    tmin = ds.createVariable('tmin', 'short', ('station', 'time',), fill_value=-9999)[
+                        :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tmin'].values())][:]
+                    ds.variables[
+                        'tmin'].long_name = 'Minimum Temperature (degrees C)'
                     ds.variables['tmin'].standard_name = 'air_temperature'
                     ds.variables['tmin'].units = 'degrees_Celsius'
                     ds.variables['tmin'].scale_factor = 0.1
                     ds.variables['tmin'].missing_value = -9999
                     ds.variables['tmin'].valid_min = -500
                     ds.variables['tmin'].valid_max = 500
-                    ds.variables['tmin'].coordinates = 'lat lon alt station_name'
-                    ds.variables['tmin'].ancillary_variables = 'mflag qflag sflag'
-                # Delete key from dictionary after processing to avoid double processing below with dynamically generated value arrays
+                    ds.variables[
+                        'tmin'].coordinates = 'lat lon alt station_name'
+                    ds.variables[
+                        'tmin'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
                 try:
                     del elementAndFlagDicts['tmin']
                 except KeyError:
@@ -821,56 +845,74 @@ class GHCN:
                 alt.positive = 'up'
                 alt[:] = np.array(self.elevationDict[fileId])
 
-                station_name = ds.createVariable('station_name', 'S1', ('station',))
+                station_name = ds.createVariable(
+                    'station_name', 'S1', ('station',))
                 station_name.long_name = self.stationLongNameDict[fileId]
                 station_name.standard_name = 'platform_name'
                 station_name.cf_role = 'timeseries_id'
                 station_name.coverage_content_type = 'coordinate'
 
-                station_id = ds.createVariable('station_id', 'S1', ('station',))
+                station_id = ds.createVariable(
+                    'station_id', 'S1', ('station',))
                 station_id.long_name = ID[0]
                 station_id.standard_name = 'platform_id'
 
-                # Dynamically create remaining variables from data arrays that have not been called out and processed previously 
+                # Dynamically create remaining variables from data arrays that
+                # have not been called out and processed previously
                 for key, value in OrderedDict(sorted(elementAndFlagDicts.items())).iteritems():
                     if len(key) == 4:
-                        ds.createVariable(key, 'i2', ('station','time',), fill_value=-9999)[:] = [np.array(value.values())][:]
+                        ds.createVariable(
+                            key, 'i2', ('station', 'time',), fill_value=-9999)[:] = [np.array(value.values())][:]
                     if len(key) > 4:
-                        ds.createVariable(key, 'c', ('station','time',), fill_value=' ')[:] = [np.array(value.values())][:]
+                        ds.createVariable(key, 'c', ('station', 'time',), fill_value=' ')[
+                            :] = [np.array(value.values())][:]
                         if 'mflag' in key:
-                            ds.variables[key].long_name = 'Measurement flag for the day of the month with ten possible values'
+                            ds.variables[
+                                key].long_name = 'Measurement flag for the day of the month with ten possible values'
                             ds.variables[key].standard_name = 'status_flag'
                             ds.variables[key].missing_value = ' '
-                            ds.variables[key].flag_values = '1 B D H K L O P T W'
-                            ds.variables[key].flag_meanings = 'no_measurement_information_applicable precipitation_total_formed_from_two_12-hour_totals precipitation_total_formed_from_four_six-hour_totals represents_highest_or_lowest_hourly_temperature_(TMAX_or_TMIN)_or_the_average_of_hourly_values_(TAVG) converted_from_knots temperature_appears_to_be_lagged_with_respect_to_reported_hour_of_observation converted_from_oktas identified_as_missing_presumed_zero_in_DSI_3200_and_3206 trace_of_precipitation_snowfall_or_snow_depth converted_from_16-point_WBAN_code_(for_wind_direction)'
-                            ds.variables[key].coordinates = 'lat lon alt station_name'
+                            ds.variables[
+                                key].flag_values = '1 B D H K L O P T W'
+                            ds.variables[
+                                key].flag_meanings = 'no_measurement_information_applicable precipitation_total_formed_from_two_12-hour_totals precipitation_total_formed_from_four_six-hour_totals represents_highest_or_lowest_hourly_temperature_(TMAX_or_TMIN)_or_the_average_of_hourly_values_(TAVG) converted_from_knots temperature_appears_to_be_lagged_with_respect_to_reported_hour_of_observation converted_from_oktas identified_as_missing_presumed_zero_in_DSI_3200_and_3206 trace_of_precipitation_snowfall_or_snow_depth converted_from_16-point_WBAN_code_(for_wind_direction)'
+                            ds.variables[
+                                key].coordinates = 'lat lon alt station_name'
                         if 'qflag' in key:
-                            ds.variables[key].long_name = 'Quality flag for the day of the month with fifteen possible values'
+                            ds.variables[
+                                key].long_name = 'Quality flag for the day of the month with fifteen possible values'
                             ds.variables[key].standard_name = 'status_flag'
                             ds.variables[key].missing_value = ' '
-                            ds.variables[key].flag_values = '1 D G I K L M N O R S T W X Z'
+                            ds.variables[
+                                key].flag_values = '1 D G I K L M N O R S T W X Z'
                             ds.variables[key].flag_meanings = 'did_not_fail_any_quality_assurance_check failed_duplicate_check failed_gap_check failed_internal_consistency_check failed_streak_frequent-value_check failed_check_on_length_of_multiday_period failed_megaconsistency_check failed_naught_check failed_climatological_outlier_check failed_lagged_range_check failed_spatial_consistency_check failed_temporal_consistency_check temperature_too_warm_for_snow failed_bounds_check flagged_as_a_result_of_an_official_Datzilla_investigation'
-                            ds.variables[key].coordinates = 'lat lon alt station_name'
+                            ds.variables[
+                                key].coordinates = 'lat lon alt station_name'
                         if 'sflag' in key:
-                            ds.variables[key].long_name = 'Source flag for the day of the month with twenty nine possible values'
+                            ds.variables[
+                                key].long_name = 'Source flag for the day of the month with twenty nine possible values'
                             ds.variables[key].standard_name = 'status_flag'
                             ds.variables[key].missing_value = ' '
-                            ds.variables[key].flag_values = '1 0 6 7 A a B b C E F G H I K M N Q R r S s T U u W X Z z'
+                            ds.variables[
+                                key].flag_values = '1 0 6 7 A a B b C E F G H I K M N Q R r S s T U u W X Z z'
                             ds.variables[key].flag_meanings = 'No_source_(data_value_missing) US_Cooperative_Summary_of_the_Day_(NCDC_DSI-3200) CDMP_Cooperative_Summary_of_the_Day_(NCDC_DSI-3206) US_Cooperative_Summary_of_the_Day_--_Transmitted_via_WxCoder3_(NCDC_DSI-3207) US_Automated_Surface_Observing_System_(ASOS)_real-time_data_(since_01_January_2006) Australian_data_from_the_Australian_Bureau_of_Meteorology US_ASOS_data_for_October_2000_to_December_2005_(NCDC_DSI-3211) Belarus_update Environment_Canada European_Climate_Assessment_and_Dataset_(Klein_Tank_et_al_2002) US_Fort_data Official_Global_Climate_Observing_System_(GCOS)_or_other_government-supplied_data High_Plains_Regional_Climate_Center_real-time_data International_collection_(non_US_data_received_through_personal_contacts US_Cooperative_Summary_of_the_Day_data_digitized_from_paper_observer_forms_(from_2011_to_present) Monthly_METAR_Extract_(additional_ASOS_data) Community_Collaborative_Rain_Hail_and_Snow_(CoCoRaHS) Data_from_several_African_countries_that_had_been_quarantined_withheld_from_public_release_until_permission_was_granted_from_the_respective_meteorological_services NCEI_Reference_Network_Database_(Climate_Reference_Network_and_Regional_Climate_Reference_Network) All-Russian_Research_Institute_of_Hydrometeorological_Information-World_Data_Center Global_Summary_of_the_Day_(NCDC_DSI-9618) China_Meteorological_Administration_National_Meteorological_Information_Center_Climatic_Data_Center SNOwpack_TELemtry_(SNOTEL)_data_obtained_from_the_US_Department_of_Agriculture_s_Natural_Resources_Conservation_Service Remote_Automatic_Weather_Station_(RAWS)_data_obtained_from_the_Western_Regional_Climate_Center Ukraine_update WBAN_ASOS_Summary_of_the_Day_from_NCDC_s_Integrated_Surface_Data_(ISD) US_First-Order_Summary_of_the_Day_(NCDC_DSI-3210) Datzilla_official_additions_or_replacements Uzbekistan_update'
-                            ds.variables[key].coordinates = 'lat lon alt station_name'
-                            ds.variables[key].comment = 'When data are available for the same time from more than one source, the highest priority source is chosen according to the following priority order (from highest to lowest): Z,R,0,6,C,X,W,K,7,F,B,M,r,E,z,u,b,s,a,G,Q,I,A,N,T,U,H,S. NOTE for Global Summary of the Day: S values are derived from hourly synoptic reports exchanged on the Global Telecommunications System (GTS). Daily values derived in this fashion may differ significantly from true daily data, particularly for precipitation (i.e., use with caution).'
+                            ds.variables[
+                                key].coordinates = 'lat lon alt station_name'
+                            ds.variables[
+                                key].comment = 'When data are available for the same time from more than one source, the highest priority source is chosen according to the following priority order (from highest to lowest): Z,R,0,6,C,X,W,K,7,F,B,M,r,E,z,u,b,s,a,G,Q,I,A,N,T,U,H,S. NOTE for Global Summary of the Day: S values are derived from hourly synoptic reports exchanged on the Global Telecommunications System (GTS). Daily values derived in this fashion may differ significantly from true daily data, particularly for precipitation (i.e., use with caution).'
 
                 # Global metadata attributes
-                ds.Conventions = "CF-1.6, ACDD-1.3" 
+                ds.Conventions = "CF-1.6, ACDD-1.3"
                 ds.ncei_template_version = "NCEI_NetCDF_Grid_Template_v2.0"
                 ds.title = 'GHCN-Daily Surface Observations from ' + fileId
                 ds.source = 'Surface Observations: 1) the U.S. Collection; 2) the International Collection; 3) Government Exchange Data; and 4) the Global Summary of the Day'
-                ds.id = 'ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%YT%mT%d') + '_' + fileId + '.nc'
+                ds.id = 'ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%YT%mT%d') + \
+                    '_' + fileId + '.nc'
                 ds.naming_authority = 'gov.noaa.ncei'
                 ds.summary = 'Global Historical Climatology Network - Daily (GHCN-Daily) is an integrated database of daily climate summaries from land surface stations across the globe. GHCN-Daily is comprised of daily climate records from numerous sources that have been integrated and subjected to a common suite of quality assurance reviews. GHCN-Daily contains records from over 100,000 stations in 180 countries and territories. NCEI provides numerous daily variables, including maximum and minimum temperature, total daily precipitation, snowfall, and snow depth; however, about one half of the stations report precipitation only. Both the record length and period of record vary by station and cover intervals ranging from less than a year to more than 175 years.'
                 ds.featureType = 'timeSeries'
                 ds.cdm_data_type = 'Point'
-                ds.history = 'File updated on ' + datetime.datetime.today().strftime('%YT%mT%dT%H:%M:%S')
+                ds.history = 'File updated on ' + \
+                    datetime.datetime.today().strftime('%YT%mT%dT%H:%M:%S')
                 ds.date_modified = datetime.datetime.today().strftime('%YT%mT%dT%H:%M:%S')
                 ds.date_created = datetime.datetime.today().strftime('%YT%mT%dT%H:%M:%S')
                 ds.product_version = 'Version 3.22'
@@ -912,27 +954,28 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    testfile = "AGE00147710"
+    #testfile = "AGE00147710"
     #testfile = "BR002141011"
 
     ghcn = GHCN()
 
     stationIds = ghcn.get_station_info()
 
-    '''for testfile in stationIds[50000:]:
+    for testfile in stationIds:
         ghcn.download_dly_file(testfile)
         ghcn.get_unique_time_values(testfile)
         ghcn.get_unique_elements(testfile)
-        ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile)
+        ghcn.initialize_element_lists_with_time_key_and_placeholder_value(
+            testfile)
         ghcn.create_elements_flags_data_lists(testfile)
-        ghcn.parse_to_netCDF(testfile)'''
+        ghcn.parse_to_netCDF(testfile)
 
-    ghcn.download_dly_file(testfile)
+    '''ghcn.download_dly_file(testfile)
     ghcn.get_unique_time_values(testfile)
     ghcn.get_unique_elements(testfile)
     ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile)
     ghcn.create_elements_flags_data_lists(testfile)
-    ghcn.parse_to_netCDF(testfile)
+    ghcn.parse_to_netCDF(testfile)'''
 
     print('The program took ', (time.time() - start), 'seconds to complete.')
 
