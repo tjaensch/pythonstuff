@@ -115,10 +115,7 @@ class GHCN:
         finally:
             pass
 
-    def initialize_element_lists_with_time_key_and_placeholder_value(self, fileId):
-        dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
-
-        uniqueElements = self.get_unique_elements(fileId)
+    def initialize_element_lists_with_time_key_and_placeholder_value(self, fileId, dictOfUniqueTimeValues, uniqueElements):
         uniqueElementFlags = []
         for i in uniqueElements.values():
             w = i
@@ -139,18 +136,10 @@ class GHCN:
                 placeholderElementsFlagsList[
                     item] = OrderedDict(sorted(dictOfUniqueTimeValues.fromkeys(
                         dictOfUniqueTimeValues, ' ').items()))
-
-        # print placeholderElementsFlagsList['tmax_mflag']
         # Returns dict of lists
         return placeholderElementsFlagsList
 
-    def create_elements_flags_data_lists(self, fileId):
-        # Get list of all time values of the file
-        uniqueTimeValuesDict = self.get_unique_time_values(fileId)
-
-        # Dict of lists
-        elementAndFlagDicts = self.initialize_element_lists_with_time_key_and_placeholder_value(
-            fileId)
+    def create_elements_flags_data_lists(self, fileId, uniqueTimeValuesDict, elementAndFlagDicts):
         try:
             with open(fileId + ".txt", "r") as file:
                 # Loop over values of month in line according to III. here
@@ -666,7 +655,7 @@ class GHCN:
                             element + '_sflag'][indexInElementAndFlagDicts] = line[268:269]
                     else:
                         pass
-            # print elementAndFlagDicts['tmin'][7518]
+            print len(elementAndFlagDicts)
             return elementAndFlagDicts
 
         except KeyboardInterrupt:
@@ -677,12 +666,12 @@ class GHCN:
             pass
     # End create_elements_flags_data_lists(self, fileId)
 
-    def parse_to_netCDF(self, fileId):
+    def parse_to_netCDF(self, fileId, uniqueTimeValues, elementAndFlagDicts):
         # Get unique time values of file for time variable array
-        uniqueTimeValues = self.get_unique_time_values(fileId).values()
+        uniqueTimeValues = uniqueTimeValues.values()
 
         # Get element and flag arrays and their values
-        elementAndFlagDicts = self.create_elements_flags_data_lists(fileId)
+        #elementAndFlagDicts = self.create_elements_flags_data_lists(fileId)
 
         print(fileId)
         try:
@@ -912,16 +901,16 @@ class GHCN:
                 ds.ncei_template_version = "NCEI_NetCDF_Grid_Template_v2.0"
                 ds.title = 'GHCN-Daily Surface Observations from ' + fileId
                 ds.source = 'Surface Observations: 1) the U.S. Collection; 2) the International Collection; 3) Government Exchange Data; and 4) the Global Summary of the Day'
-                ds.id = 'ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%YT%mT%d') + \
+                ds.id = 'ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + \
                     '_' + fileId + '.nc'
                 ds.naming_authority = 'gov.noaa.ncei'
                 ds.summary = 'Global Historical Climatology Network - Daily (GHCN-Daily) is an integrated database of daily climate summaries from land surface stations across the globe. GHCN-Daily is comprised of daily climate records from numerous sources that have been integrated and subjected to a common suite of quality assurance reviews. GHCN-Daily contains records from over 100,000 stations in 180 countries and territories. NCEI provides numerous daily variables, including maximum and minimum temperature, total daily precipitation, snowfall, and snow depth; however, about one half of the stations report precipitation only. Both the record length and period of record vary by station and cover intervals ranging from less than a year to more than 175 years.'
                 ds.featureType = 'timeSeries'
                 ds.cdm_data_type = 'Point'
                 ds.history = 'File updated on ' + \
-                    datetime.datetime.today().strftime('%YT%mT%dT%H:%M:%S')
-                ds.date_modified = datetime.datetime.today().strftime('%YT%mT%dT%H:%M:%S')
-                ds.date_created = datetime.datetime.today().strftime('%YT%mT%dT%H:%M:%S')
+                    datetime.datetime.today().strftime('%Y-%m-%dT%H:%M:%S') + 'Z'
+                ds.date_modified = datetime.datetime.today().strftime('%Y-%m-%dT%H:%M:%S') + 'Z'
+                ds.date_created = datetime.datetime.today().strftime('%Y-%m-%dT%H:%M:%S') + 'Z'
                 ds.product_version = 'Version 3.22'
                 ds.processing_level = 'NOAA Level 2'
                 ds.institution = 'NOAA National Centers for Environmental Information'
@@ -961,19 +950,27 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    testfile = "AGE00147710"
-    #testfile = "BR002141011"
+    #testfile = "AGE00147710"
+    testfile = "BR002141011"
 
     ghcn = GHCN()
 
     stationIds = ghcn.get_station_info()
 
     '''for testfile in stationIds:
-        ghcn.download_dly_file(testfile)
-        ghcn.parse_to_netCDF(testfile)'''
+    ghcn.download_dly_file(testfile)
+    dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
+    uniqueElements = ghcn.get_unique_elements(testfile)
+    placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
+    elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
+    ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)'''
 
     ghcn.download_dly_file(testfile)
-    ghcn.parse_to_netCDF(testfile)
+    dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
+    uniqueElements = ghcn.get_unique_elements(testfile)
+    placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
+    elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
+    ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
 
     print('The program took ', (time.time() - start), 'seconds to complete.')
 
