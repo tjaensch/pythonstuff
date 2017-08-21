@@ -22,41 +22,39 @@ class Testghcn(unittest.TestCase):
         self.stationIds = ghcn.get_station_info()
         # Working ID AGE00147710; not working GMM00010686
         ghcn.download_dly_file(testfile)
-        self.timeValues = ghcn.get_unique_time_values(testfile)
+        self.dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
         self.uniqueElements = ghcn.get_unique_elements(testfile)
-        self.emptyElementFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(
-            testfile)
+        self.placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, self.dictOfUniqueTimeValues, self.uniqueElements)
         self.timeIndex = ghcn.get_time_index_for_day(
             testfile + '190911TMAX-9999...', 20)
-        self.elementAndFlagArrays = ghcn.create_elements_flags_data_lists(
-            testfile)
-        ghcn.parse_to_netCDF(testfile)
+        self.elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(
+            testfile, self.dictOfUniqueTimeValues, self.placeholderElementsFlagsList)
+        ghcn.parse_to_netCDF(testfile, self.dictOfUniqueTimeValues, self.elementsAndFlagsDataLists)
 
     def test_get_station_info(self):
         self.assertTrue(len(self.stationIds) > 103000)
 
     def test_get_unique_time_values(self):
-        self.assertTrue(len(self.timeValues) > 28)
+        self.assertTrue(len(self.dictOfUniqueTimeValues) > 28)
 
     def test_get_unique_elements(self):
         self.assertTrue(len(self.uniqueElements) > 0)
 
     def test_initialize_element_lists_with_time_key_and_placeholder_value(self):
-        self.assertTrue(len(self.emptyElementFlagsList)
-                        == len(self.uniqueElements) * 4)
+        self.assertTrue(len(self.uniqueElements) < len(self.placeholderElementsFlagsList))
 
     def test_get_time_index_for_day(self):
         self.assertTrue(isinstance(self.timeIndex, float))
 
     def test_create_elements_flags_data_lists(self):
         self.assertTrue(
-            len(random.choice(self.elementAndFlagArrays.keys())) > 0)
+            len(random.choice(self.elementsAndFlagsDataLists.keys())) > 0)
 
     def test_parse_to_netCDF(self):
         pass
 
-    def tearDown(self):
-        shutil.rmtree("./netcdf/")
+    '''def tearDown(self):
+        shutil.rmtree("./netcdf/")'''
 
 # __main__
 if __name__ == '__main__':

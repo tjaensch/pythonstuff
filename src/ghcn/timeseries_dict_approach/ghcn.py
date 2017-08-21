@@ -655,7 +655,6 @@ class GHCN:
                             element + '_sflag'][indexInElementAndFlagDicts] = line[268:269]
                     else:
                         pass
-            print len(elementAndFlagDicts)
             return elementAndFlagDicts
 
         except KeyboardInterrupt:

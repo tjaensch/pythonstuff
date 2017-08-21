@@ -115,10 +115,7 @@ class GHCN:
         finally:
             pass
 
-    def initialize_element_lists_with_time_key_and_placeholder_value(self, fileId):
-        dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
-
-        uniqueElements = self.get_unique_elements(fileId)
+    def initialize_element_lists_with_time_key_and_placeholder_value(self, fileId, dictOfUniqueTimeValues, uniqueElements):
         uniqueElementFlags = []
         for i in uniqueElements.values():
             w = i
@@ -139,18 +136,10 @@ class GHCN:
                 placeholderElementsFlagsList[
                     item] = OrderedDict(sorted(dictOfUniqueTimeValues.fromkeys(
                         dictOfUniqueTimeValues, ' ').items()))
-
-        # print placeholderElementsFlagsList['tmax_mflag']
         # Returns dict of lists
         return placeholderElementsFlagsList
 
-    def create_elements_flags_data_lists(self, fileId):
-        # Get list of all time values of the file
-        uniqueTimeValuesDict = self.get_unique_time_values(fileId)
-
-        # Dict of lists
-        elementAndFlagDicts = self.initialize_element_lists_with_time_key_and_placeholder_value(
-            fileId)
+    def create_elements_flags_data_lists(self, fileId, uniqueTimeValuesDict, elementAndFlagDicts):
         try:
             with open(fileId + ".txt", "r") as file:
                 # Loop over values of month in line according to III. here
@@ -666,7 +655,6 @@ class GHCN:
                             element + '_sflag'][indexInElementAndFlagDicts] = line[268:269]
                     else:
                         pass
-            # print elementAndFlagDicts['tmin'][7518]
             return elementAndFlagDicts
 
         except KeyboardInterrupt:
@@ -677,12 +665,12 @@ class GHCN:
             pass
     # End create_elements_flags_data_lists(self, fileId)
 
-    def parse_to_netCDF(self, fileId):
+    def parse_to_netCDF(self, fileId, uniqueTimeValues, elementAndFlagDicts):
         # Get unique time values of file for time variable array
-        uniqueTimeValues = self.get_unique_time_values(fileId).values()
+        uniqueTimeValues = uniqueTimeValues.values()
 
         # Get element and flag arrays and their values
-        elementAndFlagDicts = self.create_elements_flags_data_lists(fileId)
+        #elementAndFlagDicts = self.create_elements_flags_data_lists(fileId)
 
         print(fileId)
         try:
@@ -705,6 +693,8 @@ class GHCN:
                 # Define dimensions
                 ds.createDimension('time')
                 ds.createDimension('station', 1)
+                ds.createDimension('station_name_to_char', len(self.stationLongNameDict[fileId].strip()))
+                ds.createDimension('station_id_to_char', 11)
 
                 # Define variables
                 ds.createVariable('time', 'd', ('time',))[
@@ -853,16 +843,16 @@ class GHCN:
                 alt[:] = np.array(self.elevationDict[fileId])
 
                 station_name = ds.createVariable(
-                    'station_name', 'S1', ('station',))
-                station_name.long_name = self.stationLongNameDict[fileId]
-                station_name.standard_name = 'platform_name'
-                station_name.cf_role = 'timeseries_id'
-                station_name.coverage_content_type = 'coordinate'
+                    'station_name', 'S1', ('station', 'station_name_to_char',))[:] = netCDF4.stringtochar(np.array([self.stationLongNameDict[fileId]], 'S'+str(len(self.stationLongNameDict[fileId].strip()))))
+                ds.variables['station_name'].long_name = 'Station Name'
+                ds.variables['station_name'].standard_name = 'platform_name'
+                ds.variables['station_name'].cf_role = 'timeseries_id'
+                ds.variables['station_name'].coverage_content_type = 'coordinate'
 
                 station_id = ds.createVariable(
-                    'station_id', 'S1', ('station',))
-                station_id.long_name = ID[0]
-                station_id.standard_name = 'platform_id'
+                    'station_id', 'S1', ('station', 'station_id_to_char',))[:] = netCDF4.stringtochar(np.array([fileId], 'S11'))
+                ds.variables['station_id'].long_name = 'Station Identification Code'
+                ds.variables['station_id'].standard_name = 'platform_id'
 
                 # Dynamically create remaining variables from data arrays that
                 # have not been called out and processed previously
@@ -912,16 +902,16 @@ class GHCN:
                 ds.ncei_template_version = "NCEI_NetCDF_Grid_Template_v2.0"
                 ds.title = 'GHCN-Daily Surface Observations from ' + fileId
                 ds.source = 'Surface Observations: 1) the U.S. Collection; 2) the International Collection; 3) Government Exchange Data; and 4) the Global Summary of the Day'
-                ds.id = 'ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%YT%mT%d') + \
+                ds.id = 'ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + \
                     '_' + fileId + '.nc'
                 ds.naming_authority = 'gov.noaa.ncei'
                 ds.summary = 'Global Historical Climatology Network - Daily (GHCN-Daily) is an integrated database of daily climate summaries from land surface stations across the globe. GHCN-Daily is comprised of daily climate records from numerous sources that have been integrated and subjected to a common suite of quality assurance reviews. GHCN-Daily contains records from over 100,000 stations in 180 countries and territories. NCEI provides numerous daily variables, including maximum and minimum temperature, total daily precipitation, snowfall, and snow depth; however, about one half of the stations report precipitation only. Both the record length and period of record vary by station and cover intervals ranging from less than a year to more than 175 years.'
                 ds.featureType = 'timeSeries'
                 ds.cdm_data_type = 'Point'
                 ds.history = 'File updated on ' + \
-                    datetime.datetime.today().strftime('%YT%mT%dT%H:%M:%S')
-                ds.date_modified = datetime.datetime.today().strftime('%YT%mT%dT%H:%M:%S')
-                ds.date_created = datetime.datetime.today().strftime('%YT%mT%dT%H:%M:%S')
+                    datetime.datetime.today().strftime('%Y-%m-%dT%H:%M:%S') + 'Z'
+                ds.date_modified = datetime.datetime.today().strftime('%Y-%m-%dT%H:%M:%S') + 'Z'
+                ds.date_created = datetime.datetime.today().strftime('%Y-%m-%dT%H:%M:%S') + 'Z'
                 ds.product_version = 'Version 3.22'
                 ds.processing_level = 'NOAA Level 2'
                 ds.institution = 'NOAA National Centers for Environmental Information'
@@ -957,7 +947,11 @@ class GHCN:
 
     def run_combined_defs(self, fileId):
         self.download_dly_file(fileId)
-        self.parse_to_netCDF(fileId)
+        self.dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
+        self.uniqueElements = self.get_unique_elements(fileId)
+        self.placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(fileId, self.dictOfUniqueTimeValues, self.uniqueElements)
+        self.elementsAndFlagsDataLists = self.create_elements_flags_data_lists(fileId, self.dictOfUniqueTimeValues, self.placeholderElementsFlagsList)
+        self.parse_to_netCDF(fileId, self.dictOfUniqueTimeValues, self.elementsAndFlagsDataLists)
 
     def go(self, stationIds):
         p = Pool(2)
