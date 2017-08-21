@@ -694,6 +694,8 @@ class GHCN:
                 # Define dimensions
                 ds.createDimension('time')
                 ds.createDimension('station', 1)
+                ds.createDimension('station_name_to_char', len(self.stationLongNameDict[fileId].strip()))
+                ds.createDimension('station_id_to_char', 11)
 
                 # Define variables
                 ds.createVariable('time', 'd', ('time',))[
@@ -842,16 +844,16 @@ class GHCN:
                 alt[:] = np.array(self.elevationDict[fileId])
 
                 station_name = ds.createVariable(
-                    'station_name', 'S1', ('station',))
-                station_name.long_name = self.stationLongNameDict[fileId]
-                station_name.standard_name = 'platform_name'
-                station_name.cf_role = 'timeseries_id'
-                station_name.coverage_content_type = 'coordinate'
+                    'station_name', 'S1', ('station', 'station_name_to_char',))[:] = netCDF4.stringtochar(np.array([self.stationLongNameDict[fileId]], 'S'+str(len(self.stationLongNameDict[fileId].strip()))))
+                ds.variables['station_name'].long_name = 'Station Name'
+                ds.variables['station_name'].standard_name = 'platform_name'
+                ds.variables['station_name'].cf_role = 'timeseries_id'
+                ds.variables['station_name'].coverage_content_type = 'coordinate'
 
                 station_id = ds.createVariable(
-                    'station_id', 'S1', ('station',))
-                station_id.long_name = ID[0]
-                station_id.standard_name = 'platform_id'
+                    'station_id', 'S1', ('station', 'station_id_to_char',))[:] = netCDF4.stringtochar(np.array([fileId], 'S11'))
+                ds.variables['station_id'].long_name = 'Station Identification Code'
+                ds.variables['station_id'].standard_name = 'platform_id'
 
                 # Dynamically create remaining variables from data arrays that
                 # have not been called out and processed previously
@@ -950,8 +952,8 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    #testfile = "AGE00147710"
-    testfile = "BR002141011"
+    testfile = "AGE00147710"
+    #testfile = "BR002141011"
 
     ghcn = GHCN()
 
