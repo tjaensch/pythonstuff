@@ -7,6 +7,7 @@ import sys
 import time
 import urllib
 import urllib2
+from glob import glob
 # from multiprocessing import Pool
 from ordereddict import OrderedDict
 
@@ -68,10 +69,10 @@ class GHCN:
 
     def nc_file_exists(self, fileId):
         dirName = fileId[:4]
-        if not os.path.isfile('./netcdf/' + dirName + '/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc'):
-            return False
-        else:
+        if glob('./netcdf/' + dirName + '/*' + fileId + '.nc'):
             return True
+        else:
+            return False
 
     # Returns dictionary of unique time values
     def get_unique_time_values(self, fileId):

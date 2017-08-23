@@ -7,6 +7,7 @@ import sys
 import time
 import urllib
 import urllib2
+from glob import glob
 from multiprocessing import Pool
 from ordereddict import OrderedDict
 
@@ -65,6 +66,13 @@ class GHCN:
         if not os.path.exists('./netcdf/' + dirName):
             os.makedirs('./netcdf/' + dirName)
         return dirName
+
+    def nc_file_exists(self, fileId):
+        dirName = fileId[:4]
+        if glob('./netcdf/' + dirName + '/*' + fileId + '.nc'):
+            return True
+        else:
+            return False
 
     # Returns dictionary of unique time values
     def get_unique_time_values(self, fileId):
@@ -946,12 +954,13 @@ class GHCN:
         # End def parse_to_netCDF(self, fileId)
 
     def run_combined_defs(self, fileId):
-        self.download_dly_file(fileId)
-        self.dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
-        self.uniqueElements = self.get_unique_elements(fileId)
-        self.placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(fileId, self.dictOfUniqueTimeValues, self.uniqueElements)
-        self.elementsAndFlagsDataLists = self.create_elements_flags_data_lists(fileId, self.dictOfUniqueTimeValues, self.placeholderElementsFlagsList)
-        self.parse_to_netCDF(fileId, self.dictOfUniqueTimeValues, self.elementsAndFlagsDataLists)
+        if self.nc_file_exists(fileId) == False:
+            self.download_dly_file(fileId)
+            self.dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
+            self.uniqueElements = self.get_unique_elements(fileId)
+            self.placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(fileId, self.dictOfUniqueTimeValues, self.uniqueElements)
+            self.elementsAndFlagsDataLists = self.create_elements_flags_data_lists(fileId, self.dictOfUniqueTimeValues, self.placeholderElementsFlagsList)
+            self.parse_to_netCDF(fileId, self.dictOfUniqueTimeValues, self.elementsAndFlagsDataLists)
 
     def go(self, stationIds):
         p = Pool(4)
@@ -971,6 +980,6 @@ if __name__ == '__main__':
     stationIds = ghcn.get_station_info()
     ghcn.go(stationIds[:1000])
 
-    print('The program took ', (time.time() - start) / 60, 'minutes to complete.')
+    print('The program took ', (time.time() - start) / 60 / 60 / 24, 'days to complete.')
 
 # End __main__
