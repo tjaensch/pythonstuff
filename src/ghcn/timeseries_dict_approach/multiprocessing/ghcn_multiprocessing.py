@@ -1,4 +1,5 @@
 import datetime
+import glob
 import logging
 import netCDF4
 import numpy as np
@@ -7,7 +8,6 @@ import sys
 import time
 import urllib
 import urllib2
-from glob import glob
 from multiprocessing import Pool
 from ordereddict import OrderedDict
 
@@ -69,7 +69,7 @@ class GHCN:
 
     def nc_file_exists(self, fileId):
         dirName = fileId[:4]
-        if glob('./netcdf/' + dirName + '/*' + fileId + '.nc'):
+        if glob.glob('./netcdf/' + dirName + '/*' + fileId + '.nc'):
             return True
         else:
             return False
@@ -978,7 +978,7 @@ if __name__ == '__main__':
 
     ghcn = GHCN()
     stationIds = ghcn.get_station_info()
-    ghcn.go(stationIds[:1000])
+    ghcn.go(stationIds)
 
     print('The program took ', (time.time() - start) / 60 / 60 / 24, 'days to complete.')
 
