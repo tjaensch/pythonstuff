@@ -66,6 +66,13 @@ class GHCN:
             os.makedirs('./netcdf/' + dirName)
         return dirName
 
+    def nc_file_exists(self, fileId):
+        dirName = fileId[:4]
+        if not os.path.isfile('./netcdf/' + dirName + '/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc'):
+            return False
+        else:
+            return True
+
     # Returns dictionary of unique time values
     def get_unique_time_values(self, fileId):
         uniqueTimeValues = set()
@@ -951,8 +958,9 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    testfile = "AGE00147710"
-    #testfile = "BR002141011"
+    #testfile = "AGE00147710"
+    testfile = "BR002141011"
+    #testfile = "ASN00072051"
 
     ghcn = GHCN()
 
@@ -966,12 +974,13 @@ if __name__ == '__main__':
     elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
     ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)'''
 
-    ghcn.download_dly_file(testfile)
-    dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
-    uniqueElements = ghcn.get_unique_elements(testfile)
-    placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
-    elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
-    ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
+    if ghcn.nc_file_exists(testfile) == False:
+        ghcn.download_dly_file(testfile)
+        dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
+        uniqueElements = ghcn.get_unique_elements(testfile)
+        placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
+        elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
+        ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
 
     print('The program took ', (time.time() - start), 'seconds to complete.')
 
