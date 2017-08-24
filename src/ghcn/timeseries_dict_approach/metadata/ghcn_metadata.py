@@ -6,6 +6,7 @@ import os
 import random
 import re
 import subprocess
+import urllib
 from multiprocessing import Pool
 from os.path import basename
 
@@ -14,8 +15,12 @@ def create_output_dirs():
             os.makedirs("./ncml/")
             if not os.path.exists("./iso_xml/"):
                     os.makedirs("./iso_xml/")
-            '''if not os.path.exists("./final_xml/"):
-                    os.makedirs("./final_xml/")'''
+            if not os.path.exists("./final_xml/"):
+                    os.makedirs("./final_xml/")
+
+def download_collection_level_file():
+    isocofile = urllib.URLopener()
+    isocofile.retrieve("https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.ncdc:C00861;view=xml", "/nodc/users/tjaensch/xsl.git/ghcn/XSL/ghcn_coll.xml")
 
 class GHCN:
 	"""docstring for ghcn"""
@@ -23,7 +28,7 @@ class GHCN:
 		self.ncFiles = []
 
         def find_nc_files(self):
-            source_dir = "./testfiles"
+            source_dir = "./testfiles/"
             for root, dirnames, filenames in os.walk(source_dir, followlinks=True):
                 for filename in fnmatch.filter(filenames, '*.nc'):
                     self.ncFiles.append(os.path.join(root,filename))
@@ -78,21 +83,20 @@ class GHCN:
             # print(ET.tostring(isoXmlFile, pretty_print=True))
             return(ET.tostring(isoXmlFile, pretty_print=True))
 
-        '''def add_collection_metadata(self, ncFile):
-            isocofile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/GHCN.xml"
+        def add_collection_metadata(self, ncFile):
             granule = "/nodc/users/tjaensch/xsl.git/ghcn/XSL/granule.xsl"
             f = open("./final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
-            subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "./iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
-            f.close()'''
+            subprocess.call(["xsltproc", "--stringparam", "collFile", "ghcn_coll.xml", granule, "./iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
+            f.close()
 
         def run_combined_defs(self, ncFile):
             self.ncdump(ncFile)
             self.add_to_ncml(ncFile)
             self.xsltproc_to_iso(ncFile)
-            #self.add_collection_metadata(ncFile)
+            self.add_collection_metadata(ncFile)
 
         def go(self):
-            p = Pool(1)
+            p = Pool(25)
             p.map(self, self.find_nc_files())
 
         def __call__(self, ncFile):
@@ -103,6 +107,7 @@ if __name__ == '__main__':
     start = time.time()
     
     create_output_dirs()
+    download_collection_level_file()
 
     ghcn = GHCN()
     ghcn.go()

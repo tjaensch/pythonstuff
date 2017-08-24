@@ -17,12 +17,14 @@ class Testghcn(unittest.TestCase):
             os.makedirs("./ncml/")
         if not os.path.exists("./iso_xml/"):
             os.makedirs("./iso_xml/")
+        if not os.path.exists("./final_xml/"):
+                os.makedirs("./final_xml/")
           
         # test run defs with one file
         ghcn.ncdump(testfile)
         ghcn.add_to_ncml(testfile)
         ghcn.xsltproc_to_iso(testfile)
-        #ghcn.add_collection_metadata(testfile)
+        ghcn.add_collection_metadata(testfile)
 
     def tearDown(self):
         shutil.rmtree("./ncml/")
@@ -46,6 +48,11 @@ class Testghcn(unittest.TestCase):
         self.assertTrue('GHCN.ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_AGE00147710' in data)
         # browse graphic generated with bounding box numbers in main XSLT file
         self.assertTrue("<gmd:MD_BrowseGraphic>" in data)
+
+    def test_add_collection_metadata(self):
+        file = open('./final_xml/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_AGE00147710.xml', "r")
+        data = file.read()
+        self.assertTrue("Global Change Master Directory (GCMD) Data Center Keywords" in data)
 
 
 # __main__
