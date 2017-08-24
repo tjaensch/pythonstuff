@@ -67,6 +67,7 @@ class GHCN:
                 f.write("<title>%s</title><filesize>%s</filesize><path>%s</path></netcdf>" % (self.get_file_name(ncFile), self.get_file_size(ncFile), self.get_file_path(ncFile)))
 
         def xsltproc_to_iso(self, ncFile):
+            print ncFile
             xslFile = "/nodc/users/tjaensch/xsl.git/ghcn/XSL/ncml2iso_modified_from_UnidataDD2MI_GHCN_Thomas_edits.xsl"
             parsedNcmlFile = ET.parse("./ncml/" + self.get_file_name(ncFile) + ".ncml")
             xslt = ET.parse(xslFile)
@@ -79,7 +80,7 @@ class GHCN:
 
         '''def add_collection_metadata(self, ncFile):
             isocofile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/GHCN.xml"
-            granule = "/nodc/users/tjaensch/xsl.git/coops/XSL/granule.xsl"
+            granule = "/nodc/users/tjaensch/xsl.git/ghcn/XSL/granule.xsl"
             f = open("./final_xml/" + self.get_file_name(ncFile) + ".xml", "w")
             subprocess.call(["xsltproc", "--stringparam", "collFile", isocofile, granule, "./iso_xml/" + self.get_file_name(ncFile) + ".xml"], stdout=f)
             f.close()'''
