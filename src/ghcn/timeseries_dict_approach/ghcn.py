@@ -715,6 +715,7 @@ class GHCN:
                 ds.variables['time'].calendar = 'gregorian'
                 ds.variables['time'].coverage_content_type = 'coordinate'
 
+                # The five core elements (ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt)
                 if 'prcp' in elementAndFlagDicts:
                     prcp = ds.createVariable('prcp', 'short', ('station', 'time',), fill_value=-9999)[
                         :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())][:]
@@ -825,6 +826,749 @@ class GHCN:
                 except KeyError:
                     pass
 
+                # The other elements (ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt)
+                if 'acmc' in elementAndFlagDicts:
+                    acmc = ds.createVariable('acmc', 'short', ('station', 'time',), fill_value=-9999)[
+                        :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['acmc'].values())][:]
+                    ds.variables[
+                        'acmc'].long_name = 'Average cloudiness midnight to midnight from 30-second ceilometer data (percent)'
+                    ds.variables['acmc'].missing_value = -9999
+                    ds.variables[
+                        'acmc'].coordinates = 'lat lon alt station_name'
+                    ds.variables[
+                        'acmc'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['acmc']
+                except KeyError:
+                    pass
+
+                if 'acmh' in elementAndFlagDicts:
+                    acmh = ds.createVariable('acmh', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['acmh'].values())][:]
+                    ds.variables['acmh'].long_name = 'Average cloudiness midnight to midnight from manual observations (percent)'
+                    ds.variables['acmh'].missing_value = -9999
+                    ds.variables['acmh'].coordinates = 'lat lon alt station_name'
+                    ds.variables['acmh'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['acmh']
+                except KeyError:
+                    pass
+
+                if 'acsc' in elementAndFlagDicts:
+                    acsc = ds.createVariable('acsc', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['acsc'].values())][:]
+                    ds.variables['acsc'].long_name = 'Average cloudiness sunrise to sunset from 30-second ceilometer data (percent)'
+                    ds.variables['acsc'].missing_value = -9999
+                    ds.variables['acsc'].coordinates = 'lat lon alt station_name'
+                    ds.variables['acsc'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['acsc']
+                except KeyError:
+                    pass
+
+                if 'acsh' in elementAndFlagDicts:
+                    acsh = ds.createVariable('acsh', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['acsh'].values())][:]
+                    ds.variables['acsh'].long_name = 'Average cloudiness sunrise to sunset from manual observations (percent)'
+                    ds.variables['acsh'].missing_value = -9999
+                    ds.variables['acsh'].coordinates = 'lat lon alt station_name'
+                    ds.variables['acsh'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['acsh']
+                except KeyError:
+                    pass
+
+                if 'awdr' in elementAndFlagDicts:
+                    awdr = ds.createVariable('awdr', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['awdr'].values())][:]
+                    ds.variables['awdr'].long_name = 'Average daily wind direction (degrees)'
+                    ds.variables['awdr'].missing_value = -9999
+                    ds.variables['awdr'].coordinates = 'lat lon alt station_name'
+                    ds.variables['awdr'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['awdr']
+                except KeyError:
+                    pass
+
+                if 'awnd' in elementAndFlagDicts:
+                    awnd = ds.createVariable('awnd', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['awnd'].values())][:]
+                    ds.variables['awnd'].long_name = 'Average daily wind speed (tenths of meters per second)'
+                    ds.variables['awnd'].missing_value = -9999
+                    ds.variables['awnd'].coordinates = 'lat lon alt station_name'
+                    ds.variables['awnd'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['awnd']
+                except KeyError:
+                    pass
+
+                if 'daev' in elementAndFlagDicts:
+                    daev = ds.createVariable('daev', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['daev'].values())][:]
+                    ds.variables['daev'].long_name = 'Number of days included in the multiday evaporation total (MDEV)'
+                    ds.variables['daev'].missing_value = -9999
+                    ds.variables['daev'].coordinates = 'lat lon alt station_name'
+                    ds.variables['daev'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['daev']
+                except KeyError:
+                    pass
+
+                if 'dapr' in elementAndFlagDicts:
+                    dapr = ds.createVariable('dapr', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['dapr'].values())][:]
+                    ds.variables['dapr'].long_name = 'Number of days included in the multiday precipitation total (MDPR)'
+                    ds.variables['dapr'].missing_value = -9999
+                    ds.variables['dapr'].coordinates = 'lat lon alt station_name'
+                    ds.variables['dapr'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['dapr']
+                except KeyError:
+                    pass
+
+                if 'dasf' in elementAndFlagDicts:
+                    dasf = ds.createVariable('dasf', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['dasf'].values())][:]
+                    ds.variables['dasf'].long_name = 'Number of days included in the multiday snowfall total (MDSF)'
+                    ds.variables['dasf'].missing_value = -9999
+                    ds.variables['dasf'].coordinates = 'lat lon alt station_name'
+                    ds.variables['dasf'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['dasf']
+                except KeyError:
+                    pass
+
+                if 'datn' in elementAndFlagDicts:
+                    datn = ds.createVariable('datn', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['datn'].values())][:]
+                    ds.variables['datn'].long_name = 'Number of days included in the multiday minimum temperature (MDTN)'
+                    ds.variables['datn'].missing_value = -9999
+                    ds.variables['datn'].coordinates = 'lat lon alt station_name'
+                    ds.variables['datn'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['datn']
+                except KeyError:
+                    pass
+
+                if 'datx' in elementAndFlagDicts:
+                    datx = ds.createVariable('datx', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['datx'].values())][:]
+                    ds.variables['datx'].long_name = 'Number of days included in the multiday maximum temperature (MDTX)'
+                    ds.variables['datx'].missing_value = -9999
+                    ds.variables['datx'].coordinates = 'lat lon alt station_name'
+                    ds.variables['datx'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['datx']
+                except KeyError:
+                    pass
+
+                if 'dawm' in elementAndFlagDicts:
+                    dawm = ds.createVariable('dawm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['dawm'].values())][:]
+                    ds.variables['dawm'].long_name = 'Number of days included in the multiday wind movement (MDWM)'
+                    ds.variables['dawm'].missing_value = -9999
+                    ds.variables['dawm'].coordinates = 'lat lon alt station_name'
+                    ds.variables['dawm'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['dawm']
+                except KeyError:
+                    pass
+
+                if 'dwpr' in elementAndFlagDicts:
+                    dwpr = ds.createVariable('dwpr', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['dwpr'].values())][:]
+                    ds.variables['dwpr'].long_name = 'Number of days with non-zero precipitation included in multiday precipitation total (MDPR)'
+                    ds.variables['dwpr'].missing_value = -9999
+                    ds.variables['dwpr'].coordinates = 'lat lon alt station_name'
+                    ds.variables['dwpr'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['dwpr']
+                except KeyError:
+                    pass
+
+                if 'evap' in elementAndFlagDicts:
+                    evap = ds.createVariable('evap', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['evap'].values())][:]
+                    ds.variables['evap'].long_name = 'Evaporation of water from evaporation pan (tenths of mm)'
+                    ds.variables['evap'].missing_value = -9999
+                    ds.variables['evap'].coordinates = 'lat lon alt station_name'
+                    ds.variables['evap'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['evap']
+                except KeyError:
+                    pass
+
+                if 'fmtm' in elementAndFlagDicts:
+                    fmtm = ds.createVariable('fmtm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['fmtm'].values())][:]
+                    ds.variables['fmtm'].long_name = 'Time of fastest mile or fastest 1-minute wind (hours and minutes, i.e., HHMM)'
+                    ds.variables['fmtm'].missing_value = -9999
+                    ds.variables['fmtm'].coordinates = 'lat lon alt station_name'
+                    ds.variables['fmtm'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['fmtm']
+                except KeyError:
+                    pass
+
+                if 'frgb' in elementAndFlagDicts:
+                    frgb = ds.createVariable('frgb', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['frgb'].values())][:]
+                    ds.variables['frgb'].long_name = 'Base of frozen ground layer (cm)'
+                    ds.variables['frgb'].missing_value = -9999
+                    ds.variables['frgb'].coordinates = 'lat lon alt station_name'
+                    ds.variables['frgb'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['frgb']
+                except KeyError:
+                    pass
+
+                if 'frgt' in elementAndFlagDicts:
+                    frgt = ds.createVariable('frgt', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['frgt'].values())][:]
+                    ds.variables['frgt'].long_name = 'Top of frozen ground layer (cm)'
+                    ds.variables['frgt'].missing_value = -9999
+                    ds.variables['frgt'].coordinates = 'lat lon alt station_name'
+                    ds.variables['frgt'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['frgt']
+                except KeyError:
+                    pass
+
+                if 'frth' in elementAndFlagDicts:
+                    frth = ds.createVariable('frth', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['frth'].values())][:]
+                    ds.variables['frth'].long_name = 'Thickness of frozen ground layer (cm)'
+                    ds.variables['frth'].missing_value = -9999
+                    ds.variables['frth'].coordinates = 'lat lon alt station_name'
+                    ds.variables['frth'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['frth']
+                except KeyError:
+                    pass
+
+                if 'gaht' in elementAndFlagDicts:
+                    gaht = ds.createVariable('gaht', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['gaht'].values())][:]
+                    ds.variables['gaht'].long_name = 'Difference between river and gauge height (cm)'
+                    ds.variables['gaht'].missing_value = -9999
+                    ds.variables['gaht'].coordinates = 'lat lon alt station_name'
+                    ds.variables['gaht'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['gaht']
+                except KeyError:
+                    pass
+
+                if 'mdev' in elementAndFlagDicts:
+                    mdev = ds.createVariable('mdev', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdev'].values())][:]
+                    ds.variables['mdev'].long_name = 'Multiday evaporation total (tenths of mm; use with DAEV)'
+                    ds.variables['mdev'].missing_value = -9999
+                    ds.variables['mdev'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdev'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['mdev']
+                except KeyError:
+                    pass
+
+                if 'mdpr' in elementAndFlagDicts:
+                    mdpr = ds.createVariable('mdpr', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdpr'].values())][:]
+                    ds.variables['mdpr'].long_name = 'Multiday precipitation total (tenths of mm; use with DAPR and DWPR, if available)'
+                    ds.variables['mdpr'].missing_value = -9999
+                    ds.variables['mdpr'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdpr'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['mdpr']
+                except KeyError:
+                    pass
+
+                if 'mdsf' in elementAndFlagDicts:
+                    mdsf = ds.createVariable('mdsf', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdsf'].values())][:]
+                    ds.variables['mdsf'].long_name = 'Multiday snowfall total'
+                    ds.variables['mdsf'].missing_value = -9999
+                    ds.variables['mdsf'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdsf'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['mdsf']
+                except KeyError:
+                    pass
+
+                if 'mdtn' in elementAndFlagDicts:
+                    mdtn = ds.createVariable('mdtn', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdtn'].values())][:]
+                    ds.variables['mdtn'].long_name = 'Multiday minimum temperature (tenths of degrees C; use with DATN)'
+                    ds.variables['mdtn'].missing_value = -9999
+                    ds.variables['mdtn'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdtn'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['mdtn']
+                except KeyError:
+                    pass
+
+                if 'mdtx' in elementAndFlagDicts:
+                    mdtx = ds.createVariable('mdtx', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdtx'].values())][:]
+                    ds.variables['mdtx'].long_name = 'Multiday maximum temperature (tenths of degress C; use with DATX)'
+                    ds.variables['mdtx'].missing_value = -9999
+                    ds.variables['mdtx'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdtx'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['mdtx']
+                except KeyError:
+                    pass
+
+                if 'mdwm' in elementAndFlagDicts:
+                    mdwm = ds.createVariable('mdwm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdwm'].values())][:]
+                    ds.variables['mdwm'].long_name = 'Multiday wind movement (km)'
+                    ds.variables['mdwm'].missing_value = -9999
+                    ds.variables['mdwm'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdwm'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['mdwm']
+                except KeyError:
+                    pass
+
+                if 'mnpn' in elementAndFlagDicts:
+                    mnpn = ds.createVariable('mnpn', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mnpn'].values())][:]
+                    ds.variables['mnpn'].long_name = 'Daily minimum temperature of water in an evaporation pan (tenths of degrees C)'
+                    ds.variables['mnpn'].missing_value = -9999
+                    ds.variables['mnpn'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mnpn'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['mnpn']
+                except KeyError:
+                    pass
+
+                if 'mxpn' in elementAndFlagDicts:
+                    mxpn = ds.createVariable('mxpn', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mxpn'].values())][:]
+                    ds.variables['mxpn'].long_name = 'Daily maximum temperature of water in an evaporation pan (tenths of degrees C)'
+                    ds.variables['mxpn'].missing_value = -9999
+                    ds.variables['mxpn'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mxpn'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['mxpn']
+                except KeyError:
+                    pass
+
+                if 'pgtm' in elementAndFlagDicts:
+                    pgtm = ds.createVariable('pgtm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['pgtm'].values())][:]
+                    ds.variables['pgtm'].long_name = 'Peak gust time (hours and minutes, i.e., HHMM)'
+                    ds.variables['pgtm'].missing_value = -9999
+                    ds.variables['pgtm'].coordinates = 'lat lon alt station_name'
+                    ds.variables['pgtm'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['pgtm']
+                except KeyError:
+                    pass
+
+                if 'psun' in elementAndFlagDicts:
+                    psun = ds.createVariable('psun', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['psun'].values())][:]
+                    ds.variables['psun'].long_name = 'Daily percent of possible sunshine (percent)'
+                    ds.variables['psun'].missing_value = -9999
+                    ds.variables['psun'].coordinates = 'lat lon alt station_name'
+                    ds.variables['psun'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['psun']
+                except KeyError:
+                    pass
+
+                if 'sn*#' in elementAndFlagDicts:
+                    sn_9 = ds.createVariable('sn_9', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['sn*#'].values())][:]
+                    ds.variables['sn_9'].long_name = """Minimum soil temperature (tenths of degrees C)
+                                                        where _ corresponds to a code
+                                                        for ground cover and 9 corresponds to a code for soil 
+                                                        depth.  
+                          
+                                                        Ground cover codes include the following:
+                                                        0 = unknown
+                                                        1 = grass
+                                                        2 = fallow
+                                                        3 = bare ground
+                                                        4 = brome grass
+                                                        5 = sod
+                                                        6 = straw multch
+                                                        7 = grass muck
+                                                        8 = bare muck
+                          
+                                                        Depth codes include the following:
+                                                        1 = 5 cm
+                                                        2 = 10 cm
+                                                        3 = 20 cm
+                                                        4 = 50 cm
+                                                        5 = 100 cm
+                                                        6 = 150 cm
+                                                        7 = 180 cm"""
+                    ds.variables['sn_9'].missing_value = -9999
+                    ds.variables['sn_9'].coordinates = 'lat lon alt station_name'
+                    ds.variables['sn_9'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['sn*#']
+                except KeyError:
+                    pass
+
+                if 'sx*#' in elementAndFlagDicts:
+                    sx_9 = ds.createVariable('sx_9', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['sx*#'].values())][:]
+                    ds.variables['sx_9'].long_name = """Maximum soil temperature (tenths of degrees C) 
+                                                        where _ corresponds to a code for ground cover 
+                                                        and 9 corresponds to a code for soil depth. 
+                                                        See sn_9 for ground cover and depth codes."""
+                    ds.variables['sx_9'].missing_value = -9999
+                    ds.variables['sx_9'].coordinates = 'lat lon alt station_name'
+                    ds.variables['sx_9'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['sx*#']
+                except KeyError:
+                    pass
+
+                if 'tavg' in elementAndFlagDicts:
+                    tavg = ds.createVariable('tavg', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tavg'].values())][:]
+                    ds.variables['tavg'].long_name = """Average temperature (tenths of degrees C)
+                                                        [Note that TAVG from source 'S' corresponds
+                                                        to an average for the period ending at
+                                                        2400 UTC rather than local midnight]"""
+                    ds.variables['tavg'].missing_value = -9999
+                    ds.variables['tavg'].coordinates = 'lat lon alt station_name'
+                    ds.variables['tavg'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['tavg']
+                except KeyError:
+                    pass
+
+                if 'thic' in elementAndFlagDicts:
+                    thic = ds.createVariable('thic', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['thic'].values())][:]
+                    ds.variables['thic'].long_name = 'Thickness of ice on water (tenths of mm)'
+                    ds.variables['thic'].missing_value = -9999
+                    ds.variables['thic'].coordinates = 'lat lon alt station_name'
+                    ds.variables['thic'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['thic']
+                except KeyError:
+                    pass
+
+                if 'tobs' in elementAndFlagDicts:
+                    tobs = ds.createVariable('tobs', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tobs'].values())][:]
+                    ds.variables['tobs'].long_name = 'Temperature at the time of observation (tenths of degrees C)'
+                    ds.variables['tobs'].missing_value = -9999
+                    ds.variables['tobs'].coordinates = 'lat lon alt station_name'
+                    ds.variables['tobs'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['tobs']
+                except KeyError:
+                    pass
+
+                if 'tsun' in elementAndFlagDicts:
+                    tsun = ds.createVariable('tsun', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tsun'].values())][:]
+                    ds.variables['tsun'].long_name = 'Daily total sunshine (minutes)'
+                    ds.variables['tsun'].missing_value = -9999
+                    ds.variables['tsun'].coordinates = 'lat lon alt station_name'
+                    ds.variables['tsun'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['tsun']
+                except KeyError:
+                    pass
+
+                if 'wdf1' in elementAndFlagDicts:
+                    wdf1 = ds.createVariable('wdf1', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdf1'].values())][:]
+                    ds.variables['wdf1'].long_name = 'Direction of fastest 1-minute wind (degrees)'
+                    ds.variables['wdf1'].missing_value = -9999
+                    ds.variables['wdf1'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdf1'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wdf1']
+                except KeyError:
+                    pass
+
+                if 'wdf2' in elementAndFlagDicts:
+                    wdf2 = ds.createVariable('wdf2', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdf2'].values())][:]
+                    ds.variables['wdf2'].long_name = 'Direction of fastest 2-minute wind (degrees)'
+                    ds.variables['wdf2'].missing_value = -9999
+                    ds.variables['wdf2'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdf2'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wdf2']
+                except KeyError:
+                    pass
+
+                if 'wdf5' in elementAndFlagDicts:
+                    wdf5 = ds.createVariable('wdf5', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdf5'].values())][:]
+                    ds.variables['wdf5'].long_name = 'Direction of fastest 5-second wind (degrees)'
+                    ds.variables['wdf5'].missing_value = -9999
+                    ds.variables['wdf5'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdf5'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wdf5']
+                except KeyError:
+                    pass
+
+                if 'wdfg' in elementAndFlagDicts:
+                    wdfg = ds.createVariable('wdfg', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdfg'].values())][:]
+                    ds.variables['wdfg'].long_name = 'Direction of peak wind gust (degrees)'
+                    ds.variables['wdfg'].missing_value = -9999
+                    ds.variables['wdfg'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdfg'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wdfg']
+                except KeyError:
+                    pass
+
+                if 'wdfi' in elementAndFlagDicts:
+                    wdfi = ds.createVariable('wdfi', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdfi'].values())][:]
+                    ds.variables['wdfi'].long_name = 'Direction of highest instantaneous wind (degrees)'
+                    ds.variables['wdfi'].missing_value = -9999
+                    ds.variables['wdfi'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdfi'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wdfi']
+                except KeyError:
+                    pass
+
+                if 'wdfm' in elementAndFlagDicts:
+                    wdfm = ds.createVariable('wdfm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdfm'].values())][:]
+                    ds.variables['wdfm'].long_name = 'Fastest mile wind direction (degrees)'
+                    ds.variables['wdfm'].missing_value = -9999
+                    ds.variables['wdfm'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdfm'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wdfm']
+                except KeyError:
+                    pass
+
+                if 'wdmv' in elementAndFlagDicts:
+                    wdmv = ds.createVariable('wdmv', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdmv'].values())][:]
+                    ds.variables['wdmv'].long_name = '24-hour wind movement (km)'
+                    ds.variables['wdmv'].missing_value = -9999
+                    ds.variables['wdmv'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdmv'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wdmv']
+                except KeyError:
+                    pass
+
+                if 'wesd' in elementAndFlagDicts:
+                    wesd = ds.createVariable('wesd', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wesd'].values())][:]
+                    ds.variables['wesd'].long_name = 'Water equivalent of snow on the ground (tenths of mm)'
+                    ds.variables['wesd'].missing_value = -9999
+                    ds.variables['wesd'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wesd'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wesd']
+                except KeyError:
+                    pass
+
+                if 'wesf' in elementAndFlagDicts:
+                    wesf = ds.createVariable('wesf', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wesf'].values())][:]
+                    ds.variables['wesf'].long_name = 'Water equivalent of snowfall (tenths of mm)'
+                    ds.variables['wesf'].missing_value = -9999
+                    ds.variables['wesf'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wesf'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wesf']
+                except KeyError:
+                    pass
+
+                if 'wsf1' in elementAndFlagDicts:
+                    wsf1 = ds.createVariable('wsf1', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsf1'].values())][:]
+                    ds.variables['wsf1'].long_name = 'Fastest 1-minute wind speed (tenths of meters per second)'
+                    ds.variables['wsf1'].missing_value = -9999
+                    ds.variables['wsf1'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wsf1'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wsf1']
+                except KeyError:
+                    pass
+
+                if 'wsf2' in elementAndFlagDicts:
+                    wsf2 = ds.createVariable('wsf2', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsf2'].values())][:]
+                    ds.variables['wsf2'].long_name = 'Fastest 2-minute wind speed (tenths of meters per second)'
+                    ds.variables['wsf2'].missing_value = -9999
+                    ds.variables['wsf2'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wsf2'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wsf2']
+                except KeyError:
+                    pass
+
+                if 'wsf5' in elementAndFlagDicts:
+                    wsf5 = ds.createVariable('wsf5', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsf5'].values())][:]
+                    ds.variables['wsf5'].long_name = 'Fastest 5-second wind speed (tenths of meters per second)'
+                    ds.variables['wsf5'].missing_value = -9999
+                    ds.variables['wsf5'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wsf5'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wsf5']
+                except KeyError:
+                    pass
+
+                if 'wsfg' in elementAndFlagDicts:
+                    wsfg = ds.createVariable('wsfg', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsfg'].values())][:]
+                    ds.variables['wsfg'].long_name = 'Peak gust wind speed (tenths of meters per second)'
+                    ds.variables['wsfg'].missing_value = -9999
+                    ds.variables['wsfg'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wsfg'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wsfg']
+                except KeyError:
+                    pass
+
+                if 'wsfi' in elementAndFlagDicts:
+                    wsfi = ds.createVariable('wsfi', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsfi'].values())][:]
+                    ds.variables['wsfi'].long_name = 'Highest instantaneous wind speed (tenths of meters per second)'
+                    ds.variables['wsfi'].missing_value = -9999
+                    ds.variables['wsfi'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wsfi'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wsfi']
+                except KeyError:
+                    pass
+
+                if 'wsfm' in elementAndFlagDicts:
+                    wsfm = ds.createVariable('wsfm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsfm'].values())][:]
+                    ds.variables['wsfm'].long_name = 'Fastest mile wind speed (tenths of meters per second)'
+                    ds.variables['wsfm'].missing_value = -9999
+                    ds.variables['wsfm'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wsfm'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wsfm']
+                except KeyError:
+                    pass
+
+                if 'wt**' in elementAndFlagDicts:
+                    wt__ = ds.createVariable('wt__', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wt**'].values())][:]
+                    ds.variables['wt__'].long_name = """Weather Type where __ has one of the following values:
+                       
+                                                        01 = Fog, ice fog, or freezing fog (may include heavy fog)
+                                                        02 = Heavy fog or heaving freezing fog (not always 
+                                                             distinquished from fog)
+                                                        03 = Thunder
+                                                        04 = Ice pellets, sleet, snow pellets, or small hail 
+                                                        05 = Hail (may include small hail)
+                                                        06 = Glaze or rime 
+                                                        07 = Dust, volcanic ash, blowing dust, blowing sand, or 
+                                                             blowing obstruction
+                                                        08 = Smoke or haze 
+                                                        09 = Blowing or drifting snow
+                                                        10 = Tornado, waterspout, or funnel cloud 
+                                                        11 = High or damaging winds
+                                                        12 = Blowing spray
+                                                        13 = Mist
+                                                        14 = Drizzle
+                                                        15 = Freezing drizzle 
+                                                        16 = Rain (may include freezing rain, drizzle, and
+                                                             freezing drizzle) 
+                                                        17 = Freezing rain 
+                                                        18 = Snow, snow pellets, snow grains, or ice crystals
+                                                        19 = Unknown source of precipitation 
+                                                        21 = Ground fog 
+                                                        22 = Ice fog or freezing fog"""
+                    ds.variables['wt__'].missing_value = -9999
+                    ds.variables['wt__'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wt__'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wt**']
+                except KeyError:
+                    pass
+
+                if 'wv**' in elementAndFlagDicts:
+                    wv__ = ds.createVariable('wv__', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wv**'].values())][:]
+                    ds.variables['wv__'].long_name = """Weather in the Vicinity where ** has one of the following 
+                                                        values:
+                           
+                                                        01 = Fog, ice fog, or freezing fog (may include heavy fog)
+                                                        03 = Thunder
+                                                        07 = Ash, dust, sand, or other blowing obstruction
+                                                        18 = Snow or ice crystals
+                                                        20 = Rain or snow shower"""
+                    ds.variables['wv__'].missing_value = -9999
+                    ds.variables['wv__'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wv__'].ancillary_variables = 'mflag qflag sflag'
+                # Delete key from dictionary after processing to avoid double
+                # processing below with dynamically generated value arrays
+                try:
+                    del elementAndFlagDicts['wv**']
+                except KeyError:
+                    pass
+
+                # Other variables
                 lat = ds.createVariable('lat', 'f', ('station',))
                 lat.long_name = 'Latitude'
                 lat.standard_name = 'latitude'
@@ -959,9 +1703,9 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    testfile = "AGE00147710"
+    #testfile = "AGE00147710"
     #testfile = "BR002141011"
-    #testfile = "ASN00083034"
+    testfile = "VMW00041014"
 
     ghcn = GHCN()
 
