@@ -1705,7 +1705,7 @@ if __name__ == '__main__':
 
     #testfile = "AGE00147710"
     #testfile = "BR002141011"
-    testfile = "VMW00041014"
+    testfile = "USC00047810"
 
     ghcn = GHCN()
 

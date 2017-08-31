@@ -20,7 +20,7 @@ def create_output_dirs():
 
 def download_collection_level_file():
     isocofile = urllib.URLopener()
-    isocofile.retrieve("https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.ncdc:C00861;view=xml", "/nodc/users/tjaensch/xsl.git/ghcn/XSL/ghcn_coll.xml")
+    isocofile.retrieve("https://www1.ncdc.noaa.gov/pub/data/metadata/published/geoportal/iso/xml/C00861.xml", "/nodc/users/tjaensch/xsl.git/ghcn/XSL/ghcn_coll.xml")
 
 class GHCN:
 	"""docstring for ghcn"""
@@ -28,7 +28,7 @@ class GHCN:
 		self.ncFiles = []
 
         def find_nc_files(self):
-            source_dir = "./testfiles/"
+            source_dir = "../netcdf/"
             for root, dirnames, filenames in os.walk(source_dir, followlinks=True):
                 for filename in fnmatch.filter(filenames, '*.nc'):
                     self.ncFiles.append(os.path.join(root,filename))
@@ -93,7 +93,7 @@ class GHCN:
             self.ncdump(ncFile)
             self.add_to_ncml(ncFile)
             self.xsltproc_to_iso(ncFile)
-            self.add_collection_metadata(ncFile)
+            #self.add_collection_metadata(ncFile)
 
         def go(self):
             p = Pool(25)

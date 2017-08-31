@@ -9,7 +9,7 @@ class Testghcn(unittest.TestCase):
     """docstring for Testghcn"""
     def setUp(self):
         ghcn = GHCN()
-        testfile = './testfiles/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_AGE00147710.nc'
+        testfile = '../netcdf/AGE0/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_AGE00147710.nc'
         self.ncFiles = ghcn.find_nc_files()
 
         # Create ncml dir for testing
@@ -24,7 +24,7 @@ class Testghcn(unittest.TestCase):
         ghcn.ncdump(testfile)
         ghcn.add_to_ncml(testfile)
         ghcn.xsltproc_to_iso(testfile)
-        ghcn.add_collection_metadata(testfile)
+        #ghcn.add_collection_metadata(testfile)
 
     def tearDown(self):
         shutil.rmtree("./ncml/")
@@ -49,10 +49,10 @@ class Testghcn(unittest.TestCase):
         # browse graphic generated with bounding box numbers in main XSLT file
         self.assertTrue("<gmd:MD_BrowseGraphic>" in data)
 
-    def test_add_collection_metadata(self):
+    '''def test_add_collection_metadata(self):
         file = open('./final_xml/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_AGE00147710.xml', "r")
         data = file.read()
-        self.assertTrue("Global Change Master Directory (GCMD) Data Center Keywords" in data)
+        self.assertTrue("Global Change Master Directory (GCMD) Data Center Keywords" in data)'''
 
 
 # __main__
