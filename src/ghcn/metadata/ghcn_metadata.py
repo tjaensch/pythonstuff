@@ -28,7 +28,7 @@ class GHCN:
 		self.ncFiles = []
 
         def find_nc_files(self):
-            source_dir = "/nodc/projects/satdata/Granule_OneStop/GHCN/netcdf/"
+            source_dir = "../timeseries_dict_approach/netcdf/"
             for root, dirnames, filenames in os.walk(source_dir, followlinks=True):
                 for filename in fnmatch.filter(filenames, '*.nc'):
                     self.ncFiles.append(os.path.join(root,filename))
@@ -93,7 +93,7 @@ class GHCN:
             self.ncdump(ncFile)
             self.add_to_ncml(ncFile)
             self.xsltproc_to_iso(ncFile)
-            self.add_collection_metadata(ncFile)
+            #self.add_collection_metadata(ncFile)
 
         def go(self):
             p = Pool(25)

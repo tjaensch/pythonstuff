@@ -1,5 +1,0 @@
-ERROR:root:USC00047810: 
-Traceback (most recent call last):
-  File "ghcn.py", line 719, in parse_to_netCDF
-    if 'prcp' in elementAndFlagDicts:
-TypeError: argument of type 'NoneType' is not iterable

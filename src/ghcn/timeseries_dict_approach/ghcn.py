@@ -1703,9 +1703,9 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    #testfile = "AGE00147710"
+    testfile = "AGE00147710"
     #testfile = "BR002141011"
-    testfile = "USC00047810"
+    #testfile = "USC00047810"
 
     ghcn = GHCN()
 
