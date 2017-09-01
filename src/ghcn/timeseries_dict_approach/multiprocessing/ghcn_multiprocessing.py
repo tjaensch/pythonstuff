@@ -84,7 +84,7 @@ class GHCN:
                     for i in range(1, 32):
                         try:
                             uniqueTimeValues.add(netCDF4.date2num(datetime.datetime(int(line[11:15]), int(
-                                line[15:17]), i, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian'))
+                                line[15:17]), i, 12, 0, 0), units='days since 1700-01-01 12:00:00', calendar='gregorian'))
                         except:
                             pass
                 return dict(enumerate(list(sorted(uniqueTimeValues))))
@@ -99,10 +99,10 @@ class GHCN:
     def get_time_index_for_day(self, line, dayIndex):
         # Initialize with first value of that line's month
         timeValue = netCDF4.date2num(datetime.datetime(int(line[11:15]), int(
-            line[15:17]), 1, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian')
+            line[15:17]), 1, 12, 0, 0), units='days since 1700-01-01 12:00:00', calendar='gregorian')
         try:
             timeValue = netCDF4.date2num(datetime.datetime(int(line[11:15]), int(
-                line[15:17]), dayIndex, 12, 0, 0), units='days since 1770-01-01 12:00:00', calendar='gregorian')
+                line[15:17]), dayIndex, 12, 0, 0), units='days since 1700-01-01 12:00:00', calendar='gregorian')
         except:
             return -1
         return timeValue
