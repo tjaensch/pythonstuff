@@ -720,15 +720,16 @@ class GHCN:
                     prcp = ds.createVariable('prcp', 'short', ('station', 'time',), fill_value=-9999)[
                         :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())][:]
                     ds.variables[
-                        'prcp'].long_name = 'Total Daily Precipitation (mm)'
+                        'prcp'].long_name = 'Precipitation (mm)'
                     ds.variables['prcp'].standard_name = 'precipitation_amount'
                     ds.variables['prcp'].units = 'mm'
                     ds.variables['prcp'].scale_factor = 0.1
                     ds.variables['prcp'].missing_value = -9999
                     ds.variables['prcp'].valid_min = 0
-                    ds.variables['prcp'].valid_max = 10000
+                    ds.variables['prcp'].valid_max = 15000
                     ds.variables[
                         'prcp'].coordinates = 'lat lon alt station_name'
+                    ds.variables['prcp'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
                         'prcp'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -742,15 +743,15 @@ class GHCN:
                     snow = ds.createVariable('snow', 'short', ('station', 'time',), fill_value=-9999)[
                         :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snow'].values())][:]
                     ds.variables[
-                        'snow'].long_name = 'Total Daily Snowfall (mm)'
+                        'snow'].long_name = 'Snowfall (mm)'
                     ds.variables['snow'].standard_name = 'snowfall_amount'
                     ds.variables['snow'].units = 'mm'
-                    ds.variables['snow'].scale_factor = 1.0
                     ds.variables['snow'].missing_value = -9999
                     ds.variables['snow'].valid_min = 0
-                    ds.variables['snow'].valid_max = 1000
+                    ds.variables['snow'].valid_max = 20000
                     ds.variables[
                         'snow'].coordinates = 'lat lon alt station_name'
+                    ds.variables['snow'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
                         'snow'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -764,15 +765,15 @@ class GHCN:
                     snwd = ds.createVariable('snwd', 'short', ('station', 'time',), fill_value=-9999)[
                         :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['snwd'].values())][:]
                     ds.variables[
-                        'snwd'].long_name = 'Snow Depth at time of obs (mm)'
+                        'snwd'].long_name = 'Snow Depth (mm)'
                     ds.variables['snwd'].standard_name = 'snowfall_amount'
                     ds.variables['snwd'].units = 'mm'
-                    ds.variables['snwd'].scale_factor = 1.0
                     ds.variables['snwd'].missing_value = -9999
                     ds.variables['snwd'].valid_min = 0
-                    ds.variables['snwd'].valid_max = 1000
+                    ds.variables['snwd'].valid_max = 20000
                     ds.variables[
                         'snwd'].coordinates = 'lat lon alt station_name'
+                    ds.variables['snwd'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
                         'snwd'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -795,6 +796,7 @@ class GHCN:
                     ds.variables['tmax'].valid_max = 500
                     ds.variables[
                         'tmax'].coordinates = 'lat lon alt station_name'
+                    ds.variables['tmax'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
                         'tmax'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -817,6 +819,7 @@ class GHCN:
                     ds.variables['tmin'].valid_max = 500
                     ds.variables[
                         'tmin'].coordinates = 'lat lon alt station_name'
+                    ds.variables['tmin'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
                         'tmin'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -832,9 +835,14 @@ class GHCN:
                         :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['acmc'].values())][:]
                     ds.variables[
                         'acmc'].long_name = 'Average cloudiness midnight to midnight from 30-second ceilometer data (percent)'
+                    ds.variables['acmc'].standard_name = 'cloud_area_fraction'
+                    ds.variables['acmc'].units = 'percent'
                     ds.variables['acmc'].missing_value = -9999
+                    ds.variables['acmc'].valid_min = 0
+                    ds.variables['acmc'].valid_max = 100
                     ds.variables[
                         'acmc'].coordinates = 'lat lon alt station_name'
+                    ds.variables['acmc'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
                         'acmc'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -847,8 +855,13 @@ class GHCN:
                 if 'acmh' in elementAndFlagDicts:
                     acmh = ds.createVariable('acmh', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['acmh'].values())][:]
                     ds.variables['acmh'].long_name = 'Average cloudiness midnight to midnight from manual observations (percent)'
+                    ds.variables['acmh'].standard_name = 'cloud_area_fraction'
+                    ds.variables['acmh'].units = 'percent'
                     ds.variables['acmh'].missing_value = -9999
+                    ds.variables['acmh'].valid_min = 0
+                    ds.variables['acmh'].valid_max = 100
                     ds.variables['acmh'].coordinates = 'lat lon alt station_name'
+                    ds.variables['acmh'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['acmh'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -860,8 +873,13 @@ class GHCN:
                 if 'acsc' in elementAndFlagDicts:
                     acsc = ds.createVariable('acsc', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['acsc'].values())][:]
                     ds.variables['acsc'].long_name = 'Average cloudiness sunrise to sunset from 30-second ceilometer data (percent)'
+                    ds.variables['acsc'].standard_name = 'cloud_area_fraction'
+                    ds.variables['acsc'].units = 'percent'
                     ds.variables['acsc'].missing_value = -9999
+                    ds.variables['acsc'].valid_min = 0
+                    ds.variables['acsc'].valid_max = 100
                     ds.variables['acsc'].coordinates = 'lat lon alt station_name'
+                    ds.variables['acsc'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['acsc'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -873,8 +891,13 @@ class GHCN:
                 if 'acsh' in elementAndFlagDicts:
                     acsh = ds.createVariable('acsh', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['acsh'].values())][:]
                     ds.variables['acsh'].long_name = 'Average cloudiness sunrise to sunset from manual observations (percent)'
+                    ds.variables['acsh'].standard_name = 'cloud_area_fraction'
+                    ds.variables['acsh'].units = 'percent'
                     ds.variables['acsh'].missing_value = -9999
+                    ds.variables['acsh'].valid_min = 0
+                    ds.variables['acsh'].valid_max = 100
                     ds.variables['acsh'].coordinates = 'lat lon alt station_name'
+                    ds.variables['acsh'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['acsh'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -886,8 +909,13 @@ class GHCN:
                 if 'awdr' in elementAndFlagDicts:
                     awdr = ds.createVariable('awdr', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['awdr'].values())][:]
                     ds.variables['awdr'].long_name = 'Average daily wind direction (degrees)'
+                    ds.variables['awdr'].standard_name = 'wind_from_direction'
+                    ds.variables['awdr'].units = 'degree'
                     ds.variables['awdr'].missing_value = -9999
+                    ds.variables['awdr'].valid_min = 0
+                    ds.variables['awdr'].valid_max = 360
                     ds.variables['awdr'].coordinates = 'lat lon alt station_name'
+                    ds.variables['awdr'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['awdr'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -898,9 +926,15 @@ class GHCN:
 
                 if 'awnd' in elementAndFlagDicts:
                     awnd = ds.createVariable('awnd', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['awnd'].values())][:]
-                    ds.variables['awnd'].long_name = 'Average daily wind speed (tenths of meters per second)'
+                    ds.variables['awnd'].long_name = 'Average daily wind speed (meters per second)'
+                    ds.variables['awnd'].standard_name = 'wind_speed'
+                    ds.variables['awnd'].units = 'm s-1'
+                    ds.variables['awnd'].scale_factor = 0.1
                     ds.variables['awnd'].missing_value = -9999
+                    ds.variables['awnd'].valid_min = 0
+                    ds.variables['awnd'].valid_max = 500
                     ds.variables['awnd'].coordinates = 'lat lon alt station_name'
+                    ds.variables['awnd'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['awnd'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -912,8 +946,13 @@ class GHCN:
                 if 'daev' in elementAndFlagDicts:
                     daev = ds.createVariable('daev', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['daev'].values())][:]
                     ds.variables['daev'].long_name = 'Number of days included in the multiday evaporation total (MDEV)'
+                    ds.variables['daev'].standard_name = 'number_of_observations'
+                    ds.variables['daev'].units = 1
                     ds.variables['daev'].missing_value = -9999
+                    ds.variables['daev'].valid_min = 0
+                    ds.variables['daev'].valid_max = 500
                     ds.variables['daev'].coordinates = 'lat lon alt station_name'
+                    ds.variables['daev'].coverage_content_type = 'auxiliaryInformation'
                     ds.variables['daev'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -925,8 +964,13 @@ class GHCN:
                 if 'dapr' in elementAndFlagDicts:
                     dapr = ds.createVariable('dapr', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['dapr'].values())][:]
                     ds.variables['dapr'].long_name = 'Number of days included in the multiday precipitation total (MDPR)'
+                    ds.variables['dapr'].standard_name = 'number_of_observations'
+                    ds.variables['dapr'].units = 1
                     ds.variables['dapr'].missing_value = -9999
+                    ds.variables['dapr'].valid_min = 0
+                    ds.variables['dapr'].valid_max = 500
                     ds.variables['dapr'].coordinates = 'lat lon alt station_name'
+                    ds.variables['dapr'].coverage_content_type = 'auxiliaryInformation'
                     ds.variables['dapr'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -938,8 +982,13 @@ class GHCN:
                 if 'dasf' in elementAndFlagDicts:
                     dasf = ds.createVariable('dasf', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['dasf'].values())][:]
                     ds.variables['dasf'].long_name = 'Number of days included in the multiday snowfall total (MDSF)'
+                    ds.variables['dasf'].standard_name = 'number_of_observations'
+                    ds.variables['dasf'].units = 1
                     ds.variables['dasf'].missing_value = -9999
+                    ds.variables['dasf'].valid_min = 0
+                    ds.variables['dasf'].valid_max = 500
                     ds.variables['dasf'].coordinates = 'lat lon alt station_name'
+                    ds.variables['dasf'].coverage_content_type = 'auxiliaryInformation'
                     ds.variables['dasf'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -951,8 +1000,13 @@ class GHCN:
                 if 'datn' in elementAndFlagDicts:
                     datn = ds.createVariable('datn', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['datn'].values())][:]
                     ds.variables['datn'].long_name = 'Number of days included in the multiday minimum temperature (MDTN)'
+                    ds.variables['datn'].standard_name = 'number_of_observations'
+                    ds.variables['datn'].units = 1
                     ds.variables['datn'].missing_value = -9999
+                    ds.variables['datn'].valid_min = 0
+                    ds.variables['datn'].valid_max = 500
                     ds.variables['datn'].coordinates = 'lat lon alt station_name'
+                    ds.variables['datn'].coverage_content_type = 'auxiliaryInformation'
                     ds.variables['datn'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -964,8 +1018,13 @@ class GHCN:
                 if 'datx' in elementAndFlagDicts:
                     datx = ds.createVariable('datx', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['datx'].values())][:]
                     ds.variables['datx'].long_name = 'Number of days included in the multiday maximum temperature (MDTX)'
+                    ds.variables['datx'].standard_name = 'number_of_observations'
+                    ds.variables['datx'].units = 1
                     ds.variables['datx'].missing_value = -9999
+                    ds.variables['datx'].valid_min = 0
+                    ds.variables['datx'].valid_max = 500
                     ds.variables['datx'].coordinates = 'lat lon alt station_name'
+                    ds.variables['datx'].coverage_content_type = 'auxiliaryInformation'
                     ds.variables['datx'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -977,8 +1036,13 @@ class GHCN:
                 if 'dawm' in elementAndFlagDicts:
                     dawm = ds.createVariable('dawm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['dawm'].values())][:]
                     ds.variables['dawm'].long_name = 'Number of days included in the multiday wind movement (MDWM)'
+                    ds.variables['dawm'].standard_name = 'number_of_observations'
+                    ds.variables['dawm'].units = 1
                     ds.variables['dawm'].missing_value = -9999
+                    ds.variables['dawm'].valid_min = 0
+                    ds.variables['dawm'].valid_max = 500
                     ds.variables['dawm'].coordinates = 'lat lon alt station_name'
+                    ds.variables['dawm'].coverage_content_type = 'auxiliaryInformation'
                     ds.variables['dawm'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -990,8 +1054,13 @@ class GHCN:
                 if 'dwpr' in elementAndFlagDicts:
                     dwpr = ds.createVariable('dwpr', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['dwpr'].values())][:]
                     ds.variables['dwpr'].long_name = 'Number of days with non-zero precipitation included in multiday precipitation total (MDPR)'
+                    ds.variables['dwpr'].standard_name = 'number_of_observations'
+                    ds.variables['dwpr'].units = 1
                     ds.variables['dwpr'].missing_value = -9999
+                    ds.variables['dwpr'].valid_min = 0
+                    ds.variables['dwpr'].valid_max = 500
                     ds.variables['dwpr'].coordinates = 'lat lon alt station_name'
+                    ds.variables['dwpr'].coverage_content_type = 'auxiliaryInformation'
                     ds.variables['dwpr'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1002,9 +1071,15 @@ class GHCN:
 
                 if 'evap' in elementAndFlagDicts:
                     evap = ds.createVariable('evap', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['evap'].values())][:]
-                    ds.variables['evap'].long_name = 'Evaporation of water from evaporation pan (tenths of mm)'
+                    ds.variables['evap'].long_name = 'Evaporation of water from evaporation pan (mm)'
+                    ds.variables['evap'].standard_name = 'water_evaporation_amount'
+                    ds.variables['evap'].units = 'mm'
+                    ds.variables['evap'].scale_factor = 0.1
                     ds.variables['evap'].missing_value = -9999
+                    ds.variables['evap'].valid_min = 0
+                    ds.variables['evap'].valid_max = 3000
                     ds.variables['evap'].coordinates = 'lat lon alt station_name'
+                    ds.variables['evap'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['evap'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1017,7 +1092,10 @@ class GHCN:
                     fmtm = ds.createVariable('fmtm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['fmtm'].values())][:]
                     ds.variables['fmtm'].long_name = 'Time of fastest mile or fastest 1-minute wind (hours and minutes, i.e., HHMM)'
                     ds.variables['fmtm'].missing_value = -9999
+                    ds.variables['fmtm'].valid_min = 0
+                    ds.variables['fmtm'].valid_max = 2400
                     ds.variables['fmtm'].coordinates = 'lat lon alt station_name'
+                    ds.variables['fmtm'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['fmtm'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1029,8 +1107,12 @@ class GHCN:
                 if 'frgb' in elementAndFlagDicts:
                     frgb = ds.createVariable('frgb', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['frgb'].values())][:]
                     ds.variables['frgb'].long_name = 'Base of frozen ground layer (cm)'
+                    ds.variables['frgb'].units = 'cm'
                     ds.variables['frgb'].missing_value = -9999
+                    ds.variables['frgb'].valid_min = 0
+                    ds.variables['frgb'].valid_max = 30000
                     ds.variables['frgb'].coordinates = 'lat lon alt station_name'
+                    ds.variables['frgb'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['frgb'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1042,8 +1124,12 @@ class GHCN:
                 if 'frgt' in elementAndFlagDicts:
                     frgt = ds.createVariable('frgt', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['frgt'].values())][:]
                     ds.variables['frgt'].long_name = 'Top of frozen ground layer (cm)'
+                    ds.variables['frgt'].units = 'cm'
                     ds.variables['frgt'].missing_value = -9999
+                    ds.variables['frgt'].valid_min = 0
+                    ds.variables['frgt'].valid_max = 20000
                     ds.variables['frgt'].coordinates = 'lat lon alt station_name'
+                    ds.variables['frgt'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['frgt'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1055,8 +1141,12 @@ class GHCN:
                 if 'frth' in elementAndFlagDicts:
                     frth = ds.createVariable('frth', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['frth'].values())][:]
                     ds.variables['frth'].long_name = 'Thickness of frozen ground layer (cm)'
+                    ds.variables['frth'].units = 'cm'
                     ds.variables['frth'].missing_value = -9999
+                    ds.variables['frth'].valid_min = 0
+                    ds.variables['frth'].valid_max = 30000
                     ds.variables['frth'].coordinates = 'lat lon alt station_name'
+                    ds.variables['frth'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['frth'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1068,8 +1158,12 @@ class GHCN:
                 if 'gaht' in elementAndFlagDicts:
                     gaht = ds.createVariable('gaht', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['gaht'].values())][:]
                     ds.variables['gaht'].long_name = 'Difference between river and gauge height (cm)'
+                    ds.variables['gaht'].units = 'cm'
                     ds.variables['gaht'].missing_value = -9999
+                    ds.variables['gaht'].valid_min = 0
+                    ds.variables['gaht'].valid_max = 30000
                     ds.variables['gaht'].coordinates = 'lat lon alt station_name'
+                    ds.variables['gaht'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['gaht'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1080,9 +1174,15 @@ class GHCN:
 
                 if 'mdev' in elementAndFlagDicts:
                     mdev = ds.createVariable('mdev', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdev'].values())][:]
-                    ds.variables['mdev'].long_name = 'Multiday evaporation total (tenths of mm; use with DAEV)'
+                    ds.variables['mdev'].long_name = 'Multiday evaporation total (mm)'
+                    ds.variables['mdev'].standard_name = 'water_evaporation_amount'
+                    ds.variables['mdev'].units = 'mm'
+                    ds.variables['mdev'].scale_factor = 0.1
                     ds.variables['mdev'].missing_value = -9999
+                    ds.variables['mdev'].valid_min = 0
+                    ds.variables['mdev'].valid_max = 30000
                     ds.variables['mdev'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdev'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['mdev'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1093,9 +1193,15 @@ class GHCN:
 
                 if 'mdpr' in elementAndFlagDicts:
                     mdpr = ds.createVariable('mdpr', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdpr'].values())][:]
-                    ds.variables['mdpr'].long_name = 'Multiday precipitation total (tenths of mm; use with DAPR and DWPR, if available)'
+                    ds.variables['mdpr'].long_name = 'Multiday precipitation total (mm)'
+                    ds.variables['mdpr'].standard_name = 'precipitation_amount'
+                    ds.variables['mdpr'].units = 'mm'
+                    ds.variables['mdpr'].scale_factor = 0.1
                     ds.variables['mdpr'].missing_value = -9999
+                    ds.variables['mdpr'].valid_min = 0
+                    ds.variables['mdpr'].valid_max = 30000
                     ds.variables['mdpr'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdpr'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['mdpr'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1106,9 +1212,14 @@ class GHCN:
 
                 if 'mdsf' in elementAndFlagDicts:
                     mdsf = ds.createVariable('mdsf', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdsf'].values())][:]
-                    ds.variables['mdsf'].long_name = 'Multiday snowfall total'
+                    ds.variables['mdsf'].long_name = 'Multiday snowfall total (mm)'
+                    ds.variables['mdsf'].standard_name = 'snowfall_amount'
+                    ds.variables['mdsf'].units = 'mm'
                     ds.variables['mdsf'].missing_value = -9999
+                    ds.variables['mdsf'].valid_min = 0
+                    ds.variables['mdsf'].valid_max = 30000
                     ds.variables['mdsf'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdsf'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['mdsf'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1119,9 +1230,15 @@ class GHCN:
 
                 if 'mdtn' in elementAndFlagDicts:
                     mdtn = ds.createVariable('mdtn', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdtn'].values())][:]
-                    ds.variables['mdtn'].long_name = 'Multiday minimum temperature (tenths of degrees C; use with DATN)'
+                    ds.variables['mdtn'].long_name = 'Multiday minimum temperature (degrees C)'
+                    ds.variables['mdtn'].standard_name = 'air_temperature'
+                    ds.variables['mdtn'].units = 'degrees_Celsius'
+                    ds.variables['mdtn'].scale_factor = 0.1
                     ds.variables['mdtn'].missing_value = -9999
+                    ds.variables['mdtn'].valid_min = -500
+                    ds.variables['mdtn'].valid_max = 500
                     ds.variables['mdtn'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdtn'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['mdtn'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1132,9 +1249,15 @@ class GHCN:
 
                 if 'mdtx' in elementAndFlagDicts:
                     mdtx = ds.createVariable('mdtx', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdtx'].values())][:]
-                    ds.variables['mdtx'].long_name = 'Multiday maximum temperature (tenths of degress C; use with DATX)'
+                    ds.variables['mdtx'].long_name = 'Multiday maximum temperature (degrees C)'
+                    ds.variables['mdtx'].standard_name = 'air_temperature'
+                    ds.variables['mdtx'].units = 'degrees_Celsius'
+                    ds.variables['mdtx'].scale_factor = 0.1
                     ds.variables['mdtx'].missing_value = -9999
+                    ds.variables['mdtx'].valid_min = -500
+                    ds.variables['mdtx'].valid_max = 500
                     ds.variables['mdtx'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdtx'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['mdtx'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1146,8 +1269,12 @@ class GHCN:
                 if 'mdwm' in elementAndFlagDicts:
                     mdwm = ds.createVariable('mdwm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mdwm'].values())][:]
                     ds.variables['mdwm'].long_name = 'Multiday wind movement (km)'
+                    ds.variables['mdwm'].units = 'km'
                     ds.variables['mdwm'].missing_value = -9999
+                    ds.variables['mdwm'].valid_min = 0
+                    ds.variables['mdwm'].valid_max = 3000
                     ds.variables['mdwm'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mdwm'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['mdwm'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1158,9 +1285,15 @@ class GHCN:
 
                 if 'mnpn' in elementAndFlagDicts:
                     mnpn = ds.createVariable('mnpn', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mnpn'].values())][:]
-                    ds.variables['mnpn'].long_name = 'Daily minimum temperature of water in an evaporation pan (tenths of degrees C)'
+                    ds.variables['mnpn'].long_name = 'Daily minimum temperature of water in an evaporation pan (degrees C)'
+                    ds.variables['mnpn'].standard_name = 'air_temperature'
+                    ds.variables['mnpn'].units = 'degrees_Celsius'
+                    ds.variables['mnpn'].scale_factor = 0.1
                     ds.variables['mnpn'].missing_value = -9999
+                    ds.variables['mnpn'].valid_min = -500
+                    ds.variables['mnpn'].valid_max = 500
                     ds.variables['mnpn'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mnpn'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['mnpn'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1171,9 +1304,15 @@ class GHCN:
 
                 if 'mxpn' in elementAndFlagDicts:
                     mxpn = ds.createVariable('mxpn', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['mxpn'].values())][:]
-                    ds.variables['mxpn'].long_name = 'Daily maximum temperature of water in an evaporation pan (tenths of degrees C)'
+                    ds.variables['mxpn'].long_name = 'Daily maximum temperature of water in an evaporation pan (degrees C)'
+                    ds.variables['mxpn'].standard_name = 'air_temperature'
+                    ds.variables['mxpn'].units = 'degrees_Celsius'
+                    ds.variables['mxpn'].scale_factor = 0.1
                     ds.variables['mxpn'].missing_value = -9999
+                    ds.variables['mxpn'].valid_min = -500
+                    ds.variables['mxpn'].valid_max = 500
                     ds.variables['mxpn'].coordinates = 'lat lon alt station_name'
+                    ds.variables['mxpn'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['mxpn'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1186,7 +1325,10 @@ class GHCN:
                     pgtm = ds.createVariable('pgtm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['pgtm'].values())][:]
                     ds.variables['pgtm'].long_name = 'Peak gust time (hours and minutes, i.e., HHMM)'
                     ds.variables['pgtm'].missing_value = -9999
+                    ds.variables['pgtm'].valid_min = 0
+                    ds.variables['pgtm'].valid_max = 2400
                     ds.variables['pgtm'].coordinates = 'lat lon alt station_name'
+                    ds.variables['pgtm'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['pgtm'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1198,8 +1340,12 @@ class GHCN:
                 if 'psun' in elementAndFlagDicts:
                     psun = ds.createVariable('psun', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['psun'].values())][:]
                     ds.variables['psun'].long_name = 'Daily percent of possible sunshine (percent)'
+                    ds.variables['psun'].units = 'percent'
                     ds.variables['psun'].missing_value = -9999
+                    ds.variables['psun'].valid_min = 0
+                    ds.variables['psun'].valid_max = 100
                     ds.variables['psun'].coordinates = 'lat lon alt station_name'
+                    ds.variables['psun'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['psun'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1209,34 +1355,38 @@ class GHCN:
                     pass
 
                 if 'sn*#' in elementAndFlagDicts:
-                    sn_9 = ds.createVariable('sn_9', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['sn*#'].values())][:]
-                    ds.variables['sn_9'].long_name = """Minimum soil temperature (tenths of degrees C)
-                                                        where _ corresponds to a code
-                                                        for ground cover and 9 corresponds to a code for soil 
-                                                        depth.  
-                          
-                                                        Ground cover codes include the following:
-                                                        0 = unknown
-                                                        1 = grass
-                                                        2 = fallow
-                                                        3 = bare ground
-                                                        4 = brome grass
-                                                        5 = sod
-                                                        6 = straw multch
-                                                        7 = grass muck
-                                                        8 = bare muck
-                          
-                                                        Depth codes include the following:
-                                                        1 = 5 cm
-                                                        2 = 10 cm
-                                                        3 = 20 cm
-                                                        4 = 50 cm
-                                                        5 = 100 cm
-                                                        6 = 150 cm
-                                                        7 = 180 cm"""
-                    ds.variables['sn_9'].missing_value = -9999
-                    ds.variables['sn_9'].coordinates = 'lat lon alt station_name'
-                    ds.variables['sn_9'].ancillary_variables = 'mflag qflag sflag'
+                    sn = ds.createVariable('sn', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['sn*#'].values())][:]
+                    ds.variables['sn'].long_name = 'Minimum soil temperature (degrees C'
+                    ds.variables['sn'].standard_name = 'soil_temperature'
+                    ds.variables['sn'].units = 'degrees_Celsius'
+                    ds.variables['sn'].scale_factor = 0.1
+                    ds.variables['sn'].missing_value = -9999
+                    ds.variables['sn'].valid_min = -500
+                    ds.variables['sn'].valid_max = 500
+                    ds.variables['sn'].coordinates = 'lat lon alt station_name'
+                    ds.variables['sn'].coverage_content_type = 'physicalMeasurement'
+                    ds.variables['sn'].ancillary_variables = 'mflag qflag sflag'
+                    
+                    sn_cover = ds.createVariable('sn_cover', 'byte', ('station', 'time',))
+                    ds.variables['sn_cover'].long_name = 'Ground cover code for minimum soil temperature (SN)'
+                    ds.variables['sn_cover'].standard_name = 'area_type'
+                    ds.variables['sn_cover'].valid_min = 0
+                    ds.variables['sn_cover'].valid_max = 8
+                    ds.variables['sn_cover'].coordinates = 'lat lon alt station_name'
+                    ds.variables['sn_cover'].coverage_content_type = 'auxiliaryInformation'
+                    ds.variables['sn_cover'].flag_values = '0 1 2 3 4 5 6 7 8'
+                    ds.variables['sn_cover'].flag_meanings = 'unknown grass fallow bare_ground brome_grass sod straw_multch grass_muck bare_muck'
+
+                    sn_depth = ds.createVariable('sn_depth', 'byte', ('station', 'time',))
+                    ds.variables['sn_depth'].long_name = 'Soil depth code for minimum soil temperature (SN)'
+                    ds.variables['sn_depth'].standard_name = 'depth'
+                    ds.variables['sn_depth'].units = 'cm'
+                    ds.variables['sn_depth'].valid_min = 1
+                    ds.variables['sn_depth'].valid_max = 7
+                    ds.variables['sn_depth'].coordinates = 'lat lon alt station_name'
+                    ds.variables['sn_depth'].coverage_content_type = 'auxiliaryInformation'
+                    ds.variables['sn_depth'].flag_values = '1 2 3 4 5 6 7'
+                    ds.variables['sn_depth'].flag_meanings = '5 10 20 50 100 150 180'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1245,14 +1395,38 @@ class GHCN:
                     pass
 
                 if 'sx*#' in elementAndFlagDicts:
-                    sx_9 = ds.createVariable('sx_9', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['sx*#'].values())][:]
-                    ds.variables['sx_9'].long_name = """Maximum soil temperature (tenths of degrees C) 
-                                                        where _ corresponds to a code for ground cover 
-                                                        and 9 corresponds to a code for soil depth. 
-                                                        See sn_9 for ground cover and depth codes."""
-                    ds.variables['sx_9'].missing_value = -9999
-                    ds.variables['sx_9'].coordinates = 'lat lon alt station_name'
-                    ds.variables['sx_9'].ancillary_variables = 'mflag qflag sflag'
+                    sx = ds.createVariable('sx', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['sx*#'].values())][:]
+                    ds.variables['sx'].long_name = 'Maximum soil temperature (degrees C)'
+                    ds.variables['sx'].standard_name = 'soil_temperature'
+                    ds.variables['sx'].units = 'degrees_Celsius'
+                    ds.variables['sx'].valid_min = -500
+                    ds.variables['sx'].valid_max = 500
+                    ds.variables['sx'].coordinates = 'lat lon alt station_name'
+                    ds.variables['sx'].coverage_content_type = 'physicalMeasurement'
+                    ds.variables['sx'].missing_value = -9999
+                    ds.variables['sx'].coordinates = 'lat lon alt station_name'
+                    ds.variables['sx'].ancillary_variables = 'mflag qflag sflag'
+
+                    sx_cover = ds.createVariable('sx_cover', 'byte', ('station', 'time',))
+                    ds.variables['sx_cover'].long_name = 'Ground cover code for maximum soil temperature (SX)'
+                    ds.variables['sx_cover'].standard_name = 'area_type'
+                    ds.variables['sx_cover'].valid_min = 0
+                    ds.variables['sx_cover'].valid_max = 8
+                    ds.variables['sx_cover'].coordinates = 'lat lon alt station_name'
+                    ds.variables['sx_cover'].coverage_content_type = 'auxiliaryInformation'
+                    ds.variables['sx_cover'].flag_values = '0 1 2 3 4 5 6 7 8'
+                    ds.variables['sx_cover'].flag_meanings = 'unknown grass fallow bare_ground brome_grass sod straw_multch grass_muck bare_muck'
+
+                    sx_depth = ds.createVariable('sx_depth', 'byte', ('station', 'time',))
+                    ds.variables['sx_depth'].long_name = 'Soil depth code for maximum soil temperature (SX)'
+                    ds.variables['sx_depth'].standard_name = 'depth'
+                    ds.variables['sx_depth'].units = 'cm'
+                    ds.variables['sx_depth'].valid_min = 1
+                    ds.variables['sx_depth'].valid_max = 7
+                    ds.variables['sx_depth'].coordinates = 'lat lon alt station_name'
+                    ds.variables['sx_depth'].coverage_content_type = 'auxiliaryInformation'
+                    ds.variables['sx_depth'].flag_values = '1 2 3 4 5 6 7'
+                    ds.variables['sx_depth'].flag_meanings = '5 10 20 50 100 150 180'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1262,13 +1436,17 @@ class GHCN:
 
                 if 'tavg' in elementAndFlagDicts:
                     tavg = ds.createVariable('tavg', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tavg'].values())][:]
-                    ds.variables['tavg'].long_name = """Average temperature (tenths of degrees C)
-                                                        [Note that TAVG from source 'S' corresponds
-                                                        to an average for the period ending at
-                                                        2400 UTC rather than local midnight]"""
+                    ds.variables['tavg'].long_name = 'Average temperature (degrees C)'
+                    ds.variables['tavg'].standard_name = 'air_temperature'
+                    ds.variables['tavg'].units = 'degrees_Celsius'
+                    ds.variables['tavg'].scale_factor = 0.1
+                    ds.variables['tavg'].valid_min = -500
+                    ds.variables['tavg'].valid_max = 500
                     ds.variables['tavg'].missing_value = -9999
                     ds.variables['tavg'].coordinates = 'lat lon alt station_name'
+                    ds.variables['tavg'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['tavg'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['tavg'].comment = 'Note that TAVG from source \'S\' corresponds to an average for the period ending at 2400 UTC rather than local midnight.'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1278,9 +1456,15 @@ class GHCN:
 
                 if 'thic' in elementAndFlagDicts:
                     thic = ds.createVariable('thic', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['thic'].values())][:]
-                    ds.variables['thic'].long_name = 'Thickness of ice on water (tenths of mm)'
+                    ds.variables['thic'].long_name = 'Thickness of ice on water (mm)'
+                    ds.variables['thic'].standard_name = 'floating_ice_thickness'
+                    ds.variables['thic'].units = 'mm'
+                    ds.variables['thic'].scale_factor = 0.1
+                    ds.variables['thic'].valid_min = 0
+                    ds.variables['thic'].valid_max = 10000
                     ds.variables['thic'].missing_value = -9999
                     ds.variables['thic'].coordinates = 'lat lon alt station_name'
+                    ds.variables['thic'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['thic'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1291,9 +1475,15 @@ class GHCN:
 
                 if 'tobs' in elementAndFlagDicts:
                     tobs = ds.createVariable('tobs', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tobs'].values())][:]
-                    ds.variables['tobs'].long_name = 'Temperature at the time of observation (tenths of degrees C)'
+                    ds.variables['tobs'].long_name = 'Temperature at the time of observation (degrees_Celsius)'
+                    ds.variables['tobs'].standard_name = 'air_temperature'
+                    ds.variables['tobs'].units = 'degrees_Celsius'
+                    ds.variables['tobs'].scale_factor = 0.1
+                    ds.variables['tobs'].valid_min = -500
+                    ds.variables['tobs'].valid_max = 500
                     ds.variables['tobs'].missing_value = -9999
                     ds.variables['tobs'].coordinates = 'lat lon alt station_name'
+                    ds.variables['tobs'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['tobs'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1305,8 +1495,12 @@ class GHCN:
                 if 'tsun' in elementAndFlagDicts:
                     tsun = ds.createVariable('tsun', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tsun'].values())][:]
                     ds.variables['tsun'].long_name = 'Daily total sunshine (minutes)'
+                    ds.variables['tsun'].units = 'minutes'
+                    ds.variables['tsun'].valid_min = '0'
+                    ds.variables['tsun'].valid_max = 1440
                     ds.variables['tsun'].missing_value = -9999
                     ds.variables['tsun'].coordinates = 'lat lon alt station_name'
+                    ds.variables['tsun'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['tsun'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1318,8 +1512,13 @@ class GHCN:
                 if 'wdf1' in elementAndFlagDicts:
                     wdf1 = ds.createVariable('wdf1', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdf1'].values())][:]
                     ds.variables['wdf1'].long_name = 'Direction of fastest 1-minute wind (degrees)'
+                    ds.variables['wdf1'].standard_name = 'wind_from_direction'
+                    ds.variables['wdf1'].units = 'degree'
+                    ds.variables['wdf1'].valid_min = 0
+                    ds.variables['wdf1'].valid_max = 360
                     ds.variables['wdf1'].missing_value = -9999
                     ds.variables['wdf1'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdf1'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wdf1'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1331,8 +1530,13 @@ class GHCN:
                 if 'wdf2' in elementAndFlagDicts:
                     wdf2 = ds.createVariable('wdf2', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdf2'].values())][:]
                     ds.variables['wdf2'].long_name = 'Direction of fastest 2-minute wind (degrees)'
+                    ds.variables['wdf2'].standard_name = 'wind_from_direction'
+                    ds.variables['wdf2'].units = 'degree'
+                    ds.variables['wdf2'].valid_min = 0
+                    ds.variables['wdf2'].valid_max = 360
                     ds.variables['wdf2'].missing_value = -9999
                     ds.variables['wdf2'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdf2'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wdf2'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1344,8 +1548,13 @@ class GHCN:
                 if 'wdf5' in elementAndFlagDicts:
                     wdf5 = ds.createVariable('wdf5', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdf5'].values())][:]
                     ds.variables['wdf5'].long_name = 'Direction of fastest 5-second wind (degrees)'
+                    ds.variables['wdf5'].standard_name = 'wind_from_direction'
+                    ds.variables['wdf5'].units = 'degree'
+                    ds.variables['wdf5'].valid_min = 0
+                    ds.variables['wdf5'].valid_max = 360
                     ds.variables['wdf5'].missing_value = -9999
                     ds.variables['wdf5'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdf5'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wdf5'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1357,8 +1566,13 @@ class GHCN:
                 if 'wdfg' in elementAndFlagDicts:
                     wdfg = ds.createVariable('wdfg', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdfg'].values())][:]
                     ds.variables['wdfg'].long_name = 'Direction of peak wind gust (degrees)'
+                    ds.variables['wdfg'].standard_name = 'wind_from_direction'
+                    ds.variables['wdfg'].units = 'degree'
+                    ds.variables['wdfg'].valid_min = 0
+                    ds.variables['wdfg'].valid_max = 360
                     ds.variables['wdfg'].missing_value = -9999
                     ds.variables['wdfg'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdfg'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wdfg'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1370,8 +1584,13 @@ class GHCN:
                 if 'wdfi' in elementAndFlagDicts:
                     wdfi = ds.createVariable('wdfi', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdfi'].values())][:]
                     ds.variables['wdfi'].long_name = 'Direction of highest instantaneous wind (degrees)'
+                    ds.variables['wdfi'].standard_name = 'wind_from_direction'
+                    ds.variables['wdfi'].units = 'degree'
+                    ds.variables['wdfi'].valid_min = 0
+                    ds.variables['wdfi'].valid_max = 360
                     ds.variables['wdfi'].missing_value = -9999
                     ds.variables['wdfi'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdfi'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wdfi'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1383,8 +1602,13 @@ class GHCN:
                 if 'wdfm' in elementAndFlagDicts:
                     wdfm = ds.createVariable('wdfm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdfm'].values())][:]
                     ds.variables['wdfm'].long_name = 'Fastest mile wind direction (degrees)'
+                    ds.variables['wdfm'].standard_name = 'wind_from_direction'
+                    ds.variables['wdfm'].units = 'degree'
+                    ds.variables['wdfm'].valid_min = 0
+                    ds.variables['wdfm'].valid_max = 360
                     ds.variables['wdfm'].missing_value = -9999
                     ds.variables['wdfm'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdfm'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wdfm'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1396,8 +1620,12 @@ class GHCN:
                 if 'wdmv' in elementAndFlagDicts:
                     wdmv = ds.createVariable('wdmv', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wdmv'].values())][:]
                     ds.variables['wdmv'].long_name = '24-hour wind movement (km)'
+                    ds.variables['wdmv'].units = 'km'
+                    ds.variables['wdmv'].valid_min = 0
+                    ds.variables['wdmv'].valid_max = 3000
                     ds.variables['wdmv'].missing_value = -9999
                     ds.variables['wdmv'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wdmv'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wdmv'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1409,7 +1637,13 @@ class GHCN:
                 if 'wesd' in elementAndFlagDicts:
                     wesd = ds.createVariable('wesd', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wesd'].values())][:]
                     ds.variables['wesd'].long_name = 'Water equivalent of snow on the ground (tenths of mm)'
+                    ds.variables['wesd'].standard_name = 'lwe_thickness_of_surface_snow_amount'
+                    ds.variables['wesd'].units = 'mm'
+                    ds.variables['wesd'].scale_factor = 0.1
+                    ds.variables['wesd'].valid_min = 0
+                    ds.variables['wesd'].valid_max = 5000
                     ds.variables['wesd'].missing_value = -9999
+                    ds.variables['wesd'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wesd'].coordinates = 'lat lon alt station_name'
                     ds.variables['wesd'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -1422,7 +1656,12 @@ class GHCN:
                 if 'wesf' in elementAndFlagDicts:
                     wesf = ds.createVariable('wesf', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wesf'].values())][:]
                     ds.variables['wesf'].long_name = 'Water equivalent of snowfall (tenths of mm)'
+                    ds.variables['wesf'].standard_name = 'lwe_thickness_of_snowfall_amount'
+                    ds.variables['wesf'].units = 'mm'
+                    ds.variables['wesf'].valid_min = 0
+                    ds.variables['wesf'].valid_max = 5000
                     ds.variables['wesf'].missing_value = -9999
+                    ds.variables['wesf'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wesf'].coordinates = 'lat lon alt station_name'
                     ds.variables['wesf'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -1434,8 +1673,14 @@ class GHCN:
 
                 if 'wsf1' in elementAndFlagDicts:
                     wsf1 = ds.createVariable('wsf1', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsf1'].values())][:]
-                    ds.variables['wsf1'].long_name = 'Fastest 1-minute wind speed (tenths of meters per second)'
+                    ds.variables['wsf1'].long_name = 'Fastest 1-minute wind speed (m s-1)'
+                    ds.variables['wsf1'].standard_name = 'wind_speed'
+                    ds.variables['wsf1'].units = 'm s-1'
+                    ds.variables['wsf1'].scale_factor = 0.1
+                    ds.variables['wsf1'].valid_min = 0
+                    ds.variables['wsf1'].valid_max = 100
                     ds.variables['wsf1'].missing_value = -9999
+                    ds.variables['wsf1'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsf1'].coordinates = 'lat lon alt station_name'
                     ds.variables['wsf1'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -1447,8 +1692,14 @@ class GHCN:
 
                 if 'wsf2' in elementAndFlagDicts:
                     wsf2 = ds.createVariable('wsf2', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsf2'].values())][:]
-                    ds.variables['wsf2'].long_name = 'Fastest 2-minute wind speed (tenths of meters per second)'
+                    ds.variables['wsf2'].long_name = 'Fastest 2-minute wind speed (m s-1)'
+                    ds.variables['wsf2'].standard_name = 'wind_speed'
+                    ds.variables['wsf2'].units = 'm s-1'
+                    ds.variables['wsf2'].scale_factor = 0.1
+                    ds.variables['wsf2'].valid_min = 0
+                    ds.variables['wsf2'].valid_max = 100
                     ds.variables['wsf2'].missing_value = -9999
+                    ds.variables['wsf2'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsf2'].coordinates = 'lat lon alt station_name'
                     ds.variables['wsf2'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -1460,8 +1711,14 @@ class GHCN:
 
                 if 'wsf5' in elementAndFlagDicts:
                     wsf5 = ds.createVariable('wsf5', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsf5'].values())][:]
-                    ds.variables['wsf5'].long_name = 'Fastest 5-second wind speed (tenths of meters per second)'
+                    ds.variables['wsf5'].long_name = 'Fastest 5-second wind speed (m s-1)'
+                    ds.variables['wsf5'].standard_name = 'wind_speed'
+                    ds.variables['wsf5'].units = 'm s-1'
+                    ds.variables['wsf5'].scale_factor = 0.1
+                    ds.variables['wsf5'].valid_min = 0
+                    ds.variables['wsf5'].valid_max = 100
                     ds.variables['wsf5'].missing_value = -9999
+                    ds.variables['wsf5'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsf5'].coordinates = 'lat lon alt station_name'
                     ds.variables['wsf5'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -1473,8 +1730,14 @@ class GHCN:
 
                 if 'wsfg' in elementAndFlagDicts:
                     wsfg = ds.createVariable('wsfg', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsfg'].values())][:]
-                    ds.variables['wsfg'].long_name = 'Peak gust wind speed (tenths of meters per second)'
+                    ds.variables['wsfg'].long_name = 'Peak gust wind speed (m s-1)'
+                    ds.variables['wsfg'].standard_name = 'wind_speed'
+                    ds.variables['wsfg'].units = 'm s-1'
+                    ds.variables['wsfg'].scale_factor = 0.1
+                    ds.variables['wsfg'].valid_min = 0
+                    ds.variables['wsfg'].valid_max = 100
                     ds.variables['wsfg'].missing_value = -9999
+                    ds.variables['wsfg'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsfg'].coordinates = 'lat lon alt station_name'
                     ds.variables['wsfg'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -1486,8 +1749,14 @@ class GHCN:
 
                 if 'wsfi' in elementAndFlagDicts:
                     wsfi = ds.createVariable('wsfi', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsfi'].values())][:]
-                    ds.variables['wsfi'].long_name = 'Highest instantaneous wind speed (tenths of meters per second)'
+                    ds.variables['wsfi'].long_name = 'Highest instantaneous wind speed (m s-1)'
+                    ds.variables['wsfi'].standard_name = 'wind_speed'
+                    ds.variables['wsfi'].units = 'm s-1'
+                    ds.variables['wsfi'].scale_factor = 0.1
+                    ds.variables['wsfi'].valid_min = 0
+                    ds.variables['wsfi'].valid_max = 100
                     ds.variables['wsfi'].missing_value = -9999
+                    ds.variables['wsfi'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsfi'].coordinates = 'lat lon alt station_name'
                     ds.variables['wsfi'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -1499,8 +1768,14 @@ class GHCN:
 
                 if 'wsfm' in elementAndFlagDicts:
                     wsfm = ds.createVariable('wsfm', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wsfm'].values())][:]
-                    ds.variables['wsfm'].long_name = 'Fastest mile wind speed (tenths of meters per second)'
+                    ds.variables['wsfm'].long_name = 'Fastest mile wind speed (m s-1)'
+                    ds.variables['wsfm'].standard_name = 'wind_speed'
+                    ds.variables['wsfm'].units = 'm s-1'
+                    ds.variables['wsfm'].scale_factor = 0.1
+                    ds.variables['wsfm'].valid_min = 0
+                    ds.variables['wsfm'].valid_max = 100
                     ds.variables['wsfm'].missing_value = -9999
+                    ds.variables['wsfm'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsfm'].coordinates = 'lat lon alt station_name'
                     ds.variables['wsfm'].ancillary_variables = 'mflag qflag sflag'
                 # Delete key from dictionary after processing to avoid double
@@ -1511,36 +1786,16 @@ class GHCN:
                     pass
 
                 if 'wt**' in elementAndFlagDicts:
-                    wt__ = ds.createVariable('wt__', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wt**'].values())][:]
-                    ds.variables['wt__'].long_name = """Weather Type where __ has one of the following values:
-                       
-                                                        01 = Fog, ice fog, or freezing fog (may include heavy fog)
-                                                        02 = Heavy fog or heaving freezing fog (not always 
-                                                             distinquished from fog)
-                                                        03 = Thunder
-                                                        04 = Ice pellets, sleet, snow pellets, or small hail 
-                                                        05 = Hail (may include small hail)
-                                                        06 = Glaze or rime 
-                                                        07 = Dust, volcanic ash, blowing dust, blowing sand, or 
-                                                             blowing obstruction
-                                                        08 = Smoke or haze 
-                                                        09 = Blowing or drifting snow
-                                                        10 = Tornado, waterspout, or funnel cloud 
-                                                        11 = High or damaging winds
-                                                        12 = Blowing spray
-                                                        13 = Mist
-                                                        14 = Drizzle
-                                                        15 = Freezing drizzle 
-                                                        16 = Rain (may include freezing rain, drizzle, and
-                                                             freezing drizzle) 
-                                                        17 = Freezing rain 
-                                                        18 = Snow, snow pellets, snow grains, or ice crystals
-                                                        19 = Unknown source of precipitation 
-                                                        21 = Ground fog 
-                                                        22 = Ice fog or freezing fog"""
-                    ds.variables['wt__'].missing_value = -9999
-                    ds.variables['wt__'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wt__'].ancillary_variables = 'mflag qflag sflag'
+                    wt = ds.createVariable('wt', 'byte', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wt**'].values())][:]
+                    ds.variables['wt'].long_name = 'Weather Type'
+                    ds.variables['wt'].valid_min = 1
+                    ds.variables['wt'].valid_max = 22
+                    ds.variables['wt'].missing_value = -9999
+                    ds.variables['wt'].coverage_content_type = 'physicalMeasurement'
+                    ds.variables['wt'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wt'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wt'].flag_values = '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 21 22'
+                    ds.variables['wt'].flag_meanings = 'Fog_ice_fog_or_freezing_fog_(may_include_heavy_fog) Heavy_fog_or_heaving_freezing_fog_(not_always_distinquished_from_fog) Thunder Ice_pellets_sleet_snow_pellets_or_small_hail Hail_(may_include_small_hail) Glaze_or_rime Dust_volcanic_ash_blowing_dust_blowing_sand_or_blowing_obstruction Smoke_or_haze Blowing_or_drifting_snow Tornado_waterspout_or_funnel_cloud High_or_damaging_winds Blowing_spray Mist Drizzle Freezing_drizzle Rain_(may_include_freezing_rain_drizzle_and_freezing_drizzle) Freezing_rain Snow_snow_pellets_snow_grains_or_ice_crystals Unknown_source_of_precipitation Ground_fog Ice_fog_or_freezing_fog'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1549,18 +1804,16 @@ class GHCN:
                     pass
 
                 if 'wv**' in elementAndFlagDicts:
-                    wv__ = ds.createVariable('wv__', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wv**'].values())][:]
-                    ds.variables['wv__'].long_name = """Weather in the Vicinity where ** has one of the following 
-                                                        values:
-                           
-                                                        01 = Fog, ice fog, or freezing fog (may include heavy fog)
-                                                        03 = Thunder
-                                                        07 = Ash, dust, sand, or other blowing obstruction
-                                                        18 = Snow or ice crystals
-                                                        20 = Rain or snow shower"""
-                    ds.variables['wv__'].missing_value = -9999
-                    ds.variables['wv__'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wv__'].ancillary_variables = 'mflag qflag sflag'
+                    wv = ds.createVariable('wv', 'byte', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wv**'].values())][:]
+                    ds.variables['wv'].long_name = 'Weather in the Vicinity'
+                    ds.variables['wv'].valid_min = 1
+                    ds.variables['wv'].valid_max = 20
+                    ds.variables['wv'].missing_value = -9999
+                    ds.variables['wv'].coverage_content_type = 'physicalMeasurement'
+                    ds.variables['wv'].coordinates = 'lat lon alt station_name'
+                    ds.variables['wv'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wv'].flag_values = '1 3 7 18 20'
+                    ds.variables['wv'].flag_meanings = 'Fog_ice_fog_or_freezing_fog_(may_include_heavy_fog) Thunder Ash_dust_sand_or_other_blowing_obstruction Snow_or_ice_crystals Rain_or_snow_shower'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
