@@ -1960,7 +1960,7 @@ if __name__ == '__main__':
 
     #testfile = "AGE00147710"
     #testfile = "BR002141011"
-    #testfile = "USC00047810"
+    #testfile = "USC00168163" # file to test sx.. elements
     testfile = "ASN00026026"
 
     ghcn = GHCN()
