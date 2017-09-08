@@ -1354,86 +1354,6 @@ class GHCN:
                 except KeyError:
                     pass
 
-                if 'sn*#' in elementAndFlagDicts:
-                    sn = ds.createVariable('sn', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['sn*#'].values())][:]
-                    ds.variables['sn'].long_name = 'Minimum soil temperature (degrees C'
-                    ds.variables['sn'].standard_name = 'soil_temperature'
-                    ds.variables['sn'].units = 'degrees_Celsius'
-                    ds.variables['sn'].scale_factor = 0.1
-                    ds.variables['sn'].missing_value = -9999
-                    ds.variables['sn'].valid_min = -500
-                    ds.variables['sn'].valid_max = 500
-                    ds.variables['sn'].coordinates = 'lat lon alt station_name'
-                    ds.variables['sn'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['sn'].ancillary_variables = 'mflag qflag sflag'
-                    
-                    sn_cover = ds.createVariable('sn_cover', 'byte', ('station', 'time',))
-                    ds.variables['sn_cover'].long_name = 'Ground cover code for minimum soil temperature (SN)'
-                    ds.variables['sn_cover'].standard_name = 'area_type'
-                    ds.variables['sn_cover'].valid_min = 0
-                    ds.variables['sn_cover'].valid_max = 8
-                    ds.variables['sn_cover'].coordinates = 'lat lon alt station_name'
-                    ds.variables['sn_cover'].coverage_content_type = 'auxiliaryInformation'
-                    ds.variables['sn_cover'].flag_values = '0 1 2 3 4 5 6 7 8'
-                    ds.variables['sn_cover'].flag_meanings = 'unknown grass fallow bare_ground brome_grass sod straw_multch grass_muck bare_muck'
-
-                    sn_depth = ds.createVariable('sn_depth', 'byte', ('station', 'time',))
-                    ds.variables['sn_depth'].long_name = 'Soil depth code for minimum soil temperature (SN)'
-                    ds.variables['sn_depth'].standard_name = 'depth'
-                    ds.variables['sn_depth'].units = 'cm'
-                    ds.variables['sn_depth'].valid_min = 1
-                    ds.variables['sn_depth'].valid_max = 7
-                    ds.variables['sn_depth'].coordinates = 'lat lon alt station_name'
-                    ds.variables['sn_depth'].coverage_content_type = 'auxiliaryInformation'
-                    ds.variables['sn_depth'].flag_values = '1 2 3 4 5 6 7'
-                    ds.variables['sn_depth'].flag_meanings = '5 10 20 50 100 150 180'
-                # Delete key from dictionary after processing to avoid double
-                # processing below with dynamically generated value arrays
-                try:
-                    del elementAndFlagDicts['sn*#']
-                except KeyError:
-                    pass
-
-                if 'sx*#' in elementAndFlagDicts:
-                    sx = ds.createVariable('sx', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['sx*#'].values())][:]
-                    ds.variables['sx'].long_name = 'Maximum soil temperature (degrees C)'
-                    ds.variables['sx'].standard_name = 'soil_temperature'
-                    ds.variables['sx'].units = 'degrees_Celsius'
-                    ds.variables['sx'].valid_min = -500
-                    ds.variables['sx'].valid_max = 500
-                    ds.variables['sx'].coordinates = 'lat lon alt station_name'
-                    ds.variables['sx'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['sx'].missing_value = -9999
-                    ds.variables['sx'].coordinates = 'lat lon alt station_name'
-                    ds.variables['sx'].ancillary_variables = 'mflag qflag sflag'
-
-                    sx_cover = ds.createVariable('sx_cover', 'byte', ('station', 'time',))
-                    ds.variables['sx_cover'].long_name = 'Ground cover code for maximum soil temperature (SX)'
-                    ds.variables['sx_cover'].standard_name = 'area_type'
-                    ds.variables['sx_cover'].valid_min = 0
-                    ds.variables['sx_cover'].valid_max = 8
-                    ds.variables['sx_cover'].coordinates = 'lat lon alt station_name'
-                    ds.variables['sx_cover'].coverage_content_type = 'auxiliaryInformation'
-                    ds.variables['sx_cover'].flag_values = '0 1 2 3 4 5 6 7 8'
-                    ds.variables['sx_cover'].flag_meanings = 'unknown grass fallow bare_ground brome_grass sod straw_multch grass_muck bare_muck'
-
-                    sx_depth = ds.createVariable('sx_depth', 'byte', ('station', 'time',))
-                    ds.variables['sx_depth'].long_name = 'Soil depth code for maximum soil temperature (SX)'
-                    ds.variables['sx_depth'].standard_name = 'depth'
-                    ds.variables['sx_depth'].units = 'cm'
-                    ds.variables['sx_depth'].valid_min = 1
-                    ds.variables['sx_depth'].valid_max = 7
-                    ds.variables['sx_depth'].coordinates = 'lat lon alt station_name'
-                    ds.variables['sx_depth'].coverage_content_type = 'auxiliaryInformation'
-                    ds.variables['sx_depth'].flag_values = '1 2 3 4 5 6 7'
-                    ds.variables['sx_depth'].flag_meanings = '5 10 20 50 100 150 180'
-                # Delete key from dictionary after processing to avoid double
-                # processing below with dynamically generated value arrays
-                try:
-                    del elementAndFlagDicts['sx*#']
-                except KeyError:
-                    pass
-
                 if 'tavg' in elementAndFlagDicts:
                     tavg = ds.createVariable('tavg', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['tavg'].values())][:]
                     ds.variables['tavg'].long_name = 'Average temperature (degrees C)'
@@ -1785,42 +1705,6 @@ class GHCN:
                 except KeyError:
                     pass
 
-                if 'wt**' in elementAndFlagDicts:
-                    wt = ds.createVariable('wt', 'byte', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wt**'].values())][:]
-                    ds.variables['wt'].long_name = 'Weather Type'
-                    ds.variables['wt'].valid_min = 1
-                    ds.variables['wt'].valid_max = 22
-                    ds.variables['wt'].missing_value = -9999
-                    ds.variables['wt'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['wt'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wt'].ancillary_variables = 'mflag qflag sflag'
-                    ds.variables['wt'].flag_values = '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 21 22'
-                    ds.variables['wt'].flag_meanings = 'Fog_ice_fog_or_freezing_fog_(may_include_heavy_fog) Heavy_fog_or_heaving_freezing_fog_(not_always_distinquished_from_fog) Thunder Ice_pellets_sleet_snow_pellets_or_small_hail Hail_(may_include_small_hail) Glaze_or_rime Dust_volcanic_ash_blowing_dust_blowing_sand_or_blowing_obstruction Smoke_or_haze Blowing_or_drifting_snow Tornado_waterspout_or_funnel_cloud High_or_damaging_winds Blowing_spray Mist Drizzle Freezing_drizzle Rain_(may_include_freezing_rain_drizzle_and_freezing_drizzle) Freezing_rain Snow_snow_pellets_snow_grains_or_ice_crystals Unknown_source_of_precipitation Ground_fog Ice_fog_or_freezing_fog'
-                # Delete key from dictionary after processing to avoid double
-                # processing below with dynamically generated value arrays
-                try:
-                    del elementAndFlagDicts['wt**']
-                except KeyError:
-                    pass
-
-                if 'wv**' in elementAndFlagDicts:
-                    wv = ds.createVariable('wv', 'byte', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['wv**'].values())][:]
-                    ds.variables['wv'].long_name = 'Weather in the Vicinity'
-                    ds.variables['wv'].valid_min = 1
-                    ds.variables['wv'].valid_max = 20
-                    ds.variables['wv'].missing_value = -9999
-                    ds.variables['wv'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['wv'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wv'].ancillary_variables = 'mflag qflag sflag'
-                    ds.variables['wv'].flag_values = '1 3 7 18 20'
-                    ds.variables['wv'].flag_meanings = 'Fog_ice_fog_or_freezing_fog_(may_include_heavy_fog) Thunder Ash_dust_sand_or_other_blowing_obstruction Snow_or_ice_crystals Rain_or_snow_shower'
-                # Delete key from dictionary after processing to avoid double
-                # processing below with dynamically generated value arrays
-                try:
-                    del elementAndFlagDicts['wv**']
-                except KeyError:
-                    pass
-
                 # Other variables
                 lat = ds.createVariable('lat', 'f', ('station',))
                 lat.long_name = 'Latitude'
@@ -1865,6 +1749,99 @@ class GHCN:
                     if len(key) == 4:
                         ds.createVariable(
                             key, 'i2', ('station', 'time',), fill_value=-9999)[:] = [np.array(value.values())][:]
+                        
+                        # Add sx.. attributes
+                        if 'sx' in key:
+                            ds.variables[key].long_name = 'Maximum soil temperature (degrees C)'
+                            ds.variables[key].standard_name = 'soil_temperature'
+                            ds.variables[key].units = 'degrees_Celsius'
+                            ds.variables[key].valid_min = -500
+                            ds.variables[key].valid_max = 500
+                            ds.variables[key].coordinates = 'lat lon alt station_name'
+                            ds.variables[key].coverage_content_type = 'physicalMeasurement'
+                            ds.variables[key].missing_value = -9999
+                            ds.variables[key].coordinates = 'lat lon alt station_name'
+                            ds.variables[key].ancillary_variables = 'mflag qflag sflag'
+
+                            ds.createVariable(key + '_cover', 'byte', ('station', 'time',))
+                            ds.variables[key + '_cover'].long_name = 'Ground cover code for maximum soil temperature (SX)'
+                            ds.variables[key + '_cover'].standard_name = 'area_type'
+                            ds.variables[key + '_cover'].valid_min = 0
+                            ds.variables[key + '_cover'].valid_max = 8
+                            ds.variables[key + '_cover'].coordinates = 'lat lon alt station_name'
+                            ds.variables[key + '_cover'].coverage_content_type = 'auxiliaryInformation'
+                            ds.variables[key + '_cover'].flag_values = '0 1 2 3 4 5 6 7 8'
+                            ds.variables[key + '_cover'].flag_meanings = 'unknown grass fallow bare_ground brome_grass sod straw_multch grass_muck bare_muck'
+
+                            ds.createVariable(key + '_depth', 'byte', ('station', 'time',))
+                            ds.variables[key + '_depth'].long_name = 'Soil depth code for maximum soil temperature (SX)'
+                            ds.variables[key + '_depth'].standard_name = 'depth'
+                            ds.variables[key + '_depth'].units = 'cm'
+                            ds.variables[key + '_depth'].valid_min = 1
+                            ds.variables[key + '_depth'].valid_max = 7
+                            ds.variables[key + '_depth'].coordinates = 'lat lon alt station_name'
+                            ds.variables[key + '_depth'].coverage_content_type = 'auxiliaryInformation'
+                            ds.variables[key + '_depth'].flag_values = '1 2 3 4 5 6 7'
+                            ds.variables[key + '_depth'].flag_meanings = '5 10 20 50 100 150 180'
+
+                        # Add sn.. attributes
+                        if 'sn' in key:
+                            ds.variables[key].long_name = 'Minimum soil temperature (degrees C'
+                            ds.variables[key].standard_name = 'soil_temperature'
+                            ds.variables[key].units = 'degrees_Celsius'
+                            ds.variables[key].scale_factor = 0.1
+                            ds.variables[key].missing_value = -9999
+                            ds.variables[key].valid_min = -500
+                            ds.variables[key].valid_max = 500
+                            ds.variables[key].coordinates = 'lat lon alt station_name'
+                            ds.variables[key].coverage_content_type = 'physicalMeasurement'
+                            ds.variables[key].ancillary_variables = 'mflag qflag sflag'
+
+                            ds.createVariable(key + '_cover', 'byte', ('station', 'time',))
+                            ds.variables[key + '_cover'].long_name = 'Ground cover code for minimum soil temperature (SN)'
+                            ds.variables[key + '_cover'].standard_name = 'area_type'
+                            ds.variables[key + '_cover'].valid_min = 0
+                            ds.variables[key + '_cover'].valid_max = 8
+                            ds.variables[key + '_cover'].coordinates = 'lat lon alt station_name'
+                            ds.variables[key + '_cover'].coverage_content_type = 'auxiliaryInformation'
+                            ds.variables[key + '_cover'].flag_values = '0 1 2 3 4 5 6 7 8'
+                            ds.variables[key + '_cover'].flag_meanings = 'unknown grass fallow bare_ground brome_grass sod straw_multch grass_muck bare_muck'
+
+                            ds.createVariable(key + '_depth', 'byte', ('station', 'time',))
+                            ds.variables[key + '_depth'].long_name = 'Soil depth code for minimum soil temperature (SN)'
+                            ds.variables[key + '_depth'].standard_name = 'depth'
+                            ds.variables[key + '_depth'].units = 'cm'
+                            ds.variables[key + '_depth'].valid_min = 1
+                            ds.variables[key + '_depth'].valid_max = 7
+                            ds.variables[key + '_depth'].coordinates = 'lat lon alt station_name'
+                            ds.variables[key + '_depth'].coverage_content_type = 'auxiliaryInformation'
+                            ds.variables[key + '_depth'].flag_values = '1 2 3 4 5 6 7'
+                            ds.variables[key + '_depth'].flag_meanings = '5 10 20 50 100 150 180'
+
+                        # Add wt.. attributes
+                        if 'wt' in key:
+                            ds.variables[key].long_name = 'Weather Type'
+                            ds.variables[key].valid_min = 1
+                            ds.variables[key].valid_max = 22
+                            ds.variables[key].missing_value = -9999
+                            ds.variables[key].coverage_content_type = 'physicalMeasurement'
+                            ds.variables[key].coordinates = 'lat lon alt station_name'
+                            ds.variables[key].ancillary_variables = 'mflag qflag sflag'
+                            ds.variables[key].flag_values = '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 21 22'
+                            ds.variables[key].flag_meanings = 'Fog_ice_fog_or_freezing_fog_(may_include_heavy_fog) Heavy_fog_or_heaving_freezing_fog_(not_always_distinquished_from_fog) Thunder Ice_pellets_sleet_snow_pellets_or_small_hail Hail_(may_include_small_hail) Glaze_or_rime Dust_volcanic_ash_blowing_dust_blowing_sand_or_blowing_obstruction Smoke_or_haze Blowing_or_drifting_snow Tornado_waterspout_or_funnel_cloud High_or_damaging_winds Blowing_spray Mist Drizzle Freezing_drizzle Rain_(may_include_freezing_rain_drizzle_and_freezing_drizzle) Freezing_rain Snow_snow_pellets_snow_grains_or_ice_crystals Unknown_source_of_precipitation Ground_fog Ice_fog_or_freezing_fog'
+
+                        # Add wv.. attributes
+                        if 'wv' in key:
+                            ds.variables[key].long_name = 'Weather in the Vicinity'
+                            ds.variables[key].valid_min = 1
+                            ds.variables[key].valid_max = 20
+                            ds.variables[key].missing_value = -9999
+                            ds.variables[key].coverage_content_type = 'physicalMeasurement'
+                            ds.variables[key].coordinates = 'lat lon alt station_name'
+                            ds.variables[key].ancillary_variables = 'mflag qflag sflag'
+                            ds.variables[key].flag_values = '1 3 7 18 20'
+                            ds.variables[key].flag_meanings = 'Fog_ice_fog_or_freezing_fog_(may_include_heavy_fog) Thunder Ash_dust_sand_or_other_blowing_obstruction Snow_or_ice_crystals Rain_or_snow_shower'
+                    
                     if len(key) > 4:
                         ds.createVariable(key, 'c', ('station', 'time',), fill_value=' ')[
                             :] = [np.array(value.values())][:]
