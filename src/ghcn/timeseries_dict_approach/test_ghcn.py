@@ -7,6 +7,7 @@ import unittest
 from ghcn import GHCN
 
 testfile = "BR002141011"
+destinationDir = '/nodc/data/tmp.23555/'
 
 # Tests
 
@@ -16,8 +17,8 @@ class Testghcn(unittest.TestCase):
 
     def setUp(self):
         # Create dirs for testing
-        if not os.path.exists("./netcdf/"):
-            os.makedirs("./netcdf/")
+        if not os.path.exists(destinationDir + 'netcdf/'):
+            os.makedirs(destinationDir + 'netcdf/')
         ghcn = GHCN()
         self.stationIds = ghcn.get_station_info()
         # Working ID AGE00147710; not working GMM00010686
@@ -53,8 +54,8 @@ class Testghcn(unittest.TestCase):
     def test_parse_to_netCDF(self):
         pass
 
-    '''def tearDown(self):
-        shutil.rmtree("./netcdf/")'''
+    def tearDown(self):
+        shutil.rmtree(destinationDir + 'netcdf/')
 
 # __main__
 if __name__ == '__main__':

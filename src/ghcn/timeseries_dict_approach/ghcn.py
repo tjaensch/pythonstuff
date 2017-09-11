@@ -11,11 +11,12 @@ import urllib2
 # from multiprocessing import Pool
 from ordereddict import OrderedDict
 
+destinationDir = '/nodc/data/tmp.23555/'
 
 def create_output_dirs():
     logging.basicConfig(level=logging.DEBUG, filename='./errors.log')
-    if not os.path.exists("./netcdf/"):
-        os.makedirs("./netcdf/")
+    if not os.path.exists(destinationDir + 'netcdf/'):
+        os.makedirs(destinationDir + 'netcdf/')
 
 
 class GHCN:
@@ -63,13 +64,13 @@ class GHCN:
 
     def make_subdir_based_on_file_name(self, fileId):
         dirName = fileId[:4]
-        if not os.path.exists('./netcdf/' + dirName):
-            os.makedirs('./netcdf/' + dirName)
+        if not os.path.exists(destinationDir + 'netcdf/' + dirName):
+            os.makedirs(destinationDir + 'netcdf/' + dirName)
         return dirName
 
     def nc_file_exists(self, fileId):
         dirName = fileId[:4]
-        if glob.glob('./netcdf/' + dirName + '/*' + fileId + '.nc'):
+        if glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc'):
             return True
         else:
             return False
@@ -699,7 +700,7 @@ class GHCN:
                     MONTH.append(line[15:17])
 
             # Create netcdf data object
-            with netCDF4.Dataset('./netcdf/' + self.make_subdir_based_on_file_name(fileId) + '/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4_CLASSIC') as ds:
+            with netCDF4.Dataset(destinationDir + 'netcdf/' + self.make_subdir_based_on_file_name(fileId) + '/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc', mode="w", format='NETCDF4_CLASSIC') as ds:
                 # Define dimensions
                 ds.createDimension('time')
                 ds.createDimension('station', 1)
@@ -1936,8 +1937,8 @@ if __name__ == '__main__':
     create_output_dirs()
 
     #testfile = "AGE00147710"
-    #testfile = "BR002141011"
-    testfile = "USC00168163" # file to test sx.. elements
+    testfile = "BR002141011"
+    #testfile = "USC00168163" # file to test sx.. elements
     #testfile = "ASN00026026"
 
     ghcn = GHCN()
