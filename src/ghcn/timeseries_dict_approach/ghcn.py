@@ -11,7 +11,7 @@ import urllib2
 # from multiprocessing import Pool
 from ordereddict import OrderedDict
 
-destinationDir = '/nodc/data/tmp.23555/'
+destinationDir = '.'
 
 def create_output_dirs():
     logging.basicConfig(level=logging.DEBUG, filename='./errors.log')
@@ -734,7 +734,7 @@ class GHCN:
                         'prcp'].coordinates = 'lat lon alt station_name'
                     ds.variables['prcp'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
-                        'prcp'].ancillary_variables = 'mflag qflag sflag'
+                        'prcp'].ancillary_variables = 'prcp_mflag prcp_qflag prcp_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -756,7 +756,7 @@ class GHCN:
                         'snow'].coordinates = 'lat lon alt station_name'
                     ds.variables['snow'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
-                        'snow'].ancillary_variables = 'mflag qflag sflag'
+                        'snow'].ancillary_variables = 'snow_mflag snow_qflag snow_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -778,7 +778,7 @@ class GHCN:
                         'snwd'].coordinates = 'lat lon alt station_name'
                     ds.variables['snwd'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
-                        'snwd'].ancillary_variables = 'mflag qflag sflag'
+                        'snwd'].ancillary_variables = 'snwd_mflag snwd_qflag snwd_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -801,7 +801,7 @@ class GHCN:
                         'tmax'].coordinates = 'lat lon alt station_name'
                     ds.variables['tmax'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
-                        'tmax'].ancillary_variables = 'mflag qflag sflag'
+                        'tmax'].ancillary_variables = 'tmax_mflag tmax_qflag tmax_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -824,7 +824,7 @@ class GHCN:
                         'tmin'].coordinates = 'lat lon alt station_name'
                     ds.variables['tmin'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
-                        'tmin'].ancillary_variables = 'mflag qflag sflag'
+                        'tmin'].ancillary_variables = 'tmin_mflag tmin_qflag tmin_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -847,7 +847,7 @@ class GHCN:
                         'acmc'].coordinates = 'lat lon alt station_name'
                     ds.variables['acmc'].coverage_content_type = 'physicalMeasurement'
                     ds.variables[
-                        'acmc'].ancillary_variables = 'mflag qflag sflag'
+                        'acmc'].ancillary_variables = 'acmc_mflag acmc_qflag acmc_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -865,7 +865,7 @@ class GHCN:
                     ds.variables['acmh'].valid_max = 100
                     ds.variables['acmh'].coordinates = 'lat lon alt station_name'
                     ds.variables['acmh'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['acmh'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['acmh'].ancillary_variables = 'acmh_mflag acmh_qflag acmh_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -883,7 +883,7 @@ class GHCN:
                     ds.variables['acsc'].valid_max = 100
                     ds.variables['acsc'].coordinates = 'lat lon alt station_name'
                     ds.variables['acsc'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['acsc'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['acsc'].ancillary_variables = 'acsc_mflag acsc_qflag acsc_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -901,7 +901,7 @@ class GHCN:
                     ds.variables['acsh'].valid_max = 100
                     ds.variables['acsh'].coordinates = 'lat lon alt station_name'
                     ds.variables['acsh'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['acsh'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['acsh'].ancillary_variables = 'acsh_mflag acsh_qflag acsh_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -919,7 +919,7 @@ class GHCN:
                     ds.variables['awdr'].valid_max = 360
                     ds.variables['awdr'].coordinates = 'lat lon alt station_name'
                     ds.variables['awdr'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['awdr'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['awdr'].ancillary_variables = 'awdr_mflag awdr_qflag awdr_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -938,7 +938,7 @@ class GHCN:
                     ds.variables['awnd'].valid_max = 500
                     ds.variables['awnd'].coordinates = 'lat lon alt station_name'
                     ds.variables['awnd'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['awnd'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['awnd'].ancillary_variables = 'awnd_mflag awnd_qflag awnd_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -956,7 +956,7 @@ class GHCN:
                     ds.variables['daev'].valid_max = 500
                     ds.variables['daev'].coordinates = 'lat lon alt station_name'
                     ds.variables['daev'].coverage_content_type = 'auxiliaryInformation'
-                    ds.variables['daev'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['daev'].ancillary_variables = 'daev_mflag daev_qflag daev_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -974,7 +974,7 @@ class GHCN:
                     ds.variables['dapr'].valid_max = 500
                     ds.variables['dapr'].coordinates = 'lat lon alt station_name'
                     ds.variables['dapr'].coverage_content_type = 'auxiliaryInformation'
-                    ds.variables['dapr'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['dapr'].ancillary_variables = 'dapr_mflag dapr_qflag dapr_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -992,7 +992,7 @@ class GHCN:
                     ds.variables['dasf'].valid_max = 500
                     ds.variables['dasf'].coordinates = 'lat lon alt station_name'
                     ds.variables['dasf'].coverage_content_type = 'auxiliaryInformation'
-                    ds.variables['dasf'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['dasf'].ancillary_variables = 'dasf_mflag dasf_qflag dasf_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1010,7 +1010,7 @@ class GHCN:
                     ds.variables['datn'].valid_max = 500
                     ds.variables['datn'].coordinates = 'lat lon alt station_name'
                     ds.variables['datn'].coverage_content_type = 'auxiliaryInformation'
-                    ds.variables['datn'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['datn'].ancillary_variables = 'datn_mflag datn_qflag datn_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1028,7 +1028,7 @@ class GHCN:
                     ds.variables['datx'].valid_max = 500
                     ds.variables['datx'].coordinates = 'lat lon alt station_name'
                     ds.variables['datx'].coverage_content_type = 'auxiliaryInformation'
-                    ds.variables['datx'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['datx'].ancillary_variables = 'datx_mflag datx_qflag datx_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1046,7 +1046,7 @@ class GHCN:
                     ds.variables['dawm'].valid_max = 500
                     ds.variables['dawm'].coordinates = 'lat lon alt station_name'
                     ds.variables['dawm'].coverage_content_type = 'auxiliaryInformation'
-                    ds.variables['dawm'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['dawm'].ancillary_variables = 'dawm_mflag dawm_qflag dawm_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1064,7 +1064,7 @@ class GHCN:
                     ds.variables['dwpr'].valid_max = 500
                     ds.variables['dwpr'].coordinates = 'lat lon alt station_name'
                     ds.variables['dwpr'].coverage_content_type = 'auxiliaryInformation'
-                    ds.variables['dwpr'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['dwpr'].ancillary_variables = 'dwpr_mflag dwpr_qflag dwpr_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1083,7 +1083,7 @@ class GHCN:
                     ds.variables['evap'].valid_max = 3000
                     ds.variables['evap'].coordinates = 'lat lon alt station_name'
                     ds.variables['evap'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['evap'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['evap'].ancillary_variables = 'evap_mflag evap_qflag evap_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1099,7 +1099,7 @@ class GHCN:
                     ds.variables['fmtm'].valid_max = 2400
                     ds.variables['fmtm'].coordinates = 'lat lon alt station_name'
                     ds.variables['fmtm'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['fmtm'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['fmtm'].ancillary_variables = 'fmtm_mflag fmtm_qflag fmtm_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1116,7 +1116,7 @@ class GHCN:
                     ds.variables['frgb'].valid_max = 30000
                     ds.variables['frgb'].coordinates = 'lat lon alt station_name'
                     ds.variables['frgb'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['frgb'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['frgb'].ancillary_variables = 'frgb_mflag frgb_qflag frgb_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1133,7 +1133,7 @@ class GHCN:
                     ds.variables['frgt'].valid_max = 20000
                     ds.variables['frgt'].coordinates = 'lat lon alt station_name'
                     ds.variables['frgt'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['frgt'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['frgt'].ancillary_variables = 'frgt_mflag frgt_qflag frgt_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1150,7 +1150,7 @@ class GHCN:
                     ds.variables['frth'].valid_max = 30000
                     ds.variables['frth'].coordinates = 'lat lon alt station_name'
                     ds.variables['frth'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['frth'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['frth'].ancillary_variables = 'frth_mflag frth_qflag frth_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1167,7 +1167,7 @@ class GHCN:
                     ds.variables['gaht'].valid_max = 30000
                     ds.variables['gaht'].coordinates = 'lat lon alt station_name'
                     ds.variables['gaht'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['gaht'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['gaht'].ancillary_variables = 'gaht_mflag gaht_qflag gaht_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1186,7 +1186,7 @@ class GHCN:
                     ds.variables['mdev'].valid_max = 30000
                     ds.variables['mdev'].coordinates = 'lat lon alt station_name'
                     ds.variables['mdev'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['mdev'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['mdev'].ancillary_variables = 'mdev_mflag mdev_qflag mdev_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1205,7 +1205,7 @@ class GHCN:
                     ds.variables['mdpr'].valid_max = 30000
                     ds.variables['mdpr'].coordinates = 'lat lon alt station_name'
                     ds.variables['mdpr'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['mdpr'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['mdpr'].ancillary_variables = 'mdpr_mflag mdpr_qflag mdpr_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1223,7 +1223,7 @@ class GHCN:
                     ds.variables['mdsf'].valid_max = 30000
                     ds.variables['mdsf'].coordinates = 'lat lon alt station_name'
                     ds.variables['mdsf'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['mdsf'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['mdsf'].ancillary_variables = 'mdsf_mflag mdsf_qflag mdsf_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1242,7 +1242,7 @@ class GHCN:
                     ds.variables['mdtn'].valid_max = 500
                     ds.variables['mdtn'].coordinates = 'lat lon alt station_name'
                     ds.variables['mdtn'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['mdtn'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['mdtn'].ancillary_variables = 'mdtn_mflag mdtn_qflag mdtn_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1261,7 +1261,7 @@ class GHCN:
                     ds.variables['mdtx'].valid_max = 500
                     ds.variables['mdtx'].coordinates = 'lat lon alt station_name'
                     ds.variables['mdtx'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['mdtx'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['mdtx'].ancillary_variables = 'mdtx_mflag mdtx_qflag mdtx_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1278,7 +1278,7 @@ class GHCN:
                     ds.variables['mdwm'].valid_max = 3000
                     ds.variables['mdwm'].coordinates = 'lat lon alt station_name'
                     ds.variables['mdwm'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['mdwm'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['mdwm'].ancillary_variables = 'mdwm_mflag mdwm_qflag mdwm_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1297,7 +1297,7 @@ class GHCN:
                     ds.variables['mnpn'].valid_max = 500
                     ds.variables['mnpn'].coordinates = 'lat lon alt station_name'
                     ds.variables['mnpn'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['mnpn'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['mnpn'].ancillary_variables = 'mnpn_mflag mnpn_qflag mnpn_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1316,7 +1316,7 @@ class GHCN:
                     ds.variables['mxpn'].valid_max = 500
                     ds.variables['mxpn'].coordinates = 'lat lon alt station_name'
                     ds.variables['mxpn'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['mxpn'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['mxpn'].ancillary_variables = 'mxpn_mflag mxpn_qflag mxpn_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1332,7 +1332,7 @@ class GHCN:
                     ds.variables['pgtm'].valid_max = 2400
                     ds.variables['pgtm'].coordinates = 'lat lon alt station_name'
                     ds.variables['pgtm'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['pgtm'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['pgtm'].ancillary_variables = 'pgtm_mflag pgtm_qflag pgtm_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1349,7 +1349,7 @@ class GHCN:
                     ds.variables['psun'].valid_max = 100
                     ds.variables['psun'].coordinates = 'lat lon alt station_name'
                     ds.variables['psun'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['psun'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['psun'].ancillary_variables = 'psun_mflag psun_qflag psun_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1368,7 +1368,7 @@ class GHCN:
                     ds.variables['tavg'].missing_value = -9999
                     ds.variables['tavg'].coordinates = 'lat lon alt station_name'
                     ds.variables['tavg'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['tavg'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['tavg'].ancillary_variables = 'tavg_mflag tavg_qflag tavg_sflag'
                     ds.variables['tavg'].comment = 'Note that TAVG from source \'S\' corresponds to an average for the period ending at 2400 UTC rather than local midnight.'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
@@ -1388,7 +1388,7 @@ class GHCN:
                     ds.variables['thic'].missing_value = -9999
                     ds.variables['thic'].coordinates = 'lat lon alt station_name'
                     ds.variables['thic'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['thic'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['thic'].ancillary_variables = 'thic_mflag thic_qflag thic_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1407,7 +1407,7 @@ class GHCN:
                     ds.variables['tobs'].missing_value = -9999
                     ds.variables['tobs'].coordinates = 'lat lon alt station_name'
                     ds.variables['tobs'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['tobs'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['tobs'].ancillary_variables = 'tobs_mflag tobs_qflag tobs_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1424,7 +1424,7 @@ class GHCN:
                     ds.variables['tsun'].missing_value = -9999
                     ds.variables['tsun'].coordinates = 'lat lon alt station_name'
                     ds.variables['tsun'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['tsun'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['tsun'].ancillary_variables = 'tsun_mflag tsun_qflag tsun_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1442,7 +1442,7 @@ class GHCN:
                     ds.variables['wdf1'].missing_value = -9999
                     ds.variables['wdf1'].coordinates = 'lat lon alt station_name'
                     ds.variables['wdf1'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['wdf1'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wdf1'].ancillary_variables = 'wdf1_mflag wdf1_qflag wdf1_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1460,7 +1460,7 @@ class GHCN:
                     ds.variables['wdf2'].missing_value = -9999
                     ds.variables['wdf2'].coordinates = 'lat lon alt station_name'
                     ds.variables['wdf2'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['wdf2'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wdf2'].ancillary_variables = 'wdf2_mflag wdf2_qflag wdf2_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1478,7 +1478,7 @@ class GHCN:
                     ds.variables['wdf5'].missing_value = -9999
                     ds.variables['wdf5'].coordinates = 'lat lon alt station_name'
                     ds.variables['wdf5'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['wdf5'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wdf5'].ancillary_variables = 'wdf5_mflag wdf5_qflag wdf5_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1496,7 +1496,7 @@ class GHCN:
                     ds.variables['wdfg'].missing_value = -9999
                     ds.variables['wdfg'].coordinates = 'lat lon alt station_name'
                     ds.variables['wdfg'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['wdfg'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wdfg'].ancillary_variables = 'wdfg_mflag wdfg_qflag wdfg_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1514,7 +1514,7 @@ class GHCN:
                     ds.variables['wdfi'].missing_value = -9999
                     ds.variables['wdfi'].coordinates = 'lat lon alt station_name'
                     ds.variables['wdfi'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['wdfi'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wdfi'].ancillary_variables = 'wdfi_mflag wdfi_qflag wdfi_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1532,7 +1532,7 @@ class GHCN:
                     ds.variables['wdfm'].missing_value = -9999
                     ds.variables['wdfm'].coordinates = 'lat lon alt station_name'
                     ds.variables['wdfm'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['wdfm'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wdfm'].ancillary_variables = 'wdfm_mflag wdfm_qflag wdfm_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1549,7 +1549,7 @@ class GHCN:
                     ds.variables['wdmv'].missing_value = -9999
                     ds.variables['wdmv'].coordinates = 'lat lon alt station_name'
                     ds.variables['wdmv'].coverage_content_type = 'physicalMeasurement'
-                    ds.variables['wdmv'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wdmv'].ancillary_variables = 'wdmv_mflag wdmv_qflag wdmv_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1568,7 +1568,7 @@ class GHCN:
                     ds.variables['wesd'].missing_value = -9999
                     ds.variables['wesd'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wesd'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wesd'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wesd'].ancillary_variables = 'wesd_mflag wesd_qflag wesd_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1586,7 +1586,7 @@ class GHCN:
                     ds.variables['wesf'].missing_value = -9999
                     ds.variables['wesf'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wesf'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wesf'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wesf'].ancillary_variables = 'wesf_mflag wesf_qflag wesf_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1605,7 +1605,7 @@ class GHCN:
                     ds.variables['wsf1'].missing_value = -9999
                     ds.variables['wsf1'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsf1'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wsf1'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wsf1'].ancillary_variables = 'wsf1_mflag wsf1_qflag wsf1_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1624,7 +1624,7 @@ class GHCN:
                     ds.variables['wsf2'].missing_value = -9999
                     ds.variables['wsf2'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsf2'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wsf2'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wsf2'].ancillary_variables = 'wsf2_mflag wsf2_qflag wsf2_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1643,7 +1643,7 @@ class GHCN:
                     ds.variables['wsf5'].missing_value = -9999
                     ds.variables['wsf5'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsf5'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wsf5'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wsf5'].ancillary_variables = 'wsf5_mflag wsf5_qflag wsf5_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1662,7 +1662,7 @@ class GHCN:
                     ds.variables['wsfg'].missing_value = -9999
                     ds.variables['wsfg'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsfg'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wsfg'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wsfg'].ancillary_variables = 'wsfg_mflag wsfg_qflag wsfg_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1681,7 +1681,7 @@ class GHCN:
                     ds.variables['wsfi'].missing_value = -9999
                     ds.variables['wsfi'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsfi'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wsfi'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wsfi'].ancillary_variables = 'wsfi_mflag wsfi_qflag wsfi_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1700,7 +1700,7 @@ class GHCN:
                     ds.variables['wsfm'].missing_value = -9999
                     ds.variables['wsfm'].coverage_content_type = 'physicalMeasurement'
                     ds.variables['wsfm'].coordinates = 'lat lon alt station_name'
-                    ds.variables['wsfm'].ancillary_variables = 'mflag qflag sflag'
+                    ds.variables['wsfm'].ancillary_variables = 'wsfm_mflag wsfm_qflag wsfm_sflag'
                 # Delete key from dictionary after processing to avoid double
                 # processing below with dynamically generated value arrays
                 try:
@@ -1764,7 +1764,7 @@ class GHCN:
                             ds.variables[key].coverage_content_type = 'physicalMeasurement'
                             ds.variables[key].missing_value = -9999
                             ds.variables[key].coordinates = 'lat lon alt station_name'
-                            ds.variables[key].ancillary_variables = 'mflag qflag sflag'
+                            ds.variables[key].ancillary_variables = 'sx*#_mflag sx*#_qflag sx*#_sflag'
 
                             ds.createVariable(key + '_cover', 'byte', ('station', 'time',))
                             ds.variables[key + '_cover'].long_name = 'Ground cover code for maximum soil temperature (SX)'
@@ -1798,7 +1798,7 @@ class GHCN:
                             ds.variables[key].valid_max = 500
                             ds.variables[key].coordinates = 'lat lon alt station_name'
                             ds.variables[key].coverage_content_type = 'physicalMeasurement'
-                            ds.variables[key].ancillary_variables = 'mflag qflag sflag'
+                            ds.variables[key].ancillary_variables = 'sn*#_mflag sn*#_qflag sn*#_sflag'
 
                             ds.createVariable(key + '_cover', 'byte', ('station', 'time',))
                             ds.variables[key + '_cover'].long_name = 'Ground cover code for minimum soil temperature (SN)'
@@ -1829,7 +1829,7 @@ class GHCN:
                             ds.variables[key].missing_value = -9999
                             ds.variables[key].coverage_content_type = 'physicalMeasurement'
                             ds.variables[key].coordinates = 'lat lon alt station_name'
-                            ds.variables[key].ancillary_variables = 'mflag qflag sflag'
+                            ds.variables[key].ancillary_variables = 'wt*#_mflag wt*#_qflag wt*#_sflag'
                             ds.variables[key].flag_values = '1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 21 22'
                             ds.variables[key].flag_meanings = 'Fog_ice_fog_or_freezing_fog_(may_include_heavy_fog) Heavy_fog_or_heaving_freezing_fog_(not_always_distinquished_from_fog) Thunder Ice_pellets_sleet_snow_pellets_or_small_hail Hail_(may_include_small_hail) Glaze_or_rime Dust_volcanic_ash_blowing_dust_blowing_sand_or_blowing_obstruction Smoke_or_haze Blowing_or_drifting_snow Tornado_waterspout_or_funnel_cloud High_or_damaging_winds Blowing_spray Mist Drizzle Freezing_drizzle Rain_(may_include_freezing_rain_drizzle_and_freezing_drizzle) Freezing_rain Snow_snow_pellets_snow_grains_or_ice_crystals Unknown_source_of_precipitation Ground_fog Ice_fog_or_freezing_fog'
 
@@ -1841,7 +1841,7 @@ class GHCN:
                             ds.variables[key].missing_value = -9999
                             ds.variables[key].coverage_content_type = 'physicalMeasurement'
                             ds.variables[key].coordinates = 'lat lon alt station_name'
-                            ds.variables[key].ancillary_variables = 'mflag qflag sflag'
+                            ds.variables[key].ancillary_variables = 'wv*#_mflag wv*#_qflag wv*#_sflag'
                             ds.variables[key].flag_values = '1 3 7 18 20'
                             ds.variables[key].flag_meanings = 'Fog_ice_fog_or_freezing_fog_(may_include_heavy_fog) Thunder Ash_dust_sand_or_other_blowing_obstruction Snow_or_ice_crystals Rain_or_snow_shower'
                     
@@ -1937,9 +1937,10 @@ if __name__ == '__main__':
     create_output_dirs()
 
     #testfile = "AGE00147710"
-    testfile = "BR002141011"
+    #testfile = "BR002141011"
     #testfile = "USC00168163" # file to test sx.. elements
     #testfile = "ASN00026026"
+    testfile = "ACW00011647"
 
     ghcn = GHCN()
 
