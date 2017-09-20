@@ -1937,10 +1937,11 @@ if __name__ == '__main__':
     create_output_dirs()
 
     #testfile = "AGE00147710"
-    #testfile = "BR002141011"
+    testfile = "BR002141011"
     #testfile = "USC00168163" # file to test sx.. elements
-    #testfile = "ASN00026026"
-    testfile = "ACW00011647"
+    #testfile = "USC00517721" # HDF error
+    #testfile = "USC00415832"  # HDF error
+    #testfile = "ACW00011647"
 
     ghcn = GHCN()
 

@@ -7,7 +7,7 @@ import unittest
 from ghcn_multiprocessing import GHCN
 
 testfile = "BR002141011"
-destinationDir = '/nodc/data/tmp.23555/'
+destinationDir = './'
 
 # Tests
 
