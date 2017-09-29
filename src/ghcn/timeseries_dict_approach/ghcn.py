@@ -4,6 +4,7 @@ import logging
 import netCDF4
 import numpy as np
 import os
+import re
 import sys
 import time
 import urllib
@@ -11,7 +12,7 @@ import urllib2
 # from multiprocessing import Pool
 from ordereddict import OrderedDict
 
-destinationDir = '.'
+destinationDir = '/nodc/data/tmp.23555/'
 
 def create_output_dirs():
     logging.basicConfig(level=logging.DEBUG, filename='./errors.log')
@@ -45,7 +46,7 @@ class GHCN:
             self.latDict[line[0:11]] = line[12:20]
             self.lonDict[line[0:11]] = line[21:30]
             self.elevationDict[line[0:11]] = line[31:37]
-            self.stationLongNameDict[line[0:11]] = line[38:71].strip()
+            self.stationLongNameDict[line[0:11]] = re.sub(r'[^\x00-\x7f]', r'', line[38:71].strip())
 
         return self.stationIds
 
@@ -1936,12 +1937,11 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    #testfile = "AGE00147710"
-    testfile = "BR002141011"
+    testfile = "AGE00147710"
+    #testfile = "BR002141011"
     #testfile = "USC00168163" # file to test sx.. elements
-    #testfile = "USC00517721" # HDF error
-    #testfile = "USC00415832"  # HDF error
     #testfile = "ACW00011647"
+    #testfile = "US1NMRA0022" # special character in station name
 
     ghcn = GHCN()
 

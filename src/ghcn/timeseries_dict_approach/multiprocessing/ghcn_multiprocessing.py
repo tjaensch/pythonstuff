@@ -4,6 +4,7 @@ import logging
 import netCDF4
 import numpy as np
 import os
+import re
 import sys
 import time
 import urllib
@@ -45,7 +46,7 @@ class GHCN:
             self.latDict[line[0:11]] = line[12:20]
             self.lonDict[line[0:11]] = line[21:30]
             self.elevationDict[line[0:11]] = line[31:37]
-            self.stationLongNameDict[line[0:11]] = line[38:71].strip()
+            self.stationLongNameDict[line[0:11]] = re.sub(r'[^\x00-\x7f]', r'', line[38:71].strip())
 
         return self.stationIds
 
