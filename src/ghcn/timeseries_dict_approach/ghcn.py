@@ -12,7 +12,7 @@ import urllib2
 # from multiprocessing import Pool
 from ordereddict import OrderedDict
 
-destinationDir = '/nodc/data/tmp.23555/'
+destinationDir = '.'
 
 def create_output_dirs():
     logging.basicConfig(level=logging.DEBUG, filename='./errors.log')
