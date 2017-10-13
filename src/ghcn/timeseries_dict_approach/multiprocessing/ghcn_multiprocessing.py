@@ -1909,7 +1909,7 @@ class GHCN:
                 ds.geospatial_lon_min = float(self.lonDict[fileId].strip())
                 ds.geospatial_lon_max = float(self.lonDict[fileId].strip())
                 ds.time_coverage_start = YEAR[0] + '-' + MONTH[0] + '-01'
-                ds.time_coverage_end = YEAR[-1] + '-' + MONTH[-1] + '-01'
+                ds.time_coverage_end = YEAR[-1] + '-' + MONTH[-1] + '-31'
                 ds.keywords = 'Earth Science > Atmosphere > Precipitation > Precipitation Amount > 24 Hour Precipitation Amount, Earth Science > Terrestrial Hydrosphere > Snow/Ice > Snow Depth, Earth Science > Atmosphere > Atmospheric Temperature > Surface Temperature > Maximum/Minimum Temperature > 24 Hour Maximum Temperature, Earth Science > Atmosphere > Atmospheric Temperature > Surface Temperature > Maximum/Minimum Temperature > 24 Hour Minimum Temperature'
                 ds.keywords_vocabulary = 'Global Change Master Directory (GCMD) Earth Science Keywords'
                 ds.standard_name_vocabulary = 'CF Standard Name Table (v46, 25 July 2017)'
@@ -1939,7 +1939,7 @@ class GHCN:
             self.parse_to_netCDF(fileId, self.dictOfUniqueTimeValues, self.elementsAndFlagsDataLists)
 
     def go(self, stationIds):
-        p = Pool(10)
+        p = Pool(5)
         p.map(self, stationIds)
 
     def __call__(self, fileId):
