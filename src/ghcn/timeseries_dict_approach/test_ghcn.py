@@ -1,5 +1,6 @@
 import datetime
 import netCDF4
+import numpy as np
 import os
 import random
 import shutil
@@ -20,7 +21,7 @@ class Testghcn(unittest.TestCase):
         if not os.path.exists(destinationDir + 'netcdf/'):
             os.makedirs(destinationDir + 'netcdf/')
         ghcn = GHCN()
-        self.stationIds = ghcn.get_station_info()
+        # ghcn.get_station_info()
         # Working ID AGE00147710; not working GMM00010686
         ghcn.download_dly_file(testfile)
         self.dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
@@ -33,7 +34,8 @@ class Testghcn(unittest.TestCase):
         ghcn.parse_to_netCDF(testfile, self.dictOfUniqueTimeValues, self.elementsAndFlagsDataLists)
 
     def test_get_station_info(self):
-        self.assertTrue(len(self.stationIds) > 103000)
+        stationIds = np.load('stationIds.npy')
+        self.assertTrue(len(stationIds) > 104000)
 
     def test_get_unique_time_values(self):
         self.assertTrue(len(self.dictOfUniqueTimeValues) > 28)

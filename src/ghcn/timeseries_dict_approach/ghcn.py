@@ -9,10 +9,9 @@ import sys
 import time
 import urllib
 import urllib2
-# from multiprocessing import Pool
 from ordereddict import OrderedDict
 
-destinationDir = '.'
+destinationDir = '/nodc/data/tmp.23555/'
 
 def create_output_dirs():
     logging.basicConfig(level=logging.DEBUG, filename='./errors.log')
@@ -28,13 +27,13 @@ class GHCN:
         # Lists and dictionaries with information from
         # ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt to be
         # used in netCDF variables derived with def get_stationInfo
-        self.stationIds = []
-        self.latDict = {}
-        self.lonDict = {}
-        self.elevationDict = {}
-        self.stationLongNameDict = {}
+        self.stationIds = np.load('stationIds.npy')
+        self.latDict = np.load('latDict.npy').item()
+        self.lonDict = np.load('lonDict.npy').item()
+        self.elevationDict = np.load('elevationDict.npy').item()
+        self.stationLongNameDict = np.load('stationLongNameDict.npy').item()
 
-    def get_station_info(self):
+    '''def get_station_info(self):
         # Alternatively https://www1.ncdc.noaa.gov/ OR ftp://ftp.ncdc.noaa.gov/
         data = urllib2.urlopen(
             "https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt")
@@ -47,8 +46,12 @@ class GHCN:
             self.lonDict[line[0:11]] = line[21:30]
             self.elevationDict[line[0:11]] = line[31:37]
             self.stationLongNameDict[line[0:11]] = re.sub(r'[^\x00-\x7f]', r'', line[38:71].strip())
-
-        return self.stationIds
+        
+        np.save('stationIds.npy', self.stationIds)
+        np.save('latDict.npy', self.latDict)
+        np.save('lonDict.npy', self.lonDict)
+        np.save('elevationDict.npy', self.elevationDict)
+        np.save('stationLongNameDict', self.stationLongNameDict)'''
 
     def download_dly_file(self, fileId):
         try:
@@ -721,8 +724,7 @@ class GHCN:
 
                 # The five core elements (ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt)
                 if 'prcp' in elementAndFlagDicts:
-                    prcp = ds.createVariable('prcp', 'short', ('station', 'time',), fill_value=-9999)[
-                        :] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())][:]
+                    prcp = ds.createVariable('prcp', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())][:]
                     ds.variables[
                         'prcp'].long_name = 'Precipitation (mm)'
                     ds.variables['prcp'].standard_name = 'precipitation_amount'
@@ -1937,15 +1939,14 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    testfile = "AGE00147710"
+    testfile = sys.argv[1]
+    #testfile = "AGE00147710"
     #testfile = "BR002141011"
     #testfile = "USC00168163" # file to test sx.. elements
     #testfile = "ZI000067991"
     #testfile = "US1NMRA0022" # special character in station name
 
     ghcn = GHCN()
-
-    stationIds = ghcn.get_station_info()
 
     '''for testfile in stationIds:
     ghcn.download_dly_file(testfile)
