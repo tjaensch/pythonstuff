@@ -62,7 +62,7 @@ func main() {
 	// Create a slice of ncFiles
 	fileSegments := make([][]string, 0)
 	// Determine the length of the subslices based on amount of files and how many files can be open at the same time in PuTTY
-	increaseRate := 2000
+	increaseRate := 20000
 	// Add subslices to fileSegments slice
 	for i := 0; i < len(stationIdsSlice)-increaseRate; i += increaseRate {
 		fileSegments = append(fileSegments, stationIdsSlice[i:i+increaseRate])

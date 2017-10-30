@@ -11,7 +11,7 @@ import urllib
 import urllib2
 from ordereddict import OrderedDict
 
-destinationDir = '/nodc/data/tmp.23555/'
+destinationDir = '.'
 
 def create_output_dirs():
     logging.basicConfig(level=logging.DEBUG, filename='./errors.log')
@@ -143,14 +143,17 @@ class GHCN:
         placeholderElementsFlagsList = {}
         for item in uniqueElementFlags:
             if len(item) == 4:
+                dict1 = {}
+                for key, value in dictOfUniqueTimeValues.items():
+                    dict1[key] = -9999
                 placeholderElementsFlagsList[
-                    item] = OrderedDict(sorted(dictOfUniqueTimeValues.fromkeys(
-                        dictOfUniqueTimeValues, -9999).items()))
+                    item] = dict1
             else:
+                dict2 = {}
+                for key, value in dictOfUniqueTimeValues.items():
+                    dict2[key] = ' '
                 placeholderElementsFlagsList[
-                    item] = OrderedDict(sorted(dictOfUniqueTimeValues.fromkeys(
-                        dictOfUniqueTimeValues, ' ').items()))
-        # Returns dict of lists
+                    item] = dict2
         return placeholderElementsFlagsList
 
     def create_elements_flags_data_lists(self, fileId, uniqueTimeValuesDict, elementAndFlagDicts):
@@ -724,7 +727,7 @@ class GHCN:
 
                 # The five core elements (ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt)
                 if 'prcp' in elementAndFlagDicts:
-                    prcp = ds.createVariable('prcp', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())][:]
+                    ds.createVariable('prcp', 'short', ('station', 'time',), fill_value=-9999)[:] = [np.array(OrderedDict(sorted(elementAndFlagDicts.items()))['prcp'].values())][:]
                     ds.variables[
                         'prcp'].long_name = 'Precipitation (mm)'
                     ds.variables['prcp'].standard_name = 'precipitation_amount'
