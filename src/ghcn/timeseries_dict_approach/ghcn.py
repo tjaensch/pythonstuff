@@ -72,12 +72,28 @@ class GHCN:
             os.makedirs(destinationDir + 'netcdf/' + dirName)
         return dirName
 
+    def dly_file_has_been_updated(self, fileId):
+        from datetime import datetime, timedelta
+        # Get yesterday's date as e.g. '201605' (Year/Month)
+        yesterday = datetime.strftime(datetime.now() - timedelta(1), '%Y%m')
+        if yesterday in open('%s.txt' % fileId):
+            return True
+        else:
+            return False
+
+    def delete_txt_file(self, fileId):
+        os.remove(fileId + '.txt')
+
     def nc_file_exists(self, fileId):
         dirName = fileId[:4]
         if glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc'):
             return True
         else:
             return False
+
+    def delete_old_nc_file(self, fileId):
+        dirName = fileId[:4]
+        os.remove(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc'))
 
     # Returns dictionary of unique time values
     def get_unique_time_values(self, fileId):
@@ -1931,9 +1947,6 @@ class GHCN:
         finally:
             pass
 
-        # Clean up text file
-        os.remove(fileId + ".txt")
-
         # End def parse_to_netCDF(self, fileId)
 
 # __main__
@@ -1951,14 +1964,6 @@ if __name__ == '__main__':
 
     ghcn = GHCN()
 
-    '''for testfile in stationIds:
-    ghcn.download_dly_file(testfile)
-    dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
-    uniqueElements = ghcn.get_unique_elements(testfile)
-    placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
-    elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
-    ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)'''
-
     if ghcn.nc_file_exists(testfile) == False:
         ghcn.download_dly_file(testfile)
         dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
@@ -1966,6 +1971,20 @@ if __name__ == '__main__':
         placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
         elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
         ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
+        ghcn.delete_txt_file(testfile)
+
+    if ghcn.nc_file_exists(testfile) == True:
+        ghcn.download_dly_file(testfile)
+        if ghcn.dly_file_has_been_updated(testfile) == True:
+            ghcn.delete_old_nc_file(testfile)
+            dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
+            uniqueElements = ghcn.get_unique_elements(testfile)
+            placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
+            elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
+            ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
+            ghcn.delete_txt_file(testfile)
+        else:
+            ghcn.delete_txt_file(testfile)
 
     print('The program took ', (time.time() - start), 'seconds to complete.')
 
