@@ -7,7 +7,7 @@ import unittest
 from ghcn_multiprocessing import GHCN
 
 testfile = "BR002141011"
-destinationDir = './'
+destinationDir = '.'
 
 # Tests
 
@@ -56,6 +56,7 @@ class Testghcn(unittest.TestCase):
 
     def tearDown(self):
         shutil.rmtree(destinationDir + 'netcdf/')
+        os.remove(testfile + '.txt')
 
 # __main__
 if __name__ == '__main__':

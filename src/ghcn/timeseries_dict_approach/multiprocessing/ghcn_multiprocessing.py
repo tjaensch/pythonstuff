@@ -12,7 +12,7 @@ import urllib2
 from multiprocessing import Pool
 from ordereddict import OrderedDict
 
-destinationDir = '/nodc/data/tmp.23555/'
+destinationDir = '.'
 
 def create_output_dirs():
     logging.basicConfig(level=logging.DEBUG, filename='./errors.log')
@@ -69,12 +69,28 @@ class GHCN:
             os.makedirs(destinationDir + 'netcdf/' + dirName)
         return dirName
 
+    def dly_file_has_been_updated(self, fileId):
+        from datetime import datetime, timedelta
+        # Get yesterday's date as e.g. '201605' (Year/Month)
+        yesterday = datetime.strftime(datetime.now() - timedelta(1), '%Y%m')
+        if yesterday in open('%s.txt' % fileId):
+            return True
+        else:
+            return False
+
+    def delete_txt_file(self, fileId):
+        os.remove(fileId + '.txt')
+
     def nc_file_exists(self, fileId):
         dirName = fileId[:4]
         if glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc'):
             return True
         else:
             return False
+
+    def delete_old_nc_file(self, fileId):
+        dirName = fileId[:4]
+        os.remove(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc'))
 
     # Returns dictionary of unique time values
     def get_unique_time_values(self, fileId):
@@ -139,14 +155,17 @@ class GHCN:
         placeholderElementsFlagsList = {}
         for item in uniqueElementFlags:
             if len(item) == 4:
+                dict1 = {}
+                for key, value in dictOfUniqueTimeValues.items():
+                    dict1[key] = -9999
                 placeholderElementsFlagsList[
-                    item] = OrderedDict(sorted(dictOfUniqueTimeValues.fromkeys(
-                        dictOfUniqueTimeValues, -9999).items()))
+                    item] = dict1
             else:
+                dict2 = {}
+                for key, value in dictOfUniqueTimeValues.items():
+                    dict2[key] = ' '
                 placeholderElementsFlagsList[
-                    item] = OrderedDict(sorted(dictOfUniqueTimeValues.fromkeys(
-                        dictOfUniqueTimeValues, ' ').items()))
-        # Returns dict of lists
+                    item] = dict2
         return placeholderElementsFlagsList
 
     def create_elements_flags_data_lists(self, fileId, uniqueTimeValuesDict, elementAndFlagDicts):
@@ -1924,9 +1943,6 @@ class GHCN:
         finally:
             pass
 
-        # Clean up text file
-        os.remove(fileId + ".txt")
-
         # End def parse_to_netCDF(self, fileId)
 
     def run_combined_defs(self, fileId):
@@ -1937,6 +1953,20 @@ class GHCN:
             self.placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(fileId, self.dictOfUniqueTimeValues, self.uniqueElements)
             self.elementsAndFlagsDataLists = self.create_elements_flags_data_lists(fileId, self.dictOfUniqueTimeValues, self.placeholderElementsFlagsList)
             self.parse_to_netCDF(fileId, self.dictOfUniqueTimeValues, self.elementsAndFlagsDataLists)
+            self.delete_txt_file(fileId)
+
+        if self.nc_file_exists(fileId) == True:
+            self.download_dly_file(fileId)
+            if self.dly_file_has_been_updated(fileId) == True:
+                self.delete_old_nc_file(fileId)
+                self.dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
+                self.uniqueElements = self.get_unique_elements(fileId)
+                self.placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(fileId, self.dictOfUniqueTimeValues, self.uniqueElements)
+                self.elementsAndFlagsDataLists = self.create_elements_flags_data_lists(fileId, self.dictOfUniqueTimeValues, self.placeholderElementsFlagsList)
+                self.parse_to_netCDF(fileId, self.dictOfUniqueTimeValues, self.elementsAndFlagsDataLists)
+                self.delete_txt_file(fileId)
+            else:
+                self.delete_txt_file(fileId)
 
     def go(self, stationIds):
         p = Pool(5)

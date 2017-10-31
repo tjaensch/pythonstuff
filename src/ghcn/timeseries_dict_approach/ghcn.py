@@ -11,7 +11,7 @@ import urllib
 import urllib2
 from ordereddict import OrderedDict
 
-destinationDir = '.'
+destinationDir = '/nodc/data/tmp.23555/'
 
 def create_output_dirs():
     logging.basicConfig(level=logging.DEBUG, filename='./errors.log')
