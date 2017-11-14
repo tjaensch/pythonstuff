@@ -8,11 +8,14 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	//"sync"
+	"sync"
 	"time"
 )
 
-var stationIdsSlice []string = getStationIdsSlice()
+var (
+	stationIdsSlice []string = getStationIdsSlice()
+	counter int = 0
+	)
 
 // Generic error checking function
 func checkError(reason string, err error) {
@@ -28,13 +31,13 @@ func main() {
 
     getStationInfo()
 
-    ghcn("AGE00147710")
+    //ghcn("AGE00147710")
 
     /*for _, stationId := range stationIds {
     	ghcn(stationId)
     }*/
 
-    /*var wg sync.WaitGroup
+    var wg sync.WaitGroup
 
 	// Start goroutine for each files segment of ncFiles slice
 	fileSegments := getFileSegments()
@@ -49,7 +52,7 @@ func main() {
 	}
 
 	// Wait until all goroutines finish
-	wg.Wait()*/
+	wg.Wait()
     
     cleanUp()
 
@@ -58,7 +61,7 @@ func main() {
 }
 
 // Create fileSegments slice of slice for concurrent processing
-/*func getFileSegments() [][]string {
+func getFileSegments() [][]string {
 	// Create a slice of ncFiles
 	fileSegments := make([][]string, 0)
 	// Determine the length of the subslices based on amount of files and how many files can be open at the same time in PuTTY
@@ -69,7 +72,7 @@ func main() {
 	}
 	fileSegments = append(fileSegments, stationIdsSlice[len(stationIdsSlice)-increaseRate:])
 	return fileSegments
-}*/
+}
 
 func getStationInfo() {
 	cmdArgs := []string{"get_station_info.py"}
@@ -101,6 +104,8 @@ func ghcn(stationId string) {
 	if _, err := exec.Command("python", cmdArgs...).Output(); err != nil {
 		checkError("Something went wrong with executing ghcn.py, program exiting.", err)
 	}
+	counter++
+	fmt.Println(counter)
 	fmt.Println(stationId)
 }
 
