@@ -8,7 +8,7 @@ import unittest
 from ghcn import GHCN
 
 testfile = "BR002141011"
-destinationDir = '.'
+destinationDir = './'
 
 # Tests
 
@@ -21,8 +21,8 @@ class Testghcn(unittest.TestCase):
         if not os.path.exists(destinationDir + 'netcdf/'):
             os.makedirs(destinationDir + 'netcdf/')
         ghcn = GHCN()
+        # ghcn.get_station_info()
         # Working ID AGE00147710; not working GMM00010686
-        self.stationIds = ghcn.get_station_info()
         ghcn.download_dly_file(testfile)
         self.dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
         self.uniqueElements = ghcn.get_unique_elements(testfile)
@@ -34,7 +34,8 @@ class Testghcn(unittest.TestCase):
         ghcn.parse_to_netCDF(testfile, self.dictOfUniqueTimeValues, self.elementsAndFlagsDataLists)
 
     def test_get_station_info(self):
-        self.assertTrue(len(self.stationIds) > 103000)
+        stationIds = np.load('stationIds.npy')
+        self.assertTrue(len(stationIds) > 104000)
 
     def test_get_unique_time_values(self):
         self.assertTrue(len(self.dictOfUniqueTimeValues) > 28)
@@ -57,7 +58,6 @@ class Testghcn(unittest.TestCase):
 
     def tearDown(self):
         shutil.rmtree(destinationDir + 'netcdf/')
-        os.remove(testfile + '.txt')
 
 # __main__
 if __name__ == '__main__':

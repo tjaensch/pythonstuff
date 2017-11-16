@@ -1976,17 +1976,7 @@ if __name__ == '__main__':
         ghcn.delete_txt_file(testfile)
 
     elif ghcn.nc_file_exists(testfile) == True:
-        ghcn.download_dly_file(testfile)
-        if ghcn.dly_file_has_been_updated(testfile) == True:
-            ghcn.delete_old_nc_file(testfile)
-            dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
-            uniqueElements = ghcn.get_unique_elements(testfile)
-            placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
-            elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
-            ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
-            ghcn.delete_txt_file(testfile)
-        else:
-            ghcn.delete_txt_file(testfile)
+        pass
 
     print('The program took ', (time.time() - start), 'seconds to complete.')
 

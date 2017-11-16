@@ -11,8 +11,8 @@ import urllib
 import urllib2
 from ordereddict import OrderedDict
 
-destinationDir = './'
-#destinationDir = '/nodc/data/tmp.23555/'
+#destinationDir = './'
+destinationDir = '/nodc/data/tmp.23555/'
 
 def create_output_dirs():
     logging.basicConfig(level=logging.DEBUG, filename='./errors.log')
@@ -28,13 +28,13 @@ class GHCN:
         # Lists and dictionaries with information from
         # ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt to be
         # used in netCDF variables derived with def get_stationInfo
-        self.stationIds = []
-        self.latDict = {}
-        self.lonDict = {}
-        self.elevationDict = {}
-        self.stationLongNameDict = {}
+        self.stationIds = np.load('stationIds.npy')
+        self.latDict = np.load('latDict.npy').item()
+        self.lonDict = np.load('lonDict.npy').item()
+        self.elevationDict = np.load('elevationDict.npy').item()
+        self.stationLongNameDict = np.load('stationLongNameDict.npy').item()
 
-    def get_station_info(self):
+    '''def get_station_info(self):
         # Alternatively https://www1.ncdc.noaa.gov/ OR ftp://ftp.ncdc.noaa.gov/
         data = urllib2.urlopen(
             "https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt")
@@ -47,8 +47,12 @@ class GHCN:
             self.lonDict[line[0:11]] = line[21:30]
             self.elevationDict[line[0:11]] = line[31:37]
             self.stationLongNameDict[line[0:11]] = re.sub(r'[^\x00-\x7f]', r'', line[38:71].strip())
-
-        return self.stationIds
+        
+        np.save('stationIds.npy', self.stationIds)
+        np.save('latDict.npy', self.latDict)
+        np.save('lonDict.npy', self.lonDict)
+        np.save('elevationDict.npy', self.elevationDict)
+        np.save('stationLongNameDict', self.stationLongNameDict)'''
 
     def download_dly_file(self, fileId):
         try:
@@ -88,10 +92,10 @@ class GHCN:
         else:
             return False
 
-    def delete_old_nc_file(self, fileId):
+    def rename_old_nc_file(self, fileId):
         dirName = fileId[:4]
         #print(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0])
-        os.remove(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0])
+        os.rename(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0], destinationDir + 'netcdf/' + dirName + '/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc')
 
     # Returns dictionary of unique time values
     def get_unique_time_values(self, fileId):
@@ -1953,39 +1957,26 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    #testfile = sys.argv[1]
+    testfile = sys.argv[1]
     #testfile = "AGE00147710"
     #testfile = "BR002141011"
     #testfile = "USC00168163" # file to test sx.. elements
     #testfile = "ZI000067991"
     #testfile = "US1NMRA0022" # special character in station name
-    testfile = "USC00167732" # file that's still being updated
 
     ghcn = GHCN()
 
-    stationIds = ghcn.get_station_info()
-        
-    if ghcn.nc_file_exists(testfile) == False:
-        ghcn.download_dly_file(testfile)
+    ghcn.download_dly_file(testfile)
+    if ghcn.dly_file_has_been_updated(testfile) == True:
+        ghcn.rename_old_nc_file(testfile)
         dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
         uniqueElements = ghcn.get_unique_elements(testfile)
         placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
         elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
         ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
         ghcn.delete_txt_file(testfile)
-
-    elif ghcn.nc_file_exists(testfile) == True:
-        ghcn.download_dly_file(testfile)
-        if ghcn.dly_file_has_been_updated(testfile) == True:
-            ghcn.delete_old_nc_file(testfile)
-            dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
-            uniqueElements = ghcn.get_unique_elements(testfile)
-            placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
-            elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
-            ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
-            ghcn.delete_txt_file(testfile)
-        else:
-            ghcn.delete_txt_file(testfile)
+    else:
+        ghcn.delete_txt_file(testfile)
 
     print('The program took ', (time.time() - start), 'seconds to complete.')
 
