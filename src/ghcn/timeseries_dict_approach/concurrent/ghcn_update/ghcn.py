@@ -68,7 +68,7 @@ class GHCN:
             pass
 
     def make_subdir_based_on_file_name(self, fileId):
-        dirName = fileId[:4]
+        dirName = fileId[:7]
         if not os.path.exists(destinationDir + 'netcdf/' + dirName):
             os.makedirs(destinationDir + 'netcdf/' + dirName)
         return dirName
@@ -86,14 +86,14 @@ class GHCN:
         os.remove(fileId + '.txt')
 
     def nc_file_exists(self, fileId):
-        dirName = fileId[:4]
+        dirName = fileId[:7]
         if glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc'):
             return True
         else:
             return False
 
     def rename_old_nc_file(self, fileId):
-        dirName = fileId[:4]
+        dirName = fileId[:7]
         #print(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0])
         os.rename(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0], destinationDir + 'netcdf/' + dirName + '/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc')
 

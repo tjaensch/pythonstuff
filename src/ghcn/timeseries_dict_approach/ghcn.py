@@ -64,7 +64,7 @@ class GHCN:
             pass
 
     def make_subdir_based_on_file_name(self, fileId):
-        dirName = fileId[:4]
+        dirName = fileId[:7]
         if not os.path.exists(destinationDir + 'netcdf/' + dirName):
             os.makedirs(destinationDir + 'netcdf/' + dirName)
         return dirName
@@ -82,14 +82,14 @@ class GHCN:
         os.remove(fileId + '.txt')
 
     def nc_file_exists(self, fileId):
-        dirName = fileId[:4]
+        dirName = fileId[:7]
         if glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc'):
             return True
         else:
             return False
 
     def delete_old_nc_file(self, fileId):
-        dirName = fileId[:4]
+        dirName = fileId[:7]
         #print(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0])
         os.remove(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0])
 
@@ -134,6 +134,7 @@ class GHCN:
             with open(fileId + ".txt", "r") as file:
                 for line in file:
                     uniqueElements.add(line[17:21])
+                # print(dict(enumerate(list(uniqueElements))))
                 return dict(enumerate(list(uniqueElements)))
 
         except KeyboardInterrupt:
@@ -1953,13 +1954,13 @@ if __name__ == '__main__':
 
     create_output_dirs()
 
-    #testfile = sys.argv[1]
+    testfile = sys.argv[1]
     #testfile = "AGE00147710"
     #testfile = "BR002141011"
     #testfile = "USC00168163" # file to test sx.. elements
     #testfile = "ZI000067991"
     #testfile = "US1NMRA0022" # special character in station name
-    testfile = "USC00167732" # file that's still being updated
+    #testfile = "USC00167732" # file that's still being updated
 
     ghcn = GHCN()
 
