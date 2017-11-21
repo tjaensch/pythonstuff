@@ -1965,8 +1965,12 @@ if __name__ == '__main__':
     ghcn = GHCN()
 
     stationIds = ghcn.get_station_info()
+
+    counter = 0
         
     if ghcn.nc_file_exists(testfile) == False:
+        counter += 1
+        print(counter)
         ghcn.download_dly_file(testfile)
         dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
         uniqueElements = ghcn.get_unique_elements(testfile)
@@ -1976,6 +1980,8 @@ if __name__ == '__main__':
         ghcn.delete_txt_file(testfile)
 
     elif ghcn.nc_file_exists(testfile) == True:
+        counter += 1
+        print(counter)
         ghcn.download_dly_file(testfile)
         if ghcn.dly_file_has_been_updated(testfile) == True:
             ghcn.delete_old_nc_file(testfile)

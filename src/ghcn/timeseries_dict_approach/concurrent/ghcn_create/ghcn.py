@@ -1972,8 +1972,11 @@ if __name__ == '__main__':
         uniqueElements = ghcn.get_unique_elements(testfile)
         placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
         elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
-        ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
-        ghcn.delete_txt_file(testfile)
+        try:
+            ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
+            ghcn.delete_txt_file(testfile)
+        except IOError:
+            pass
 
     elif ghcn.nc_file_exists(testfile) == True:
         pass
