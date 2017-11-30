@@ -74,7 +74,7 @@ class GHCN:
         from datetime import datetime, timedelta
         # Get yesterday's date as e.g. '201605' (Year/Month)
         yesterday = datetime.strftime(datetime.now() - timedelta(1), '%Y%m')
-        if yesterday in open('%s.txt' % fileId):
+        if yesterday in open('%s.txt' % fileId).read():
             return True
         else:
             return False
