@@ -88,10 +88,10 @@ class GHCN:
         else:
             return False
 
-    def delete_old_nc_file(self, fileId):
+    def rename_old_nc_file(self, fileId):
         dirName = fileId[:7]
         #print(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0])
-        os.remove(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0])
+        os.rename(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0], destinationDir + 'netcdf/' + dirName + '/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc')
 
     # Returns dictionary of unique time values
     def get_unique_time_values(self, fileId):
@@ -1965,12 +1965,8 @@ if __name__ == '__main__':
     ghcn = GHCN()
 
     stationIds = ghcn.get_station_info()
-
-    counter = 0
         
     if ghcn.nc_file_exists(testfile) == False:
-        counter += 1
-        print(counter)
         ghcn.download_dly_file(testfile)
         dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
         uniqueElements = ghcn.get_unique_elements(testfile)
@@ -1980,11 +1976,9 @@ if __name__ == '__main__':
         ghcn.delete_txt_file(testfile)
 
     elif ghcn.nc_file_exists(testfile) == True:
-        counter += 1
-        print(counter)
         ghcn.download_dly_file(testfile)
         if ghcn.dly_file_has_been_updated(testfile) == True:
-            ghcn.delete_old_nc_file(testfile)
+            ghcn.rename_old_nc_file(testfile)
             dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
             uniqueElements = ghcn.get_unique_elements(testfile)
             placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
@@ -1993,6 +1987,8 @@ if __name__ == '__main__':
             ghcn.delete_txt_file(testfile)
         else:
             ghcn.delete_txt_file(testfile)
+    else:
+        pass
 
     print('The program took ', (time.time() - start), 'seconds to complete.')
 
