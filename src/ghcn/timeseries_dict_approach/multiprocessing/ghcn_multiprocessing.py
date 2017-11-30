@@ -89,10 +89,10 @@ class GHCN:
         else:
             return False
 
-    def delete_old_nc_file(self, fileId):
+    def rename_old_nc_file(self, fileId):
         dirName = fileId[:7]
         #print(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0])
-        os.remove(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc'))
+        os.rename(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0], destinationDir + 'netcdf/' + dirName + '/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc')
 
     # Returns dictionary of unique time values
     def get_unique_time_values(self, fileId):
@@ -1948,31 +1948,32 @@ class GHCN:
         # End def parse_to_netCDF(self, fileId)
 
     def run_combined_defs(self, fileId):
-        if self.nc_file_exists(fileId) == False:
-            self.download_dly_file(fileId)
-            self.dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
-            self.uniqueElements = self.get_unique_elements(fileId)
-            self.placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(fileId, self.dictOfUniqueTimeValues, self.uniqueElements)
-            self.elementsAndFlagsDataLists = self.create_elements_flags_data_lists(fileId, self.dictOfUniqueTimeValues, self.placeholderElementsFlagsList)
-            self.parse_to_netCDF(fileId, self.dictOfUniqueTimeValues, self.elementsAndFlagsDataLists)
-            self.delete_txt_file(fileId)
-
-        elif self.nc_file_exists(fileId) == True:
-            '''self.download_dly_file(fileId)
-            if self.dly_file_has_been_updated(fileId) == True:
-                self.delete_old_nc_file(fileId)
-                self.dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
-                self.uniqueElements = self.get_unique_elements(fileId)
-                self.placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(fileId, self.dictOfUniqueTimeValues, self.uniqueElements)
-                self.elementsAndFlagsDataLists = self.create_elements_flags_data_lists(fileId, self.dictOfUniqueTimeValues, self.placeholderElementsFlagsList)
-                self.parse_to_netCDF(fileId, self.dictOfUniqueTimeValues, self.elementsAndFlagsDataLists)
-                self.delete_txt_file(fileId)
+        if self.nc_file_exists(testfile) == False:
+            self.download_dly_file(testfile)
+            dictOfUniqueTimeValues = self.get_unique_time_values(testfile)
+            uniqueElements = self.get_unique_elements(testfile)
+            placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
+            elementsAndFlagsDataLists = self.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
+            self.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
+            self.delete_txt_file(testfile)
+        
+        elif self.nc_file_exists(testfile) == True:
+            self.download_dly_file(testfile)
+            if self.dly_file_has_been_updated(testfile) == True:
+                self.rename_old_nc_file(testfile)
+                dictOfUniqueTimeValues = self.get_unique_time_values(testfile)
+                uniqueElements = self.get_unique_elements(testfile)
+                placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
+                elementsAndFlagsDataLists = self.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
+                self.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
+                self.delete_txt_file(testfile)
             else:
-                self.delete_txt_file(fileId)'''
+                self.delete_txt_file(testfile)
+        else:
             pass
 
     def go(self, stationIds):
-        p = Pool(8)
+        p = Pool(10)
         p.map(self, stationIds)
 
     def __call__(self, fileId):

@@ -4,7 +4,7 @@ import os
 import random
 import shutil
 import unittest
-from ghcn_multiprocessing_create import GHCN
+from ghcn_multiprocessing import GHCN
 
 testfile = "BR002141011"
 destinationDir = '.'
