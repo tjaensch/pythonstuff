@@ -1948,27 +1948,27 @@ class GHCN:
         # End def parse_to_netCDF(self, fileId)
 
     def run_combined_defs(self, fileId):
-        if self.nc_file_exists(testfile) == False:
-            self.download_dly_file(testfile)
-            dictOfUniqueTimeValues = self.get_unique_time_values(testfile)
-            uniqueElements = self.get_unique_elements(testfile)
-            placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
-            elementsAndFlagsDataLists = self.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
-            self.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
-            self.delete_txt_file(testfile)
+        if self.nc_file_exists(fileId) == False:
+            self.download_dly_file(fileId)
+            dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
+            uniqueElements = self.get_unique_elements(fileId)
+            placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(fileId, dictOfUniqueTimeValues, uniqueElements)
+            elementsAndFlagsDataLists = self.create_elements_flags_data_lists(fileId, dictOfUniqueTimeValues, placeholderElementsFlagsList)
+            self.parse_to_netCDF(fileId, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
+            self.delete_txt_file(fileId)
         
-        elif self.nc_file_exists(testfile) == True:
-            self.download_dly_file(testfile)
-            if self.dly_file_has_been_updated(testfile) == True:
-                self.rename_old_nc_file(testfile)
-                dictOfUniqueTimeValues = self.get_unique_time_values(testfile)
-                uniqueElements = self.get_unique_elements(testfile)
-                placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
-                elementsAndFlagsDataLists = self.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
-                self.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
-                self.delete_txt_file(testfile)
+        elif self.nc_file_exists(fileId) == True:
+            self.download_dly_file(fileId)
+            if self.dly_file_has_been_updated(fileId) == True:
+                self.rename_old_nc_file(fileId)
+                dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
+                uniqueElements = self.get_unique_elements(fileId)
+                placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(fileId, dictOfUniqueTimeValues, uniqueElements)
+                elementsAndFlagsDataLists = self.create_elements_flags_data_lists(fileId, dictOfUniqueTimeValues, placeholderElementsFlagsList)
+                self.parse_to_netCDF(fileId, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
+                self.delete_txt_file(fileId)
             else:
-                self.delete_txt_file(testfile)
+                self.delete_txt_file(fileId)
         else:
             pass
 
