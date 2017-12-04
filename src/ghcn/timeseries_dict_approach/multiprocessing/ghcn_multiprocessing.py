@@ -89,10 +89,11 @@ class GHCN:
         else:
             return False
 
-    def rename_old_nc_file(self, fileId):
-        dirName = fileId[:7]
-        #print(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0])
-        os.rename(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0], destinationDir + 'netcdf/' + dirName + '/ghcn-daily_v3.22.' + datetime.datetime.today().strftime('%Y-%m-%d') + '_' + fileId + '.nc')
+    def remove_old_nc_files(self, fileId):
+            dirName = fileId[:7]
+            #print(len(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')))
+            for i in range(0, len(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc'))):
+                os.remove(glob.glob(destinationDir + 'netcdf/' + dirName + '/*' + fileId + '.nc')[0])
 
     # Returns dictionary of unique time values
     def get_unique_time_values(self, fileId):
@@ -1960,7 +1961,7 @@ class GHCN:
         elif self.nc_file_exists(fileId) == True:
             self.download_dly_file(fileId)
             if self.dly_file_has_been_updated(fileId) == True:
-                self.rename_old_nc_file(fileId)
+                self.remove_old_nc_files(fileId)
                 dictOfUniqueTimeValues = self.get_unique_time_values(fileId)
                 uniqueElements = self.get_unique_elements(fileId)
                 placeholderElementsFlagsList = self.initialize_element_lists_with_time_key_and_placeholder_value(fileId, dictOfUniqueTimeValues, uniqueElements)
