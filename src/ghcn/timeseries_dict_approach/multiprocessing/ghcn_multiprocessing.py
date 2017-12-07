@@ -80,7 +80,10 @@ class GHCN:
             return False
 
     def delete_txt_file(self, fileId):
-        os.remove(fileId + '.txt')
+        try:
+            os.remove(fileId + '.txt')
+        except IOError:
+            pass
 
     def nc_file_exists(self, fileId):
         dirName = fileId[:7]
@@ -1989,7 +1992,7 @@ if __name__ == '__main__':
 
     ghcn = GHCN()
     stationIds = ghcn.get_station_info()
-    ghcn.go(stationIds)
+    ghcn.go(stationIds[90630:])
 
     print('The program took ', (time.time() - start) / 60 / 60 / 24, 'days to complete.')
 

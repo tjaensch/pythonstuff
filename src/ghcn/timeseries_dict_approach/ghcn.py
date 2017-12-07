@@ -79,7 +79,10 @@ class GHCN:
             return False
 
     def delete_txt_file(self, fileId):
-        os.remove(fileId + '.txt')
+        try:
+            os.remove(fileId + '.txt')
+        except IOError:
+            pass
 
     def nc_file_exists(self, fileId):
         dirName = fileId[:7]
