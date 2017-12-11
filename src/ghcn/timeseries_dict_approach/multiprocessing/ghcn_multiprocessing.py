@@ -1977,7 +1977,7 @@ class GHCN:
             pass
 
     def go(self, stationIds):
-        p = Pool(10)
+        p = Pool(15)
         p.map(self, stationIds)
 
     def __call__(self, fileId):
@@ -1992,7 +1992,7 @@ if __name__ == '__main__':
 
     ghcn = GHCN()
     stationIds = ghcn.get_station_info()
-    ghcn.go(stationIds[90630:])
+    ghcn.go(stationIds)
 
     print('The program took ', (time.time() - start) / 60 / 60 / 24, 'days to complete.')
 
