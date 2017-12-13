@@ -56,6 +56,8 @@ class GHCN:
             # ftp://ftp.ncdc.noaa.gov/
             url = 'https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/all/%s.dly' % fileId
             urllib.urlretrieve(url, fileId + '.txt')
+        except IOError:
+            pass
         except KeyboardInterrupt:
             print(sys.exc_info()[0])
         except:
@@ -1971,26 +1973,32 @@ if __name__ == '__main__':
     stationIds = ghcn.get_station_info()
         
     if ghcn.nc_file_exists(testfile) == False:
-        ghcn.download_dly_file(testfile)
-        dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
-        uniqueElements = ghcn.get_unique_elements(testfile)
-        placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
-        elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
-        ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
-        ghcn.delete_txt_file(testfile)
-
-    elif ghcn.nc_file_exists(testfile) == True:
-        ghcn.download_dly_file(testfile)
-        if ghcn.dly_file_has_been_updated(testfile) == True:
-            ghcn.remove_old_nc_files(testfile)
+        try:
+            ghcn.download_dly_file(testfile)
             dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
             uniqueElements = ghcn.get_unique_elements(testfile)
             placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
             elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
             ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
             ghcn.delete_txt_file(testfile)
-        else:
-            ghcn.delete_txt_file(testfile)
+        except:
+            pass
+
+    elif ghcn.nc_file_exists(testfile) == True:
+        try:
+            ghcn.download_dly_file(testfile)
+            if ghcn.dly_file_has_been_updated(testfile) == True:
+                ghcn.remove_old_nc_files(testfile)
+                dictOfUniqueTimeValues = ghcn.get_unique_time_values(testfile)
+                uniqueElements = ghcn.get_unique_elements(testfile)
+                placeholderElementsFlagsList = ghcn.initialize_element_lists_with_time_key_and_placeholder_value(testfile, dictOfUniqueTimeValues, uniqueElements)
+                elementsAndFlagsDataLists = ghcn.create_elements_flags_data_lists(testfile, dictOfUniqueTimeValues, placeholderElementsFlagsList)
+                ghcn.parse_to_netCDF(testfile, dictOfUniqueTimeValues, elementsAndFlagsDataLists)
+                ghcn.delete_txt_file(testfile)
+            else:
+                ghcn.delete_txt_file(testfile)
+        except:
+            pass
     else:
         pass
 
