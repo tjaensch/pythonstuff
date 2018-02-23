@@ -554,7 +554,7 @@ if __name__ == '__main__':
     # report = Evaluate('https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.nodc:0114815;view=xml')
     # import json
     # print json.dumps(report.results['coverageDetails'], indent=2)
-    # report = BelayBatch('/nodc/projects/satdata/Granule_OneStop/WOA13/xml', rubric_type='granule', traverse=True)
+    # report = BelayBatch('/nodc/projects/metadata/WOA13/xml', rubric_type='granule', traverse=True)
     # report.output_csv('rubric_scores.csv')
     # print len(report.records)
     # for record in report.records:

@@ -1985,7 +1985,7 @@ class GHCN:
             pass
 
     def go(self, stationIds):
-        p = Pool(15)
+        p = Pool(10)
         p.map(self, stationIds)
 
     def __call__(self, fileId):
