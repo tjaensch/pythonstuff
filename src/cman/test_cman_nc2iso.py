@@ -4,8 +4,11 @@ import unittest
 from cman_nc2iso import CMAN
 
 # Tests
+
+
 class Testcman(unittest.TestCase):
     """docstring for Testcman"""
+
     def setUp(self):
         cman = CMAN()
         testfile = "/nodc/web/data.nodc/htdocs/ndbc/cmanwx/2016/05/NDBC_44020_201605_D6_v00.nc"
@@ -20,7 +23,7 @@ class Testcman(unittest.TestCase):
             os.makedirs("./final_xml/")
         if not os.path.exists("./netcdf3/"):
             os.makedirs("./netcdf3/")
-          
+
         # test run defs with one file
         cman.ncdump(testfile)
         cman.add_to_ncml(testfile)
@@ -55,12 +58,14 @@ class Testcman(unittest.TestCase):
     def test_add_collection_metadata(self):
         file = open("./final_xml/NDBC_44020_201605_D6_v00.xml", "r")
         data = file.read()
-        self.assertTrue("Global Change Master Directory (GCMD) Data Center Keywords" in data)
+        self.assertTrue(
+            "Global Change Master Directory (GCMD) Data Center Keywords" in data)
 
     def test_get_english_title(self):
         file = open("./final_xml/NDBC_44020_201605_D6_v00.xml", "r")
         data = file.read()
-        self.assertTrue("NDBC-CMANWx_44020_201605_D6_v00 - C-MAN/Wx buoy 44020 for 201605, deployment 6" in data)
+        self.assertTrue(
+            "NDBC-CMANWx_44020_201605_D6_v00 - C-MAN/Wx buoy 44020 for 201605, deployment 6" in data)
 
 # __main__
 if __name__ == '__main__':
