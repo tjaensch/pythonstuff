@@ -16,6 +16,7 @@ class Testgcmd(unittest.TestCase):
         self.themeKeywordsList = gcmd.get_theme_keywords(testfile)
         self.themeKeywordsThesauriList = gcmd.get_theme_keywords_thesauri(testfile)
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
+        self.datacenterKeywordsThesauriList = gcmd.get_datacenter_keywords_thesauri(testfile)
 
     def test_find_xml_files(self):
         self.assertTrue(len(self.xmlFiles) > 0)
@@ -41,6 +42,13 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("BLAH NESDIS" in self.datacenterKeywordsList)
         self.assertTrue("NASA/JPL/PODAAC > Physical Oceanography Distributed Active Archive Center, Jet Propulsion Laboratory, NASA" in self.datacenterKeywordsList)
         self.assertFalse("Australian Bureau of Blah" in self.datacenterKeywordsList)
+
+    def test_get_datacenter_keywords_thesauri(self):
+        self.assertTrue(len(self.datacenterKeywordsThesauriList) == 3)
+        self.assertTrue("Global Change Master Directory (GCMD) Data Center Keywords" in self.datacenterKeywordsThesauriList)
+        self.assertFalse("Global Change Master Directory (GCMD) Data Center" in self.datacenterKeywordsThesauriList)
+        self.assertTrue("NODC COLLECTING INSTITUTION NAMES THESAURUS" in self.datacenterKeywordsThesauriList)
+        self.assertFalse("Australian Bureau of Blah" in self.datacenterKeywordsThesauriList)
 
 # __main__
 if __name__ == '__main__':

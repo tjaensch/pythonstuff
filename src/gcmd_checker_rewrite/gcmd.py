@@ -52,6 +52,17 @@ class GCMD:
         #print(datacenterKeywordsList)
         return datacenterKeywordsList
 
+    def get_datacenter_keywords_thesauri(self, file):
+        datacenterKeywordsThesauriList = []
+        xmlRoot = et.fromstring(open(file).read())
+        datacenterKeywordsThesauri = xmlRoot.xpath(
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='dataCenter']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
+                namespaces=xmlRoot.nsmap)
+        for i in range(len(datacenterKeywordsThesauri)):
+            datacenterKeywordsThesauriList.append(datacenterKeywordsThesauri[i].text)
+        #print(datacenterKeywordsThesauriList)
+        return datacenterKeywordsThesauriList
+
 # __main__
 if __name__ == '__main__':
     start = time.time()
@@ -62,6 +73,7 @@ if __name__ == '__main__':
     gcmd.get_theme_keywords(xmlFiles[0])
     gcmd.get_theme_keywords_thesauri(xmlFiles[0])
     gcmd.get_datacenter_keywords(xmlFiles[0])
+    gcmd.get_datacenter_keywords_thesauri(xmlFiles[0])
 
     print('The program took ', time.time() - start, 'seconds to complete.')
 
