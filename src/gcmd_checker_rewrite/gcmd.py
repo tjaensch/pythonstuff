@@ -1,8 +1,8 @@
 import fnmatch
 import glob
+from lxml import etree as et
 import time
 import os
-from os.path import basename
 
 
 class GCMD:
@@ -19,14 +19,25 @@ class GCMD:
         print("%d files found in source directory" % len(self.xmlFiles))
         return self.xmlFiles
 
+    def get_theme_keywords(self, file):
+        themeKeywordsList = []
+        xmlRoot = et.fromstring(open(file).read())
+        themeKeywords = xmlRoot.xpath(
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='theme']/gmd:keyword/*",
+                namespaces=xmlRoot.nsmap)
+        for i in range(len(themeKeywords)):
+            themeKeywordsList.append(themeKeywords[i].text)
+        return themeKeywordsList
 
 # __main__
 if __name__ == '__main__':
     start = time.time()
 
     gcmd = GCMD()
-    gcmd.find_xml_files()
+    xmlFiles = gcmd.find_xml_files()
 
-    print 'The program took ', time.time() - start, 'seconds to complete.'
+    gcmd.get_theme_keywords(xmlFiles[0])
+
+    print('The program took ', time.time() - start, 'seconds to complete.')
 
 # End __main__
