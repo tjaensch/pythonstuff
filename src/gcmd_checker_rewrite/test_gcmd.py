@@ -18,6 +18,13 @@ class Testgcmd(unittest.TestCase):
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
         self.datacenterKeywordsThesauriList = gcmd.get_datacenter_keywords_thesauri(testfile)
         self.placeKeywordsList = gcmd.get_place_keywords(testfile)
+        self.placeKeywordsThesauriList = gcmd.get_place_keywords_thesauri(testfile)
+        self.platformKeywordsList = gcmd.get_platform_keywords(testfile)
+        self.platformKeywordsThesauriList = gcmd.get_platform_keywords_thesauri(testfile)
+        self.instrumentKeywordsList = gcmd.get_instrument_keywords(testfile)
+        self.instrumentKeywordsThesauriList = gcmd.get_instrument_keywords_thesauri(testfile)
+        self.projectKeywordsList = gcmd.get_project_keywords(testfile)
+        self.projectKeywordsThesauriList = gcmd.get_project_keywords_thesauri(testfile)
 
     def test_find_xml_files(self):
         self.assertTrue(len(self.xmlFiles) > 0)
@@ -57,6 +64,55 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("Bavaria" in self.placeKeywordsList)
         self.assertTrue("OCEAN > PACIFIC OCEAN > WESTERN PACIFIC OCEAN > SOUTH CHINA SEA" in self.placeKeywordsList)
         self.assertFalse("Oceaniyuck" in self.placeKeywordsList)
+
+    def test_get_place_keywords_thesauri(self):
+        self.assertTrue(len(self.placeKeywordsThesauriList) == 3)
+        self.assertTrue("NODC SEA AREA NAMES THESAURUS" in self.placeKeywordsThesauriList)
+        self.assertFalse("NODC SEA AREA NAMES THESAURI" in self.placeKeywordsThesauriList)
+        self.assertTrue("NASA/GCMD Location Keywords" in self.placeKeywordsThesauriList)
+        self.assertFalse("NODC SEA AREA NAMES THESAURUS BLAH" in self.placeKeywordsThesauriList)
+
+    def test_get_platform_keywords(self):
+        self.assertTrue(len(self.platformKeywordsList) == 18)
+        self.assertTrue("GCOM-W1" in self.platformKeywordsList)
+        self.assertFalse("Bavaria" in self.platformKeywordsList)
+        self.assertTrue("METOP-A > Meteorological Operational Satellite - A" in self.platformKeywordsList)
+        self.assertFalse("METOP-C" in self.platformKeywordsList)
+
+    def test_get_platform_keywords_thesauri(self):
+        self.assertTrue(len(self.platformKeywordsThesauriList) == 2)
+        self.assertTrue("NODC PLATFORM NAMES THESAURUS" in self.platformKeywordsThesauriList)
+        self.assertFalse("NODC PLATFORM NAMES THESAURUS BLAH" in self.platformKeywordsThesauriList)
+        self.assertTrue("Global Change Master Directory (GCMD) Platform Keywords" in self.platformKeywordsThesauriList)
+        self.assertFalse("PLATYPUS" in self.platformKeywordsThesauriList)
+
+    def test_get_instrument_keywords(self):
+        self.assertTrue(len(self.instrumentKeywordsList) == 11)
+        self.assertTrue("AATSR-MET" in self.instrumentKeywordsList)
+        self.assertFalse("Bavaria" in self.instrumentKeywordsList)
+        self.assertTrue("AMSR-E > Advanced Microwave Scanning Radiometer-EOS" in self.instrumentKeywordsList)
+        self.assertFalse("AATSR > Advanced Along-Track Scanning" in self.instrumentKeywordsList)
+
+    def test_get_instrument_keywords_thesauri(self):
+        self.assertTrue(len(self.instrumentKeywordsThesauriList) == 2)
+        self.assertTrue("NODC INSTRUMENT TYPES THESAURUS" in self.instrumentKeywordsThesauriList)
+        self.assertFalse("NODC INSTRUMENT TYPES" in self.instrumentKeywordsThesauriList)
+        self.assertTrue("Global Change Master Directory (GCMD) Instrument Keywords" in self.instrumentKeywordsThesauriList)
+        self.assertFalse("INSTRUMENTS" in self.instrumentKeywordsThesauriList)
+
+    def test_get_project_keywords(self):
+        self.assertTrue(len(self.projectKeywordsList) == 3)
+        self.assertTrue("Group for High Resolution Sea Surface Temperature (GHRSST)" in self.projectKeywordsList)
+        self.assertFalse("GHRSST" in self.projectKeywordsList)
+        self.assertTrue("GHRSST > Group for High Resolution Sea Surface Temperature" in self.projectKeywordsList)
+        self.assertTrue("NOAA OneStop Project" in self.projectKeywordsList)
+
+    def test_get_project_keywords_thesauri(self):
+        self.assertTrue(len(self.projectKeywordsThesauriList) == 2)
+        self.assertTrue("NODC PROJECT NAMES THESAURUS" in self.projectKeywordsThesauriList)
+        self.assertFalse("NODC PROJECT NAMES" in self.projectKeywordsThesauriList)
+        self.assertTrue("Global Change Master Directory (GCMD) Project Keywords" in self.projectKeywordsThesauriList)
+        self.assertFalse("BLAH" in self.projectKeywordsThesauriList)
 
 # __main__
 if __name__ == '__main__':

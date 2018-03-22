@@ -74,6 +74,83 @@ class GCMD:
         #print(placeKeywordsList)
         return placeKeywordsList
 
+    def get_place_keywords_thesauri(self, file):
+        placeKeywordsThesauriList = []
+        xmlRoot = et.fromstring(open(file).read())
+        placeKeywordsThesauri = xmlRoot.xpath(
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='place']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
+                namespaces=xmlRoot.nsmap)
+        for i in range(len(placeKeywordsThesauri)):
+            placeKeywordsThesauriList.append(placeKeywordsThesauri[i].text)
+        #print(placeKeywordsThesauriList)
+        return placeKeywordsThesauriList
+
+    def get_platform_keywords(self, file):
+        platformKeywordsList = []
+        xmlRoot = et.fromstring(open(file).read())
+        platformKeywords = xmlRoot.xpath(
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='platform']/gmd:keyword/*",
+                namespaces=xmlRoot.nsmap)
+        for i in range(len(platformKeywords)):
+            platformKeywordsList.append(platformKeywords[i].text)
+        #print(platformKeywordsList)
+        return platformKeywordsList
+
+    def get_platform_keywords_thesauri(self, file):
+        platformKeywordsThesauriList = []
+        xmlRoot = et.fromstring(open(file).read())
+        platformKeywordsThesauri = xmlRoot.xpath(
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='platform']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
+                namespaces=xmlRoot.nsmap)
+        for i in range(len(platformKeywordsThesauri)):
+            platformKeywordsThesauriList.append(platformKeywordsThesauri[i].text)
+        #print(platformKeywordsThesauriList)
+        return platformKeywordsThesauriList
+
+    def get_instrument_keywords(self, file):
+        instrumentKeywordsList = []
+        xmlRoot = et.fromstring(open(file).read())
+        instrumentKeywords = xmlRoot.xpath(
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='instrument']/gmd:keyword/*",
+                namespaces=xmlRoot.nsmap)
+        for i in range(len(instrumentKeywords)):
+            instrumentKeywordsList.append(instrumentKeywords[i].text)
+        #print(instrumentKeywordsList)
+        return instrumentKeywordsList
+
+    def get_instrument_keywords_thesauri(self, file):
+        instrumentKeywordsThesauriList = []
+        xmlRoot = et.fromstring(open(file).read())
+        instrumentKeywordsThesauri = xmlRoot.xpath(
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='instrument']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
+                namespaces=xmlRoot.nsmap)
+        for i in range(len(instrumentKeywordsThesauri)):
+            instrumentKeywordsThesauriList.append(instrumentKeywordsThesauri[i].text)
+        print(instrumentKeywordsThesauriList)
+        return instrumentKeywordsThesauriList
+
+    def get_project_keywords(self, file):
+        projectKeywordsList = []
+        xmlRoot = et.fromstring(open(file).read())
+        projectKeywords = xmlRoot.xpath(
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='project']/gmd:keyword/*",
+                namespaces=xmlRoot.nsmap)
+        for i in range(len(projectKeywords)):
+            projectKeywordsList.append(projectKeywords[i].text)
+        #print(projectKeywordsList)
+        return projectKeywordsList
+
+    def get_project_keywords_thesauri(self, file):
+        projectKeywordsThesauriList = []
+        xmlRoot = et.fromstring(open(file).read())
+        projectKeywordsThesauri = xmlRoot.xpath(
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='project']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
+                namespaces=xmlRoot.nsmap)
+        for i in range(len(projectKeywordsThesauri)):
+            projectKeywordsThesauriList.append(projectKeywordsThesauri[i].text)
+        print(projectKeywordsThesauriList)
+        return projectKeywordsThesauriList
+
 # __main__
 if __name__ == '__main__':
     start = time.time()
@@ -86,6 +163,13 @@ if __name__ == '__main__':
     gcmd.get_datacenter_keywords(testfile)
     gcmd.get_datacenter_keywords_thesauri(testfile)
     gcmd.get_place_keywords(testfile)
+    gcmd.get_place_keywords_thesauri(testfile)
+    gcmd.get_platform_keywords(testfile)
+    gcmd.get_platform_keywords_thesauri(testfile)
+    gcmd.get_instrument_keywords(testfile)
+    gcmd.get_instrument_keywords_thesauri(testfile)
+    gcmd.get_project_keywords(testfile)
+    gcmd.get_project_keywords_thesauri(testfile)
 
     print('The program took ', time.time() - start, 'seconds to complete.')
 
