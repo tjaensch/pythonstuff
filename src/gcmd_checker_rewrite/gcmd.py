@@ -1,5 +1,6 @@
 import fnmatch
 import glob
+import itertools
 from lxml import etree as et
 import time
 import os
@@ -18,6 +19,11 @@ class GCMD:
                 self.xmlFiles.append(os.path.join(root, filename))
         print("%d files found in source directory" % len(self.xmlFiles))
         return self.xmlFiles
+
+    def get_all_GCMD_keywords(self, file):
+        allKeywords = itertools.chain(self.get_theme_keywords(file), self.get_theme_keywords_thesauri(file), self.get_datacenter_keywords(file), self.get_datacenter_keywords_thesauri(file), self.get_place_keywords(file), self.get_place_keywords_thesauri(file), self.get_platform_keywords(file), self.get_platform_keywords_thesauri(file), self.get_instrument_keywords(file), self.get_instrument_keywords_thesauri(file), self.get_project_keywords(file), self.get_project_keywords_thesauri(file))
+        #print(list(allKeywords))
+        return list(allKeywords)
 
     def get_theme_keywords(self, file):
         themeKeywordsList = []
@@ -148,7 +154,7 @@ class GCMD:
                 namespaces=xmlRoot.nsmap)
         for i in range(len(projectKeywordsThesauri)):
             projectKeywordsThesauriList.append(projectKeywordsThesauri[i].text)
-        print(projectKeywordsThesauriList)
+        #print(projectKeywordsThesauriList)
         return projectKeywordsThesauriList
 
 # __main__
@@ -158,7 +164,7 @@ if __name__ == '__main__':
     gcmd = GCMD()
     testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
 
-    gcmd.get_theme_keywords(testfile)
+    '''gcmd.get_theme_keywords(testfile)
     gcmd.get_theme_keywords_thesauri(testfile)
     gcmd.get_datacenter_keywords(testfile)
     gcmd.get_datacenter_keywords_thesauri(testfile)
@@ -169,7 +175,9 @@ if __name__ == '__main__':
     gcmd.get_instrument_keywords(testfile)
     gcmd.get_instrument_keywords_thesauri(testfile)
     gcmd.get_project_keywords(testfile)
-    gcmd.get_project_keywords_thesauri(testfile)
+    gcmd.get_project_keywords_thesauri(testfile)'''
+
+    gcmd.get_all_GCMD_keywords(testfile)
 
     print('The program took ', time.time() - start, 'seconds to complete.')
 

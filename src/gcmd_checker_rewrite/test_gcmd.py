@@ -13,6 +13,7 @@ class Testgcmd(unittest.TestCase):
         gcmd = GCMD()
         testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml"
         self.xmlFiles = gcmd.find_xml_files()
+        self.allKeywords = gcmd.get_all_GCMD_keywords(testfile)
         self.themeKeywordsList = gcmd.get_theme_keywords(testfile)
         self.themeKeywordsThesauriList = gcmd.get_theme_keywords_thesauri(testfile)
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
@@ -29,6 +30,12 @@ class Testgcmd(unittest.TestCase):
     def test_find_xml_files(self):
         self.assertTrue(len(self.xmlFiles) > 0)
         self.assertTrue(self.xmlFiles)
+
+    def test_get_all_GCMD_keywords(self):
+        self.assertTrue(len(self.allKeywords) == len(self.themeKeywordsList) + len(self.themeKeywordsThesauriList) + len(self.datacenterKeywordsList) + len(self.datacenterKeywordsThesauriList) + len(self.placeKeywordsList) + len(self.placeKeywordsThesauriList) + len(self.platformKeywordsList) + len(self.platformKeywordsThesauriList) + len(self.instrumentKeywordsList) + len(self.instrumentKeywordsThesauriList) + len(self.projectKeywordsList) + len(self.projectKeywordsThesauriList))
+        self.assertTrue("EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE > SEA SURFACE TEMPERATURE" in self.allKeywords)
+        self.assertTrue("Group for High Resolution Sea Surface Temperature (GHRSST)" in self.allKeywords)
+        self.assertFalse("Blah" in self.allKeywords)
 
     def test_get_theme_keywords(self):
         self.assertTrue(len(self.themeKeywordsList) == 5)
