@@ -63,17 +63,29 @@ class GCMD:
         #print(datacenterKeywordsThesauriList)
         return datacenterKeywordsThesauriList
 
+    def get_place_keywords(self, file):
+        placeKeywordsList = []
+        xmlRoot = et.fromstring(open(file).read())
+        placeKeywords = xmlRoot.xpath(
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='place']/gmd:keyword/*",
+                namespaces=xmlRoot.nsmap)
+        for i in range(len(placeKeywords)):
+            placeKeywordsList.append(placeKeywords[i].text)
+        #print(placeKeywordsList)
+        return placeKeywordsList
+
 # __main__
 if __name__ == '__main__':
     start = time.time()
 
     gcmd = GCMD()
-    xmlFiles = gcmd.find_xml_files()
+    testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
 
-    gcmd.get_theme_keywords(xmlFiles[0])
-    gcmd.get_theme_keywords_thesauri(xmlFiles[0])
-    gcmd.get_datacenter_keywords(xmlFiles[0])
-    gcmd.get_datacenter_keywords_thesauri(xmlFiles[0])
+    gcmd.get_theme_keywords(testfile)
+    gcmd.get_theme_keywords_thesauri(testfile)
+    gcmd.get_datacenter_keywords(testfile)
+    gcmd.get_datacenter_keywords_thesauri(testfile)
+    gcmd.get_place_keywords(testfile)
 
     print('The program took ', time.time() - start, 'seconds to complete.')
 

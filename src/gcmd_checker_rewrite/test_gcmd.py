@@ -17,6 +17,7 @@ class Testgcmd(unittest.TestCase):
         self.themeKeywordsThesauriList = gcmd.get_theme_keywords_thesauri(testfile)
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
         self.datacenterKeywordsThesauriList = gcmd.get_datacenter_keywords_thesauri(testfile)
+        self.placeKeywordsList = gcmd.get_place_keywords(testfile)
 
     def test_find_xml_files(self):
         self.assertTrue(len(self.xmlFiles) > 0)
@@ -49,6 +50,13 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("Global Change Master Directory (GCMD) Data Center" in self.datacenterKeywordsThesauriList)
         self.assertTrue("NODC COLLECTING INSTITUTION NAMES THESAURUS" in self.datacenterKeywordsThesauriList)
         self.assertFalse("Australian Bureau of Blah" in self.datacenterKeywordsThesauriList)
+
+    def test_get_place_keywords(self):
+        self.assertTrue(len(self.placeKeywordsList) == 33)
+        self.assertTrue("Andaman Sea or Burma Sea" in self.placeKeywordsList)
+        self.assertFalse("Bavaria" in self.placeKeywordsList)
+        self.assertTrue("OCEAN > PACIFIC OCEAN > WESTERN PACIFIC OCEAN > SOUTH CHINA SEA" in self.placeKeywordsList)
+        self.assertFalse("Oceaniyuck" in self.placeKeywordsList)
 
 # __main__
 if __name__ == '__main__':
