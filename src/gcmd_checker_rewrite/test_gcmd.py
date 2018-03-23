@@ -20,9 +20,11 @@ class Testgcmd(unittest.TestCase):
         # PLACE KEYWORDS
         self.placeKeywordsList = gcmd.get_place_keywords(testfile)
         self.placeKeywordsThesauriList = gcmd.get_place_keywords_thesauri(testfile)
+        gcmd.check_place_keywords(testfile)
         # PLATFORM KEYWORDS
         self.platformKeywordsList = gcmd.get_platform_keywords(testfile)
         self.platformKeywordsThesauriList = gcmd.get_platform_keywords_thesauri(testfile)
+        gcmd.check_platform_keywords(testfile)
         # INSTRUMENT KEYWORDS
         self.instrumentKeywordsList = gcmd.get_instrument_keywords(testfile)
         self.instrumentKeywordsThesauriList = gcmd.get_instrument_keywords_thesauri(testfile)
@@ -81,6 +83,13 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("NASA/GCMD LOCATION KEYWORDS" in self.placeKeywordsThesauriList)
         self.assertFalse("NODC SEA AREA NAMES THESAURUS BLAH" in self.placeKeywordsThesauriList)
 
+    def test_check_place_keywords(self):
+        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+            s = f.read()
+        self.assertTrue("ARABIAN SEA" in s)
+        self.assertTrue("EAST INDIAN ARCHIPELAGO" in s)
+        self.assertFalse("OCEAN > ATLANTIC OCEAN > SOUTH ATLANTIC OCEAN" in s)
+
     # PLATFORM KEYWORDS
     def test_get_platform_keywords(self):
         self.assertTrue(len(self.platformKeywordsList) == 18)
@@ -95,6 +104,13 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("NODC PLATFORM NAMES THESAURUS BLAH" in self.platformKeywordsThesauriList)
         self.assertTrue("GLOBAL CHANGE MASTER DIRECTORY (GCMD) PLATFORM KEYWORDS" in self.platformKeywordsThesauriList)
         self.assertFalse("PLATYPUS" in self.platformKeywordsThesauriList)
+
+    def test_check_platform_keywords(self):
+        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+            s = f.read()
+        self.assertTrue("AQUA SATELLITE" in s)
+        self.assertTrue("NOAA-19 SATELLITE" in s)
+        self.assertFalse("CORIOLIS > CORIOLIS" in s)
 
     # INSTRUMENT KEYWORDS
     def test_get_instrument_keywords(self):

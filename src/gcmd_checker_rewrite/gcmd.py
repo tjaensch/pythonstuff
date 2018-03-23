@@ -97,6 +97,27 @@ class GCMD:
             placeKeywordsThesauriList.append(placeKeywordsThesauri[i].text.upper())
         #print(placeKeywordsThesauriList)
         return placeKeywordsThesauriList
+
+    def check_place_keywords(self, file):
+        modelPlaceKeywordsList = []
+        data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/locations/locations.csv"))
+        for row in data:
+            try:
+                modelPlaceKeywordsList.append(row[0].upper()) # in case row[1] is blank
+                modelPlaceKeywordsList.append(row[0].upper() + " > " + row[1].upper())
+                modelPlaceKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper())
+                modelPlaceKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper() + " > " + row[3].upper())
+                modelPlaceKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper() + " > " + row[3].upper() + " > " + row[4].upper())
+            except IndexError:
+                continue
+        # check if file place keywords are in modelPlatformKeywordsList
+        print(self.get_place_keywords(file))
+        for keyword in self.get_place_keywords(file):
+            if keyword not in modelPlaceKeywordsList:
+                print("invalid location keyword: " + keyword)
+                with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([keyword, "location", basename(os.path.splitext(file)[0]) + '.xml'])    
     # END PLACE KEYWORDS
     
     # PLATFORM KEYWORDS
@@ -121,6 +142,23 @@ class GCMD:
             platformKeywordsThesauriList.append(platformKeywordsThesauri[i].text.upper())
         #print(platformKeywordsThesauriList)
         return platformKeywordsThesauriList
+
+    def check_platform_keywords(self, file):
+        modelPlatformKeywordsList = []
+        data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/platforms/platforms.csv"))
+        for row in data:
+            try:
+                modelPlatformKeywordsList.append(row[2].upper()) # in case row[3] is blank
+                modelPlatformKeywordsList.append(row[2].upper() + " > " + row[3].upper()) # if value for both rows
+            except IndexError:
+                continue
+        # check if file platform keywords are in modelPlatformKeywordsList
+        for keyword in self.get_platform_keywords(file):
+            if keyword not in modelPlatformKeywordsList:
+                print("invalid platform keyword: " + keyword)
+                with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([keyword, "platform", basename(os.path.splitext(file)[0]) + '.xml'])    
     # END PLATFORM KEYWORDS
     
     # INSTRUMENT KEYWORDS
@@ -213,6 +251,9 @@ if __name__ == '__main__':
     testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
 
     gcmd.create_results_csv(testfile)
+    
+    gcmd.check_place_keywords(testfile)
+    gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
     gcmd.check_project_keywords(testfile)
     
