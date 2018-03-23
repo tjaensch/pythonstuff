@@ -1,10 +1,9 @@
 import csv
 import fnmatch
-import glob
-import itertools
 from lxml import etree as et
 import time
 import os
+from os.path import basename
 import urllib2
 
 
@@ -22,11 +21,13 @@ class GCMD:
         print("%d files found in source directory" % len(self.xmlFiles))
         return self.xmlFiles
 
-    def get_all_GCMD_keywords(self, file):
-        allKeywords = itertools.chain(self.get_theme_keywords(file), self.get_theme_keywords_thesauri(file), self.get_datacenter_keywords(file), self.get_datacenter_keywords_thesauri(file), self.get_place_keywords(file), self.get_place_keywords_thesauri(file), self.get_platform_keywords(file), self.get_platform_keywords_thesauri(file), self.get_instrument_keywords(file), self.get_instrument_keywords_thesauri(file), self.get_project_keywords(file), self.get_project_keywords_thesauri(file))
-        #print(list(allKeywords))
-        return list(allKeywords)
+    def create_results_csv(self, file):
+        print(basename(os.path.splitext(file)[0]) + '.xml')
+        with open(basename(os.path.splitext(file)[0]) + '.csv', 'wb') as out:
+            writer = csv.writer(out)
+            writer.writerow(["Invalid Keyword", "Type", "Filename"])
 
+    # THEME KEYWORDS
     def get_theme_keywords(self, file):
         themeKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
@@ -48,7 +49,9 @@ class GCMD:
             themeKeywordsThesauriList.append(themeKeywordsThesauri[i].text.upper())
         #print(themeKeywordsThesauriList)
         return themeKeywordsThesauriList
+    # END THEME KEYWORDS
 
+    # DATA CENTER KEYWORDS
     def get_datacenter_keywords(self, file):
         datacenterKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
@@ -70,7 +73,9 @@ class GCMD:
             datacenterKeywordsThesauriList.append(datacenterKeywordsThesauri[i].text.upper())
         #print(datacenterKeywordsThesauriList)
         return datacenterKeywordsThesauriList
+    # END DATACENTER KEYWORDS
 
+    # PLACE KEYWORDS
     def get_place_keywords(self, file):
         placeKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
@@ -92,7 +97,9 @@ class GCMD:
             placeKeywordsThesauriList.append(placeKeywordsThesauri[i].text.upper())
         #print(placeKeywordsThesauriList)
         return placeKeywordsThesauriList
-
+    # END PLACE KEYWORDS
+    
+    # PLATFORM KEYWORDS
     def get_platform_keywords(self, file):
         platformKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
@@ -114,7 +121,9 @@ class GCMD:
             platformKeywordsThesauriList.append(platformKeywordsThesauri[i].text.upper())
         #print(platformKeywordsThesauriList)
         return platformKeywordsThesauriList
-
+    # END PLATFORM KEYWORDS
+    
+    # INSTRUMENT KEYWORDS
     def get_instrument_keywords(self, file):
         instrumentKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
@@ -137,6 +146,25 @@ class GCMD:
         #print(instrumentKeywordsThesauriList)
         return instrumentKeywordsThesauriList
 
+    def check_instrument_keywords(self, file):
+        modelInstrumentKeywordsList = []
+        data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/instruments/instruments.csv"))
+        for row in data:
+            try:
+                modelInstrumentKeywordsList.append(row[4].upper()) # in case row[5] is blank
+                modelInstrumentKeywordsList.append(row[4].upper() + " > " + row[5].upper()) # if value for both rows
+            except IndexError:
+                continue
+        # check if file instrument keywords are in modelInstrumentKeywordsList
+        for keyword in self.get_instrument_keywords(file):
+            if keyword not in modelInstrumentKeywordsList:
+                print("invalid keyword: " + keyword)
+                with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([keyword, "instrument", basename(os.path.splitext(file)[0]) + '.xml'])
+    # END INSTRUMENT KEYWORDS
+    
+    # PROJECT KEYWORDS
     def get_project_keywords(self, file):
         projectKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
@@ -158,22 +186,7 @@ class GCMD:
             projectKeywordsThesauriList.append(projectKeywordsThesauri[i].text.upper())
         #print(projectKeywordsThesauriList)
         return projectKeywordsThesauriList
-
-    def check_instrument_keywords(self, file):
-        modelInstrumentKeywordsList = []
-        data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/instruments/instruments.csv"))
-        for row in data:
-            try:
-                modelInstrumentKeywordsList.append(row[4].upper()) # in case row[5] is blank
-                modelInstrumentKeywordsList.append(row[4].upper() + " > " + row[5].upper()) # if value for both rows
-            except IndexError:
-                continue
-        # check if file instrument keywords are in modelInstrumentKeywordsList
-        for i in self.get_instrument_keywords(file):
-            if i in modelInstrumentKeywordsList:
-                print(i, "yes")
-            else:
-                print(i, "no")
+    # END PROJECT KEYWORDS
 
 # __main__
 if __name__ == '__main__':
@@ -182,7 +195,7 @@ if __name__ == '__main__':
     gcmd = GCMD()
     testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
 
-    #print(gcmd.get_all_GCMD_keywords(testfile))
+    gcmd.create_results_csv(testfile)
     gcmd.check_instrument_keywords(testfile)
     
 

@@ -13,16 +13,23 @@ class Testgcmd(unittest.TestCase):
         gcmd = GCMD()
         testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml"
         self.xmlFiles = gcmd.find_xml_files()
+        # THEME KEYWORDS
         self.themeKeywordsList = gcmd.get_theme_keywords(testfile)
         self.themeKeywordsThesauriList = gcmd.get_theme_keywords_thesauri(testfile)
+        # DATACENTER KEYWORDS
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
         self.datacenterKeywordsThesauriList = gcmd.get_datacenter_keywords_thesauri(testfile)
+        # PLACE KEYWORDS
         self.placeKeywordsList = gcmd.get_place_keywords(testfile)
         self.placeKeywordsThesauriList = gcmd.get_place_keywords_thesauri(testfile)
+        # PLATFORM KEYWORDS
         self.platformKeywordsList = gcmd.get_platform_keywords(testfile)
         self.platformKeywordsThesauriList = gcmd.get_platform_keywords_thesauri(testfile)
+        # INSTRUMENT KEYWORDS
         self.instrumentKeywordsList = gcmd.get_instrument_keywords(testfile)
         self.instrumentKeywordsThesauriList = gcmd.get_instrument_keywords_thesauri(testfile)
+        gcmd.check_instrument_keywords(testfile)
+        # PROJECT KEYWORDS
         self.projectKeywordsList = gcmd.get_project_keywords(testfile)
         self.projectKeywordsThesauriList = gcmd.get_project_keywords_thesauri(testfile)
 
@@ -30,6 +37,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue(len(self.xmlFiles) > 0)
         self.assertTrue(self.xmlFiles)
 
+    # THEME KEYWORDS
     def test_get_theme_keywords(self):
         self.assertTrue(len(self.themeKeywordsList) == 5)
         self.assertTrue("EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE > SEA SURFACE TEMPERATURE" in self.themeKeywordsList)
@@ -44,6 +52,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("NASA/GCMD EARTH SCIENCE KEYWORDS" in self.themeKeywordsThesauriList)
         self.assertFalse("blah" in self.themeKeywordsThesauriList)
 
+    # DATACENTER KEYWORDS
     def test_get_datacenter_keywords(self):
         self.assertTrue(len(self.datacenterKeywordsList) == 5)
         self.assertTrue("DOC/NOAA/NESDIS/NODC > NATIONAL OCEANOGRAPHIC DATA CENTER, NESDIS, NOAA, U.S. DEPARTMENT OF COMMERCE" in self.datacenterKeywordsList)
@@ -58,6 +67,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("NODC COLLECTING INSTITUTION NAMES THESAURUS" in self.datacenterKeywordsThesauriList)
         self.assertFalse("Australian Bureau of Blah" in self.datacenterKeywordsThesauriList)
 
+    # PLACE KEYWORDS
     def test_get_place_keywords(self):
         self.assertTrue(len(self.placeKeywordsList) == 33)
         self.assertTrue("ANDAMAN SEA OR BURMA SEA" in self.placeKeywordsList)
@@ -72,6 +82,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("NASA/GCMD LOCATION KEYWORDS" in self.placeKeywordsThesauriList)
         self.assertFalse("NODC SEA AREA NAMES THESAURUS BLAH" in self.placeKeywordsThesauriList)
 
+    # PLATFORM KEYWORDS
     def test_get_platform_keywords(self):
         self.assertTrue(len(self.platformKeywordsList) == 18)
         self.assertTrue("GCOM-W1" in self.platformKeywordsList)
@@ -86,6 +97,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("GLOBAL CHANGE MASTER DIRECTORY (GCMD) PLATFORM KEYWORDS" in self.platformKeywordsThesauriList)
         self.assertFalse("PLATYPUS" in self.platformKeywordsThesauriList)
 
+    # INSTRUMENT KEYWORDS
     def test_get_instrument_keywords(self):
         self.assertTrue(len(self.instrumentKeywordsList) == 11)
         self.assertTrue("AATSR-MET" in self.instrumentKeywordsList)
@@ -100,6 +112,14 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("GLOBAL CHANGE MASTER DIRECTORY (GCMD) INSTRUMENT KEYWORDS" in self.instrumentKeywordsThesauriList)
         self.assertFalse("INSTRUMENTS" in self.instrumentKeywordsThesauriList)
 
+    def test_check_instrument_keywords(self):
+        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+            s = f.read()
+        self.assertTrue("AATSR-MET" in s)
+        self.assertTrue("AATSR-NR" in s)
+        self.assertFalse("BLAH" in s)
+
+    # PROJECT KEYWORDS
     def test_get_project_keywords(self):
         self.assertTrue(len(self.projectKeywordsList) == 3)
         self.assertTrue("GROUP FOR HIGH RESOLUTION SEA SURFACE TEMPERATURE (GHRSST)" in self.projectKeywordsList)
