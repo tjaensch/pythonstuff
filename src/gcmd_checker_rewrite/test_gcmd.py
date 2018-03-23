@@ -3,8 +3,6 @@ import shutil
 import unittest
 from gcmd import GCMD
 
-# Tests
-
 
 class Testgcmd(unittest.TestCase):
     """docstring for Testgcmd"""
@@ -32,6 +30,7 @@ class Testgcmd(unittest.TestCase):
         # PROJECT KEYWORDS
         self.projectKeywordsList = gcmd.get_project_keywords(testfile)
         self.projectKeywordsThesauriList = gcmd.get_project_keywords_thesauri(testfile)
+        gcmd.check_project_keywords(testfile)
 
     def test_find_xml_files(self):
         self.assertTrue(len(self.xmlFiles) > 0)
@@ -133,6 +132,12 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("NODC PROJECT NAMES" in self.projectKeywordsThesauriList)
         self.assertTrue("GLOBAL CHANGE MASTER DIRECTORY (GCMD) PROJECT KEYWORDS" in self.projectKeywordsThesauriList)
         self.assertFalse("BLAH" in self.projectKeywordsThesauriList)
+
+    def test_check_project_keywords(self):
+        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+            s = f.read()
+        self.assertTrue("GROUP FOR HIGH RESOLUTION SEA SURFACE TEMPERATURE (GHRSST)" in s)
+        self.assertFalse("BLAH" in s)
 
 # __main__
 if __name__ == '__main__':

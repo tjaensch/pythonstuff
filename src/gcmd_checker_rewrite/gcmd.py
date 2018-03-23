@@ -158,7 +158,7 @@ class GCMD:
         # check if file instrument keywords are in modelInstrumentKeywordsList
         for keyword in self.get_instrument_keywords(file):
             if keyword not in modelInstrumentKeywordsList:
-                print("invalid keyword: " + keyword)
+                print("invalid instrument keyword: " + keyword)
                 with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "instrument", basename(os.path.splitext(file)[0]) + '.xml'])
@@ -186,6 +186,23 @@ class GCMD:
             projectKeywordsThesauriList.append(projectKeywordsThesauri[i].text.upper())
         #print(projectKeywordsThesauriList)
         return projectKeywordsThesauriList
+
+    def check_project_keywords(self, file):
+        modelProjectKeywordsList = []
+        data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/projects/projects.csv"))
+        for row in data:
+            try:
+                modelProjectKeywordsList.append(row[1].upper()) # in case row[2] is blank
+                modelProjectKeywordsList.append(row[1].upper() + " > " + row[2].upper()) # if value for both rows
+            except IndexError:
+                continue
+        # check if file project keywords are in modelProjectKeywordsList
+        for keyword in self.get_project_keywords(file):
+            if keyword not in modelProjectKeywordsList:
+                print("invalid project keyword: " + keyword)
+                with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([keyword, "project", basename(os.path.splitext(file)[0]) + '.xml'])
     # END PROJECT KEYWORDS
 
 # __main__
@@ -197,6 +214,7 @@ if __name__ == '__main__':
 
     gcmd.create_results_csv(testfile)
     gcmd.check_instrument_keywords(testfile)
+    gcmd.check_project_keywords(testfile)
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')
