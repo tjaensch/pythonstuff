@@ -1,9 +1,11 @@
+import csv
 import fnmatch
 import glob
 import itertools
 from lxml import etree as et
 import time
 import os
+import urllib2
 
 
 class GCMD:
@@ -32,7 +34,7 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='theme']/gmd:keyword/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(themeKeywords)):
-            themeKeywordsList.append(themeKeywords[i].text)
+            themeKeywordsList.append(themeKeywords[i].text.upper())
         #print(themeKeywordsList)
         return themeKeywordsList
 
@@ -43,7 +45,7 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='theme']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(themeKeywordsThesauri)):
-            themeKeywordsThesauriList.append(themeKeywordsThesauri[i].text)
+            themeKeywordsThesauriList.append(themeKeywordsThesauri[i].text.upper())
         #print(themeKeywordsThesauriList)
         return themeKeywordsThesauriList
 
@@ -54,7 +56,7 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='dataCenter']/gmd:keyword/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(datacenterKeywords)):
-            datacenterKeywordsList.append(datacenterKeywords[i].text)
+            datacenterKeywordsList.append(datacenterKeywords[i].text.upper())
         #print(datacenterKeywordsList)
         return datacenterKeywordsList
 
@@ -65,7 +67,7 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='dataCenter']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(datacenterKeywordsThesauri)):
-            datacenterKeywordsThesauriList.append(datacenterKeywordsThesauri[i].text)
+            datacenterKeywordsThesauriList.append(datacenterKeywordsThesauri[i].text.upper())
         #print(datacenterKeywordsThesauriList)
         return datacenterKeywordsThesauriList
 
@@ -76,7 +78,7 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='place']/gmd:keyword/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(placeKeywords)):
-            placeKeywordsList.append(placeKeywords[i].text)
+            placeKeywordsList.append(placeKeywords[i].text.upper())
         #print(placeKeywordsList)
         return placeKeywordsList
 
@@ -87,7 +89,7 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='place']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(placeKeywordsThesauri)):
-            placeKeywordsThesauriList.append(placeKeywordsThesauri[i].text)
+            placeKeywordsThesauriList.append(placeKeywordsThesauri[i].text.upper())
         #print(placeKeywordsThesauriList)
         return placeKeywordsThesauriList
 
@@ -98,7 +100,7 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='platform']/gmd:keyword/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(platformKeywords)):
-            platformKeywordsList.append(platformKeywords[i].text)
+            platformKeywordsList.append(platformKeywords[i].text.upper())
         #print(platformKeywordsList)
         return platformKeywordsList
 
@@ -109,7 +111,7 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='platform']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(platformKeywordsThesauri)):
-            platformKeywordsThesauriList.append(platformKeywordsThesauri[i].text)
+            platformKeywordsThesauriList.append(platformKeywordsThesauri[i].text.upper())
         #print(platformKeywordsThesauriList)
         return platformKeywordsThesauriList
 
@@ -120,7 +122,7 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='instrument']/gmd:keyword/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(instrumentKeywords)):
-            instrumentKeywordsList.append(instrumentKeywords[i].text)
+            instrumentKeywordsList.append(instrumentKeywords[i].text.upper())
         #print(instrumentKeywordsList)
         return instrumentKeywordsList
 
@@ -131,8 +133,8 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='instrument']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(instrumentKeywordsThesauri)):
-            instrumentKeywordsThesauriList.append(instrumentKeywordsThesauri[i].text)
-        print(instrumentKeywordsThesauriList)
+            instrumentKeywordsThesauriList.append(instrumentKeywordsThesauri[i].text.upper())
+        #print(instrumentKeywordsThesauriList)
         return instrumentKeywordsThesauriList
 
     def get_project_keywords(self, file):
@@ -142,7 +144,7 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='project']/gmd:keyword/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(projectKeywords)):
-            projectKeywordsList.append(projectKeywords[i].text)
+            projectKeywordsList.append(projectKeywords[i].text.upper())
         #print(projectKeywordsList)
         return projectKeywordsList
 
@@ -153,9 +155,25 @@ class GCMD:
             "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='project']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(projectKeywordsThesauri)):
-            projectKeywordsThesauriList.append(projectKeywordsThesauri[i].text)
+            projectKeywordsThesauriList.append(projectKeywordsThesauri[i].text.upper())
         #print(projectKeywordsThesauriList)
         return projectKeywordsThesauriList
+
+    def check_instrument_keywords(self, file):
+        modelInstrumentKeywordsList = []
+        data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/instruments/instruments.csv"))
+        for row in data:
+            try:
+                modelInstrumentKeywordsList.append(row[4].upper()) # in case row[5] is blank
+                modelInstrumentKeywordsList.append(row[4].upper() + " > " + row[5].upper()) # if value for both rows
+            except IndexError:
+                continue
+        # check if file instrument keywords are in modelInstrumentKeywordsList
+        for i in self.get_instrument_keywords(file):
+            if i in modelInstrumentKeywordsList:
+                print(i, "yes")
+            else:
+                print(i, "no")
 
 # __main__
 if __name__ == '__main__':
@@ -164,20 +182,9 @@ if __name__ == '__main__':
     gcmd = GCMD()
     testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
 
-    '''gcmd.get_theme_keywords(testfile)
-    gcmd.get_theme_keywords_thesauri(testfile)
-    gcmd.get_datacenter_keywords(testfile)
-    gcmd.get_datacenter_keywords_thesauri(testfile)
-    gcmd.get_place_keywords(testfile)
-    gcmd.get_place_keywords_thesauri(testfile)
-    gcmd.get_platform_keywords(testfile)
-    gcmd.get_platform_keywords_thesauri(testfile)
-    gcmd.get_instrument_keywords(testfile)
-    gcmd.get_instrument_keywords_thesauri(testfile)
-    gcmd.get_project_keywords(testfile)
-    gcmd.get_project_keywords_thesauri(testfile)'''
-
-    gcmd.get_all_GCMD_keywords(testfile)
+    #print(gcmd.get_all_GCMD_keywords(testfile))
+    gcmd.check_instrument_keywords(testfile)
+    
 
     print('The program took ', time.time() - start, 'seconds to complete.')
 
