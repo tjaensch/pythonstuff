@@ -17,6 +17,7 @@ class Testgcmd(unittest.TestCase):
         # DATACENTER KEYWORDS
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
         self.datacenterKeywordsThesauriList = gcmd.get_datacenter_keywords_thesauri(testfile)
+        gcmd.check_datacenter_keywords(testfile)
         # PLACE KEYWORDS
         self.placeKeywordsList = gcmd.get_place_keywords(testfile)
         self.placeKeywordsThesauriList = gcmd.get_place_keywords_thesauri(testfile)
@@ -67,6 +68,13 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("GLOBAL CHANGE MASTER DIRECTORY (GCMD) DATA CENTER" in self.datacenterKeywordsThesauriList)
         self.assertTrue("NODC COLLECTING INSTITUTION NAMES THESAURUS" in self.datacenterKeywordsThesauriList)
         self.assertFalse("Australian Bureau of Blah" in self.datacenterKeywordsThesauriList)
+
+    def test_check_datacenter_keywords(self):
+        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+            s = f.read()
+        self.assertTrue("AUSTRALIAN BUREAU OF METEOROLOGY" in s)
+        self.assertTrue("US NASA; JET PROPULSION LABORATORY; PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER" in s)
+        self.assertFalse("NASA/JPL/PODAAC > PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER, JET PROPULSION LABORATORY, NASA" in s)
 
     # PLACE KEYWORDS
     def test_get_place_keywords(self):

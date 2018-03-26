@@ -73,6 +73,23 @@ class GCMD:
             datacenterKeywordsThesauriList.append(datacenterKeywordsThesauri[i].text.upper())
         #print(datacenterKeywordsThesauriList)
         return datacenterKeywordsThesauriList
+
+    def check_datacenter_keywords(self, file):
+        modelDatacenterKeywordsList = []
+        data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/providers/providers.csv"))
+        for row in data:
+            try:
+                modelDatacenterKeywordsList.append(row[4].upper()) # in case row[5] is blank
+                modelDatacenterKeywordsList.append(row[4].upper() + " > " + row[5].upper()) # if value for both rows
+            except IndexError:
+                continue
+        # check if file datacenter keywords are in modelDatacenterKeywordsList
+        for keyword in self.get_datacenter_keywords(file):
+            if keyword not in modelDatacenterKeywordsList:
+                print("invalid datacenter keyword: " + keyword)
+                with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([keyword, "datacenter", basename(os.path.splitext(file)[0]) + '.xml'])    
     # END DATACENTER KEYWORDS
 
     # PLACE KEYWORDS
@@ -251,6 +268,7 @@ if __name__ == '__main__':
 
     gcmd.create_results_csv(testfile)
     
+    gcmd.check_datacenter_keywords(testfile)
     gcmd.check_place_keywords(testfile)
     gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
