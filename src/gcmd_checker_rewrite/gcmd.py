@@ -49,6 +49,28 @@ class GCMD:
             themeKeywordsThesauriList.append(themeKeywordsThesauri[i].text.upper())
         #print(themeKeywordsThesauriList)
         return themeKeywordsThesauriList
+
+    def check_theme_keywords(self, file):
+        modelThemeKeywordsList = []
+        data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/sciencekeywords/sciencekeywords.csv"))
+        for row in data:
+            try:
+                modelThemeKeywordsList.append(row[0].upper()) # in case row[1] is blank
+                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper())
+                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper())
+                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper() + " > " + row[3].upper())
+                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper() + " > " + row[3].upper() + " > " + row[4].upper())
+                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper() + " > " + row[3].upper() + " > " + row[4].upper() + " > " + row[5].upper())
+                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper() + " > " + row[3].upper() + " > " + row[4].upper() + " > " + row[5].upper() + " > " + row[6].upper())
+            except IndexError:
+                continue
+        # check if file theme keywords are in modelThemeKeywordsList
+        for keyword in self.get_theme_keywords(file):
+            if keyword not in modelThemeKeywordsList:
+                print("invalid theme keyword: " + keyword)
+                with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([keyword, "theme", basename(os.path.splitext(file)[0]) + '.xml'])   
     # END THEME KEYWORDS
 
     # DATA CENTER KEYWORDS
@@ -268,6 +290,7 @@ if __name__ == '__main__':
 
     gcmd.create_results_csv(testfile)
     
+    gcmd.check_theme_keywords(testfile)
     gcmd.check_datacenter_keywords(testfile)
     gcmd.check_place_keywords(testfile)
     gcmd.check_platform_keywords(testfile)

@@ -14,6 +14,7 @@ class Testgcmd(unittest.TestCase):
         # THEME KEYWORDS
         self.themeKeywordsList = gcmd.get_theme_keywords(testfile)
         self.themeKeywordsThesauriList = gcmd.get_theme_keywords_thesauri(testfile)
+        gcmd.check_theme_keywords(testfile)
         # DATACENTER KEYWORDS
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
         self.datacenterKeywordsThesauriList = gcmd.get_datacenter_keywords_thesauri(testfile)
@@ -53,6 +54,14 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("BLAH THESAURUS" in self.themeKeywordsThesauriList)
         self.assertTrue("NASA/GCMD EARTH SCIENCE KEYWORDS" in self.themeKeywordsThesauriList)
         self.assertFalse("blah" in self.themeKeywordsThesauriList)
+
+    def test_check_theme_keywords(self):
+        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+            s = f.read()
+        self.assertTrue("SEA SURFACE TEMPERATURE" in s)
+        self.assertTrue("OCEANOGRAPHY" in s)
+        self.assertTrue("EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE > SEA SURFACE TEMPERATURE > FOUNDATION SEA SURFACE TEMPERATURE" in s)
+        self.assertFalse("EARTH SCIENCE > OCEANS > OCEAN OPTICS" in s)
 
     # DATACENTER KEYWORDS
     def test_get_datacenter_keywords(self):
