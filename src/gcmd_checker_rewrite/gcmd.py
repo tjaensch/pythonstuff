@@ -111,7 +111,6 @@ class GCMD:
             except IndexError:
                 continue
         # check if file place keywords are in modelPlatformKeywordsList
-        print(self.get_place_keywords(file))
         for keyword in self.get_place_keywords(file):
             if keyword not in modelPlaceKeywordsList:
                 print("invalid location keyword: " + keyword)
