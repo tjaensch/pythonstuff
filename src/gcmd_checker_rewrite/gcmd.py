@@ -50,27 +50,32 @@ class GCMD:
         #print(themeKeywordsThesauriList)
         return themeKeywordsThesauriList
 
-    def check_theme_keywords(self, file):
+    def get_model_theme_keywords_list(self):
         modelThemeKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/sciencekeywords/sciencekeywords.csv"))
         for row in data:
-            try:
-                modelThemeKeywordsList.append(row[0].upper()) # in case row[1] is blank
-                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper())
-                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper())
-                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper() + " > " + row[3].upper())
-                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper() + " > " + row[3].upper() + " > " + row[4].upper())
-                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper() + " > " + row[3].upper() + " > " + row[4].upper() + " > " + row[5].upper())
-                modelThemeKeywordsList.append(row[0].upper() + " > " + row[1].upper() + " > " + row[2].upper() + " > " + row[3].upper() + " > " + row[4].upper() + " > " + row[5].upper() + " > " + row[6].upper())
-            except IndexError:
-                continue
-        # check if file theme keywords are in modelThemeKeywordsList
-        for keyword in self.get_theme_keywords(file):
+            keyword = row[0].upper()
+            for i in range(1,7):
+                try:
+                    if row[i] != "":
+                        keyword = keyword.upper() + " > " + row[i].upper()
+                except IndexError:
+                    continue
+            modelThemeKeywordsList.append(keyword.upper())    
+
+        #print(modelThemeKeywordsList)
+        return modelThemeKeywordsList
+
+    def check_theme_keywords(self, file):
+        modelThemeKeywordsList = self.get_model_theme_keywords_list()
+        themeKeywordsList = self.get_theme_keywords(file)
+        # check if file theme keywords are in modelPlatformKeywordsList
+        for keyword in themeKeywordsList:
             if keyword not in modelThemeKeywordsList:
                 print("invalid theme keyword: " + keyword)
                 with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "theme", basename(os.path.splitext(file)[0]) + '.xml'])   
+                    writer.writerow([keyword, "theme", basename(os.path.splitext(file)[0]) + '.xml'])  
     # END THEME KEYWORDS
 
     # DATA CENTER KEYWORDS
@@ -96,22 +101,32 @@ class GCMD:
         #print(datacenterKeywordsThesauriList)
         return datacenterKeywordsThesauriList
 
-    def check_datacenter_keywords(self, file):
+    def get_model_datacenter_keywords_list(self):
         modelDatacenterKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/providers/providers.csv"))
         for row in data:
-            try:
-                modelDatacenterKeywordsList.append(row[4].upper()) # in case row[5] is blank
-                modelDatacenterKeywordsList.append(row[4].upper() + " > " + row[5].upper()) # if value for both rows
-            except IndexError:
-                continue
-        # check if file datacenter keywords are in modelDatacenterKeywordsList
-        for keyword in self.get_datacenter_keywords(file):
-            if keyword not in modelDatacenterKeywordsList:
-                print("invalid datacenter keyword: " + keyword)
-                with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
-                    writer = csv.writer(f)
-                    writer.writerow([keyword, "datacenter", basename(os.path.splitext(file)[0]) + '.xml'])    
+            keyword = row[0].upper()
+            for i in range(1,7):
+                try:
+                    if row[i] != "":
+                        keyword = keyword.upper() + " > " + row[i].upper()
+                except IndexError:
+                    continue
+            modelDatacenterKeywordsList.append(keyword.upper())    
+
+        #print(modelDatacenterKeywordsList)
+        return modelDatacenterKeywordsList
+
+    def check_datacenter_keywords(self, file):
+            modelDatacenterKeywordsList = self.get_model_datacenter_keywords_list()
+            datacenterKeywordsList = self.get_datacenter_keywords(file)
+            # check if file datacenter keywords are in modelDatacenterKeywordsList
+            for keyword in datacenterKeywordsList:
+                if keyword not in modelDatacenterKeywordsList:
+                    print("invalid datacenter keyword: " + keyword)
+                    with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
+                        writer = csv.writer(f)
+                        writer.writerow([keyword, "datacenter", basename(os.path.splitext(file)[0]) + '.xml'])  
     # END DATACENTER KEYWORDS
 
     # PLACE KEYWORDS
@@ -181,17 +196,28 @@ class GCMD:
         #print(platformKeywordsThesauriList)
         return platformKeywordsThesauriList
 
-    def check_platform_keywords(self, file):
+    def get_model_platform_keywords_list(self):
         modelPlatformKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/platforms/platforms.csv"))
         for row in data:
-            try:
-                modelPlatformKeywordsList.append(row[2].upper()) # in case row[3] is blank
-                modelPlatformKeywordsList.append(row[2].upper() + " > " + row[3].upper()) # if value for both rows
-            except IndexError:
-                continue
+            keyword = row[0]
+            for i in range(1,4):
+                try:
+                    if row[i] != "":
+                        keyword = keyword.upper() + " > " + row[i].upper()
+                except IndexError:
+                    continue
+            modelPlatformKeywordsList.append(keyword.upper())    
+
+        #print(modelPlatformKeywordsList)
+        return modelPlatformKeywordsList
+
+
+    def check_platform_keywords(self, file):
+        modelPlatformKeywordsList = self.get_model_platform_keywords_list()
+        platformKeywordsList = self.get_platform_keywords(file)
         # check if file platform keywords are in modelPlatformKeywordsList
-        for keyword in self.get_platform_keywords(file):
+        for keyword in platformKeywordsList:
             if keyword not in modelPlatformKeywordsList:
                 print("invalid platform keyword: " + keyword)
                 with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
@@ -296,6 +322,8 @@ if __name__ == '__main__':
     gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
     gcmd.check_project_keywords(testfile)
+
+    #gcmd.get_model_theme_keywords_list()
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')

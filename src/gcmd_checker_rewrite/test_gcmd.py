@@ -14,6 +14,7 @@ class Testgcmd(unittest.TestCase):
         # THEME KEYWORDS
         self.themeKeywordsList = gcmd.get_theme_keywords(testfile)
         self.themeKeywordsThesauriList = gcmd.get_theme_keywords_thesauri(testfile)
+        self.modelThemeKeywordsList = gcmd.get_model_theme_keywords_list()
         gcmd.check_theme_keywords(testfile)
         # DATACENTER KEYWORDS
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
@@ -26,6 +27,7 @@ class Testgcmd(unittest.TestCase):
         # PLATFORM KEYWORDS
         self.platformKeywordsList = gcmd.get_platform_keywords(testfile)
         self.platformKeywordsThesauriList = gcmd.get_platform_keywords_thesauri(testfile)
+        self.modelPlatformKeywordsList = gcmd.get_model_platform_keywords_list()
         gcmd.check_platform_keywords(testfile)
         # INSTRUMENT KEYWORDS
         self.instrumentKeywordsList = gcmd.get_instrument_keywords(testfile)
@@ -55,6 +57,12 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("NASA/GCMD EARTH SCIENCE KEYWORDS" in self.themeKeywordsThesauriList)
         self.assertFalse("blah" in self.themeKeywordsThesauriList)
 
+    def test_get_model_theme_keywords_list(self):
+        self.assertTrue(len(self.modelThemeKeywordsList) > 3150)
+        self.assertTrue("EARTH SCIENCE > TERRESTRIAL HYDROSPHERE" in self.modelThemeKeywordsList)
+        self.assertTrue("EARTH SCIENCE > ATMOSPHERE > WEATHER EVENTS > TROPICAL CYCLONES > MINIMUM CENTRAL PRESSURE > TYPHOONS (WESTERN N. PACIFIC)" in self.modelThemeKeywordsList)
+        self.assertFalse("BLAH" in self.modelThemeKeywordsList)
+
     def test_check_theme_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
@@ -83,7 +91,7 @@ class Testgcmd(unittest.TestCase):
             s = f.read()
         self.assertTrue("AUSTRALIAN BUREAU OF METEOROLOGY" in s)
         self.assertTrue("US NASA; JET PROPULSION LABORATORY; PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER" in s)
-        self.assertFalse("NASA/JPL/PODAAC > PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER, JET PROPULSION LABORATORY, NASA" in s)
+        self.assertFalse("GOVERNMENT AGENCIES-U.S. FEDERAL AGENCIES > NASA > NASA/JPL/PODAAC > PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER, JET PROPULSION LABORATORY, NASA" in s)
 
     # PLACE KEYWORDS
     def test_get_place_keywords(self):
@@ -122,12 +130,18 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("GLOBAL CHANGE MASTER DIRECTORY (GCMD) PLATFORM KEYWORDS" in self.platformKeywordsThesauriList)
         self.assertFalse("PLATYPUS" in self.platformKeywordsThesauriList)
 
+    def test_get_model_platform_keywords_list(self):
+        self.assertTrue(len(self.modelPlatformKeywordsList) > 850)
+        self.assertTrue("AIRCRAFT > A340-600 > AIRBUS A340-600" in self.modelPlatformKeywordsList)
+        self.assertTrue("EARTH OBSERVATION SATELLITES > NASA DECADAL SURVEY > ACE (DECADAL SURVEY) > AEROSOL - CLOUD - ECOSYSTEMS" in self.modelPlatformKeywordsList)
+        self.assertFalse("BLAH" in self.modelPlatformKeywordsList)
+
     def test_check_platform_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
         self.assertTrue("AQUA SATELLITE" in s)
         self.assertTrue("NOAA-19 SATELLITE" in s)
-        self.assertFalse("CORIOLIS > CORIOLIS" in s)
+        self.assertFalse("EARTH OBSERVATION SATELLITES > CORIOLIS > CORIOLIS" in s)
 
     # INSTRUMENT KEYWORDS
     def test_get_instrument_keywords(self):
