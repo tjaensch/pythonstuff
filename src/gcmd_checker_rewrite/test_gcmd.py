@@ -19,10 +19,12 @@ class Testgcmd(unittest.TestCase):
         # DATACENTER KEYWORDS
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
         self.datacenterKeywordsThesauriList = gcmd.get_datacenter_keywords_thesauri(testfile)
+        self.modelDatacenterKeywordsList = gcmd.get_model_datacenter_keywords_list()
         gcmd.check_datacenter_keywords(testfile)
         # PLACE KEYWORDS
         self.placeKeywordsList = gcmd.get_place_keywords(testfile)
         self.placeKeywordsThesauriList = gcmd.get_place_keywords_thesauri(testfile)
+        self.modelPlaceKeywordsList = gcmd.get_model_place_keywords_list()
         gcmd.check_place_keywords(testfile)
         # PLATFORM KEYWORDS
         self.platformKeywordsList = gcmd.get_platform_keywords(testfile)
@@ -32,10 +34,12 @@ class Testgcmd(unittest.TestCase):
         # INSTRUMENT KEYWORDS
         self.instrumentKeywordsList = gcmd.get_instrument_keywords(testfile)
         self.instrumentKeywordsThesauriList = gcmd.get_instrument_keywords_thesauri(testfile)
+        self.modelInstrumentKeywordsList = gcmd.get_model_instrument_keywords_list()
         gcmd.check_instrument_keywords(testfile)
         # PROJECT KEYWORDS
         self.projectKeywordsList = gcmd.get_project_keywords(testfile)
         self.projectKeywordsThesauriList = gcmd.get_project_keywords_thesauri(testfile)
+        self.modelProjectKeywordsList = gcmd.get_model_project_keywords_list()
         gcmd.check_project_keywords(testfile)
 
     def test_find_xml_files(self):
@@ -86,6 +90,12 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("NODC COLLECTING INSTITUTION NAMES THESAURUS" in self.datacenterKeywordsThesauriList)
         self.assertFalse("Australian Bureau of Blah" in self.datacenterKeywordsThesauriList)
 
+    def test_get_model_datacenter_keywords_list(self):
+        self.assertTrue(len(self.modelDatacenterKeywordsList) > 3600)
+        self.assertTrue("ACADEMIC > OR-STATE/EOARC > OR-STATE/EOARC > EASTERN OREGON AGRICULTURE RESEARCH CENTER, OREGON STATE UNIVERSITY" in self.modelDatacenterKeywordsList)
+        self.assertTrue("GOVERNMENT AGENCIES-NON-US > GERMANY > DE/BERLIN/ILR > WILLKOMMEN ILR BERLIN" in self.modelDatacenterKeywordsList)
+        self.assertFalse("BLAH" in self.modelDatacenterKeywordsList)
+
     def test_check_datacenter_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
@@ -107,6 +117,12 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("NODC SEA AREA NAMES THESAURI" in self.placeKeywordsThesauriList)
         self.assertTrue("NASA/GCMD LOCATION KEYWORDS" in self.placeKeywordsThesauriList)
         self.assertFalse("NODC SEA AREA NAMES THESAURUS BLAH" in self.placeKeywordsThesauriList)
+
+    def test_get_model_place_keywords_list(self):
+        self.assertTrue(len(self.modelPlaceKeywordsList) > 500)
+        self.assertTrue("CONTINENT > AFRICA > CENTRAL AFRICA > ANGOLA" in self.modelPlaceKeywordsList)
+        self.assertTrue("CONTINENT > EUROPE > NORTHERN EUROPE > SCANDINAVIA > ALAND ISLANDS" in self.modelPlaceKeywordsList)
+        self.assertFalse("OUTER SPACE > MARS" in self.modelPlaceKeywordsList)
 
     def test_check_place_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
@@ -158,6 +174,12 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("GLOBAL CHANGE MASTER DIRECTORY (GCMD) INSTRUMENT KEYWORDS" in self.instrumentKeywordsThesauriList)
         self.assertFalse("INSTRUMENTS" in self.instrumentKeywordsThesauriList)
 
+    def test_get_model_instrument_keywords_list(self):
+        self.assertTrue(len(self.modelInstrumentKeywordsList) > 1500)
+        self.assertTrue("EARTH REMOTE SENSING INSTRUMENTS > ACTIVE REMOTE SENSING > ALTIMETERS > LIDAR/LASER ALTIMETERS > ATLAS > ADVANCED TOPOGRAPHIC LASER ALTIMETER SYSTEM" in self.modelInstrumentKeywordsList)
+        self.assertTrue("IN SITU/LABORATORY INSTRUMENTS > ELECTRICAL METERS > MESA > MINIATURE ELECTROSTATIC ANALYZER" in self.modelInstrumentKeywordsList)
+        self.assertFalse("SOME > INSTRUMENT > DUDE" in self.modelInstrumentKeywordsList)
+
     def test_check_instrument_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
@@ -179,6 +201,12 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("NODC PROJECT NAMES" in self.projectKeywordsThesauriList)
         self.assertTrue("GLOBAL CHANGE MASTER DIRECTORY (GCMD) PROJECT KEYWORDS" in self.projectKeywordsThesauriList)
         self.assertFalse("BLAH" in self.projectKeywordsThesauriList)
+
+    def test_get_model_project_keywords_list(self):
+        self.assertTrue(len(self.modelProjectKeywordsList) > 1700)
+        self.assertTrue("A - C > AAE > AUSTRALASIAN ANTARCTIC EXPEDITION OF 1911-14" in self.modelProjectKeywordsList)
+        self.assertTrue("M - O > NRL CORIOLIS > NAVAL RESEARCH LABORATORY CORIOLIS" in self.modelProjectKeywordsList)
+        self.assertFalse("X - Y > BLAH > DUDE" in self.modelProjectKeywordsList)
 
     def test_check_project_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
