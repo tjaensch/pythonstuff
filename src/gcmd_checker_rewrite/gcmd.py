@@ -54,14 +54,14 @@ class GCMD:
         modelThemeKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/sciencekeywords/sciencekeywords.csv"))
         for row in data:
-            keyword = row[0].upper()
+            keyword = row[0].upper().strip()
             for i in range(1,7):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper() + " > " + row[i].upper()
+                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
-            modelThemeKeywordsList.append(keyword.upper())    
+            modelThemeKeywordsList.append(keyword)    
 
         #print(modelThemeKeywordsList)
         return modelThemeKeywordsList
@@ -105,14 +105,14 @@ class GCMD:
         modelDatacenterKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/providers/providers.csv"))
         for row in data:
-            keyword = row[0].upper()
-            for i in range(1,7):
+            keyword = row[0].upper().strip()
+            for i in range(1,6):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper() + " > " + row[i].upper()
+                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
-            modelDatacenterKeywordsList.append(keyword.upper())    
+            modelDatacenterKeywordsList.append(keyword)    
 
         #print(modelDatacenterKeywordsList)
         return modelDatacenterKeywordsList
@@ -156,14 +156,14 @@ class GCMD:
         modelPlaceKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/locations/locations.csv"))
         for row in data:
-            keyword = row[0].upper()
-            for i in range(1,4):
+            keyword = row[0].upper().strip()
+            for i in range(1,5):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper() + " > " + row[i].upper()
+                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
-            modelPlaceKeywordsList.append(keyword.upper())    
+            modelPlaceKeywordsList.append(keyword)    
 
         #print(modelPlaceKeywordsList)
         return modelPlaceKeywordsList
@@ -207,14 +207,14 @@ class GCMD:
         modelPlatformKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/platforms/platforms.csv"))
         for row in data:
-            keyword = row[0]
+            keyword = row[0].upper().strip()
             for i in range(1,4):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper() + " > " + row[i].upper()
+                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
-            modelPlatformKeywordsList.append(keyword.upper())    
+            modelPlatformKeywordsList.append(keyword)    
 
         #print(modelPlatformKeywordsList)
         return modelPlatformKeywordsList
@@ -259,14 +259,14 @@ class GCMD:
         modelInstrumentKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/instruments/instruments.csv"))
         for row in data:
-            keyword = row[0]
-            for i in range(1,5):
+            keyword = row[0].upper().strip()
+            for i in range(1,6):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper() + " > " + row[i].upper()
+                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
-            modelInstrumentKeywordsList.append(keyword.upper())    
+            modelInstrumentKeywordsList.append(keyword)    
 
         #print(modelInstrumentKeywordsList)
         return modelInstrumentKeywordsList
@@ -310,14 +310,14 @@ class GCMD:
         modelProjectKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/projects/projects.csv"))
         for row in data:
-            keyword = row[0]
-            for i in range(1,2):
+            keyword = row[0].upper().strip()
+            for i in range(1,3):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper() + " > " + row[i].upper()
+                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
-            modelProjectKeywordsList.append(keyword.upper())    
+            modelProjectKeywordsList.append(keyword)    
 
         #print(modelProjectKeywordsList)
         return modelProjectKeywordsList
@@ -346,7 +346,7 @@ if __name__ == '__main__':
     gcmd.check_theme_keywords(testfile)
     gcmd.check_datacenter_keywords(testfile)
     gcmd.check_place_keywords(testfile)
-    #gcmd.check_platform_keywords(testfile)
+    gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
     gcmd.check_project_keywords(testfile)
 
