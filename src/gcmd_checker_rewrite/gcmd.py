@@ -58,7 +58,7 @@ class GCMD:
             for i in range(1,7):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
             modelThemeKeywordsList.append(keyword)    
@@ -109,7 +109,7 @@ class GCMD:
             for i in range(1,6):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
             modelDatacenterKeywordsList.append(keyword)    
@@ -160,7 +160,7 @@ class GCMD:
             for i in range(1,5):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
             modelPlaceKeywordsList.append(keyword)    
@@ -211,7 +211,7 @@ class GCMD:
             for i in range(1,4):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
             modelPlatformKeywordsList.append(keyword)    
@@ -263,7 +263,7 @@ class GCMD:
             for i in range(1,6):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
             modelInstrumentKeywordsList.append(keyword)    
@@ -314,7 +314,7 @@ class GCMD:
             for i in range(1,3):
                 try:
                     if row[i] != "":
-                        keyword = keyword.upper().strip() + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].upper().strip()
                 except IndexError:
                     continue
             modelProjectKeywordsList.append(keyword)    
@@ -349,8 +349,6 @@ if __name__ == '__main__':
     gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
     gcmd.check_project_keywords(testfile)
-
-    #gcmd.get_model_theme_keywords_list()
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')
