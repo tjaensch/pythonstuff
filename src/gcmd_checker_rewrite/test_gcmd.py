@@ -25,12 +25,13 @@ class Testgcmd(unittest.TestCase):
         self.placeKeywordsList = gcmd.get_place_keywords(testfile)
         self.placeKeywordsThesauriList = gcmd.get_place_keywords_thesauri(testfile)
         self.modelPlaceKeywordsList = gcmd.get_model_place_keywords_list()
+        self.similarPlaceKeywords = gcmd.get_similar_place_keywords("OCEANIA")
         gcmd.check_place_keywords(testfile)
-        # PLATFORM KEYWORDS
+        '''# PLATFORM KEYWORDS
         self.platformKeywordsList = gcmd.get_platform_keywords(testfile)
         self.platformKeywordsThesauriList = gcmd.get_platform_keywords_thesauri(testfile)
         self.modelPlatformKeywordsList = gcmd.get_model_platform_keywords_list()
-        gcmd.check_platform_keywords(testfile)
+        gcmd.check_platform_keywords(testfile)'''
         # INSTRUMENT KEYWORDS
         self.instrumentKeywordsList = gcmd.get_instrument_keywords(testfile)
         self.instrumentKeywordsThesauriList = gcmd.get_instrument_keywords_thesauri(testfile)
@@ -124,6 +125,11 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("CONTINENT > EUROPE > NORTHERN EUROPE > SCANDINAVIA > ALAND ISLANDS" in self.modelPlaceKeywordsList)
         self.assertFalse("OUTER SPACE > MARS" in self.modelPlaceKeywordsList)
 
+    def test_get_similar_place_keywords(self):
+        self.assertTrue(len(self.similarPlaceKeywords) == 3)
+        self.assertTrue("GEOGRAPHIC REGION > OCEANIA" in self.similarPlaceKeywords)
+        self.assertTrue("N/A" in self.similarPlaceKeywords)
+
     def test_check_place_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
@@ -131,7 +137,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("EAST INDIAN ARCHIPELAGO" in s)
         self.assertFalse("OCEAN > ATLANTIC OCEAN > SOUTH ATLANTIC OCEAN" in s)
 
-    # PLATFORM KEYWORDS
+    '''# PLATFORM KEYWORDS
     def test_get_platform_keywords(self):
         self.assertTrue(len(self.platformKeywordsList) == 18)
         self.assertTrue("GCOM-W1" in self.platformKeywordsList)
@@ -157,7 +163,7 @@ class Testgcmd(unittest.TestCase):
             s = f.read()
         self.assertTrue("AQUA SATELLITE" in s)
         self.assertTrue("NOAA-19 SATELLITE" in s)
-        self.assertFalse("EARTH OBSERVATION SATELLITES > CORIOLIS > CORIOLIS" in s)
+        self.assertFalse("EARTH OBSERVATION SATELLITES > CORIOLIS > CORIOLIS" in s)'''
 
     # INSTRUMENT KEYWORDS
     def test_get_instrument_keywords(self):

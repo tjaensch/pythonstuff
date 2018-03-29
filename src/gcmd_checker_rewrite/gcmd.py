@@ -1,10 +1,10 @@
 import csv
 import fnmatch
-from lxml import etree as et
 import time
 import os
-from os.path import basename
 import urllib2
+from lxml import etree as et
+from os.path import basename
 
 
 class GCMD:
@@ -177,7 +177,23 @@ class GCMD:
                 print("invalid place keyword: " + keyword)
                 with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "place", basename(os.path.splitext(file)[0]) + '.xml'])   
+                    writer.writerow([keyword, "place", basename(os.path.splitext(file)[0]) + '.xml'])
+
+    def get_similar_place_keywords(self, keyword):
+        modelPlaceKeywordsList = self.get_model_place_keywords_list()
+        similarKeywords = [s for s in modelPlaceKeywordsList if keyword in s]
+        # make set to remove duplicates and back to list to be able to access elements 
+        list(set(similarKeywords))
+        similarKeywordsList = []
+        for i in range(0,3):
+            try:
+                similarKeywordsList.append(similarKeywords[i])
+            except IndexError:
+                similarKeywordsList.append("N/A")
+        #print(similarKeywordsList)
+        return similarKeywordsList
+
+
     # END PLACE KEYWORDS
     
     # PLATFORM KEYWORDS
@@ -340,15 +356,18 @@ if __name__ == '__main__':
 
     gcmd = GCMD()
     testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
+    #testfile = "./collection_test_files/GHRSST-ABOM-L4LRfnd-GLOB-GAMSSA_28km.xml" 
 
-    gcmd.create_results_csv(testfile)
+    '''gcmd.create_results_csv(testfile)
     
     gcmd.check_theme_keywords(testfile)
     gcmd.check_datacenter_keywords(testfile)
     gcmd.check_place_keywords(testfile)
-    gcmd.check_platform_keywords(testfile)
+    #gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
-    gcmd.check_project_keywords(testfile)
+    gcmd.check_project_keywords(testfile)'''
+
+    gcmd.get_similar_place_keywords("BENGAL")
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')
