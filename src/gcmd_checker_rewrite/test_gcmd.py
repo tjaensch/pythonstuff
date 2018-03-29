@@ -25,7 +25,7 @@ class Testgcmd(unittest.TestCase):
         self.placeKeywordsList = gcmd.get_place_keywords(testfile)
         self.placeKeywordsThesauriList = gcmd.get_place_keywords_thesauri(testfile)
         self.modelPlaceKeywordsList = gcmd.get_model_place_keywords_list()
-        self.similarPlaceKeywords = gcmd.get_similar_place_keywords(self.modelPlaceKeywordsList, "OCEANIA")
+        self.similarPlaceKeywords = gcmd.get_similar_place_keywords(self.modelPlaceKeywordsList, "ARABIAN SEA")
         gcmd.check_place_keywords(testfile)
         '''# PLATFORM KEYWORDS
         self.platformKeywordsList = gcmd.get_platform_keywords(testfile)
@@ -127,7 +127,7 @@ class Testgcmd(unittest.TestCase):
 
     def test_get_similar_place_keywords(self):
         self.assertTrue(len(self.similarPlaceKeywords) == 3)
-        self.assertTrue("GEOGRAPHIC REGION > OCEANIA" in self.similarPlaceKeywords)
+        self.assertTrue("OCEAN > INDIAN OCEAN > ARABIAN SEA" in self.similarPlaceKeywords)
         self.assertTrue("N/A" in self.similarPlaceKeywords)
 
     def test_check_place_keywords(self):

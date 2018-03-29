@@ -191,9 +191,29 @@ class GCMD:
                 similarKeywordsList.append(similarKeywords[i])
             except IndexError:
                 similarKeywordsList.append("N/A")
+        # if no matches with the above method
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            first_keyword_half = keyword[0:len(keyword)/2]
+            similarKeywords = [s for s in modelPlaceKeywordsList if first_keyword_half in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+        # if no matches with the above method
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            first_keyword_half = keyword[0:len(keyword)/3]
+            similarKeywords = [s for s in modelPlaceKeywordsList if first_keyword_half in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+
         #print(similarKeywordsList)
         return similarKeywordsList
-
 
     # END PLACE KEYWORDS
     
