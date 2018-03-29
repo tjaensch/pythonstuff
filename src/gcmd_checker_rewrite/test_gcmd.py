@@ -25,7 +25,7 @@ class Testgcmd(unittest.TestCase):
         self.placeKeywordsList = gcmd.get_place_keywords(testfile)
         self.placeKeywordsThesauriList = gcmd.get_place_keywords_thesauri(testfile)
         self.modelPlaceKeywordsList = gcmd.get_model_place_keywords_list()
-        self.similarPlaceKeywords = gcmd.get_similar_place_keywords("OCEANIA")
+        self.similarPlaceKeywords = gcmd.get_similar_place_keywords(self.modelPlaceKeywordsList, "OCEANIA")
         gcmd.check_place_keywords(testfile)
         '''# PLATFORM KEYWORDS
         self.platformKeywordsList = gcmd.get_platform_keywords(testfile)

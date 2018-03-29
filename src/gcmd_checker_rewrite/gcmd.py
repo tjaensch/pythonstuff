@@ -25,7 +25,7 @@ class GCMD:
         print(basename(os.path.splitext(file)[0]) + '.xml')
         with open(basename(os.path.splitext(file)[0]) + '.csv', 'wb') as out:
             writer = csv.writer(out)
-            writer.writerow(["Invalid Keyword", "Type", "Filename"])
+            writer.writerow(["Invalid Keyword", "Type", "Filename", "Recommendation 1", "Recommendation2", "Recommendation 3"])
 
     # THEME KEYWORDS
     def get_theme_keywords(self, file):
@@ -175,12 +175,13 @@ class GCMD:
         for keyword in placeKeywordsList:
             if keyword not in modelPlaceKeywordsList:
                 print("invalid place keyword: " + keyword)
+                # find similar keywords
+                similarKeywords = self.get_similar_place_keywords(modelPlaceKeywordsList, keyword)
                 with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "place", basename(os.path.splitext(file)[0]) + '.xml'])
+                    writer.writerow([keyword, "place", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
 
-    def get_similar_place_keywords(self, keyword):
-        modelPlaceKeywordsList = self.get_model_place_keywords_list()
+    def get_similar_place_keywords(self, modelPlaceKeywordsList, keyword):
         similarKeywords = [s for s in modelPlaceKeywordsList if keyword in s]
         # make set to remove duplicates and back to list to be able to access elements 
         list(set(similarKeywords))
@@ -358,16 +359,14 @@ if __name__ == '__main__':
     testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
     #testfile = "./collection_test_files/GHRSST-ABOM-L4LRfnd-GLOB-GAMSSA_28km.xml" 
 
-    '''gcmd.create_results_csv(testfile)
+    gcmd.create_results_csv(testfile)
     
     gcmd.check_theme_keywords(testfile)
     gcmd.check_datacenter_keywords(testfile)
     gcmd.check_place_keywords(testfile)
     #gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
-    gcmd.check_project_keywords(testfile)'''
-
-    gcmd.get_similar_place_keywords("BENGAL")
+    gcmd.check_project_keywords(testfile)
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')
