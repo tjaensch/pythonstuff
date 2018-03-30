@@ -25,7 +25,7 @@ class GCMD:
         print(basename(os.path.splitext(file)[0]) + '.xml')
         with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'wb') as out:
             writer = csv.writer(out)
-            writer.writerow(["Invalid Keyword", "Type", "Filename", "Recommendation 1", "Recommendation2", "Recommendation 3"])
+            writer.writerow(["Invalid Keyword", "Type", "Filename", "Recommendation 1", "Recommendation 2", "Recommendation 3"])
 
     # THEME KEYWORDS
     def get_theme_keywords(self, file):
@@ -556,9 +556,9 @@ if __name__ == '__main__':
 
     gcmd = GCMD()
     #testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
-    #testfile = "./collection_test_files/GHRSST-ABOM-L4LRfnd-GLOB-GAMSSA_28km.xml" 
+    testfile = "./collection_test_files/GHRSST-ABOM-L4LRfnd-GLOB-GAMSSA_28km.xml" 
 
-    xmlFiles = gcmd.find_xml_files()
+    '''xmlFiles = gcmd.find_xml_files()
 
     for testfile in xmlFiles:
 
@@ -569,7 +569,16 @@ if __name__ == '__main__':
         gcmd.check_platform_keywords(testfile)
         gcmd.check_instrument_keywords(testfile)
         gcmd.check_theme_keywords(testfile)
-        gcmd.check_place_keywords(testfile)
+        gcmd.check_place_keywords(testfile)'''
+
+    gcmd.create_results_csv(testfile)
+    
+    gcmd.check_project_keywords(testfile)
+    gcmd.check_datacenter_keywords(testfile)
+    gcmd.check_platform_keywords(testfile)
+    gcmd.check_instrument_keywords(testfile)
+    gcmd.check_theme_keywords(testfile)
+    gcmd.check_place_keywords(testfile)
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')
