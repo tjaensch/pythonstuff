@@ -73,9 +73,45 @@ class GCMD:
         for keyword in themeKeywordsList:
             if keyword not in modelThemeKeywordsList:
                 print("invalid theme keyword: " + keyword)
+                # find similar keywords
+                similarKeywords = self.get_similar_place_keywords(modelThemeKeywordsList, keyword)
                 with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "theme", basename(os.path.splitext(file)[0]) + '.xml'])  
+                    writer.writerow([keyword, "theme", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]]) 
+
+    def get_similar_theme_keywords(self, modelThemeKeywordsList, keyword):
+        similarKeywords = [s for s in modelThemeKeywordsList if keyword in s]
+        # make set to remove duplicates and back to list to be able to access elements 
+        list(set(similarKeywords))
+        similarKeywordsList = []
+        for i in range(0,3):
+            try:
+                similarKeywordsList.append(similarKeywords[i])
+            except IndexError:
+                similarKeywordsList.append("N/A")
+        # if no matches with the above method try first half of keyword string
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            keywordSubstring = keyword[0:len(keyword)/2]
+            similarKeywords = [s for s in modelThemeKeywordsList if keywordSubstring in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+        # if no matches with the above method try first third of keyword string
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            keywordSubstring = keyword[0:len(keyword)/3]
+            similarKeywords = [s for s in modelThemeKeywordsList if keywordSubstring in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+
+        #print(similarKeywordsList)
+        return similarKeywordsList  
     # END THEME KEYWORDS
 
     # DATA CENTER KEYWORDS
@@ -124,9 +160,45 @@ class GCMD:
             for keyword in datacenterKeywordsList:
                 if keyword not in modelDatacenterKeywordsList:
                     print("invalid datacenter keyword: " + keyword)
+                    # find similar keywords
+                    similarKeywords = self.get_similar_place_keywords(modelDatacenterKeywordsList, keyword)
                     with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                         writer = csv.writer(f)
-                        writer.writerow([keyword, "datacenter", basename(os.path.splitext(file)[0]) + '.xml'])  
+                        writer.writerow([keyword, "datacenter", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]]) 
+
+    def get_similar_datacenter_keywords(self, modelDatacenterKeywordsList, keyword):
+        similarKeywords = [s for s in modelDatacenterKeywordsList if keyword in s]
+        # make set to remove duplicates and back to list to be able to access elements 
+        list(set(similarKeywords))
+        similarKeywordsList = []
+        for i in range(0,3):
+            try:
+                similarKeywordsList.append(similarKeywords[i])
+            except IndexError:
+                similarKeywordsList.append("N/A")
+        # if no matches with the above method try first half of keyword string
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            keywordSubstring = keyword[0:len(keyword)/2]
+            similarKeywords = [s for s in modelDatacenterKeywordsList if keywordSubstring in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+        # if no matches with the above method try first third of keyword string
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            keywordSubstring = keyword[0:len(keyword)/3]
+            similarKeywords = [s for s in modelDatacenterKeywordsList if keywordSubstring in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+
+        #print(similarKeywordsList)
+        return similarKeywordsList
     # END DATACENTER KEYWORDS
 
     # PLACE KEYWORDS
@@ -191,21 +263,21 @@ class GCMD:
                 similarKeywordsList.append(similarKeywords[i])
             except IndexError:
                 similarKeywordsList.append("N/A")
-        # if no matches with the above method
+        # if no matches with the above method try first half of keyword string
         if (len(set(similarKeywordsList)) <= 1):
             similarKeywordsList = []
-            first_keyword_half = keyword[0:len(keyword)/2]
-            similarKeywords = [s for s in modelPlaceKeywordsList if first_keyword_half in s]
+            keywordSubstring = keyword[0:len(keyword)/2]
+            similarKeywords = [s for s in modelPlaceKeywordsList if keywordSubstring in s]
             for i in range(0,3):
                 try:
                     similarKeywordsList.append(similarKeywords[i])
                 except IndexError:
                     similarKeywordsList.append("N/A")
-        # if no matches with the above method
+        # if no matches with the above method try first third of keyword string
         if (len(set(similarKeywordsList)) <= 1):
             similarKeywordsList = []
-            first_keyword_half = keyword[0:len(keyword)/3]
-            similarKeywords = [s for s in modelPlaceKeywordsList if first_keyword_half in s]
+            keywordSubstring = keyword[0:len(keyword)/3]
+            similarKeywords = [s for s in modelPlaceKeywordsList if keywordSubstring in s]
             for i in range(0,3):
                 try:
                     similarKeywordsList.append(similarKeywords[i])
@@ -256,7 +328,6 @@ class GCMD:
         #print(modelPlatformKeywordsList)
         return modelPlatformKeywordsList
 
-
     def check_platform_keywords(self, file):
         modelPlatformKeywordsList = self.get_model_platform_keywords_list()
         platformKeywordsList = self.get_platform_keywords(file)
@@ -264,9 +335,45 @@ class GCMD:
         for keyword in platformKeywordsList:
             if keyword not in modelPlatformKeywordsList:
                 print("invalid platform keyword: " + keyword)
+                # find similar keywords
+                similarKeywords = self.get_similar_place_keywords(modelPlatformKeywordsList, keyword)
                 with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "platform", basename(os.path.splitext(file)[0]) + '.xml'])    
+                    writer.writerow([keyword, "platform", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
+
+    def get_similar_platform_keywords(self, modelPlatformKeywordsList, keyword):
+        similarKeywords = [s for s in modelPlatformKeywordsList if keyword in s]
+        # make set to remove duplicates and back to list to be able to access elements 
+        list(set(similarKeywords))
+        similarKeywordsList = []
+        for i in range(0,3):
+            try:
+                similarKeywordsList.append(similarKeywords[i])
+            except IndexError:
+                similarKeywordsList.append("N/A")
+        # if no matches with the above method try first half of keyword string
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            keywordSubstring = keyword[0:len(keyword)/2]
+            similarKeywords = [s for s in modelPlatformKeywordsList if keywordSubstring in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+        # if no matches with the above method try first third of keyword string
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            keywordSubstring = keyword[0:len(keyword)/3]
+            similarKeywords = [s for s in modelPlatformKeywordsList if keywordSubstring in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+
+        #print(similarKeywordsList)
+        return similarKeywordsList  
     # END PLATFORM KEYWORDS
     
     # INSTRUMENT KEYWORDS
@@ -315,9 +422,45 @@ class GCMD:
         for keyword in instrumentKeywordsList:
             if keyword not in modelInstrumentKeywordsList:
                 print("invalid instrument keyword: " + keyword)
+                # find similar keywords
+                similarKeywords = self.get_similar_place_keywords(modelInstrumentKeywordsList, keyword)
                 with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "instrument", basename(os.path.splitext(file)[0]) + '.xml']) 
+                    writer.writerow([keyword, "instrument", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
+
+    def get_similar_instrument_keywords(self, modelInstrumentKeywordsList, keyword):
+        similarKeywords = [s for s in modelInstrumentKeywordsList if keyword in s]
+        # make set to remove duplicates and back to list to be able to access elements 
+        list(set(similarKeywords))
+        similarKeywordsList = []
+        for i in range(0,3):
+            try:
+                similarKeywordsList.append(similarKeywords[i])
+            except IndexError:
+                similarKeywordsList.append("N/A")
+        # if no matches with the above method try first half of keyword string
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            keywordSubstring = keyword[0:len(keyword)/2]
+            similarKeywords = [s for s in modelInstrumentKeywordsList if keywordSubstring in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+        # if no matches with the above method try first third of keyword string
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            keywordSubstring = keyword[0:len(keyword)/3]
+            similarKeywords = [s for s in modelInstrumentKeywordsList if keywordSubstring in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+
+        #print(similarKeywordsList)
+        return similarKeywordsList 
     # END INSTRUMENT KEYWORDS
     
     # PROJECT KEYWORDS
@@ -366,9 +509,45 @@ class GCMD:
         for keyword in projectKeywordsList:
             if keyword not in modelProjectKeywordsList:
                 print("invalid project keyword: " + keyword)
+                # find similar keywords
+                similarKeywords = self.get_similar_place_keywords(modelProjectKeywordsList, keyword)
                 with open(basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "project", basename(os.path.splitext(file)[0]) + '.xml']) 
+                    writer.writerow([keyword, "project", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
+
+    def get_similar_project_keywords(self, modelProjectKeywordsList, keyword):
+        similarKeywords = [s for s in modelProjectKeywordsList if keyword in s]
+        # make set to remove duplicates and back to list to be able to access elements 
+        list(set(similarKeywords))
+        similarKeywordsList = []
+        for i in range(0,3):
+            try:
+                similarKeywordsList.append(similarKeywords[i])
+            except IndexError:
+                similarKeywordsList.append("N/A")
+        # if no matches with the above method try first half of keyword string
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            keywordSubstring = keyword[0:len(keyword)/2]
+            similarKeywords = [s for s in modelProjectKeywordsList if keywordSubstring in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+        # if no matches with the above method try first third of keyword string
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            keywordSubstring = keyword[0:len(keyword)/3]
+            similarKeywords = [s for s in modelProjectKeywordsList if keywordSubstring in s]
+            for i in range(0,3):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
+
+        #print(similarKeywordsList)
+        return similarKeywordsList  
     # END PROJECT KEYWORDS
 
 # __main__
@@ -384,7 +563,7 @@ if __name__ == '__main__':
     gcmd.check_theme_keywords(testfile)
     gcmd.check_datacenter_keywords(testfile)
     gcmd.check_place_keywords(testfile)
-    #gcmd.check_platform_keywords(testfile)
+    gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
     gcmd.check_project_keywords(testfile)
     

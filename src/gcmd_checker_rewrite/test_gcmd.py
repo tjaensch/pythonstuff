@@ -15,11 +15,13 @@ class Testgcmd(unittest.TestCase):
         self.themeKeywordsList = gcmd.get_theme_keywords(testfile)
         self.themeKeywordsThesauriList = gcmd.get_theme_keywords_thesauri(testfile)
         self.modelThemeKeywordsList = gcmd.get_model_theme_keywords_list()
+        self.similarThemeKeywords = gcmd.get_similar_theme_keywords(self.modelThemeKeywordsList, "OCEANOGRAPHY")
         gcmd.check_theme_keywords(testfile)
         # DATACENTER KEYWORDS
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
         self.datacenterKeywordsThesauriList = gcmd.get_datacenter_keywords_thesauri(testfile)
         self.modelDatacenterKeywordsList = gcmd.get_model_datacenter_keywords_list()
+        self.similarDatacenterKeywords = gcmd.get_similar_datacenter_keywords(self.modelDatacenterKeywordsList, "DOC/NOAA/NESDIS/NODC > NATIONAL OCEANOGRAPHIC DATA CENTER, NESDIS, NOAA, U.S. DEPARTMENT OF COMMERCE")
         gcmd.check_datacenter_keywords(testfile)
         # PLACE KEYWORDS
         self.placeKeywordsList = gcmd.get_place_keywords(testfile)
@@ -27,20 +29,23 @@ class Testgcmd(unittest.TestCase):
         self.modelPlaceKeywordsList = gcmd.get_model_place_keywords_list()
         self.similarPlaceKeywords = gcmd.get_similar_place_keywords(self.modelPlaceKeywordsList, "ARABIAN SEA")
         gcmd.check_place_keywords(testfile)
-        '''# PLATFORM KEYWORDS
+        # PLATFORM KEYWORDS
         self.platformKeywordsList = gcmd.get_platform_keywords(testfile)
         self.platformKeywordsThesauriList = gcmd.get_platform_keywords_thesauri(testfile)
         self.modelPlatformKeywordsList = gcmd.get_model_platform_keywords_list()
-        gcmd.check_platform_keywords(testfile)'''
+        self.similarPlatformKeywords = gcmd.get_similar_platform_keywords(self.modelPlatformKeywordsList, "METOP-A > METEOROLOGICAL OPERATIONAL SATELLITE - A")
+        gcmd.check_platform_keywords(testfile)
         # INSTRUMENT KEYWORDS
         self.instrumentKeywordsList = gcmd.get_instrument_keywords(testfile)
         self.instrumentKeywordsThesauriList = gcmd.get_instrument_keywords_thesauri(testfile)
         self.modelInstrumentKeywordsList = gcmd.get_model_instrument_keywords_list()
+        self.similarInstrumentKeywords = gcmd.get_similar_instrument_keywords(self.modelInstrumentKeywordsList, "AVHRR-3")
         gcmd.check_instrument_keywords(testfile)
         # PROJECT KEYWORDS
         self.projectKeywordsList = gcmd.get_project_keywords(testfile)
         self.projectKeywordsThesauriList = gcmd.get_project_keywords_thesauri(testfile)
         self.modelProjectKeywordsList = gcmd.get_model_project_keywords_list()
+        self.similarProjectKeywords = gcmd.get_similar_project_keywords(self.modelProjectKeywordsList, "GHRSST")
         gcmd.check_project_keywords(testfile)
 
     def test_find_xml_files(self):
@@ -67,6 +72,11 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("EARTH SCIENCE > TERRESTRIAL HYDROSPHERE" in self.modelThemeKeywordsList)
         self.assertTrue("EARTH SCIENCE > ATMOSPHERE > WEATHER EVENTS > TROPICAL CYCLONES > MINIMUM CENTRAL PRESSURE > TYPHOONS (WESTERN N. PACIFIC)" in self.modelThemeKeywordsList)
         self.assertFalse("BLAH" in self.modelThemeKeywordsList)
+
+    def test_get_similar_theme_keywords(self):
+        self.assertTrue(len(self.similarThemeKeywords) == 3)
+        self.assertTrue("EARTH SCIENCE SERVICES > REFERENCE AND INFORMATION SERVICES > DIGITAL/VIRTUAL REFERENCE DESKS > ASK-A OCEANOGRAPHER" in self.similarThemeKeywords)
+        self.assertTrue("N/A" in self.similarThemeKeywords)
 
     def test_check_theme_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
@@ -97,12 +107,17 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("GOVERNMENT AGENCIES-NON-US > GERMANY > DE/BERLIN/ILR > WILLKOMMEN ILR BERLIN" in self.modelDatacenterKeywordsList)
         self.assertFalse("BLAH" in self.modelDatacenterKeywordsList)
 
+    def test_get_similar_datacenter_keywords(self):
+        self.assertTrue(len(self.similarDatacenterKeywords) == 3)
+        self.assertTrue("GOVERNMENT AGENCIES-U.S. FEDERAL AGENCIES > DOC > NOAA > DOC/NOAA/NESDIS/NODC > NATIONAL OCEANOGRAPHIC DATA CENTER, NESDIS, NOAA, U.S. DEPARTMENT OF COMMERCE" in self.similarDatacenterKeywords)
+        self.assertTrue("N/A" in self.similarDatacenterKeywords)
+
     def test_check_datacenter_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
         self.assertTrue("AUSTRALIAN BUREAU OF METEOROLOGY" in s)
         self.assertTrue("US NASA; JET PROPULSION LABORATORY; PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER" in s)
-        self.assertFalse("GOVERNMENT AGENCIES-U.S. FEDERAL AGENCIES > NASA > NASA/JPL/PODAAC > PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER, JET PROPULSION LABORATORY, NASA" in s)
+        self.assertFalse("BLAH GOVERNMENT AGENCIES-U.S. FEDERAL AGENCIES > NASA > NASA/JPL/PODAAC > PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER, JET PROPULSION LABORATORY, NASA" in s)
 
     # PLACE KEYWORDS
     def test_get_place_keywords(self):
@@ -137,7 +152,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("EAST INDIAN ARCHIPELAGO" in s)
         self.assertFalse("OCEAN > ATLANTIC OCEAN > SOUTH ATLANTIC OCEAN" in s)
 
-    '''# PLATFORM KEYWORDS
+    # PLATFORM KEYWORDS
     def test_get_platform_keywords(self):
         self.assertTrue(len(self.platformKeywordsList) == 18)
         self.assertTrue("GCOM-W1" in self.platformKeywordsList)
@@ -158,12 +173,17 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("EARTH OBSERVATION SATELLITES > NASA DECADAL SURVEY > ACE (DECADAL SURVEY) > AEROSOL - CLOUD - ECOSYSTEMS" in self.modelPlatformKeywordsList)
         self.assertFalse("BLAH" in self.modelPlatformKeywordsList)
 
+    def test_get_similar_platform_keywords(self):
+        self.assertTrue(len(self.similarPlatformKeywords) == 3)
+        self.assertTrue("EARTH OBSERVATION SATELLITES > METOP > METOP-A > METEOROLOGICAL OPERATIONAL SATELLITE - A" in self.similarPlatformKeywords)
+        self.assertTrue("N/A" in self.similarPlatformKeywords)
+
     def test_check_platform_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
         self.assertTrue("AQUA SATELLITE" in s)
         self.assertTrue("NOAA-19 SATELLITE" in s)
-        self.assertFalse("EARTH OBSERVATION SATELLITES > CORIOLIS > CORIOLIS" in s)'''
+        self.assertFalse("EARTH OBSERVATION SATELLITES > CORIOLIS > CORIOLIS > BLAH" in s)
 
     # INSTRUMENT KEYWORDS
     def test_get_instrument_keywords(self):
@@ -185,6 +205,11 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("EARTH REMOTE SENSING INSTRUMENTS > ACTIVE REMOTE SENSING > ALTIMETERS > LIDAR/LASER ALTIMETERS > ATLAS > ADVANCED TOPOGRAPHIC LASER ALTIMETER SYSTEM" in self.modelInstrumentKeywordsList)
         self.assertTrue("IN SITU/LABORATORY INSTRUMENTS > ELECTRICAL METERS > MESA > MINIATURE ELECTROSTATIC ANALYZER" in self.modelInstrumentKeywordsList)
         self.assertFalse("SOME > INSTRUMENT > DUDE" in self.modelInstrumentKeywordsList)
+
+    def test_get_similar_instrument_keywords(self):
+        self.assertTrue(len(self.similarInstrumentKeywords) == 3)
+        self.assertTrue("EARTH REMOTE SENSING INSTRUMENTS > PASSIVE REMOTE SENSING > SPECTROMETERS/RADIOMETERS > IMAGING SPECTROMETERS/RADIOMETERS > AVHRR-3 > ADVANCED VERY HIGH RESOLUTION RADIOMETER-3" in self.similarInstrumentKeywords)
+        self.assertTrue("N/A" in self.similarInstrumentKeywords)
 
     def test_check_instrument_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
@@ -213,6 +238,11 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("A - C > AAE > AUSTRALASIAN ANTARCTIC EXPEDITION OF 1911-14" in self.modelProjectKeywordsList)
         self.assertTrue("M - O > NRL CORIOLIS > NAVAL RESEARCH LABORATORY CORIOLIS" in self.modelProjectKeywordsList)
         self.assertFalse("X - Y > BLAH > DUDE" in self.modelProjectKeywordsList)
+
+    def test_get_similar_project_keywords(self):
+        self.assertTrue(len(self.similarProjectKeywords) == 3)
+        self.assertTrue("G - I > GHRSST > GROUP FOR HIGH RESOLUTION SEA SURFACE TEMPERATURE" in self.similarProjectKeywords)
+        self.assertTrue("N/A" in self.similarProjectKeywords)
 
     def test_check_project_keywords(self):
         with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
