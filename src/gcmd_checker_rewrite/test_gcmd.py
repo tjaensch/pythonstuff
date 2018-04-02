@@ -79,7 +79,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("N/A" in self.similarThemeKeywords)
 
     def test_check_theme_keywords(self):
-        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+        with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
         self.assertTrue("SEA SURFACE TEMPERATURE" in s)
         self.assertTrue("OCEANOGRAPHY" in s)
@@ -113,7 +113,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("N/A" in self.similarDatacenterKeywords)
 
     def test_check_datacenter_keywords(self):
-        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+        with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
         self.assertTrue("AUSTRALIAN BUREAU OF METEOROLOGY" in s)
         self.assertTrue("US NASA; JET PROPULSION LABORATORY; PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER" in s)
@@ -146,7 +146,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("N/A" in self.similarPlaceKeywords)
 
     def test_check_place_keywords(self):
-        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+        with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
         self.assertTrue("ARABIAN SEA" in s)
         self.assertTrue("EAST INDIAN ARCHIPELAGO" in s)
@@ -179,7 +179,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("N/A" in self.similarPlatformKeywords)
 
     def test_check_platform_keywords(self):
-        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+        with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
         self.assertTrue("AQUA SATELLITE" in s)
         self.assertTrue("NOAA-19 SATELLITE" in s)
@@ -212,7 +212,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("N/A" in self.similarInstrumentKeywords)
 
     def test_check_instrument_keywords(self):
-        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+        with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
         self.assertTrue("AATSR-MET" in s)
         self.assertTrue("AATSR-NR" in s)
@@ -245,7 +245,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("N/A" in self.similarProjectKeywords)
 
     def test_check_project_keywords(self):
-        with open('GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
+        with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
         self.assertTrue("GROUP FOR HIGH RESOLUTION SEA SURFACE TEMPERATURE (GHRSST)" in s)
         self.assertFalse("BLAH" in s)

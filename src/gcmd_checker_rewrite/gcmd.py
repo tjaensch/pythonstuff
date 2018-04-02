@@ -36,7 +36,7 @@ class GCMD:
                 namespaces=xmlRoot.nsmap)
         for i in range(len(themeKeywords)):
             themeKeywordsList.append(themeKeywords[i].text.upper())
-        #print(themeKeywordsList)
+        print(themeKeywordsList)
         return themeKeywordsList
 
     def get_theme_keywords_thesauri(self, file):
@@ -571,14 +571,16 @@ if __name__ == '__main__':
         gcmd.check_theme_keywords(testfile)
         gcmd.check_place_keywords(testfile)'''
 
-    gcmd.create_results_csv(testfile)
+    '''gcmd.create_results_csv(testfile)
     
     gcmd.check_project_keywords(testfile)
     gcmd.check_datacenter_keywords(testfile)
     gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
     gcmd.check_theme_keywords(testfile)
-    gcmd.check_place_keywords(testfile)
+    gcmd.check_place_keywords(testfile)'''
+
+    gcmd.get_theme_keywords(testfile)
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')
