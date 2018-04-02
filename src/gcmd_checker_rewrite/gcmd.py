@@ -32,10 +32,10 @@ class GCMD:
         themeKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
         themeKeywords = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='theme']/gmd:keyword/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='theme']/gmd:keyword[../gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]]/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(themeKeywords)):
-            themeKeywordsList.append(themeKeywords[i].text.upper())
+            themeKeywordsList.append(themeKeywords[i].text)
         print(themeKeywordsList)
         return themeKeywordsList
 
@@ -43,11 +43,11 @@ class GCMD:
         themeKeywordsThesauriList = []
         xmlRoot = et.fromstring(open(file).read())
         themeKeywordsThesauri = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='theme']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='theme']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(themeKeywordsThesauri)):
-            themeKeywordsThesauriList.append(themeKeywordsThesauri[i].text.upper())
-        #print(themeKeywordsThesauriList)
+            themeKeywordsThesauriList.append(themeKeywordsThesauri[i].text)
+        print(themeKeywordsThesauriList)
         return themeKeywordsThesauriList
 
     def get_model_theme_keywords_list(self):
@@ -581,6 +581,7 @@ if __name__ == '__main__':
     gcmd.check_place_keywords(testfile)'''
 
     gcmd.get_theme_keywords(testfile)
+    gcmd.get_theme_keywords_thesauri(testfile)
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')

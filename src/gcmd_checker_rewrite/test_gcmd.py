@@ -54,17 +54,17 @@ class Testgcmd(unittest.TestCase):
 
     # THEME KEYWORDS
     def test_get_theme_keywords(self):
-        self.assertTrue(len(self.themeKeywordsList) == 5)
+        self.assertTrue(len(self.themeKeywordsList) == 2)
         self.assertTrue("EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE > SEA SURFACE TEMPERATURE" in self.themeKeywordsList)
-        self.assertFalse("EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE" in self.themeKeywordsList)
-        self.assertTrue("SATELLITE DATA" in self.themeKeywordsList)
+        self.assertTrue("Earth Science > Oceans > Ocean Temperature > Sea Surface Temperature > Foundation Sea Surface Temperature" in self.themeKeywordsList)
+        self.assertFalse("SATELLITE DATA" in self.themeKeywordsList)
         self.assertFalse("blah" in self.themeKeywordsList)
 
     def test_get_theme_keywords_thesauri(self):
-        self.assertTrue(len(self.themeKeywordsList) == 5)
-        self.assertTrue("NODC DATA TYPES THESAURUS" in self.themeKeywordsThesauriList)
+        self.assertTrue(len(self.themeKeywordsThesauriList) == 2)
+        self.assertTrue("Global Change Master Directory (GCMD) Science and Services Keywords" in self.themeKeywordsThesauriList)
         self.assertFalse("BLAH THESAURUS" in self.themeKeywordsThesauriList)
-        self.assertTrue("NASA/GCMD EARTH SCIENCE KEYWORDS" in self.themeKeywordsThesauriList)
+        self.assertTrue("NASA/GCMD Earth Science Keywords" in self.themeKeywordsThesauriList)
         self.assertFalse("blah" in self.themeKeywordsThesauriList)
 
     def test_get_model_theme_keywords_list(self):
