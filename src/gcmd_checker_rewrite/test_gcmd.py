@@ -162,13 +162,13 @@ class Testgcmd(unittest.TestCase):
 
     def test_get_model_platform_keywords_list(self):
         self.assertTrue(len(self.modelPlatformKeywordsList) > 850)
-        self.assertTrue("A340-600 > Airbus A340-600" in self.modelPlatformKeywordsList)
-        self.assertTrue("SCISAT-1/ACE > Atmospheric Chemistry Experiment" in self.modelPlatformKeywordsList)
+        self.assertTrue("Aircraft > A340-600 > Airbus A340-600" in self.modelPlatformKeywordsList)
+        self.assertTrue("Earth Observation Satellites > SCISAT-1/ACE > Atmospheric Chemistry Experiment" in self.modelPlatformKeywordsList)
         self.assertFalse("BLAH" in self.modelPlatformKeywordsList)
 
     def test_get_similar_platform_keywords(self):
         self.assertTrue(len(self.similarPlatformKeywords) == 3)
-        self.assertTrue("METOP-A > Meteorological Operational Satellite - A" in self.similarPlatformKeywords)
+        self.assertTrue("Earth Observation Satellites > METOP > METOP-A > Meteorological Operational Satellite - A" in self.similarPlatformKeywords)
         self.assertTrue("N/A" in self.similarPlatformKeywords)
 
     def test_check_platform_keywords(self):
@@ -192,13 +192,13 @@ class Testgcmd(unittest.TestCase):
 
     def test_get_model_instrument_keywords_list(self):
         self.assertTrue(len(self.modelInstrumentKeywordsList) > 1500)
-        self.assertTrue("AIRBORNE LASER SCANNER" in self.modelInstrumentKeywordsList)
-        self.assertTrue("HIWRAP > High-Altitude Imaging Wind and Rain Airborne Profiler" in self.modelInstrumentKeywordsList)
+        self.assertTrue("Earth Remote Sensing Instruments > Active Remote Sensing > Altimeters > Lidar/Laser Altimeters > AIRBORNE LASER SCANNER" in self.modelInstrumentKeywordsList)
+        self.assertTrue("Earth Remote Sensing Instruments > Passive Remote Sensing > Profilers/Sounders > HIWRAP > High-Altitude Imaging Wind and Rain Airborne Profiler" in self.modelInstrumentKeywordsList)
         self.assertFalse("SOME > INSTRUMENT > DUDE" in self.modelInstrumentKeywordsList)
 
     def test_get_similar_instrument_keywords(self):
         self.assertTrue(len(self.similarInstrumentKeywords) == 3)
-        self.assertTrue("AVHRR-3 > Advanced Very High Resolution Radiometer-3" in self.similarInstrumentKeywords)
+        self.assertTrue("Earth Remote Sensing Instruments > Passive Remote Sensing > Spectrometers/Radiometers > Imaging Spectrometers/Radiometers > AVHRR-3 > Advanced Very High Resolution Radiometer-3" in self.similarInstrumentKeywords)
         self.assertTrue("N/A" in self.similarInstrumentKeywords)
 
     def test_check_instrument_keywords(self):

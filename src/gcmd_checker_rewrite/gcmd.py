@@ -14,9 +14,10 @@ class GCMD:
         self.xmlFiles = []
 
     def find_xml_files(self):
-        source_dir = "./collection_test_files"
+        #source_dir = "./collection_test_files"
+        source_dir = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso"
         for root, dirnames, filenames in os.walk(source_dir, followlinks=True):
-            for filename in fnmatch.filter(filenames, '*.xml'):
+            for filename in fnmatch.filter(filenames, 'GHRSST*.xml'):
                 self.xmlFiles.append(os.path.join(root, filename))
         print("%d files found in source directory" % len(self.xmlFiles))
         return self.xmlFiles
@@ -320,10 +321,10 @@ class GCMD:
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/platforms/platforms.csv"))
         for row in data:
             try:
-                keyword = row[2].strip()
+                keyword = row[0].strip()
             except IndexError:
                 continue
-            for i in range(3,4):
+            for i in range(1,4):
                 try:
                     if row[i] != "":
                         keyword = keyword + " > " + row[i].strip()
@@ -410,10 +411,10 @@ class GCMD:
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/instruments/instruments.csv"))
         for row in data:
             try:
-                keyword = row[4].strip()
+                keyword = row[0].strip()
             except IndexError:
                 continue
-            for i in range(5,6):
+            for i in range(1,6):
                 try:
                     if row[i] != "":
                         keyword = keyword + " > " + row[i].strip()
@@ -511,7 +512,7 @@ class GCMD:
                     continue
             modelProjectKeywordsList.append(keyword)    
 
-        print(modelProjectKeywordsList)
+        #print(modelProjectKeywordsList)
         return modelProjectKeywordsList
 
     def check_project_keywords(self, file):
@@ -567,10 +568,10 @@ if __name__ == '__main__':
     start = time.time()
 
     gcmd = GCMD()
-    testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
+    #testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
     #testfile = "./collection_test_files/GHRSST-ABOM-L4LRfnd-GLOB-GAMSSA_28km.xml" 
 
-    '''xmlFiles = gcmd.find_xml_files()
+    xmlFiles = gcmd.find_xml_files()
 
     for testfile in xmlFiles:
 
@@ -581,16 +582,16 @@ if __name__ == '__main__':
         gcmd.check_platform_keywords(testfile)
         gcmd.check_instrument_keywords(testfile)
         gcmd.check_theme_keywords(testfile)
-        gcmd.check_place_keywords(testfile)'''
+        gcmd.check_place_keywords(testfile)
 
-    gcmd.create_results_csv(testfile)
+    '''gcmd.create_results_csv(testfile)
     
     gcmd.check_project_keywords(testfile)
     gcmd.check_datacenter_keywords(testfile)
     gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
     gcmd.check_theme_keywords(testfile)
-    gcmd.check_place_keywords(testfile)
+    gcmd.check_place_keywords(testfile)'''
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')
