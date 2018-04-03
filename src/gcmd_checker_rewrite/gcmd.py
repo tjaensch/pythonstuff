@@ -54,11 +54,11 @@ class GCMD:
         modelThemeKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/sciencekeywords/sciencekeywords.csv"))
         for row in data:
-            keyword = row[0].upper().strip()
+            keyword = row[0].strip()
             for i in range(1,7):
                 try:
                     if row[i] != "":
-                        keyword = keyword + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].strip()
                 except IndexError:
                     continue
             modelThemeKeywordsList.append(keyword)    
@@ -119,10 +119,10 @@ class GCMD:
         datacenterKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
         datacenterKeywords = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='dataCenter']/gmd:keyword/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='dataCenter']/gmd:keyword[../gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]]/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(datacenterKeywords)):
-            datacenterKeywordsList.append(datacenterKeywords[i].text.upper())
+            datacenterKeywordsList.append(datacenterKeywords[i].text)
         #print(datacenterKeywordsList)
         return datacenterKeywordsList
 
@@ -130,10 +130,10 @@ class GCMD:
         datacenterKeywordsThesauriList = []
         xmlRoot = et.fromstring(open(file).read())
         datacenterKeywordsThesauri = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='dataCenter']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='dataCenter']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(datacenterKeywordsThesauri)):
-            datacenterKeywordsThesauriList.append(datacenterKeywordsThesauri[i].text.upper())
+            datacenterKeywordsThesauriList.append(datacenterKeywordsThesauri[i].text)
         #print(datacenterKeywordsThesauriList)
         return datacenterKeywordsThesauriList
 
@@ -141,11 +141,14 @@ class GCMD:
         modelDatacenterKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/providers/providers.csv"))
         for row in data:
-            keyword = row[0].upper().strip()
-            for i in range(1,6):
+            try:
+                keyword = row[4].strip()
+            except IndexError:
+                continue
+            for i in range(5,6):
                 try:
                     if row[i] != "":
-                        keyword = keyword + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].strip()
                 except IndexError:
                     continue
             modelDatacenterKeywordsList.append(keyword)    
@@ -197,7 +200,7 @@ class GCMD:
                 except IndexError:
                     similarKeywordsList.append("N/A")
 
-        #print(similarKeywordsList)
+        print(similarKeywordsList)
         return similarKeywordsList
     # END DATACENTER KEYWORDS
 
@@ -206,10 +209,10 @@ class GCMD:
         placeKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
         placeKeywords = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='place']/gmd:keyword/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='place']/gmd:keyword[../gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]]/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(placeKeywords)):
-            placeKeywordsList.append(placeKeywords[i].text.upper())
+            placeKeywordsList.append(placeKeywords[i].text)
         #print(placeKeywordsList)
         return placeKeywordsList
 
@@ -217,22 +220,22 @@ class GCMD:
         placeKeywordsThesauriList = []
         xmlRoot = et.fromstring(open(file).read())
         placeKeywordsThesauri = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='place']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='place']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(placeKeywordsThesauri)):
-            placeKeywordsThesauriList.append(placeKeywordsThesauri[i].text.upper())
-        #print(placeKeywordsThesauriList)
+            placeKeywordsThesauriList.append(placeKeywordsThesauri[i].text)
+        print(placeKeywordsThesauriList)
         return placeKeywordsThesauriList
 
     def get_model_place_keywords_list(self):
         modelPlaceKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/locations/locations.csv"))
         for row in data:
-            keyword = row[0].upper().strip()
+            keyword = row[0].strip()
             for i in range(1,5):
                 try:
                     if row[i] != "":
-                        keyword = keyword + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].strip()
                 except IndexError:
                     continue
             modelPlaceKeywordsList.append(keyword)    
@@ -254,7 +257,7 @@ class GCMD:
                     writer.writerow([keyword, "place", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
 
     def get_similar_place_keywords(self, modelPlaceKeywordsList, keyword):
-        similarKeywords = [s for s in modelPlaceKeywordsList if keyword in s]
+        similarKeywords = [s for s in modelPlaceKeywordsList if keyword.upper() in s]
         # make set to remove duplicates and back to list to be able to access elements 
         list(set(similarKeywords))
         similarKeywordsList = []
@@ -294,21 +297,21 @@ class GCMD:
         platformKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
         platformKeywords = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='platform']/gmd:keyword/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='platform']/gmd:keyword[../gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]]/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(platformKeywords)):
-            platformKeywordsList.append(platformKeywords[i].text.upper())
-        #print(platformKeywordsList)
+            platformKeywordsList.append(platformKeywords[i].text)
+        print(platformKeywordsList)
         return platformKeywordsList
 
     def get_platform_keywords_thesauri(self, file):
         platformKeywordsThesauriList = []
         xmlRoot = et.fromstring(open(file).read())
         platformKeywordsThesauri = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='platform']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='platform']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(platformKeywordsThesauri)):
-            platformKeywordsThesauriList.append(platformKeywordsThesauri[i].text.upper())
+            platformKeywordsThesauriList.append(platformKeywordsThesauri[i].text)
         #print(platformKeywordsThesauriList)
         return platformKeywordsThesauriList
 
@@ -316,11 +319,14 @@ class GCMD:
         modelPlatformKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/platforms/platforms.csv"))
         for row in data:
-            keyword = row[0].upper().strip()
-            for i in range(1,4):
+            try:
+                keyword = row[2].strip()
+            except IndexError:
+                continue
+            for i in range(3,4):
                 try:
                     if row[i] != "":
-                        keyword = keyword + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].strip()
                 except IndexError:
                     continue
             modelPlatformKeywordsList.append(keyword)    
@@ -381,21 +387,21 @@ class GCMD:
         instrumentKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
         instrumentKeywords = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='instrument']/gmd:keyword/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='instrument']/gmd:keyword[../gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]]/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(instrumentKeywords)):
-            instrumentKeywordsList.append(instrumentKeywords[i].text.upper())
-        #print(instrumentKeywordsList)
+            instrumentKeywordsList.append(instrumentKeywords[i].text)
+        print(instrumentKeywordsList)
         return instrumentKeywordsList
 
     def get_instrument_keywords_thesauri(self, file):
         instrumentKeywordsThesauriList = []
         xmlRoot = et.fromstring(open(file).read())
         instrumentKeywordsThesauri = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='instrument']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='instrument']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(instrumentKeywordsThesauri)):
-            instrumentKeywordsThesauriList.append(instrumentKeywordsThesauri[i].text.upper())
+            instrumentKeywordsThesauriList.append(instrumentKeywordsThesauri[i].text)
         #print(instrumentKeywordsThesauriList)
         return instrumentKeywordsThesauriList
 
@@ -403,11 +409,14 @@ class GCMD:
         modelInstrumentKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/instruments/instruments.csv"))
         for row in data:
-            keyword = row[0].upper().strip()
-            for i in range(1,6):
+            try:
+                keyword = row[4].strip()
+            except IndexError:
+                continue
+            for i in range(5,6):
                 try:
                     if row[i] != "":
-                        keyword = keyword + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].strip()
                 except IndexError:
                     continue
             modelInstrumentKeywordsList.append(keyword)    
@@ -468,10 +477,10 @@ class GCMD:
         projectKeywordsList = []
         xmlRoot = et.fromstring(open(file).read())
         projectKeywords = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='project']/gmd:keyword/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='project']/gmd:keyword[../gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]]/*",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(projectKeywords)):
-            projectKeywordsList.append(projectKeywords[i].text.upper())
+            projectKeywordsList.append(projectKeywords[i].text)
         #print(projectKeywordsList)
         return projectKeywordsList
 
@@ -479,10 +488,10 @@ class GCMD:
         projectKeywordsThesauriList = []
         xmlRoot = et.fromstring(open(file).read())
         projectKeywordsThesauri = xmlRoot.xpath(
-            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='project']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*",
+            "//gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[gmd:type/gmd:MD_KeywordTypeCode/@codeListValue='project']/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[contains(text(), 'GCMD')]",
                 namespaces=xmlRoot.nsmap)
         for i in range(len(projectKeywordsThesauri)):
-            projectKeywordsThesauriList.append(projectKeywordsThesauri[i].text.upper())
+            projectKeywordsThesauriList.append(projectKeywordsThesauri[i].text)
         #print(projectKeywordsThesauriList)
         return projectKeywordsThesauriList
 
@@ -490,16 +499,19 @@ class GCMD:
         modelProjectKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/projects/projects.csv"))
         for row in data:
-            keyword = row[0].upper().strip()
-            for i in range(1,3):
+            try:
+                keyword = row[1].strip()
+            except IndexError:
+                continue
+            for i in range(2,3):
                 try:
                     if row[i] != "":
-                        keyword = keyword + " > " + row[i].upper().strip()
+                        keyword = keyword + " > " + row[i].strip()
                 except IndexError:
                     continue
             modelProjectKeywordsList.append(keyword)    
 
-        #print(modelProjectKeywordsList)
+        print(modelProjectKeywordsList)
         return modelProjectKeywordsList
 
     def check_project_keywords(self, file):
@@ -555,8 +567,8 @@ if __name__ == '__main__':
     start = time.time()
 
     gcmd = GCMD()
-    #testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
-    testfile = "./collection_test_files/GHRSST-ABOM-L4LRfnd-GLOB-GAMSSA_28km.xml" 
+    testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
+    #testfile = "./collection_test_files/GHRSST-ABOM-L4LRfnd-GLOB-GAMSSA_28km.xml" 
 
     '''xmlFiles = gcmd.find_xml_files()
 
@@ -571,17 +583,14 @@ if __name__ == '__main__':
         gcmd.check_theme_keywords(testfile)
         gcmd.check_place_keywords(testfile)'''
 
-    '''gcmd.create_results_csv(testfile)
+    gcmd.create_results_csv(testfile)
     
     gcmd.check_project_keywords(testfile)
     gcmd.check_datacenter_keywords(testfile)
     gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
     gcmd.check_theme_keywords(testfile)
-    gcmd.check_place_keywords(testfile)'''
-
-    gcmd.get_theme_keywords(testfile)
-    gcmd.get_theme_keywords_thesauri(testfile)
+    gcmd.check_place_keywords(testfile)
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')

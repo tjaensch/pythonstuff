@@ -21,7 +21,7 @@ class Testgcmd(unittest.TestCase):
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
         self.datacenterKeywordsThesauriList = gcmd.get_datacenter_keywords_thesauri(testfile)
         self.modelDatacenterKeywordsList = gcmd.get_model_datacenter_keywords_list()
-        self.similarDatacenterKeywords = gcmd.get_similar_datacenter_keywords(self.modelDatacenterKeywordsList, "DOC/NOAA/NESDIS/NODC > NATIONAL OCEANOGRAPHIC DATA CENTER, NESDIS, NOAA, U.S. DEPARTMENT OF COMMERCE")
+        self.similarDatacenterKeywords = gcmd.get_similar_datacenter_keywords(self.modelDatacenterKeywordsList, "DOC/NOAA/NESDIS/NCEI")
         gcmd.check_datacenter_keywords(testfile)
         # PLACE KEYWORDS
         self.placeKeywordsList = gcmd.get_place_keywords(testfile)
@@ -33,7 +33,7 @@ class Testgcmd(unittest.TestCase):
         self.platformKeywordsList = gcmd.get_platform_keywords(testfile)
         self.platformKeywordsThesauriList = gcmd.get_platform_keywords_thesauri(testfile)
         self.modelPlatformKeywordsList = gcmd.get_model_platform_keywords_list()
-        self.similarPlatformKeywords = gcmd.get_similar_platform_keywords(self.modelPlatformKeywordsList, "METOP-A > METEOROLOGICAL OPERATIONAL SATELLITE - A")
+        self.similarPlatformKeywords = gcmd.get_similar_platform_keywords(self.modelPlatformKeywordsList, "METOP-A")
         gcmd.check_platform_keywords(testfile)
         # INSTRUMENT KEYWORDS
         self.instrumentKeywordsList = gcmd.get_instrument_keywords(testfile)
@@ -45,7 +45,7 @@ class Testgcmd(unittest.TestCase):
         self.projectKeywordsList = gcmd.get_project_keywords(testfile)
         self.projectKeywordsThesauriList = gcmd.get_project_keywords_thesauri(testfile)
         self.modelProjectKeywordsList = gcmd.get_model_project_keywords_list()
-        self.similarProjectKeywords = gcmd.get_similar_project_keywords(self.modelProjectKeywordsList, "GHRSST")
+        self.similarProjectKeywords = gcmd.get_similar_project_keywords(self.modelProjectKeywordsList, "OneStop")
         gcmd.check_project_keywords(testfile)
 
     def test_find_xml_files(self):
@@ -81,57 +81,52 @@ class Testgcmd(unittest.TestCase):
     def test_check_theme_keywords(self):
         with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
-        self.assertTrue("SEA SURFACE TEMPERATURE" in s)
-        self.assertTrue("OCEANOGRAPHY" in s)
-        self.assertTrue("EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE > SEA SURFACE TEMPERATURE > FOUNDATION SEA SURFACE TEMPERATURE" in s)
+        self.assertTrue("Earth Science > Oceans > Ocean Temperature > Sea Surface Temperature > Foundation Sea Surface Temperature" in s)
         self.assertFalse("EARTH SCIENCE > OCEANS > OCEAN OPTICS" in s)
 
     # DATACENTER KEYWORDS
     def test_get_datacenter_keywords(self):
-        self.assertTrue(len(self.datacenterKeywordsList) == 5)
-        self.assertTrue("DOC/NOAA/NESDIS/NODC > NATIONAL OCEANOGRAPHIC DATA CENTER, NESDIS, NOAA, U.S. DEPARTMENT OF COMMERCE" in self.datacenterKeywordsList)
-        self.assertFalse("BLAH NESDIS" in self.datacenterKeywordsList)
-        self.assertTrue("NASA/JPL/PODAAC > PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER, JET PROPULSION LABORATORY, NASA" in self.datacenterKeywordsList)
+        self.assertTrue(len(self.datacenterKeywordsList) == 3)
+        self.assertTrue("DOC/NOAA/NESDIS/NODC > National Oceanographic Data Center, NESDIS, NOAA, U.S. Department of Commerce" in self.datacenterKeywordsList)
+        self.assertFalse("Blah NESDIS" in self.datacenterKeywordsList)
+        self.assertTrue("NASA/JPL/PODAAC > Physical Oceanography Distributed Active Archive Center, Jet Propulsion Laboratory, NASA" in self.datacenterKeywordsList)
         self.assertFalse("Australian Bureau of Blah" in self.datacenterKeywordsList)
 
     def test_get_datacenter_keywords_thesauri(self):
-        self.assertTrue(len(self.datacenterKeywordsThesauriList) == 3)
-        self.assertTrue("GLOBAL CHANGE MASTER DIRECTORY (GCMD) DATA CENTER KEYWORDS" in self.datacenterKeywordsThesauriList)
-        self.assertFalse("GLOBAL CHANGE MASTER DIRECTORY (GCMD) DATA CENTER" in self.datacenterKeywordsThesauriList)
-        self.assertTrue("NODC COLLECTING INSTITUTION NAMES THESAURUS" in self.datacenterKeywordsThesauriList)
-        self.assertFalse("Australian Bureau of Blah" in self.datacenterKeywordsThesauriList)
+        self.assertTrue(len(self.datacenterKeywordsThesauriList) == 1)
+        self.assertTrue("Global Change Master Directory (GCMD) Data Center Keywords" in self.datacenterKeywordsThesauriList)
+        self.assertFalse("GLOBAL CHANGE MASTER DIRECTORY (GCMD) DATA CENTER KEYWORDS" in self.datacenterKeywordsThesauriList)
+        self.assertFalse("NODC COLLECTING INSTITUTION NAMES THESAURUS" in self.datacenterKeywordsThesauriList)
 
     def test_get_model_datacenter_keywords_list(self):
         self.assertTrue(len(self.modelDatacenterKeywordsList) > 3600)
-        self.assertTrue("ACADEMIC > OR-STATE/EOARC > OR-STATE/EOARC > EASTERN OREGON AGRICULTURE RESEARCH CENTER, OREGON STATE UNIVERSITY" in self.modelDatacenterKeywordsList)
-        self.assertTrue("GOVERNMENT AGENCIES-NON-US > GERMANY > DE/BERLIN/ILR > WILLKOMMEN ILR BERLIN" in self.modelDatacenterKeywordsList)
+        self.assertTrue("OR-STATE/EOARC > Eastern Oregon Agriculture Research Center, Oregon State University" in self.modelDatacenterKeywordsList)
+        self.assertTrue("DOC/NOAA/OOE > Office of Ocean Exploration, National Oceanic and Atmospheric Administration, U.S. Department of Commerce" in self.modelDatacenterKeywordsList)
         self.assertFalse("BLAH" in self.modelDatacenterKeywordsList)
 
     def test_get_similar_datacenter_keywords(self):
         self.assertTrue(len(self.similarDatacenterKeywords) == 3)
-        self.assertTrue("GOVERNMENT AGENCIES-U.S. FEDERAL AGENCIES > DOC > NOAA > DOC/NOAA/NESDIS/NODC > NATIONAL OCEANOGRAPHIC DATA CENTER, NESDIS, NOAA, U.S. DEPARTMENT OF COMMERCE" in self.similarDatacenterKeywords)
+        self.assertTrue("DOC/NOAA/NESDIS/NCEI > National Centers for Environmental Information, NESDIS, NOAA, U.S. Department of Commerce" in self.similarDatacenterKeywords)
         self.assertTrue("N/A" in self.similarDatacenterKeywords)
 
     def test_check_datacenter_keywords(self):
         with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
-        self.assertTrue("AUSTRALIAN BUREAU OF METEOROLOGY" in s)
-        self.assertTrue("US NASA; JET PROPULSION LABORATORY; PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER" in s)
-        self.assertFalse("BLAH GOVERNMENT AGENCIES-U.S. FEDERAL AGENCIES > NASA > NASA/JPL/PODAAC > PHYSICAL OCEANOGRAPHY DISTRIBUTED ACTIVE ARCHIVE CENTER, JET PROPULSION LABORATORY, NASA" in s)
+        self.assertFalse("AUSTRALIAN BUREAU OF METEOROLOGY" in s)
+        self.assertFalse("DOC/NOAA/NESDIS/NCEI > National Centers for Environmental Information, NESDIS, NOAA, U.S. Department of Commerce" in s)
 
     # PLACE KEYWORDS
     def test_get_place_keywords(self):
-        self.assertTrue(len(self.placeKeywordsList) == 33)
-        self.assertTrue("ANDAMAN SEA OR BURMA SEA" in self.placeKeywordsList)
+        self.assertTrue(len(self.placeKeywordsList) == 9)
+        self.assertTrue("OCEAN > INDIAN OCEAN" in self.placeKeywordsList)
         self.assertFalse("Bavaria" in self.placeKeywordsList)
         self.assertTrue("OCEAN > PACIFIC OCEAN > WESTERN PACIFIC OCEAN > SOUTH CHINA SEA" in self.placeKeywordsList)
-        self.assertFalse("Oceaniyuck" in self.placeKeywordsList)
+        self.assertTrue("Oceania" in self.placeKeywordsList)
 
     def test_get_place_keywords_thesauri(self):
-        self.assertTrue(len(self.placeKeywordsThesauriList) == 3)
-        self.assertTrue("NODC SEA AREA NAMES THESAURUS" in self.placeKeywordsThesauriList)
-        self.assertFalse("NODC SEA AREA NAMES THESAURI" in self.placeKeywordsThesauriList)
-        self.assertTrue("NASA/GCMD LOCATION KEYWORDS" in self.placeKeywordsThesauriList)
+        self.assertTrue(len(self.placeKeywordsThesauriList) == 2)
+        self.assertTrue("Global Change Master Directory (GCMD) Location Keywords" in self.placeKeywordsThesauriList)
+        self.assertTrue("NASA/GCMD Location Keywords" in self.placeKeywordsThesauriList)
         self.assertFalse("NODC SEA AREA NAMES THESAURUS BLAH" in self.placeKeywordsThesauriList)
 
     def test_get_model_place_keywords_list(self):
@@ -148,107 +143,98 @@ class Testgcmd(unittest.TestCase):
     def test_check_place_keywords(self):
         with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
-        self.assertTrue("ARABIAN SEA" in s)
-        self.assertTrue("EAST INDIAN ARCHIPELAGO" in s)
+        self.assertTrue("Oceania" in s)
         self.assertFalse("OCEAN > ATLANTIC OCEAN > SOUTH ATLANTIC OCEAN" in s)
 
     # PLATFORM KEYWORDS
     def test_get_platform_keywords(self):
-        self.assertTrue(len(self.platformKeywordsList) == 18)
-        self.assertTrue("GCOM-W1" in self.platformKeywordsList)
+        self.assertTrue(len(self.platformKeywordsList) == 9)
+        self.assertTrue("AQUA > Earth Observing System, AQUA" in self.platformKeywordsList)
         self.assertFalse("Bavaria" in self.platformKeywordsList)
-        self.assertTrue("METOP-A > METEOROLOGICAL OPERATIONAL SATELLITE - A" in self.platformKeywordsList)
+        self.assertTrue("METOP-A > Meteorological Operational Satellite - A" in self.platformKeywordsList)
         self.assertFalse("METOP-C" in self.platformKeywordsList)
 
     def test_get_platform_keywords_thesauri(self):
-        self.assertTrue(len(self.platformKeywordsThesauriList) == 2)
-        self.assertTrue("NODC PLATFORM NAMES THESAURUS" in self.platformKeywordsThesauriList)
+        self.assertTrue(len(self.platformKeywordsThesauriList) == 1)
         self.assertFalse("NODC PLATFORM NAMES THESAURUS BLAH" in self.platformKeywordsThesauriList)
-        self.assertTrue("GLOBAL CHANGE MASTER DIRECTORY (GCMD) PLATFORM KEYWORDS" in self.platformKeywordsThesauriList)
+        self.assertTrue("Global Change Master Directory (GCMD) Platform Keywords" in self.platformKeywordsThesauriList)
         self.assertFalse("PLATYPUS" in self.platformKeywordsThesauriList)
 
     def test_get_model_platform_keywords_list(self):
         self.assertTrue(len(self.modelPlatformKeywordsList) > 850)
-        self.assertTrue("AIRCRAFT > A340-600 > AIRBUS A340-600" in self.modelPlatformKeywordsList)
-        self.assertTrue("EARTH OBSERVATION SATELLITES > NASA DECADAL SURVEY > ACE (DECADAL SURVEY) > AEROSOL - CLOUD - ECOSYSTEMS" in self.modelPlatformKeywordsList)
+        self.assertTrue("A340-600 > Airbus A340-600" in self.modelPlatformKeywordsList)
+        self.assertTrue("SCISAT-1/ACE > Atmospheric Chemistry Experiment" in self.modelPlatformKeywordsList)
         self.assertFalse("BLAH" in self.modelPlatformKeywordsList)
 
     def test_get_similar_platform_keywords(self):
         self.assertTrue(len(self.similarPlatformKeywords) == 3)
-        self.assertTrue("EARTH OBSERVATION SATELLITES > METOP > METOP-A > METEOROLOGICAL OPERATIONAL SATELLITE - A" in self.similarPlatformKeywords)
+        self.assertTrue("METOP-A > Meteorological Operational Satellite - A" in self.similarPlatformKeywords)
         self.assertTrue("N/A" in self.similarPlatformKeywords)
 
     def test_check_platform_keywords(self):
         with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
-        self.assertTrue("AQUA SATELLITE" in s)
-        self.assertTrue("NOAA-19 SATELLITE" in s)
-        self.assertFalse("EARTH OBSERVATION SATELLITES > CORIOLIS > CORIOLIS > BLAH" in s)
+        self.assertTrue("METOP-B" in s)
+        self.assertFalse("CORIOLIS > CORIOLIS" in s)
 
     # INSTRUMENT KEYWORDS
     def test_get_instrument_keywords(self):
-        self.assertTrue(len(self.instrumentKeywordsList) == 11)
-        self.assertTrue("AATSR-MET" in self.instrumentKeywordsList)
-        self.assertFalse("Bavaria" in self.instrumentKeywordsList)
-        self.assertTrue("AMSR-E > ADVANCED MICROWAVE SCANNING RADIOMETER-EOS" in self.instrumentKeywordsList)
+        self.assertTrue(len(self.instrumentKeywordsList) == 5)
+        self.assertTrue("AATSR > Advanced Along-Track Scanning Radiometer" in self.instrumentKeywordsList)
+        self.assertFalse("WINDSAT > Blah" in self.instrumentKeywordsList)
+        self.assertTrue("AMSR-E > Advanced Microwave Scanning Radiometer-EOS" in self.instrumentKeywordsList)
         self.assertFalse("AATSR > ADVANCE ALONG-TRACK SCANNING" in self.instrumentKeywordsList)
 
     def test_get_instrument_keywords_thesauri(self):
-        self.assertTrue(len(self.instrumentKeywordsThesauriList) == 2)
-        self.assertTrue("NODC INSTRUMENT TYPES THESAURUS" in self.instrumentKeywordsThesauriList)
+        self.assertTrue(len(self.instrumentKeywordsThesauriList) == 1)
+        self.assertTrue("Global Change Master Directory (GCMD) Instrument Keywords" in self.instrumentKeywordsThesauriList)
         self.assertFalse("NODC INSTRUMENT TYPES" in self.instrumentKeywordsThesauriList)
-        self.assertTrue("GLOBAL CHANGE MASTER DIRECTORY (GCMD) INSTRUMENT KEYWORDS" in self.instrumentKeywordsThesauriList)
-        self.assertFalse("INSTRUMENTS" in self.instrumentKeywordsThesauriList)
 
     def test_get_model_instrument_keywords_list(self):
         self.assertTrue(len(self.modelInstrumentKeywordsList) > 1500)
-        self.assertTrue("EARTH REMOTE SENSING INSTRUMENTS > ACTIVE REMOTE SENSING > ALTIMETERS > LIDAR/LASER ALTIMETERS > ATLAS > ADVANCED TOPOGRAPHIC LASER ALTIMETER SYSTEM" in self.modelInstrumentKeywordsList)
-        self.assertTrue("IN SITU/LABORATORY INSTRUMENTS > ELECTRICAL METERS > MESA > MINIATURE ELECTROSTATIC ANALYZER" in self.modelInstrumentKeywordsList)
+        self.assertTrue("AIRBORNE LASER SCANNER" in self.modelInstrumentKeywordsList)
+        self.assertTrue("HIWRAP > High-Altitude Imaging Wind and Rain Airborne Profiler" in self.modelInstrumentKeywordsList)
         self.assertFalse("SOME > INSTRUMENT > DUDE" in self.modelInstrumentKeywordsList)
 
     def test_get_similar_instrument_keywords(self):
         self.assertTrue(len(self.similarInstrumentKeywords) == 3)
-        self.assertTrue("EARTH REMOTE SENSING INSTRUMENTS > PASSIVE REMOTE SENSING > SPECTROMETERS/RADIOMETERS > IMAGING SPECTROMETERS/RADIOMETERS > AVHRR-3 > ADVANCED VERY HIGH RESOLUTION RADIOMETER-3" in self.similarInstrumentKeywords)
+        self.assertTrue("AVHRR-3 > Advanced Very High Resolution Radiometer-3" in self.similarInstrumentKeywords)
         self.assertTrue("N/A" in self.similarInstrumentKeywords)
 
     def test_check_instrument_keywords(self):
         with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
-        self.assertTrue("AATSR-MET" in s)
-        self.assertTrue("AATSR-NR" in s)
+        self.assertFalse("AATSR-NR" in s)
         self.assertFalse("BLAH" in s)
 
     # PROJECT KEYWORDS
     def test_get_project_keywords(self):
-        self.assertTrue(len(self.projectKeywordsList) == 3)
-        self.assertTrue("GROUP FOR HIGH RESOLUTION SEA SURFACE TEMPERATURE (GHRSST)" in self.projectKeywordsList)
+        self.assertTrue(len(self.projectKeywordsList) == 2)
+        self.assertTrue("GHRSST > Group for High Resolution Sea Surface Temperature" in self.projectKeywordsList)
         self.assertFalse("GHRSST" in self.projectKeywordsList)
-        self.assertTrue("GHRSST > GROUP FOR HIGH RESOLUTION SEA SURFACE TEMPERATURE" in self.projectKeywordsList)
-        self.assertTrue("NOAA ONESTOP PROJECT" in self.projectKeywordsList)
+        self.assertTrue("NOAA OneStop Project" in self.projectKeywordsList)
 
     def test_get_project_keywords_thesauri(self):
-        self.assertTrue(len(self.projectKeywordsThesauriList) == 2)
-        self.assertTrue("NODC PROJECT NAMES THESAURUS" in self.projectKeywordsThesauriList)
-        self.assertFalse("NODC PROJECT NAMES" in self.projectKeywordsThesauriList)
-        self.assertTrue("GLOBAL CHANGE MASTER DIRECTORY (GCMD) PROJECT KEYWORDS" in self.projectKeywordsThesauriList)
-        self.assertFalse("BLAH" in self.projectKeywordsThesauriList)
+        self.assertTrue(len(self.projectKeywordsThesauriList) == 1)
+        self.assertFalse("NODC Project Names Thesaurus" in self.projectKeywordsThesauriList)
+        self.assertTrue("Global Change Master Directory (GCMD) Project Keywords" in self.projectKeywordsThesauriList)
 
     def test_get_model_project_keywords_list(self):
         self.assertTrue(len(self.modelProjectKeywordsList) > 1700)
-        self.assertTrue("A - C > AAE > AUSTRALASIAN ANTARCTIC EXPEDITION OF 1911-14" in self.modelProjectKeywordsList)
-        self.assertTrue("M - O > NRL CORIOLIS > NAVAL RESEARCH LABORATORY CORIOLIS" in self.modelProjectKeywordsList)
-        self.assertFalse("X - Y > BLAH > DUDE" in self.modelProjectKeywordsList)
+        self.assertTrue("AARDDVARK > Antarctic-Arctic Radiation-belt (Dynamic) Deposition - VLF Atmospheric Research Konsortium" in self.modelProjectKeywordsList)
+        self.assertTrue("NOAA OneStop Project" in self.modelProjectKeywordsList)
+        self.assertFalse("BLAH > Dude" in self.modelProjectKeywordsList)
 
     def test_get_similar_project_keywords(self):
         self.assertTrue(len(self.similarProjectKeywords) == 3)
-        self.assertTrue("G - I > GHRSST > GROUP FOR HIGH RESOLUTION SEA SURFACE TEMPERATURE" in self.similarProjectKeywords)
+        self.assertTrue("NOAA OneStop Project" in self.similarProjectKeywords)
         self.assertTrue("N/A" in self.similarProjectKeywords)
 
     def test_check_project_keywords(self):
         with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
-        self.assertTrue("GROUP FOR HIGH RESOLUTION SEA SURFACE TEMPERATURE (GHRSST)" in s)
-        self.assertFalse("BLAH" in s)
+        self.assertFalse("NOAA OneStop Project" in s)
+        self.assertFalse("AAE > Australasian Antarctic Expedition of 1911-14" in s)
 
 # __main__
 if __name__ == '__main__':
