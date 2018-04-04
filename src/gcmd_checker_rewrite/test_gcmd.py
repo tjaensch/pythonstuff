@@ -2,6 +2,7 @@ import os
 import shutil
 import unittest
 from gcmd import GCMD
+from os.path import basename
 
 
 class Testgcmd(unittest.TestCase):
@@ -11,6 +12,8 @@ class Testgcmd(unittest.TestCase):
         gcmd = GCMD()
         testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml"
         self.xmlFiles = gcmd.find_xml_files()
+        gcmd.create_results_csv("blank_file.xml")
+        gcmd.delete_csv_if_no_invalid_keywords_found("blank_file.xml")
         # THEME KEYWORDS
         self.themeKeywordsList = gcmd.get_theme_keywords(testfile)
         self.themeKeywordsThesauriList = gcmd.get_theme_keywords_thesauri(testfile)
@@ -51,6 +54,9 @@ class Testgcmd(unittest.TestCase):
     def test_find_xml_files(self):
         self.assertTrue(len(self.xmlFiles) > 0)
         self.assertTrue(self.xmlFiles)
+
+    def test_delete_csv_if_no_invalid_keywords_found(self):
+        self.assertTrue(os.path.exists('invalid_GCMD_keywords_results_' + basename(os.path.splitext("blank_file.xml")[0]) + '.csv') == False)
 
     # THEME KEYWORDS
     def test_get_theme_keywords(self):

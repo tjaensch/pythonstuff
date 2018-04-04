@@ -28,6 +28,15 @@ class GCMD:
             writer = csv.writer(out)
             writer.writerow(["Invalid Keyword", "Type", "Filename", "Recommendation 1", "Recommendation 2", "Recommendation 3"])
 
+    def delete_csv_if_no_invalid_keywords_found(self, file):
+        with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'rb') as out:
+            reader = csv.reader(out)
+            row_count = sum(1 for row in reader)
+            if row_count == 1:
+                print("no invalid keywords found in this file")
+                os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv')
+
+
     # THEME KEYWORDS
     def get_theme_keywords(self, file):
         themeKeywordsList = []
@@ -37,7 +46,7 @@ class GCMD:
                 namespaces=xmlRoot.nsmap)
         for i in range(len(themeKeywords)):
             themeKeywordsList.append(themeKeywords[i].text)
-        print(themeKeywordsList)
+        #print(themeKeywordsList)
         return themeKeywordsList
 
     def get_theme_keywords_thesauri(self, file):
@@ -48,7 +57,7 @@ class GCMD:
                 namespaces=xmlRoot.nsmap)
         for i in range(len(themeKeywordsThesauri)):
             themeKeywordsThesauriList.append(themeKeywordsThesauri[i].text)
-        print(themeKeywordsThesauriList)
+        #print(themeKeywordsThesauriList)
         return themeKeywordsThesauriList
 
     def get_model_theme_keywords_list(self):
@@ -201,7 +210,7 @@ class GCMD:
                 except IndexError:
                     similarKeywordsList.append("N/A")
 
-        print(similarKeywordsList)
+        #print(similarKeywordsList)
         return similarKeywordsList
     # END DATACENTER KEYWORDS
 
@@ -225,7 +234,7 @@ class GCMD:
                 namespaces=xmlRoot.nsmap)
         for i in range(len(placeKeywordsThesauri)):
             placeKeywordsThesauriList.append(placeKeywordsThesauri[i].text)
-        print(placeKeywordsThesauriList)
+        #print(placeKeywordsThesauriList)
         return placeKeywordsThesauriList
 
     def get_model_place_keywords_list(self):
@@ -302,7 +311,7 @@ class GCMD:
                 namespaces=xmlRoot.nsmap)
         for i in range(len(platformKeywords)):
             platformKeywordsList.append(platformKeywords[i].text)
-        print(platformKeywordsList)
+        #print(platformKeywordsList)
         return platformKeywordsList
 
     def get_platform_keywords_thesauri(self, file):
@@ -392,7 +401,7 @@ class GCMD:
                 namespaces=xmlRoot.nsmap)
         for i in range(len(instrumentKeywords)):
             instrumentKeywordsList.append(instrumentKeywords[i].text)
-        print(instrumentKeywordsList)
+        #print(instrumentKeywordsList)
         return instrumentKeywordsList
 
     def get_instrument_keywords_thesauri(self, file):
@@ -568,30 +577,36 @@ if __name__ == '__main__':
     start = time.time()
 
     gcmd = GCMD()
-    #testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
+    testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
     #testfile = "./collection_test_files/GHRSST-ABOM-L4LRfnd-GLOB-GAMSSA_28km.xml" 
+    #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml"
+    #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/NDBC-CMANWx.xml"
+    #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/NDBC-COOPS.xml"
 
+    '''
+    # batch processing
     xmlFiles = gcmd.find_xml_files()
 
     for testfile in xmlFiles:
 
         gcmd.create_results_csv(testfile)
-        
         gcmd.check_project_keywords(testfile)
         gcmd.check_datacenter_keywords(testfile)
         gcmd.check_platform_keywords(testfile)
         gcmd.check_instrument_keywords(testfile)
         gcmd.check_theme_keywords(testfile)
         gcmd.check_place_keywords(testfile)
+        gcmd.delete_csv_if_no_invalid_keywords_found(testfile)'''
 
-    '''gcmd.create_results_csv(testfile)
-    
+    # single file processing
+    gcmd.create_results_csv(testfile)
     gcmd.check_project_keywords(testfile)
     gcmd.check_datacenter_keywords(testfile)
     gcmd.check_platform_keywords(testfile)
     gcmd.check_instrument_keywords(testfile)
     gcmd.check_theme_keywords(testfile)
-    gcmd.check_place_keywords(testfile)'''
+    gcmd.check_place_keywords(testfile)
+    gcmd.delete_csv_if_no_invalid_keywords_found(testfile)
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')
