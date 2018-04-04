@@ -23,6 +23,7 @@ class GCMD:
         return self.xmlFiles
 
     def create_results_csv(self, file):
+        print(" ")
         print(basename(os.path.splitext(file)[0]) + '.xml')
         with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'wb') as out:
             writer = csv.writer(out)
@@ -577,13 +578,13 @@ if __name__ == '__main__':
     start = time.time()
 
     gcmd = GCMD()
-    testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
+    #testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
     #testfile = "./collection_test_files/GHRSST-ABOM-L4LRfnd-GLOB-GAMSSA_28km.xml" 
     #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml"
     #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/NDBC-CMANWx.xml"
     #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/NDBC-COOPS.xml"
 
-    '''
+    
     # batch processing
     xmlFiles = gcmd.find_xml_files()
 
@@ -596,9 +597,9 @@ if __name__ == '__main__':
         gcmd.check_instrument_keywords(testfile)
         gcmd.check_theme_keywords(testfile)
         gcmd.check_place_keywords(testfile)
-        gcmd.delete_csv_if_no_invalid_keywords_found(testfile)'''
+        gcmd.delete_csv_if_no_invalid_keywords_found(testfile)
 
-    # single file processing
+    '''# single file processing
     gcmd.create_results_csv(testfile)
     gcmd.check_project_keywords(testfile)
     gcmd.check_datacenter_keywords(testfile)
@@ -606,7 +607,7 @@ if __name__ == '__main__':
     gcmd.check_instrument_keywords(testfile)
     gcmd.check_theme_keywords(testfile)
     gcmd.check_place_keywords(testfile)
-    gcmd.delete_csv_if_no_invalid_keywords_found(testfile)
+    gcmd.delete_csv_if_no_invalid_keywords_found(testfile)'''
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')
