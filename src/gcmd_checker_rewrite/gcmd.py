@@ -15,7 +15,8 @@ class GCMD:
 
     def find_xml_files(self):
         #source_dir = "./collection_test_files"
-        source_dir = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso"
+        #source_dir = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso"
+        source_dir = "/nodc/projects/metadata/granule/onestop/collections_from_WAFs/NCDC_WAF_collections_04102018"
         for root, dirnames, filenames in os.walk(source_dir, followlinks=True):
             for filename in fnmatch.filter(filenames, '*.xml'):
                 self.xmlFiles.append(os.path.join(root, filename))
@@ -584,14 +585,29 @@ if __name__ == '__main__':
     #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml"
     #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/NDBC-CMANWx.xml"
     #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/NDBC-COOPS.xml"
-    testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/0131830.xml"
+    #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/0131830.xml"
+    #testfile = "./collection_test_files/MGL1111_SubbottomProfiler.xml" # empty namespace prefix problem
 
     
-    '''# batch processing
+    # batch processing
     xmlFiles = gcmd.find_xml_files()
 
     for testfile in xmlFiles:
+        try:
+            gcmd.create_results_csv(testfile)
+            gcmd.check_project_keywords(testfile)
+            gcmd.check_datacenter_keywords(testfile)
+            gcmd.check_platform_keywords(testfile)
+            gcmd.check_instrument_keywords(testfile)
+            gcmd.check_theme_keywords(testfile)
+            gcmd.check_place_keywords(testfile)
+            gcmd.delete_csv_if_no_invalid_keywords_found(testfile)
+        except Exception:
+            print(testfile + " failed assessment")
+            os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(testfile)[0]) + '.csv')
 
+    # single file processing
+    '''try:
         gcmd.create_results_csv(testfile)
         gcmd.check_project_keywords(testfile)
         gcmd.check_datacenter_keywords(testfile)
@@ -599,17 +615,10 @@ if __name__ == '__main__':
         gcmd.check_instrument_keywords(testfile)
         gcmd.check_theme_keywords(testfile)
         gcmd.check_place_keywords(testfile)
-        gcmd.delete_csv_if_no_invalid_keywords_found(testfile)'''
-
-    # single file processing
-    gcmd.create_results_csv(testfile)
-    gcmd.check_project_keywords(testfile)
-    gcmd.check_datacenter_keywords(testfile)
-    gcmd.check_platform_keywords(testfile)
-    gcmd.check_instrument_keywords(testfile)
-    gcmd.check_theme_keywords(testfile)
-    gcmd.check_place_keywords(testfile)
-    gcmd.delete_csv_if_no_invalid_keywords_found(testfile)
+        gcmd.delete_csv_if_no_invalid_keywords_found(testfile)
+    except Exception:
+        print(testfile + " failed assessment")
+        os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(testfile)[0]) + '.csv')'''
     
 
     print('The program took ', time.time() - start, 'seconds to complete.')
