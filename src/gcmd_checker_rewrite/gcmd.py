@@ -1,3 +1,4 @@
+import argparse
 import csv
 import fnmatch
 import time
@@ -13,10 +14,27 @@ class GCMD:
     def __init__(self):
         self.xmlFiles = []
 
-    def find_xml_files(self):
-        #source_dir = "./collection_test_files"
-        #source_dir = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso"
-        source_dir = "/nodc/projects/metadata/granule/onestop/collections_from_WAFs/NCDC_WAF_collections_04102018"
+    def get_target_argument(self):
+        ap = argparse.ArgumentParser()
+        ap.add_argument("-t", "--target", required=True, help="target file or folder")
+        args = vars(ap.parse_args())
+        return args["target"]
+
+    def process(self, xmlFile):
+        try:
+            self.create_results_csv(xmlFile)
+            self.check_project_keywords(xmlFile)
+            self.check_datacenter_keywords(xmlFile)
+            self.check_platform_keywords(xmlFile)
+            self.check_instrument_keywords(xmlFile)
+            self.check_theme_keywords(xmlFile)
+            self.check_place_keywords(xmlFile)
+            self.delete_csv_if_no_invalid_keywords_found(xmlFile)
+        except Exception:
+            print(xmlFile + " failed assessment")
+            os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(xmlFile)[0]) + '.csv')
+
+    def find_xml_files(self, source_dir):
         for root, dirnames, filenames in os.walk(source_dir, followlinks=True):
             for filename in fnmatch.filter(filenames, '*.xml'):
                 self.xmlFiles.append(os.path.join(root, filename))
@@ -37,6 +55,17 @@ class GCMD:
             if row_count == 1:
                 print("no invalid GCMD keywords found in this file")
                 os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv')
+
+    def run_checker(self):
+        if os.path.isdir(self.get_target_argument()):
+        # batch processing
+            xmlFiles = self.find_xml_files(gcmd.get_target_argument())
+            for xmlFile in xmlFiles:
+                self.process(xmlFile)
+        else:
+        # single file processing
+            xmlFile = self.get_target_argument()
+            self.process(xmlFile)
 
 
     # THEME KEYWORDS
@@ -576,50 +605,13 @@ class GCMD:
 
 # __main__
 if __name__ == '__main__':
+    ''' 
+    run python -u gcmd.py | tee output.log to see CLI output and get log file 
+    '''
     start = time.time()
-    ''' run python -u gcmd.py | tee output.log to see CLI output and get log file '''
 
     gcmd = GCMD()
-    #testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml" 
-    #testfile = "./collection_test_files/GHRSST-ABOM-L4LRfnd-GLOB-GAMSSA_28km.xml" 
-    #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml"
-    #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/NDBC-CMANWx.xml"
-    #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/NDBC-COOPS.xml"
-    #testfile = "/nodc/web/data.nodc/htdocs/nodc/archive/metadata/approved/iso/0131830.xml"
-    #testfile = "./collection_test_files/MGL1111_SubbottomProfiler.xml" # empty namespace prefix problem
-
-    
-    # batch processing
-    xmlFiles = gcmd.find_xml_files()
-
-    for testfile in xmlFiles:
-        try:
-            gcmd.create_results_csv(testfile)
-            gcmd.check_project_keywords(testfile)
-            gcmd.check_datacenter_keywords(testfile)
-            gcmd.check_platform_keywords(testfile)
-            gcmd.check_instrument_keywords(testfile)
-            gcmd.check_theme_keywords(testfile)
-            gcmd.check_place_keywords(testfile)
-            gcmd.delete_csv_if_no_invalid_keywords_found(testfile)
-        except Exception:
-            print(testfile + " failed assessment")
-            os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(testfile)[0]) + '.csv')
-
-    # single file processing
-    '''try:
-        gcmd.create_results_csv(testfile)
-        gcmd.check_project_keywords(testfile)
-        gcmd.check_datacenter_keywords(testfile)
-        gcmd.check_platform_keywords(testfile)
-        gcmd.check_instrument_keywords(testfile)
-        gcmd.check_theme_keywords(testfile)
-        gcmd.check_place_keywords(testfile)
-        gcmd.delete_csv_if_no_invalid_keywords_found(testfile)
-    except Exception:
-        print(testfile + " failed assessment")
-        os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(testfile)[0]) + '.csv')'''
-    
+    gcmd.run_checker()
 
     print('The program took ', time.time() - start, 'seconds to complete.')
 

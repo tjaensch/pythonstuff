@@ -11,7 +11,7 @@ class Testgcmd(unittest.TestCase):
     def setUp(self):
         gcmd = GCMD()
         testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml"
-        self.xmlFiles = gcmd.find_xml_files()
+        self.xmlFiles = gcmd.find_xml_files("./collection_test_files")
         gcmd.create_results_csv("blank_file.xml")
         gcmd.delete_csv_if_no_invalid_keywords_found("blank_file.xml")
         # THEME KEYWORDS
