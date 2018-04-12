@@ -9,10 +9,13 @@ from os.path import basename
 
 
 class GCMD:
-    """docstring for gcmd"""
+    """
+    GCMD keyword checker that checks for valid GCMD <gmd:thesaurusName> keywords in ISO metadata XML files according to the CSV specs from here https://gcmdservices.gsfc.nasa.gov/static/kms/ 
+    Questions/issues: thomas.jaensch@noaa.gov
+    """
 
     def __init__(self):
-        self.xmlFiles = []
+        pass
 
     def get_target_argument(self):
         ap = argparse.ArgumentParser()
@@ -35,6 +38,7 @@ class GCMD:
             os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(xmlFile)[0]) + '.csv')
 
     def find_xml_files(self, source_dir):
+        self.xmlFiles = []
         for root, dirnames, filenames in os.walk(source_dir, followlinks=True):
             for filename in fnmatch.filter(filenames, '*.xml'):
                 self.xmlFiles.append(os.path.join(root, filename))
@@ -59,7 +63,7 @@ class GCMD:
     def run_checker(self):
         if os.path.isdir(self.get_target_argument()):
         # batch processing
-            xmlFiles = self.find_xml_files(gcmd.get_target_argument())
+            xmlFiles = self.find_xml_files(self.get_target_argument())
             for xmlFile in xmlFiles:
                 self.process(xmlFile)
         else:
@@ -605,9 +609,9 @@ class GCMD:
 
 # __main__
 if __name__ == '__main__':
-    ''' 
-    run python -u gcmd.py | tee output.log to see CLI output and get log file 
-    '''
+    """
+    run python -u gcmd.py | tee output.log to see CLI output AND get log file 
+    """
     start = time.time()
 
     gcmd = GCMD()
