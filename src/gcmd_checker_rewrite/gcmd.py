@@ -10,7 +10,7 @@ from os.path import basename
 
 class GCMD:
     """
-    GCMD keyword checker that checks for valid GCMD <gmd:thesaurusName> keywords in ISO metadata XML files according to the CSV specs from here https://gcmdservices.gsfc.nasa.gov/static/kms/ 
+    GCMD keyword checker that checks for invalid GCMD <gmd:thesaurusName> keywords in ISO metadata XML files according to the CSV specs from here https://gcmdservices.gsfc.nasa.gov/static/kms/ 
     Questions/issues: thomas.jaensch@noaa.gov
     """
 

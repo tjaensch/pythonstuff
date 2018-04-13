@@ -1,11 +1,12 @@
 # GCMD KEYWORD CHECKER
 
-## GCMD keyword checker that checks for valid GCMD <gmd:thesaurusName> keywords in ISO metadata XML files according to the CSV specs from here https://gcmdservices.gsfc.nasa.gov/static/kms/ 
+## GCMD keyword checker that checks for invalid GCMD <gmd:thesaurusName> keywords in ISO metadata XML files according to the CSV specs from here https://gcmdservices.gsfc.nasa.gov/static/kms/ 
 
 ### Questions/issues: thomas.jaensch@noaa.gov
 
 ## Requirements
-This CLI tool has been written and tested for Python 2.7 without any use of 3rd party libraries.
+
+This CLI tool has been written and tested for Python 2.7 on macOS and Linux without any use of 3rd party libraries.
 
 ## Usage
 
@@ -25,4 +26,4 @@ This CLI tool has been written and tested for Python 2.7 without any use of 3rd 
 
 ## Results
 
-The program will generate command line output and also a CSV file if any invalid keywords were found inside of the directory where the program was run. If no invalid keywords were found, it will say so on the command line but no CSV file will be created. If the program fails to run it will say so on the command line.
+The program will generate command line output and also a CSV file if any invalid GCMD keywords were found inside of the directory where the program was run. If no invalid GCMD keywords were found, it will say so on the command line but no CSV file will be created. If the program fails to run it will say so on the command line.
