@@ -61,7 +61,7 @@ class GCMD:
                 os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv')
 
     def get_similar_keywords(self, modelKeywordsList, keyword):
-        similarKeywords = [s for s in modelKeywordsList if keyword in s]
+        similarKeywords = [s for s in modelKeywordsList if keyword.upper() in s.upper()]
         # make set to remove duplicates and back to list to be able to access elements 
         list(set(similarKeywords))
         similarKeywordsList = []
