@@ -119,7 +119,7 @@ class GCMD:
             if keyword not in modelThemeKeywordsList:
                 print("invalid theme keyword: " + keyword)
                 # find similar keywords
-                similarKeywords = self.get_similar_place_keywords(modelThemeKeywordsList, keyword)
+                similarKeywords = self.get_similar_theme_keywords(modelThemeKeywordsList, keyword)
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "theme", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]]) 
@@ -209,7 +209,7 @@ class GCMD:
                 if keyword not in modelDatacenterKeywordsList:
                     print("invalid datacenter keyword: " + keyword)
                     # find similar keywords
-                    similarKeywords = self.get_similar_place_keywords(modelDatacenterKeywordsList, keyword)
+                    similarKeywords = self.get_similar_datacenter_keywords(modelDatacenterKeywordsList, keyword)
                     with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                         writer = csv.writer(f)
                         writer.writerow([keyword, "datacenter", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]]) 
@@ -387,7 +387,7 @@ class GCMD:
             if keyword not in modelPlatformKeywordsList:
                 print("invalid platform keyword: " + keyword)
                 # find similar keywords
-                similarKeywords = self.get_similar_place_keywords(modelPlatformKeywordsList, keyword)
+                similarKeywords = self.get_similar_platform_keywords(modelPlatformKeywordsList, keyword)
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "platform", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
@@ -477,7 +477,7 @@ class GCMD:
             if keyword not in modelInstrumentKeywordsList:
                 print("invalid instrument keyword: " + keyword)
                 # find similar keywords
-                similarKeywords = self.get_similar_place_keywords(modelInstrumentKeywordsList, keyword)
+                similarKeywords = self.get_similar_instrument_keywords(modelInstrumentKeywordsList, keyword)
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "instrument", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
@@ -567,7 +567,7 @@ class GCMD:
             if keyword not in modelProjectKeywordsList:
                 print("invalid project keyword: " + keyword)
                 # find similar keywords
-                similarKeywords = self.get_similar_place_keywords(modelProjectKeywordsList, keyword)
+                similarKeywords = self.get_similar_project_keywords(modelProjectKeywordsList, keyword)
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "project", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
