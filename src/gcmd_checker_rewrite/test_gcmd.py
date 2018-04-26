@@ -18,37 +18,37 @@ class Testgcmd(unittest.TestCase):
         self.themeKeywordsList = gcmd.get_theme_keywords(testfile)
         self.themeKeywordsThesauriList = gcmd.get_theme_keywords_thesauri(testfile)
         self.modelThemeKeywordsList = gcmd.get_model_theme_keywords_list()
-        self.similarThemeKeywords = gcmd.get_similar_theme_keywords(self.modelThemeKeywordsList, "OCEANOGRAPHY")
+        self.similarThemeKeywords = gcmd.get_similar_keywords(self.modelThemeKeywordsList, "OCEANOGRAPHY")
         gcmd.check_theme_keywords(testfile)
         # DATACENTER KEYWORDS
         self.datacenterKeywordsList = gcmd.get_datacenter_keywords(testfile)
         self.datacenterKeywordsThesauriList = gcmd.get_datacenter_keywords_thesauri(testfile)
         self.modelDatacenterKeywordsList = gcmd.get_model_datacenter_keywords_list()
-        self.similarDatacenterKeywords = gcmd.get_similar_datacenter_keywords(self.modelDatacenterKeywordsList, "DOC/NOAA/NESDIS/NCEI")
+        self.similarDatacenterKeywords = gcmd.get_similar_keywords(self.modelDatacenterKeywordsList, "DOC/NOAA/NESDIS/NCEI")
         gcmd.check_datacenter_keywords(testfile)
         # PLACE KEYWORDS
         self.placeKeywordsList = gcmd.get_place_keywords(testfile)
         self.placeKeywordsThesauriList = gcmd.get_place_keywords_thesauri(testfile)
         self.modelPlaceKeywordsList = gcmd.get_model_place_keywords_list()
-        self.similarPlaceKeywords = gcmd.get_similar_place_keywords(self.modelPlaceKeywordsList, "ARABIAN SEA")
+        self.similarPlaceKeywords = gcmd.get_similar_keywords(self.modelPlaceKeywordsList, "ARABIAN SEA")
         gcmd.check_place_keywords(testfile)
         # PLATFORM KEYWORDS
         self.platformKeywordsList = gcmd.get_platform_keywords(testfile)
         self.platformKeywordsThesauriList = gcmd.get_platform_keywords_thesauri(testfile)
         self.modelPlatformKeywordsList = gcmd.get_model_platform_keywords_list()
-        self.similarPlatformKeywords = gcmd.get_similar_platform_keywords(self.modelPlatformKeywordsList, "METOP-A")
+        self.similarPlatformKeywords = gcmd.get_similar_keywords(self.modelPlatformKeywordsList, "METOP-A")
         gcmd.check_platform_keywords(testfile)
         # INSTRUMENT KEYWORDS
         self.instrumentKeywordsList = gcmd.get_instrument_keywords(testfile)
         self.instrumentKeywordsThesauriList = gcmd.get_instrument_keywords_thesauri(testfile)
         self.modelInstrumentKeywordsList = gcmd.get_model_instrument_keywords_list()
-        self.similarInstrumentKeywords = gcmd.get_similar_instrument_keywords(self.modelInstrumentKeywordsList, "AVHRR-3")
+        self.similarInstrumentKeywords = gcmd.get_similar_keywords(self.modelInstrumentKeywordsList, "AVHRR-3")
         gcmd.check_instrument_keywords(testfile)
         # PROJECT KEYWORDS
         self.projectKeywordsList = gcmd.get_project_keywords(testfile)
         self.projectKeywordsThesauriList = gcmd.get_project_keywords_thesauri(testfile)
         self.modelProjectKeywordsList = gcmd.get_model_project_keywords_list()
-        self.similarProjectKeywords = gcmd.get_similar_project_keywords(self.modelProjectKeywordsList, "OneStop")
+        self.similarProjectKeywords = gcmd.get_similar_keywords(self.modelProjectKeywordsList, "OneStop")
         gcmd.check_project_keywords(testfile)
 
     def test_find_xml_files(self):
@@ -79,7 +79,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("EARTH SCIENCE > ATMOSPHERE > WEATHER EVENTS > TROPICAL CYCLONES > MINIMUM CENTRAL PRESSURE > TYPHOONS (WESTERN N. PACIFIC)" in self.modelThemeKeywordsList)
         self.assertFalse("BLAH" in self.modelThemeKeywordsList)
 
-    def test_get_similar_theme_keywords(self):
+    def test_get_similar_keywords(self):
         self.assertTrue(len(self.similarThemeKeywords) == 3)
         self.assertTrue("EARTH SCIENCE SERVICES > REFERENCE AND INFORMATION SERVICES > DIGITAL/VIRTUAL REFERENCE DESKS > ASK-A OCEANOGRAPHER" in self.similarThemeKeywords)
         self.assertTrue("N/A" in self.similarThemeKeywords)
@@ -110,7 +110,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("DOC/NOAA/OOE > Office of Ocean Exploration, National Oceanic and Atmospheric Administration, U.S. Department of Commerce" in self.modelDatacenterKeywordsList)
         self.assertFalse("BLAH" in self.modelDatacenterKeywordsList)
 
-    def test_get_similar_datacenter_keywords(self):
+    def test_get_similar_keywords(self):
         self.assertTrue(len(self.similarDatacenterKeywords) == 3)
         self.assertTrue("DOC/NOAA/NESDIS/NCEI > National Centers for Environmental Information, NESDIS, NOAA, U.S. Department of Commerce" in self.similarDatacenterKeywords)
         self.assertTrue("N/A" in self.similarDatacenterKeywords)
@@ -141,7 +141,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("CONTINENT > EUROPE > NORTHERN EUROPE > SCANDINAVIA > ALAND ISLANDS" in self.modelPlaceKeywordsList)
         self.assertFalse("OUTER SPACE > MARS" in self.modelPlaceKeywordsList)
 
-    def test_get_similar_place_keywords(self):
+    def test_get_similar_keywords(self):
         self.assertTrue(len(self.similarPlaceKeywords) == 3)
         self.assertTrue("OCEAN > INDIAN OCEAN > ARABIAN SEA" in self.similarPlaceKeywords)
         self.assertTrue("N/A" in self.similarPlaceKeywords)
@@ -172,7 +172,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("Earth Observation Satellites > SCISAT-1/ACE > Atmospheric Chemistry Experiment" in self.modelPlatformKeywordsList)
         self.assertFalse("BLAH" in self.modelPlatformKeywordsList)
 
-    def test_get_similar_platform_keywords(self):
+    def test_get_similar_keywords(self):
         self.assertTrue(len(self.similarPlatformKeywords) == 3)
         self.assertTrue("Earth Observation Satellites > METOP > METOP-A > Meteorological Operational Satellite - A" in self.similarPlatformKeywords)
         self.assertTrue("N/A" in self.similarPlatformKeywords)
@@ -202,7 +202,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("Earth Remote Sensing Instruments > Passive Remote Sensing > Profilers/Sounders > HIWRAP > High-Altitude Imaging Wind and Rain Airborne Profiler" in self.modelInstrumentKeywordsList)
         self.assertFalse("SOME > INSTRUMENT > DUDE" in self.modelInstrumentKeywordsList)
 
-    def test_get_similar_instrument_keywords(self):
+    def test_get_similar_keywords(self):
         self.assertTrue(len(self.similarInstrumentKeywords) == 3)
         self.assertTrue("Earth Remote Sensing Instruments > Passive Remote Sensing > Spectrometers/Radiometers > Imaging Spectrometers/Radiometers > AVHRR-3 > Advanced Very High Resolution Radiometer-3" in self.similarInstrumentKeywords)
         self.assertTrue("N/A" in self.similarInstrumentKeywords)
@@ -231,7 +231,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("NOAA OneStop Project" in self.modelProjectKeywordsList)
         self.assertFalse("BLAH > Dude" in self.modelProjectKeywordsList)
 
-    def test_get_similar_project_keywords(self):
+    def test_get_similar_keywords(self):
         self.assertTrue(len(self.similarProjectKeywords) == 3)
         self.assertTrue("NOAA OneStop Project" in self.similarProjectKeywords)
         self.assertTrue("N/A" in self.similarProjectKeywords)
