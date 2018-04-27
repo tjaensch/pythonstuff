@@ -74,7 +74,7 @@ class GCMD:
         if (len(set(similarKeywordsList)) <= 1):
             similarKeywordsList = []
             keywordSubstring = keyword[0:len(keyword)/2]
-            similarKeywords = [s for s in modelKeywordsList if keywordSubstring in s]
+            similarKeywords = [s for s in modelKeywordsList if keywordSubstring.upper() in s.upper()]
             for i in range(0,3):
                 try:
                     similarKeywordsList.append(similarKeywords[i])
@@ -84,7 +84,7 @@ class GCMD:
         if (len(set(similarKeywordsList)) <= 1):
             similarKeywordsList = []
             keywordSubstring = keyword[0:len(keyword)/3]
-            similarKeywords = [s for s in modelKeywordsList if keywordSubstring in s]
+            similarKeywords = [s for s in modelKeywordsList if keywordSubstring.upper() in s.upper()]
             for i in range(0,3):
                 try:
                     similarKeywordsList.append(similarKeywords[i])
