@@ -6,6 +6,7 @@ import os
 import urllib2
 from lxml import etree as et
 from os.path import basename
+from shutil import copyfile
 
 
 class GCMD:
@@ -59,6 +60,16 @@ class GCMD:
             if row_count == 1:
                 print("no invalid GCMD keywords found in this file")
                 os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv')
+
+    def create_xml_copy(self, file):
+        copyfile(file, "./" + os.path.basename(file))
+
+    def find_best_similar_keyword(self, similarKeywordsList):
+        while "N/A" in similarKeywordsList: similarKeywordsList.remove("N/A")
+        if not similarKeywordsList:
+            return ""
+        else:
+            return min(similarKeywordsList, key=len)
 
     def get_similar_keywords(self, modelKeywordsList, keyword):
         similarKeywords = [s for s in modelKeywordsList if keyword.upper() in s.upper()]
@@ -445,6 +456,8 @@ if __name__ == '__main__':
 
     gcmd = GCMD()
     gcmd.run_checker()
+
+    #gcmd.create_xml_copy("./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml")
 
     print('The program took ', time.time() - start, 'seconds to complete.')
 
