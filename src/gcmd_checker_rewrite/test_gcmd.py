@@ -65,6 +65,7 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse(gcmd.find_best_similar_keyword(["N/A", "N/A", "N/A"]) == "test")
         self.assertTrue(gcmd.find_best_similar_keyword(["test", "testicle", "testosteron"]) == "test")
         self.assertTrue(gcmd.find_best_similar_keyword(["test", "test", "testosteron"]) == "test")
+        self.assertTrue(gcmd.find_best_similar_keyword(["AVHRR-3 > Advanced Very High Resolution Radiometer-3", "N/A"]) == "AVHRR-3 &gt; Advanced Very High Resolution Radiometer-3")
 
     '''# THEME KEYWORDS
     def test_get_theme_keywords(self):

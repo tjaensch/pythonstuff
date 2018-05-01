@@ -69,7 +69,7 @@ class GCMD:
         if not similarKeywordsList:
             return ""
         else:
-            return min(similarKeywordsList, key=len)
+            return min(similarKeywordsList, key=len).replace(">", "&gt;")
 
     def get_similar_keywords(self, modelKeywordsList, keyword):
         similarKeywords = [s for s in modelKeywordsList if keyword.upper() in s.upper()]
