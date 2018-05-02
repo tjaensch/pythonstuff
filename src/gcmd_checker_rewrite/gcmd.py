@@ -1,8 +1,10 @@
 import argparse
 import csv
+import filecmp
 import fnmatch
 import time
 import os
+import shutil
 import urllib2
 from lxml import etree as et
 from os.path import basename
@@ -35,8 +37,10 @@ class GCMD:
             self.check_theme_keywords(xmlFile)
             self.check_place_keywords(xmlFile)
             self.delete_csv_if_no_invalid_keywords_found(xmlFile)
-        except Exception:
+            self.process_xml_copy(xmlFile)
+        except Exception as e:
             print(xmlFile + " failed assessment")
+            print(e)
             os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(xmlFile)[0]) + '.csv')
 
     def find_xml_files(self, source_dir):
@@ -61,16 +65,24 @@ class GCMD:
             if row_count == 1:
                 print("no invalid GCMD keywords found in this file")
                 os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv')
+    
+    def process_xml_copy(self, file):
+        if filecmp.cmp(file, "./" + basename(os.path.splitext(file)[0]) + '_new.xml') == True:
+            os.remove("./" + basename(os.path.splitext(file)[0]) + '_new.xml')
+        else:
+            if not os.path.exists("./improved_xml"):
+                os.makedirs("./improved_xml")
+            shutil.move("./" + basename(os.path.splitext(file)[0]) + '_new.xml', "./improved_xml/" + basename(os.path.splitext(file)[0]) + '.xml')
 
     def create_xml_copy(self, file):
-        copyfile(file, "./" + os.path.basename(file))
+        copyfile(file, "./" + basename(os.path.splitext(file)[0]) + '_new.xml')
 
     def replace_wrong_keyword_in_xml_copy(self, similarKeywordsList, file, keyword):
         bestSimilarKeyword = self.find_best_similar_keyword(similarKeywordsList)
         if bestSimilarKeyword == "":
             pass
         else:
-            with open("./" + os.path.basename(file), 'r+') as f:
+            with open("./" + basename(os.path.splitext(file)[0]) + '_new.xml', 'r+') as f:
                 content = f.read()
                 f.seek(0)
                 f.truncate()
