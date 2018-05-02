@@ -13,6 +13,7 @@ class Testgcmd(unittest.TestCase):
         testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml"
         self.xmlFiles = gcmd.find_xml_files("./collection_test_files")
         gcmd.create_results_csv("blank_file.xml")
+        gcmd.create_xml_copy(testfile)
         gcmd.delete_csv_if_no_invalid_keywords_found("blank_file.xml")
         # THEME KEYWORDS
         self.themeKeywordsList = gcmd.get_theme_keywords(testfile)
@@ -66,8 +67,9 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue(gcmd.find_best_similar_keyword(["test", "testicle", "testosteron"]) == "test")
         self.assertTrue(gcmd.find_best_similar_keyword(["test", "test", "testosteron"]) == "test")
         self.assertTrue(gcmd.find_best_similar_keyword(["AVHRR-3 > Advanced Very High Resolution Radiometer-3", "N/A"]) == "AVHRR-3 &gt; Advanced Very High Resolution Radiometer-3")
+        # self.assertTrue(gcmd.find_best_similar_keyword(["NOAA-17 > National Oceanic & Atmospheric Administration-17", "N/A"]) == "Earth Observation Satellites &gt; NOAA POES (Polar Orbiting Environmental Satellites) &gt; NOAA-17 &gt; National Oceanic &amp; Atmospheric Administration-17")
 
-    '''# THEME KEYWORDS
+    # THEME KEYWORDS
     def test_get_theme_keywords(self):
         self.assertTrue(len(self.themeKeywordsList) == 2)
         self.assertTrue("EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE > SEA SURFACE TEMPERATURE" in self.themeKeywordsList)
@@ -182,7 +184,6 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("BLAH" in self.modelPlatformKeywordsList)
 
     def test_get_similar_keywords(self):
-        self.assertTrue(len(self.similarPlatformKeywords) == 3)
         self.assertTrue("Earth Observation Satellites > METOP > METOP-A > Meteorological Operational Satellite - A" in self.similarPlatformKeywords)
         self.assertTrue("N/A" in self.similarPlatformKeywords)
 
@@ -212,7 +213,7 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("SOME > INSTRUMENT > DUDE" in self.modelInstrumentKeywordsList)
 
     def test_get_similar_keywords(self):
-        self.assertTrue(len(self.similarInstrumentKeywords) == 3)
+        self.assertTrue(len(self.similarInstrumentKeywords) > 0)
         self.assertTrue("Earth Remote Sensing Instruments > Passive Remote Sensing > Spectrometers/Radiometers > Imaging Spectrometers/Radiometers > AVHRR-3 > Advanced Very High Resolution Radiometer-3" in self.similarInstrumentKeywords)
         self.assertTrue("N/A" in self.similarInstrumentKeywords)
 
@@ -241,7 +242,7 @@ class Testgcmd(unittest.TestCase):
         self.assertFalse("BLAH > Dude" in self.modelProjectKeywordsList)
 
     def test_get_similar_keywords(self):
-        self.assertTrue(len(self.similarProjectKeywords) == 3)
+        self.assertTrue(len(self.similarProjectKeywords) > 0)
         self.assertTrue("NOAA OneStop Project" in self.similarProjectKeywords)
         self.assertTrue("N/A" in self.similarProjectKeywords)
 
@@ -249,7 +250,7 @@ class Testgcmd(unittest.TestCase):
         with open('invalid_GCMD_keywords_results_GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.csv') as f:
             s = f.read()
         self.assertFalse("NOAA OneStop Project" in s)
-        self.assertFalse("AAE > Australasian Antarctic Expedition of 1911-14" in s)'''
+        self.assertFalse("AAE > Australasian Antarctic Expedition of 1911-14" in s)
 
 # __main__
 if __name__ == '__main__':

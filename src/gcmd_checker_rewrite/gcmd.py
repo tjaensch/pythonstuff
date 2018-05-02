@@ -27,6 +27,7 @@ class GCMD:
     def process(self, xmlFile):
         try:
             self.create_results_csv(xmlFile)
+            self.create_xml_copy(xmlFile)
             self.check_project_keywords(xmlFile)
             self.check_datacenter_keywords(xmlFile)
             self.check_platform_keywords(xmlFile)
@@ -64,19 +65,35 @@ class GCMD:
     def create_xml_copy(self, file):
         copyfile(file, "./" + os.path.basename(file))
 
+    def replace_wrong_keyword_in_xml_copy(self, similarKeywordsList, file, keyword):
+        bestSimilarKeyword = self.find_best_similar_keyword(similarKeywordsList)
+        if bestSimilarKeyword == "":
+            pass
+        else:
+            with open("./" + os.path.basename(file), 'r+') as f:
+                content = f.read()
+                f.seek(0)
+                f.truncate()
+                # replace "&" and ">" in keywords from CSV to be inserted into XML
+                keyword = keyword.replace("&", "&amp;")
+                f.write(content.replace("<gco:CharacterString>" + keyword.replace(">", "&gt;"), "<gco:CharacterString>" + bestSimilarKeyword))
+
+
     def find_best_similar_keyword(self, similarKeywordsList):
         while "N/A" in similarKeywordsList: similarKeywordsList.remove("N/A")
         if not similarKeywordsList:
             return ""
         else:
-            return min(similarKeywordsList, key=len).replace(">", "&gt;")
+            # replace "&" and ">" in keywords from CSV to be inserted into XML
+            similarKeyword = min(similarKeywordsList, key=len).replace("&", "&amp;")
+            return similarKeyword.replace(">", "&gt;")
 
     def get_similar_keywords(self, modelKeywordsList, keyword):
         similarKeywords = [s for s in modelKeywordsList if keyword.upper() in s.upper()]
         # make set to remove duplicates and back to list to be able to access elements 
         list(set(similarKeywords))
         similarKeywordsList = []
-        for i in range(0,3):
+        for i in range(0,100):
             try:
                 similarKeywordsList.append(similarKeywords[i])
             except IndexError:
@@ -86,7 +103,7 @@ class GCMD:
             similarKeywordsList = []
             keywordSubstring = keyword[0:len(keyword)/2]
             similarKeywords = [s for s in modelKeywordsList if keywordSubstring.upper() in s.upper()]
-            for i in range(0,3):
+            for i in range(0,100):
                 try:
                     similarKeywordsList.append(similarKeywords[i])
                 except IndexError:
@@ -96,7 +113,7 @@ class GCMD:
             similarKeywordsList = []
             keywordSubstring = keyword[0:len(keyword)/3]
             similarKeywords = [s for s in modelKeywordsList if keywordSubstring.upper() in s.upper()]
-            for i in range(0,3):
+            for i in range(0,100):
                 try:
                     similarKeywordsList.append(similarKeywords[i])
                 except IndexError:
@@ -167,7 +184,8 @@ class GCMD:
                 similarKeywords = self.get_similar_keywords(modelThemeKeywordsList, keyword)
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "theme", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])  
+                    writer.writerow([keyword, "theme", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
+                self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END THEME KEYWORDS
 
     # DATA CENTER KEYWORDS
@@ -223,7 +241,8 @@ class GCMD:
                     similarKeywords = self.get_similar_keywords(modelDatacenterKeywordsList, keyword)
                     with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                         writer = csv.writer(f)
-                        writer.writerow([keyword, "datacenter", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]]) 
+                        writer.writerow([keyword, "datacenter", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
+                    self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END DATACENTER KEYWORDS
 
     # PLACE KEYWORDS
@@ -277,6 +296,7 @@ class GCMD:
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "place", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
+                self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END PLACE KEYWORDS
     
     # PLATFORM KEYWORDS
@@ -333,6 +353,7 @@ class GCMD:
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "platform", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
+                self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END PLATFORM KEYWORDS
     
     # INSTRUMENT KEYWORDS
@@ -389,6 +410,7 @@ class GCMD:
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "instrument", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
+                self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END INSTRUMENT KEYWORDS
     
     # PROJECT KEYWORDS
@@ -445,6 +467,7 @@ class GCMD:
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "project", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
+                self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END PROJECT KEYWORDS
 
 # __main__
