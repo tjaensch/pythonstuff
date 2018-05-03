@@ -20,11 +20,11 @@ class GCMD:
     def __init__(self):
         pass
 
-    def get_target_argument(self):
+    def get_flag_arguments(self):
         ap = argparse.ArgumentParser()
         ap.add_argument("-t", "--target", required=True, help="target file or folder")
         args = vars(ap.parse_args())
-        return args["target"]
+        return args
 
     def process(self, xmlFile):
         try:
@@ -142,14 +142,14 @@ class GCMD:
         return similarKeywordsList 
 
     def run_checker(self):
-        if os.path.isdir(self.get_target_argument()):
+        if os.path.isdir(self.get_flag_arguments()["target"]):
         # batch processing
-            xmlFiles = self.find_xml_files(self.get_target_argument())
+            xmlFiles = self.find_xml_files(self.flag_arguments()["target"])
             for xmlFile in xmlFiles:
                 self.process(xmlFile)
         else:
         # single file processing
-            xmlFile = self.get_target_argument()
+            xmlFile = self.get_flag_arguments()["target"]
             self.process(xmlFile)
 
 
