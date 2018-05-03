@@ -43,10 +43,12 @@ class GCMD:
             print(xmlFile + " failed assessment")
             print(e)
             os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(xmlFile)[0]) + '.csv')
+            os.remove(basename(os.path.splitext(xmlFile)[0]) + '_new.xml')
 
     def cleanup(self):
+        # delete empty dir
         if not os.listdir("./improved_xml/"):
-            os.rmdir("./improved_xml/")    
+            os.rmdir("./improved_xml/") 
 
     def find_xml_files(self, source_dir):
         self.xmlFiles = []
