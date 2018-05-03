@@ -38,10 +38,15 @@ class GCMD:
             self.check_place_keywords(xmlFile)
             self.delete_csv_if_no_invalid_keywords_found(xmlFile)
             self.process_xml_copy(xmlFile)
+            self.cleanup()
         except Exception as e:
             print(xmlFile + " failed assessment")
             print(e)
             os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(xmlFile)[0]) + '.csv')
+
+    def cleanup(self):
+        if not os.listdir("./improved_xml/"):
+            os.rmdir("./improved_xml/")    
 
     def find_xml_files(self, source_dir):
         self.xmlFiles = []
