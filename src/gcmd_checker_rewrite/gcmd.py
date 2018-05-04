@@ -23,13 +23,14 @@ class GCMD:
     def get_flag_arguments(self):
         ap = argparse.ArgumentParser()
         ap.add_argument("-t", "--target", required=True, help="target file or folder")
+        ap.add_argument("-n", "--new", action='store_true', help="make XML copy of original target file/s with improved GCMD keywords which will be saved into 'improved_xml' subfolder of current directory")
         args = vars(ap.parse_args())
         return args
 
     def process(self, xmlFile):
         try:
             self.create_results_csv(xmlFile)
-            self.create_xml_copy(xmlFile)
+            if self.get_flag_arguments()["new"]: self.create_xml_copy(xmlFile)
             self.check_project_keywords(xmlFile)
             self.check_datacenter_keywords(xmlFile)
             self.check_platform_keywords(xmlFile)
@@ -37,18 +38,20 @@ class GCMD:
             self.check_theme_keywords(xmlFile)
             self.check_place_keywords(xmlFile)
             self.delete_csv_if_no_invalid_keywords_found(xmlFile)
-            self.process_xml_copy(xmlFile)
+            if self.get_flag_arguments()["new"]: self.process_xml_copy(xmlFile)
             self.cleanup()
         except Exception as e:
             print(xmlFile + " failed assessment")
             print(e)
             os.remove('invalid_GCMD_keywords_results_' + basename(os.path.splitext(xmlFile)[0]) + '.csv')
-            os.remove(basename(os.path.splitext(xmlFile)[0]) + '_new.xml')
+            if os.path.exists("./" + basename(os.path.splitext(xmlFile)[0]) + '_new.xml'):
+                os.remove("./" + basename(os.path.splitext(xmlFile)[0]) + '_new.xml')
 
     def cleanup(self):
-        # delete empty dir
-        if not os.listdir("./improved_xml/"):
-            os.rmdir("./improved_xml/") 
+        if os.path.isdir("./improved_xml/"):
+            # delete if directory empty
+            if not os.listdir("./improved_xml/"):
+                os.rmdir("./improved_xml/") 
 
     def find_xml_files(self, source_dir):
         self.xmlFiles = []
@@ -144,7 +147,7 @@ class GCMD:
     def run_checker(self):
         if os.path.isdir(self.get_flag_arguments()["target"]):
         # batch processing
-            xmlFiles = self.find_xml_files(self.flag_arguments()["target"])
+            xmlFiles = self.find_xml_files(self.get_flag_arguments()["target"])
             for xmlFile in xmlFiles:
                 self.process(xmlFile)
         else:
@@ -204,7 +207,7 @@ class GCMD:
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "theme", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
-                self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
+                if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END THEME KEYWORDS
 
     # DATA CENTER KEYWORDS
@@ -261,7 +264,7 @@ class GCMD:
                     with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                         writer = csv.writer(f)
                         writer.writerow([keyword, "datacenter", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
-                    self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
+                    if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END DATACENTER KEYWORDS
 
     # PLACE KEYWORDS
@@ -315,7 +318,7 @@ class GCMD:
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "place", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
-                self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
+                if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END PLACE KEYWORDS
     
     # PLATFORM KEYWORDS
@@ -372,7 +375,7 @@ class GCMD:
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "platform", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
-                self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
+                if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END PLATFORM KEYWORDS
     
     # INSTRUMENT KEYWORDS
@@ -429,7 +432,7 @@ class GCMD:
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "instrument", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
-                self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
+                if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END INSTRUMENT KEYWORDS
     
     # PROJECT KEYWORDS
@@ -486,7 +489,7 @@ class GCMD:
                 with open('invalid_GCMD_keywords_results_' + basename(os.path.splitext(file)[0]) + '.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([keyword, "project", basename(os.path.splitext(file)[0]) + '.xml', similarKeywords[0], similarKeywords[1], similarKeywords[2]])
-                self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
+                if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END PROJECT KEYWORDS
 
 # __main__
