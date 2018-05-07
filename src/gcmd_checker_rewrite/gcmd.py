@@ -110,6 +110,22 @@ class GCMD:
             similarKeyword = min(similarKeywordsList, key=len).replace("&", "&amp;")
             return similarKeyword.replace(">", "&gt;")
 
+    def find_three_best_similar_keywords(self, similarKeywordsList):
+        while "N/A" in similarKeywordsList: similarKeywordsList.remove("N/A")
+        if not similarKeywordsList:
+            return ["N/A", "N/A", "N/A"]
+        else:
+            similarKeywordsList.sort(key = lambda s: len(s))
+            try:
+                similarKeywordsList[1]
+            except IndexError:
+                similarKeywordsList.append("N/A")
+            try:
+                similarKeywordsList[2]
+            except IndexError:
+                similarKeywordsList.append("N/A")
+            return similarKeywordsList[:3]
+
     def get_similar_keywords(self, modelKeywordsList, keyword):
         similarKeywords = [s for s in modelKeywordsList if keyword.upper() in s.upper()]
         # make set to remove duplicates and back to list to be able to access elements 
