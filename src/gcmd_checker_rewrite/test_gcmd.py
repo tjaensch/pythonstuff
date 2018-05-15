@@ -185,8 +185,8 @@ class Testgcmd(unittest.TestCase):
 
     def test_get_model_platform_keywords_list(self):
         self.assertTrue(len(self.modelPlatformKeywordsList) > 850)
-        self.assertTrue("Aircraft > A340-600 > Airbus A340-600" in self.modelPlatformKeywordsList)
-        self.assertTrue("Earth Observation Satellites > SCISAT-1/ACE > Atmospheric Chemistry Experiment" in self.modelPlatformKeywordsList)
+        self.assertTrue("A340-600 > Airbus A340-600" in self.modelPlatformKeywordsList)
+        self.assertTrue("SCISAT-1/ACE > Atmospheric Chemistry Experiment" in self.modelPlatformKeywordsList)
         self.assertFalse("BLAH" in self.modelPlatformKeywordsList)
 
     def test_get_similar_keywords(self):
@@ -215,8 +215,8 @@ class Testgcmd(unittest.TestCase):
 
     def test_get_model_instrument_keywords_list(self):
         self.assertTrue(len(self.modelInstrumentKeywordsList) > 1500)
-        self.assertTrue("Earth Remote Sensing Instruments > Active Remote Sensing > Altimeters > Lidar/Laser Altimeters > AIRBORNE LASER SCANNER" in self.modelInstrumentKeywordsList)
-        self.assertTrue("Earth Remote Sensing Instruments > Passive Remote Sensing > Profilers/Sounders > HIWRAP > High-Altitude Imaging Wind and Rain Airborne Profiler" in self.modelInstrumentKeywordsList)
+        self.assertTrue("AIRBORNE LASER SCANNER" in self.modelInstrumentKeywordsList)
+        self.assertTrue("HIWRAP > High-Altitude Imaging Wind and Rain Airborne Profiler" in self.modelInstrumentKeywordsList)
         self.assertFalse("SOME > INSTRUMENT > DUDE" in self.modelInstrumentKeywordsList)
 
     def test_get_similar_keywords(self):

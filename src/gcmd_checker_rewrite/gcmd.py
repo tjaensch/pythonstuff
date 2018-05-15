@@ -368,10 +368,10 @@ class GCMD:
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/platforms/platforms.csv"))
         for row in data:
             try:
-                keyword = row[0].strip()
+                keyword = row[2].strip()
             except IndexError:
                 continue
-            for i in range(1,4):
+            for i in range(3,4):
                 try:
                     if row[i] != "":
                         keyword = keyword + " > " + row[i].strip()
@@ -426,10 +426,10 @@ class GCMD:
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/instruments/instruments.csv"))
         for row in data:
             try:
-                keyword = row[0].strip()
+                keyword = row[4].strip()
             except IndexError:
                 continue
-            for i in range(1,6):
+            for i in range(5,6):
                 try:
                     if row[i] != "":
                         keyword = keyword + " > " + row[i].strip()
