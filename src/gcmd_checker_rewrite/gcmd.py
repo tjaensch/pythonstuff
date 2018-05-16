@@ -98,7 +98,7 @@ class GCMD:
                 f.truncate()
                 # replace "&" and ">" in keywords from CSV to be inserted into XML
                 keyword = keyword.replace("&", "&amp;")
-                f.write(content.replace("<gco:CharacterString>" + keyword.replace(">", "&gt;"), "<gco:CharacterString>" + bestSimilarKeyword))
+                f.write(content.replace("<gco:CharacterString>" + keyword.replace(">", "&gt;") + "</gco:CharacterString>", "<gco:CharacterString>" + bestSimilarKeyword + "</gco:CharacterString>"))
 
 
     def find_best_similar_keyword(self, similarKeywordsList):
