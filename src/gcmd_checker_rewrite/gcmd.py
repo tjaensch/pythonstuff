@@ -29,7 +29,7 @@ class GCMD:
 
     def process(self, xmlFile):
         try:
-            print('processing' + basename(os.path.splitext(xmlFile)[0]) + '.xml')
+            print('processing ' + basename(os.path.splitext(xmlFile)[0]) + '.xml')
             if self.get_flag_arguments()["new"]: self.create_xml_copy(xmlFile)
             self.check_project_keywords(xmlFile)
             self.check_datacenter_keywords(xmlFile)
