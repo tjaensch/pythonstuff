@@ -12,9 +12,9 @@ class Testgcmd(unittest.TestCase):
         gcmd = GCMD()
         testfile = "./collection_test_files/GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km.xml"
         self.xmlFiles = gcmd.find_xml_files("./collection_test_files")
-        gcmd.create_results_csv("blank_file.xml")
+        gcmd.create_results_csv()
         gcmd.create_xml_copy(testfile)
-        gcmd.delete_csv_if_no_invalid_keywords_found("blank_file.xml")
+        gcmd.delete_csv_if_no_invalid_keywords_found()
         # THEME KEYWORDS
         self.themeKeywordsList = gcmd.get_theme_keywords(testfile)
         self.themeKeywordsThesauriList = gcmd.get_theme_keywords_thesauri(testfile)
@@ -45,6 +45,9 @@ class Testgcmd(unittest.TestCase):
         self.projectKeywordsThesauriList = gcmd.get_project_keywords_thesauri(testfile)
         self.modelProjectKeywordsList = gcmd.get_model_project_keywords_list()
         self.similarProjectKeywords = gcmd.get_similar_keywords(self.modelProjectKeywordsList, "OneStop")
+
+    def tearDown(self):
+        os.remove('./GHRSST-ABOM-L4HRfnd-AUS-RAMSSA_09km_new.xml')
 
     def test_find_xml_files(self):
         self.assertTrue(len(self.xmlFiles) > 0)
