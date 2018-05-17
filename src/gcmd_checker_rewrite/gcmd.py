@@ -213,10 +213,11 @@ class GCMD:
 
     def check_theme_keywords(self, file):
         modelThemeKeywordsList = self.get_model_theme_keywords_list()
+        modelThemeKeywordsListUppercase = [x.upper() for x in modelThemeKeywordsList]
         themeKeywordsList = self.get_theme_keywords(file)
-        # check if file theme keywords are in modelThemeKeywordsList
+        # check if file theme keywords are in modelThemeKeywordsList ignoring case
         for keyword in themeKeywordsList:
-            if keyword not in modelThemeKeywordsList:
+            if keyword.upper() not in modelThemeKeywordsListUppercase:
                 print("invalid theme keyword: " + keyword)
                 # find similar keywords
                 similarKeywords = self.get_similar_keywords(modelThemeKeywordsList, keyword)
@@ -271,10 +272,11 @@ class GCMD:
 
     def check_datacenter_keywords(self, file):
             modelDatacenterKeywordsList = self.get_model_datacenter_keywords_list()
+            modelDatacenterKeywordsListUppercase = [x.upper() for x in modelDatacenterKeywordsList]
             datacenterKeywordsList = self.get_datacenter_keywords(file)
-            # check if file datacenter keywords are in modelDatacenterKeywordsList
+            # check if file datacenter keywords are in modelDatacenterKeywordsList ignoring case
             for keyword in datacenterKeywordsList:
-                if keyword not in modelDatacenterKeywordsList:
+                if keyword.upper() not in modelDatacenterKeywordsListUppercase:
                     print("invalid datacenter keyword: " + keyword)
                     # find similar keywords
                     similarKeywords = self.get_similar_keywords(modelDatacenterKeywordsList, keyword)
@@ -326,10 +328,11 @@ class GCMD:
 
     def check_place_keywords(self, file):
         modelPlaceKeywordsList = self.get_model_place_keywords_list()
+        modelPlaceKeywordsListUppercase = [x.upper() for x in modelPlaceKeywordsList]
         placeKeywordsList = self.get_place_keywords(file)
-        # check if file place keywords are in modelPlaceKeywordsList
+        # check if file place keywords are in modelPlaceKeywordsList ignoring case
         for keyword in placeKeywordsList:
-            if keyword not in modelPlaceKeywordsList:
+            if keyword.upper() not in modelPlaceKeywordsListUppercase:
                 print("invalid place keyword: " + keyword)
                 # find similar keywords
                 similarKeywords = self.get_similar_keywords(modelPlaceKeywordsList, keyword)
@@ -384,10 +387,11 @@ class GCMD:
 
     def check_platform_keywords(self, file):
         modelPlatformKeywordsList = self.get_model_platform_keywords_list()
+        modelPlatformKeywordsListUppercase = [x.upper() for x in modelPlatformKeywordsList]
         platformKeywordsList = self.get_platform_keywords(file)
-        # check if file platform keywords are in modelPlatformKeywordsList
+        # check if file platform keywords are in modelPlatformKeywordsList ignoring case
         for keyword in platformKeywordsList:
-            if keyword not in modelPlatformKeywordsList:
+            if keyword.upper() not in modelPlatformKeywordsListUppercase:
                 print("invalid platform keyword: " + keyword)
                 # find similar keywords
                 similarKeywords = self.get_similar_keywords(modelPlatformKeywordsList, keyword)
@@ -442,10 +446,11 @@ class GCMD:
 
     def check_instrument_keywords(self, file):
         modelInstrumentKeywordsList = self.get_model_instrument_keywords_list()
+        modelInstrumentKeywordsListUppercase = [x.upper() for x in modelInstrumentKeywordsList]
         instrumentKeywordsList = self.get_instrument_keywords(file)
-        # check if file instrument keywords are in modelInstrumentKeywordsList
+        # check if file instrument keywords are in modelInstrumentKeywordsList ignoring case
         for keyword in instrumentKeywordsList:
-            if keyword not in modelInstrumentKeywordsList:
+            if keyword.upper() not in modelInstrumentKeywordsListUppercase:
                 print("invalid instrument keyword: " + keyword)
                 # find similar keywords
                 similarKeywords = self.get_similar_keywords(modelInstrumentKeywordsList, keyword)
@@ -500,10 +505,11 @@ class GCMD:
 
     def check_project_keywords(self, file):
         modelProjectKeywordsList = self.get_model_project_keywords_list()
+        modelProjectKeywordsListUppercase = [x.upper() for x in modelProjectKeywordsList]
         projectKeywordsList = self.get_project_keywords(file)
-        # check if file project keywords are in modelProjectKeywordsList
+        # check if file project keywords are in modelProjectKeywordsList ignoring case
         for keyword in projectKeywordsList:
-            if keyword not in modelProjectKeywordsList:
+            if keyword.upper() not in modelProjectKeywordsListUppercase:
                 print("invalid project keyword: " + keyword)
                 # find similar keywords
                 similarKeywords = self.get_similar_keywords(modelProjectKeywordsList, keyword)
