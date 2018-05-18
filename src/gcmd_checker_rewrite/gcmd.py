@@ -153,6 +153,16 @@ class GCMD:
                     similarKeywordsList.append(similarKeywords[i])
                 except IndexError:
                     similarKeywordsList.append("N/A")
+        # if no matches with the above method try latter fractions of keyword string
+        if (len(set(similarKeywordsList)) <= 1):
+            similarKeywordsList = []
+            keywordSubstring = keyword[len(keyword)*13/15:]
+            similarKeywords = [s for s in modelKeywordsList if keywordSubstring.upper() in s.upper()]
+            for i in range(0,100):
+                try:
+                    similarKeywordsList.append(similarKeywords[i])
+                except IndexError:
+                    similarKeywordsList.append("N/A")
 
         #print(similarKeywordsList)
         return similarKeywordsList 
