@@ -38,7 +38,7 @@ class Testgcmd(unittest.TestCase):
         # INSTRUMENT KEYWORDS
         self.instrumentKeywordsList = gcmd.get_instrument_keywords(testfile)
         self.instrumentKeywordsThesauriList = gcmd.get_instrument_keywords_thesauri(testfile)
-        self.modelInstrumentKeywordsList = gcmd.get_model_instrument_keywords_list()
+        self.modelInstrumentKeywordsList = gcmd.get_model_instrument_keywords_list_short_hierarchy()
         self.similarInstrumentKeywords = gcmd.get_similar_keywords(self.modelInstrumentKeywordsList, "AVHRR-3")
         # PROJECT KEYWORDS
         self.projectKeywordsList = gcmd.get_project_keywords(testfile)
@@ -216,7 +216,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue("Global Change Master Directory (GCMD) Instrument Keywords" in self.instrumentKeywordsThesauriList)
         self.assertFalse("NODC INSTRUMENT TYPES" in self.instrumentKeywordsThesauriList)
 
-    def test_get_model_instrument_keywords_list(self):
+    def test_get_model_instrument_keywords_list_short_hierarchy(self):
         self.assertTrue(len(self.modelInstrumentKeywordsList) > 1500)
         self.assertTrue("AIRBORNE LASER SCANNER" in self.modelInstrumentKeywordsList)
         self.assertTrue("HIWRAP > High-Altitude Imaging Wind and Rain Airborne Profiler" in self.modelInstrumentKeywordsList)

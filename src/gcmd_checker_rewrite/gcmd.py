@@ -464,7 +464,7 @@ class GCMD:
         #print(instrumentKeywordsThesauriList)
         return instrumentKeywordsThesauriList
 
-    def get_model_instrument_keywords_list(self):
+    def get_model_instrument_keywords_list_short_hierarchy(self):
         modelInstrumentKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/instruments/instruments.csv"))
         for row in data:
@@ -483,20 +483,50 @@ class GCMD:
         #print(modelInstrumentKeywordsList)
         return modelInstrumentKeywordsList
 
+    def get_model_instrument_keywords_list_long_hierarchy(self):
+        modelInstrumentKeywordsList = []
+        data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/instruments/instruments.csv"))
+        for row in data:
+            try:
+                keyword = row[0].strip()
+            except IndexError:
+                continue
+            for i in range(1,6):
+                try:
+                    keyword = keyword + " > " + row[i].strip()
+                except IndexError:
+                    continue
+            modelInstrumentKeywordsList.append(keyword)    
+
+        #print(modelInstrumentKeywordsList)
+        return modelInstrumentKeywordsList
+
     def check_instrument_keywords(self, file):
-        modelInstrumentKeywordsList = self.get_model_instrument_keywords_list()
-        modelInstrumentKeywordsListUppercase = [x.upper() for x in modelInstrumentKeywordsList]
+        modelInstrumentKeywordsListShortHierarchy = self.get_model_instrument_keywords_list_short_hierarchy()
+        modelInstrumentKeywordsListLongHierarchy = self.get_model_instrument_keywords_list_long_hierarchy()
+        modelInstrumentKeywordsListShortHierarchyUppercase = [x.upper() for x in modelInstrumentKeywordsListShortHierarchy]
         instrumentKeywordsList = self.get_instrument_keywords(file)
-        # check if file instrument keywords are in modelInstrumentKeywordsList ignoring case
+        # check if file instrument keywords are in modelInstrumentKeywordsListShortHierarchy ignoring case
         for keyword in instrumentKeywordsList:
-            if keyword.upper() not in modelInstrumentKeywordsListUppercase:
+            if keyword.upper() not in modelInstrumentKeywordsListShortHierarchyUppercase:
                 print("invalid instrument keyword: " + keyword)
                 # find similar keywords
-                similarKeywords = self.get_similar_keywords(modelInstrumentKeywordsList, keyword)
-                bestThreeKeywords = self.find_three_best_similar_keywords(similarKeywords)
+                similarKeywords = self.get_similar_keywords(modelInstrumentKeywordsListLongHierarchy, keyword)
+                
+                recommendations = []
+                for i in similarKeywords:
+                    i = ' > '.join(i.split(' > ')[4:])
+                    if i == ' > ':
+                        i = ''
+                    if i[-3:] == ' > ':
+                        i = i[:-3]
+                    recommendations.append(i)
+                recommendations = [x for x in recommendations if x]
+                #print(recommendations)
+
                 with open('invalid_GCMD_keywords_results.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "instrument", basename(os.path.splitext(file)[0]) + '.xml', bestThreeKeywords[0], bestThreeKeywords[1], bestThreeKeywords[2]])
+                    writer.writerow([keyword, "instrument", basename(os.path.splitext(file)[0]) + '.xml', recommendations])
                 if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END INSTRUMENT KEYWORDS
     
