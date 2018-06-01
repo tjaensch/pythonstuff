@@ -255,7 +255,6 @@ class Testgcmd(unittest.TestCase):
     def test_get_similar_keywords(self):
         self.assertTrue(len(self.similarProjectKeywords) > 0)
         self.assertTrue("NOAA OneStop Project" in self.similarProjectKeywords)
-        self.assertTrue("N/A" in self.similarProjectKeywords)
 
     @unittest.skip("n flag breaks test")
     def test_check_project_keywords(self):

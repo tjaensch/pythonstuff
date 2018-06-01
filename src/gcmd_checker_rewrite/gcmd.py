@@ -132,7 +132,7 @@ class GCMD:
             try:
                 similarKeywordsList.append(similarKeywords[i])
             except IndexError:
-                similarKeywordsList.append("N/A")
+                continue
         # if no matches with the above method try first half of keyword string
         if (len(set(similarKeywordsList)) <= 1):
             similarKeywordsList = []
@@ -142,7 +142,7 @@ class GCMD:
                 try:
                     similarKeywordsList.append(similarKeywords[i])
                 except IndexError:
-                    similarKeywordsList.append("N/A")
+                    continue
         # if no matches with the above method try first third of keyword string
         if (len(set(similarKeywordsList)) <= 1):
             similarKeywordsList = []
@@ -152,7 +152,7 @@ class GCMD:
                 try:
                     similarKeywordsList.append(similarKeywords[i])
                 except IndexError:
-                    similarKeywordsList.append("N/A")
+                    continue
         # if no matches with the above method try latter fractions of keyword string
         if (len(set(similarKeywordsList)) <= 1):
             similarKeywordsList = []
@@ -162,7 +162,7 @@ class GCMD:
                 try:
                     similarKeywordsList.append(similarKeywords[i])
                 except IndexError:
-                    similarKeywordsList.append("N/A")
+                    continue
 
         #print(similarKeywordsList)
         return similarKeywordsList 
@@ -428,14 +428,12 @@ class GCMD:
                 for i in similarKeywords:
                     i = ' > '.join(i.split(' > ')[2:])
                     if i == ' > ':
-                        i = 'N/A'
+                        i = ''
                     if i[-3:] == ' > ':
                         i = i[:-3]
                     recommendations.append(i)
                 recommendations = [x for x in recommendations if x]
-                while "N/A" in recommendations: recommendations.remove("N/A")
-                recommendations.sort(key = lambda s: len(s))
-                #sorted(recommendations)
+                #print(recommendations)
 
                 with open('invalid_GCMD_keywords_results.csv', 'a') as f:
                     writer = csv.writer(f)
