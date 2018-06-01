@@ -33,7 +33,7 @@ class Testgcmd(unittest.TestCase):
         # PLATFORM KEYWORDS
         self.platformKeywordsList = gcmd.get_platform_keywords(testfile)
         self.platformKeywordsThesauriList = gcmd.get_platform_keywords_thesauri(testfile)
-        self.modelPlatformKeywordsList = gcmd.get_model_platform_keywords_list()
+        self.modelPlatformKeywordsList = gcmd.get_model_platform_keywords_list_short_hierarchy()
         self.similarPlatformKeywords = gcmd.get_similar_keywords(self.modelPlatformKeywordsList, "METOP-A")
         # INSTRUMENT KEYWORDS
         self.instrumentKeywordsList = gcmd.get_instrument_keywords(testfile)

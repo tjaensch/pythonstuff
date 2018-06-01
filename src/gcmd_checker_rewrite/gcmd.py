@@ -63,7 +63,7 @@ class GCMD:
     def create_results_csv(self):
         with open('invalid_GCMD_keywords_results.csv', 'wb') as out:
             writer = csv.writer(out)
-            writer.writerow(["Invalid Keyword", "Type", "Filename", "Recommendation 1", "Recommendation 2", "Recommendation 3"])
+            writer.writerow(["Invalid Keyword", "Type", "Filename", "Recommendations"])
 
     def delete_csv_if_no_invalid_keywords_found(self):
         with open('invalid_GCMD_keywords_results.csv', 'rb') as out:
@@ -375,7 +375,7 @@ class GCMD:
         #print(platformKeywordsThesauriList)
         return platformKeywordsThesauriList
 
-    def get_model_platform_keywords_list(self):
+    def get_model_platform_keywords_list_short_hierarchy(self):
         modelPlatformKeywordsList = []
         data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/platforms/platforms.csv"))
         for row in data:
@@ -394,20 +394,52 @@ class GCMD:
         #print(modelPlatformKeywordsList)
         return modelPlatformKeywordsList
 
+    def get_model_platform_keywords_list_long_hierarchy(self):
+        modelPlatformKeywordsList = []
+        data = csv.reader(urllib2.urlopen("https://gcmdservices.gsfc.nasa.gov/static/kms/platforms/platforms.csv"))
+        for row in data:
+            try:
+                keyword = row[0].strip()
+            except IndexError:
+                continue
+            for i in range(1,4):
+                try:
+                    keyword = keyword + " > " + row[i].strip()
+                except IndexError:
+                    continue
+            modelPlatformKeywordsList.append(keyword)    
+
+        #print(modelPlatformKeywordsList)
+        return modelPlatformKeywordsList
+
     def check_platform_keywords(self, file):
-        modelPlatformKeywordsList = self.get_model_platform_keywords_list()
-        modelPlatformKeywordsListUppercase = [x.upper() for x in modelPlatformKeywordsList]
+        modelPlatformKeywordsListShortHierarchy = self.get_model_platform_keywords_list_short_hierarchy()
+        modelPlatformKeywordsListLongHierarchy = self.get_model_platform_keywords_list_long_hierarchy()
+        modelPlatformKeywordsListShortHierarchyUppercase = [x.upper() for x in modelPlatformKeywordsListShortHierarchy]
         platformKeywordsList = self.get_platform_keywords(file)
-        # check if file platform keywords are in modelPlatformKeywordsList ignoring case
+        # check if file platform keywords are in modelPlatformKeywordsListShortHierarchy ignoring case
         for keyword in platformKeywordsList:
-            if keyword.upper() not in modelPlatformKeywordsListUppercase:
+            if keyword.upper() not in modelPlatformKeywordsListShortHierarchyUppercase:
                 print("invalid platform keyword: " + keyword)
                 # find similar keywords
-                similarKeywords = self.get_similar_keywords(modelPlatformKeywordsList, keyword)
-                bestThreeKeywords = self.find_three_best_similar_keywords(similarKeywords)
+                similarKeywords = self.get_similar_keywords(modelPlatformKeywordsListLongHierarchy, keyword)
+                
+                recommendations = []
+                for i in similarKeywords:
+                    i = ' > '.join(i.split(' > ')[2:])
+                    if i == ' > ':
+                        i = 'N/A'
+                    if i[-3:] == ' > ':
+                        i = i[:-3]
+                    recommendations.append(i)
+                recommendations = [x for x in recommendations if x]
+                while "N/A" in recommendations: recommendations.remove("N/A")
+                recommendations.sort(key = lambda s: len(s))
+                #sorted(recommendations)
+
                 with open('invalid_GCMD_keywords_results.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "platform", basename(os.path.splitext(file)[0]) + '.xml', bestThreeKeywords[0], bestThreeKeywords[1], bestThreeKeywords[2]])
+                    writer.writerow([keyword, "platform", basename(os.path.splitext(file)[0]) + '.xml', recommendations])
                 if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END PLATFORM KEYWORDS
     
