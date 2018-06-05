@@ -63,7 +63,7 @@ class GCMD:
     def create_results_csv(self):
         with open('invalid_GCMD_keywords_results.csv', 'wb') as out:
             writer = csv.writer(out)
-            writer.writerow(["Invalid Keyword", "Type", "Filename", "Recommendations"])
+            writer.writerow(["Invalid Keyword", "Type", "Filename", "Suggestion 1", "Suggestion 2", "Suggestion 3"])
 
     def delete_csv_if_no_invalid_keywords_found(self):
         with open('invalid_GCMD_keywords_results.csv', 'rb') as out:
@@ -124,6 +124,8 @@ class GCMD:
             return similarKeywordsList[:3]
 
     def get_similar_keywords(self, modelKeywordsList, keyword):
+        # get last segment after " > " if exists
+        keyword = keyword.split(' > ')[-1]
         similarKeywords = [s for s in modelKeywordsList if keyword.upper() in s.upper()]
         # make set to remove duplicates and back to list to be able to access elements 
         list(set(similarKeywords))
@@ -404,7 +406,8 @@ class GCMD:
                 continue
             for i in range(1,4):
                 try:
-                    keyword = keyword + " > " + row[i].strip()
+                    if row[i] != "":
+                        keyword = keyword + " > " + row[i].strip()
                 except IndexError:
                     continue
             modelPlatformKeywordsList.append(keyword)    
@@ -416,6 +419,7 @@ class GCMD:
         modelPlatformKeywordsListShortHierarchy = self.get_model_platform_keywords_list_short_hierarchy()
         modelPlatformKeywordsListLongHierarchy = self.get_model_platform_keywords_list_long_hierarchy()
         modelPlatformKeywordsListShortHierarchyUppercase = [x.upper() for x in modelPlatformKeywordsListShortHierarchy]
+        modelPlatformKeywordsListLongHierarchyUppercase = [x.upper() for x in modelPlatformKeywordsListLongHierarchy]
         platformKeywordsList = self.get_platform_keywords(file)
         # check if file platform keywords are in modelPlatformKeywordsListShortHierarchy ignoring case
         for keyword in platformKeywordsList:
@@ -423,21 +427,26 @@ class GCMD:
                 print("invalid platform keyword: " + keyword)
                 # find similar keywords
                 similarKeywords = self.get_similar_keywords(modelPlatformKeywordsListLongHierarchy, keyword)
-                
-                recommendations = []
+
+                suggestions = []
                 for i in similarKeywords:
                     i = ' > '.join(i.split(' > ')[2:])
-                    if i == ' > ':
-                        i = ''
                     if i[-3:] == ' > ':
                         i = i[:-3]
-                    recommendations.append(i)
-                recommendations = [x for x in recommendations if x]
-                #print(recommendations)
+                    suggestions.append(i)
+                suggestions = [x for x in suggestions if x]
+                suggestions.sort(key = lambda s: len(s))
+                # get last segment after " > " if exists
+                keywordLastSegment = keyword.split(' > ')[-1]
+                matching = [s for s in modelPlatformKeywordsListShortHierarchyUppercase if keywordLastSegment.upper() in s]
+                matching.sort(key = lambda s: len(s))
+                print(matching)
+                suggestions = matching + suggestions
+                suggestions.extend(('N/A', 'N/A', 'N/A'))
 
                 with open('invalid_GCMD_keywords_results.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "platform", basename(os.path.splitext(file)[0]) + '.xml', recommendations])
+                    writer.writerow([keyword, "platform", basename(os.path.splitext(file)[0]) + '.xml', suggestions[0], suggestions[1], suggestions[2]])
                 if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END PLATFORM KEYWORDS
     
@@ -493,10 +502,11 @@ class GCMD:
                 continue
             for i in range(1,6):
                 try:
-                    keyword = keyword + " > " + row[i].strip()
+                    if row[i] != "":
+                        keyword = keyword + " > " + row[i].strip()
                 except IndexError:
                     continue
-            modelInstrumentKeywordsList.append(keyword)    
+            modelInstrumentKeywordsList.append(keyword)
 
         #print(modelInstrumentKeywordsList)
         return modelInstrumentKeywordsList
@@ -505,6 +515,7 @@ class GCMD:
         modelInstrumentKeywordsListShortHierarchy = self.get_model_instrument_keywords_list_short_hierarchy()
         modelInstrumentKeywordsListLongHierarchy = self.get_model_instrument_keywords_list_long_hierarchy()
         modelInstrumentKeywordsListShortHierarchyUppercase = [x.upper() for x in modelInstrumentKeywordsListShortHierarchy]
+        modelInstrumentKeywordsListLongHierarchyUppercase = [x.upper() for x in modelInstrumentKeywordsListLongHierarchy]
         instrumentKeywordsList = self.get_instrument_keywords(file)
         # check if file instrument keywords are in modelInstrumentKeywordsListShortHierarchy ignoring case
         for keyword in instrumentKeywordsList:
@@ -512,21 +523,26 @@ class GCMD:
                 print("invalid instrument keyword: " + keyword)
                 # find similar keywords
                 similarKeywords = self.get_similar_keywords(modelInstrumentKeywordsListLongHierarchy, keyword)
-                
-                recommendations = []
+
+                suggestions = []
                 for i in similarKeywords:
-                    i = ' > '.join(i.split(' > ')[4:])
-                    if i == ' > ':
-                        i = ''
+                    i = ' > '.join(i.split(' > ')[3:])
                     if i[-3:] == ' > ':
                         i = i[:-3]
-                    recommendations.append(i)
-                recommendations = [x for x in recommendations if x]
-                #print(recommendations)
+                    suggestions.append(i)
+                suggestions = [x for x in suggestions if x]
+                suggestions.sort(key = lambda s: len(s))
+                # get last segment after " > " if exists
+                keywordLastSegment = keyword.split(' > ')[-1]
+                matching = [s for s in modelInstrumentKeywordsListShortHierarchyUppercase if keywordLastSegment.upper() in s]
+                matching.sort(key = lambda s: len(s))
+                print(matching)
+                suggestions = matching + suggestions
+                suggestions.extend(('N/A', 'N/A', 'N/A'))
 
                 with open('invalid_GCMD_keywords_results.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "instrument", basename(os.path.splitext(file)[0]) + '.xml', recommendations])
+                    writer.writerow([keyword, "instrument", basename(os.path.splitext(file)[0]) + '.xml', suggestions[0], suggestions[1], suggestions[2]])
                 if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END INSTRUMENT KEYWORDS
     
