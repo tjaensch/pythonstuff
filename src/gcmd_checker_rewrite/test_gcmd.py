@@ -102,7 +102,7 @@ class Testgcmd(unittest.TestCase):
     # DATACENTER KEYWORDS
     def test_get_datacenter_keywords(self):
         self.assertTrue(len(self.datacenterKeywordsList) == 3)
-        self.assertTrue("DOC/NOAA/NESDIS/NODC > National Oceanographic Data Center, NESDIS, NOAA, U.S. Department of Commerce" in self.datacenterKeywordsList)
+        self.assertTrue("DOC/NOAA/NESDIS/NODC" in self.datacenterKeywordsList)
         self.assertFalse("Blah NESDIS" in self.datacenterKeywordsList)
         self.assertTrue("NASA/JPL/PODAAC > Physical Oceanography Distributed Active Archive Center, Jet Propulsion Laboratory, NASA" in self.datacenterKeywordsList)
         self.assertFalse("Australian Bureau of Blah" in self.datacenterKeywordsList)
@@ -115,8 +115,8 @@ class Testgcmd(unittest.TestCase):
 
     def test_get_model_datacenter_keywords_list(self):
         self.assertTrue(len(self.modelDatacenterKeywordsList) > 3600)
-        self.assertTrue("OR-STATE/EOARC > Eastern Oregon Agriculture Research Center, Oregon State University" in self.modelDatacenterKeywordsList)
-        self.assertTrue("DOC/NOAA/OOE > Office of Ocean Exploration, National Oceanic and Atmospheric Administration, U.S. Department of Commerce" in self.modelDatacenterKeywordsList)
+        self.assertTrue("OR-STATE/EOARC > EASTERN OREGON AGRICULTURE RESEARCH CENTER, OREGON STATE UNIVERSITY" in self.modelDatacenterKeywordsList)
+        self.assertTrue("DOC/NOAA/OOE > OFFICE OF OCEAN EXPLORATION, NATIONAL OCEANIC AND ATMOSPHERIC ADMINISTRATION, U.S. DEPARTMENT OF COMMERCE" in self.modelDatacenterKeywordsList)
         self.assertFalse("BLAH" in self.modelDatacenterKeywordsList)
 
     def test_get_similar_keywords(self):
@@ -179,8 +179,8 @@ class Testgcmd(unittest.TestCase):
 
     def test_get_model_platform_keywords_list(self):
         self.assertTrue(len(self.modelPlatformKeywordsList) > 850)
-        self.assertTrue("A340-600 > Airbus A340-600" in self.modelPlatformKeywordsList)
-        self.assertTrue("SCISAT-1/ACE > Atmospheric Chemistry Experiment" in self.modelPlatformKeywordsList)
+        self.assertTrue("A340-600 > AIRBUS A340-600" in self.modelPlatformKeywordsList)
+        self.assertTrue("SCISAT-1/ACE > ATMOSPHERIC CHEMISTRY EXPERIMENT" in self.modelPlatformKeywordsList)
         self.assertFalse("BLAH" in self.modelPlatformKeywordsList)
 
     def test_get_similar_keywords(self):
@@ -197,7 +197,7 @@ class Testgcmd(unittest.TestCase):
     # INSTRUMENT KEYWORDS
     def test_get_instrument_keywords(self):
         self.assertTrue(len(self.instrumentKeywordsList) == 5)
-        self.assertTrue("AATSR > Advanced Along-Track Scanning Radiometer" in self.instrumentKeywordsList)
+        self.assertTrue("AATSR" in self.instrumentKeywordsList)
         self.assertFalse("WINDSAT > Blah" in self.instrumentKeywordsList)
         self.assertTrue("AMSR-E > Advanced Microwave Scanning Radiometer-EOS" in self.instrumentKeywordsList)
         self.assertFalse("AATSR > ADVANCE ALONG-TRACK SCANNING" in self.instrumentKeywordsList)
@@ -210,7 +210,7 @@ class Testgcmd(unittest.TestCase):
     def test_get_model_instrument_keywords_list_short_hierarchy(self):
         self.assertTrue(len(self.modelInstrumentKeywordsList) > 1500)
         self.assertTrue("AIRBORNE LASER SCANNER" in self.modelInstrumentKeywordsList)
-        self.assertTrue("HIWRAP > High-Altitude Imaging Wind and Rain Airborne Profiler" in self.modelInstrumentKeywordsList)
+        self.assertTrue("HIWRAP > HIGH-ALTITUDE IMAGING WIND AND RAIN AIRBORNE PROFILER" in self.modelInstrumentKeywordsList)
         self.assertFalse("SOME > INSTRUMENT > DUDE" in self.modelInstrumentKeywordsList)
 
     def test_get_similar_keywords(self):
@@ -230,7 +230,7 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue(len(self.projectKeywordsList) == 2)
         self.assertTrue("GHRSST > Group for High Resolution Sea Surface Temperature" in self.projectKeywordsList)
         self.assertFalse("GHRSST" in self.projectKeywordsList)
-        self.assertTrue("NOAA OneStop Project" in self.projectKeywordsList)
+        self.assertTrue("NOAA OneStop" in self.projectKeywordsList)
 
     def test_get_project_keywords_thesauri(self):
         self.assertTrue(len(self.projectKeywordsThesauriList) == 1)
@@ -239,13 +239,13 @@ class Testgcmd(unittest.TestCase):
 
     def test_get_model_project_keywords_list(self):
         self.assertTrue(len(self.modelProjectKeywordsList) > 1700)
-        self.assertTrue("AARDDVARK > Antarctic-Arctic Radiation-belt (Dynamic) Deposition - VLF Atmospheric Research Konsortium" in self.modelProjectKeywordsList)
-        self.assertTrue("NOAA OneStop Project" in self.modelProjectKeywordsList)
+        self.assertTrue("AARDDVARK > ANTARCTIC-ARCTIC RADIATION-BELT (DYNAMIC) DEPOSITION - VLF ATMOSPHERIC RESEARCH KONSORTIUM" in self.modelProjectKeywordsList)
+        self.assertTrue("NOAA ONESTOP PROJECT" in self.modelProjectKeywordsList)
         self.assertFalse("BLAH > Dude" in self.modelProjectKeywordsList)
 
     def test_get_similar_keywords(self):
         self.assertTrue(len(self.similarProjectKeywords) > 0)
-        self.assertTrue("NOAA OneStop Project" in self.similarProjectKeywords)
+        self.assertTrue("NOAA ONESTOP PROJECT" in self.similarProjectKeywords)
 
     @unittest.skip("n flag breaks test")
     def test_check_project_keywords(self):

@@ -175,7 +175,7 @@ class GCMD:
             except IndexError:
                 pass
 
-        print(matching)
+        #print(matching)
         suggestions = matching + suggestions
         suggestions = [x.title() for x in suggestions]
         suggestions.extend(('N/A', 'N/A', 'N/A'))
