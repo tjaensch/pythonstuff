@@ -107,22 +107,6 @@ class GCMD:
             similarKeyword = min(similarKeywordsList, key=len).replace("&", "&amp;")
             return similarKeyword.replace(">", "&gt;")
 
-    def find_three_best_similar_keywords(self, similarKeywordsList):
-        while "N/A" in similarKeywordsList: similarKeywordsList.remove("N/A")
-        if not similarKeywordsList:
-            return ["N/A", "N/A", "N/A"]
-        else:
-            similarKeywordsList.sort(key = lambda s: len(s))
-            try:
-                similarKeywordsList[1]
-            except IndexError:
-                similarKeywordsList.append("N/A")
-            try:
-                similarKeywordsList[2]
-            except IndexError:
-                similarKeywordsList.append("N/A")
-            return similarKeywordsList[:3]
-
     def get_similar_keywords(self, modelKeywordsList, keyword):
         # get last segment after " > " if exists
         keyword = keyword.split(' > ')[-1]
@@ -232,10 +216,26 @@ class GCMD:
                 print("invalid theme keyword: " + keyword)
                 # find similar keywords
                 similarKeywords = self.get_similar_keywords(modelThemeKeywordsList, keyword)
-                bestThreeKeywords = self.find_three_best_similar_keywords(similarKeywords)
+                
+                suggestions = []
+                for i in similarKeywords:
+                    i = ' > '.join(i.split(' > ')[:])
+                    if i[-3:] == ' > ':
+                        i = i[:-3]
+                    suggestions.append(i)
+                suggestions = [x for x in suggestions if x]
+                suggestions.sort(key = lambda s: len(s))
+                # get last segment after " > " if exists
+                keywordLastSegment = keyword.split(' > ')[-1]
+                matching = [s for s in modelThemeKeywordsListUppercase if keywordLastSegment.upper() in s]
+                matching.sort(key = lambda s: len(s))
+                print(matching)
+                suggestions = matching + suggestions
+                suggestions = [x.title() for x in suggestions]
+                suggestions.extend(('N/A', 'N/A', 'N/A'))
                 with open('invalid_GCMD_keywords_results.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "theme", basename(os.path.splitext(file)[0]) + '.xml', bestThreeKeywords[0], bestThreeKeywords[1], bestThreeKeywords[2]])
+                    writer.writerow([keyword, "theme", basename(os.path.splitext(file)[0]) + '.xml', suggestions[0], suggestions[1], suggestions[2]])
                 if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END THEME KEYWORDS
 
@@ -291,10 +291,27 @@ class GCMD:
                     print("invalid datacenter keyword: " + keyword)
                     # find similar keywords
                     similarKeywords = self.get_similar_keywords(modelDatacenterKeywordsList, keyword)
-                    bestThreeKeywords = self.find_three_best_similar_keywords(similarKeywords)
+                    
+                    suggestions = []
+                    for i in similarKeywords:
+                        i = ' > '.join(i.split(' > ')[:])
+                        if i[-3:] == ' > ':
+                            i = i[:-3]
+                        suggestions.append(i)
+                    suggestions = [x for x in suggestions if x]
+                    suggestions.sort(key = lambda s: len(s))
+                    # get last segment after " > " if exists
+                    keywordLastSegment = keyword.split(' > ')[-1]
+                    matching = [s for s in modelDatacenterKeywordsListUppercase if keywordLastSegment.upper() in s]
+                    matching.sort(key = lambda s: len(s))
+                    print(matching)
+                    suggestions = matching + suggestions
+                    suggestions = [x.title() for x in suggestions]
+                    suggestions.extend(('N/A', 'N/A', 'N/A'))
+                    
                     with open('invalid_GCMD_keywords_results.csv', 'a') as f:
                         writer = csv.writer(f)
-                        writer.writerow([keyword, "datacenter", basename(os.path.splitext(file)[0]) + '.xml', bestThreeKeywords[0], bestThreeKeywords[1], bestThreeKeywords[2]])
+                        writer.writerow([keyword, "datacenter", basename(os.path.splitext(file)[0]) + '.xml', suggestions[0], suggestions[1], suggestions[2]])
                     if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END DATACENTER KEYWORDS
 
@@ -347,10 +364,27 @@ class GCMD:
                 print("invalid place keyword: " + keyword)
                 # find similar keywords
                 similarKeywords = self.get_similar_keywords(modelPlaceKeywordsList, keyword)
-                bestThreeKeywords = self.find_three_best_similar_keywords(similarKeywords)
+                
+                suggestions = []
+                for i in similarKeywords:
+                    i = ' > '.join(i.split(' > ')[:])
+                    if i[-3:] == ' > ':
+                        i = i[:-3]
+                    suggestions.append(i)
+                suggestions = [x for x in suggestions if x]
+                suggestions.sort(key = lambda s: len(s))
+                # get last segment after " > " if exists
+                keywordLastSegment = keyword.split(' > ')[-1]
+                matching = [s for s in modelPlaceKeywordsListUppercase if keywordLastSegment.upper() in s]
+                matching.sort(key = lambda s: len(s))
+                print(matching)
+                suggestions = matching + suggestions
+                suggestions = [x.title() for x in suggestions]
+                suggestions.extend(('N/A', 'N/A', 'N/A'))
+
                 with open('invalid_GCMD_keywords_results.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "place", basename(os.path.splitext(file)[0]) + '.xml', bestThreeKeywords[0], bestThreeKeywords[1], bestThreeKeywords[2]])
+                    writer.writerow([keyword, "place", basename(os.path.splitext(file)[0]) + '.xml', suggestions[0], suggestions[1], suggestions[2]])
                 if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END PLACE KEYWORDS
     
@@ -442,6 +476,7 @@ class GCMD:
                 matching.sort(key = lambda s: len(s))
                 print(matching)
                 suggestions = matching + suggestions
+                suggestions = [x.title() for x in suggestions]
                 suggestions.extend(('N/A', 'N/A', 'N/A'))
 
                 with open('invalid_GCMD_keywords_results.csv', 'a') as f:
@@ -538,6 +573,7 @@ class GCMD:
                 matching.sort(key = lambda s: len(s))
                 print(matching)
                 suggestions = matching + suggestions
+                suggestions = [x.title() for x in suggestions]
                 suggestions.extend(('N/A', 'N/A', 'N/A'))
 
                 with open('invalid_GCMD_keywords_results.csv', 'a') as f:
@@ -598,10 +634,27 @@ class GCMD:
                 print("invalid project keyword: " + keyword)
                 # find similar keywords
                 similarKeywords = self.get_similar_keywords(modelProjectKeywordsList, keyword)
-                bestThreeKeywords = self.find_three_best_similar_keywords(similarKeywords)
+                
+                suggestions = []
+                for i in similarKeywords:
+                    i = ' > '.join(i.split(' > ')[:])
+                    if i[-3:] == ' > ':
+                        i = i[:-3]
+                    suggestions.append(i)
+                suggestions = [x for x in suggestions if x]
+                suggestions.sort(key = lambda s: len(s))
+                # get last segment after " > " if exists
+                keywordLastSegment = keyword.split(' > ')[-1]
+                matching = [s for s in modelProjectKeywordsListUppercase if keywordLastSegment.upper() in s]
+                matching.sort(key = lambda s: len(s))
+                print(matching)
+                suggestions = matching + suggestions
+                suggestions = [x.title() for x in suggestions]
+                suggestions.extend(('N/A', 'N/A', 'N/A'))
+                
                 with open('invalid_GCMD_keywords_results.csv', 'a') as f:
                     writer = csv.writer(f)
-                    writer.writerow([keyword, "project", basename(os.path.splitext(file)[0]) + '.xml', bestThreeKeywords[0], bestThreeKeywords[1], bestThreeKeywords[2]])
+                    writer.writerow([keyword, "project", basename(os.path.splitext(file)[0]) + '.xml', suggestions[0], suggestions[1], suggestions[2]])
                 if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
     # END PROJECT KEYWORDS
 

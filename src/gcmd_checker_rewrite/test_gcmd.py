@@ -66,15 +66,6 @@ class Testgcmd(unittest.TestCase):
         self.assertTrue(gcmd.find_best_similar_keyword(["AVHRR-3 > Advanced Very High Resolution Radiometer-3", "N/A"]) == "AVHRR-3 &gt; Advanced Very High Resolution Radiometer-3")
         # self.assertTrue(gcmd.find_best_similar_keyword(["NOAA-17 > National Oceanic & Atmospheric Administration-17", "N/A"]) == "Earth Observation Satellites &gt; NOAA POES (Polar Orbiting Environmental Satellites) &gt; NOAA-17 &gt; National Oceanic &amp; Atmospheric Administration-17")
 
-    def test_find_three_best_similar_keywords(self):
-        gcmd = GCMD()
-        self.assertTrue(gcmd.find_three_best_similar_keywords(["N/A"]) == ["N/A", "N/A", "N/A"])
-        self.assertTrue(gcmd.find_three_best_similar_keywords(["N/A", "N/A"]) == ["N/A", "N/A", "N/A"])
-        self.assertTrue(gcmd.find_three_best_similar_keywords(["dadada", "dada"]) == ["dada", "dadada", "N/A"])
-        self.assertFalse(gcmd.find_three_best_similar_keywords(["dadada", "dada"]) == ["dadada", "dada", "N/A"])
-        self.assertTrue(gcmd.find_three_best_similar_keywords(["N/A", "dadada"]) == ["dadada", "N/A", "N/A"])
-        self.assertTrue(gcmd.find_three_best_similar_keywords(["N/A", "dadada", "da", "blah"]) == ["da", "blah", "dadada"])
-
     # THEME KEYWORDS
     def test_get_theme_keywords(self):
         self.assertTrue(len(self.themeKeywordsList) == 2)
