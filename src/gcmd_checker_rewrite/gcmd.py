@@ -84,8 +84,8 @@ class GCMD:
     def create_xml_copy(self, file):
         copyfile(file, "./" + basename(os.path.splitext(file)[0]) + '_new.xml')
 
-    def replace_wrong_keyword_in_xml_copy(self, similarKeywordsList, file, keyword):
-        bestSimilarKeyword = self.find_best_similar_keyword(similarKeywordsList)
+    def replace_wrong_keyword_in_xml_copy(self, suggestions, file, keyword):
+        bestSimilarKeyword = self.find_best_similar_keyword(suggestions, keyword)
         if bestSimilarKeyword == "":
             pass
         else:
@@ -98,14 +98,18 @@ class GCMD:
                 f.write(content.replace("<gco:CharacterString>" + keyword.replace(">", "&gt;") + "</gco:CharacterString>", "<gco:CharacterString>" + bestSimilarKeyword + "</gco:CharacterString>"))
 
 
-    def find_best_similar_keyword(self, similarKeywordsList):
-        while "N/A" in similarKeywordsList: similarKeywordsList.remove("N/A")
-        if not similarKeywordsList:
+    def find_best_similar_keyword(self, suggestions, keyword):
+        while "N/A" in suggestions: suggestions.remove("N/A")
+        if not suggestions:
             return ""
         else:
-            # replace "&" and ">" in keywords from CSV to be inserted into XML
-            similarKeyword = min(similarKeywordsList, key=len).replace("&", "&amp;")
-            return similarKeyword.replace(">", "&gt;")
+            matches = [s for s in suggestions if keyword.upper() in s.upper()]
+            if not matches:
+                return ""
+            else:
+                # replace "&" and ">" in keywords from CSV to be inserted into XML
+                matches = min(matches, key=len).replace("&", "&amp;")
+                return matches.replace(">", "&gt;")
 
     def get_similar_keywords(self, modelKeywordsList, keyword):
         # get last segment after " > " if exists
@@ -183,7 +187,7 @@ class GCMD:
         with open('invalid_GCMD_keywords_results.csv', 'a') as f:
             writer = csv.writer(f)
             writer.writerow([keyword, GCMDKeywordType, basename(os.path.splitext(file)[0]) + '.xml', suggestions[0], suggestions[1], suggestions[2]])
-        if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(similarKeywords, file, keyword)
+        if self.get_flag_arguments()["new"]: self.replace_wrong_keyword_in_xml_copy(suggestions, file, keyword)
 
     def run_checker(self):
         self.create_results_csv()
