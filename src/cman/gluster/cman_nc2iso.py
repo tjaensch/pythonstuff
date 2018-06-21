@@ -26,7 +26,7 @@ class CMAN:
     """docstring for cman"""
 
     def __init__(self):
-    	pass
+        pass
 
     def get_nc_file_urls(self):
         self.ncFileUrls = []
@@ -42,28 +42,81 @@ class CMAN:
     def delete_nc_file_after_processing(self, ncFileUrl):
     	os.remove("./" + os.path.basename(ncFileUrl))
 
-    def ncdump(self, ncFile):
+    def ncdump(self, ncFileUrl):
         # Convert netcdf4 to netcdf3 for ncdump -x to work
-        subprocess.call(["ncks", "-3", ncFile, "./netcdf3/" +
-                         self.get_file_name(ncFile) + ".nc"])
+        subprocess.call(["ncks", "-3", "./" + os.path.basename(ncFileUrl), "./netcdf3/" +
+                         self.get_file_name("./" + os.path.basename(ncFileUrl)) + ".nc"])
         # actual ncdump
-        f = open("./ncml/" + self.get_file_name(ncFile) + ".ncml", "w")
+        f = open("./ncml/" + self.get_file_name("./" + os.path.basename(ncFileUrl)) + ".ncml", "w")
         subprocess.call(["ncdump", "-x", "./netcdf3/" +
-                         self.get_file_name(ncFile) + ".nc"], stdout=f)
+                         self.get_file_name("./" + os.path.basename(ncFileUrl)) + ".nc"], stdout=f)
         f.close()
-        os.remove("./netcdf3/" + self.get_file_name(ncFile) + ".nc")
+        os.remove("./netcdf3/" + self.get_file_name("./" + os.path.basename(ncFileUrl)) + ".nc")
 
-    def get_file_name(self, ncFile):
-        #print(basename(ncFile)[:-3])
-        return(basename(ncFile)[:-3])
+    def get_file_name(self, ncFileUrl):
+        #print(basename("./" + os.path.basename(ncFileUrl))[:-3])
+        return(basename("./" + os.path.basename(ncFileUrl))[:-3])
+
+    def get_english_title(self, ncFileUrl):
+        deployment_number = re.findall('\d+', self.get_file_name("./" + os.path.basename(ncFileUrl))[19:])
+        return "NDBC-CMANWx" + self.get_file_name("./" + os.path.basename(ncFileUrl))[4:] + " - C-MAN/Wx buoy " + self.get_file_name("./" + os.path.basename(ncFileUrl))[5:10] + " for " + self.get_file_name("./" + os.path.basename(ncFileUrl))[11:17] + ", deployment " + str(deployment_number[0])
+
+    def get_file_path(self, ncFileUrl):
+        abspath = os.path.dirname(ncFileUrl)[27:] + "/"
+        print(abspath)
+        return(abspath)
+
+    def get_file_size(self, ncFileUrl):
+        print(os.path.getsize("./" + os.path.basename(ncFileUrl)) / 1024)
+        return(os.path.getsize("./" + os.path.basename(ncFileUrl)) / 1024)
+
+    def add_to_ncml(self, ncFileUrl):
+        file_path = "./ncml/" + self.get_file_name("./" + os.path.basename(ncFileUrl)) + ".ncml"
+        # Replace 2nd line with <netcdf>
+        with open(file_path, 'r') as f:
+            get_all = f.readlines()
+        with open(file_path, 'w') as f:
+            for i, line in enumerate(get_all, 1):
+                if i == 2:
+                    f.writelines("<netcdf>\n")
+                else:
+                    f.writelines(line)
+
+        # Remove last line </netcdf> from ncml file before append new tags
+        os.system('sed -i "$ d" {0}'.format(file_path))
+        # Append stuff
+        with open(file_path, "a") as f:
+            f.write("<title>%s</title><englishtitle>%s</englishtitle><filesize>%s</filesize><path>%s</path></netcdf>" %
+                    (self.get_file_name("./" + os.path.basename(ncFileUrl)), self.get_english_title("./" + os.path.basename(ncFileUrl)), self.get_file_size("./" + os.path.basename(ncFileUrl)), self.get_file_path(ncFileUrl)))
+
+    def xsltproc_to_iso(self, ncFileUrl):
+        xslFile = "XSL/ncml2iso_modified_from_UnidataDD2MI_CMAN_Thomas_edits.xsl"
+        parsedNcmlFile = ET.parse(
+            "./ncml/" + self.get_file_name("./" + os.path.basename(ncFileUrl)) + ".ncml")
+        xslt = ET.parse(xslFile)
+        transform = ET.XSLT(xslt)
+        isoXmlFile = transform(parsedNcmlFile)
+        with open("./iso_xml/" + self.get_file_name("./" + os.path.basename(ncFileUrl)) + ".xml", "w") as f:
+            f.write(ET.tostring(isoXmlFile, pretty_print=True))
+        # print(ET.tostring(isoXmlFile, pretty_print=True))
+        return(ET.tostring(isoXmlFile, pretty_print=True))
+
+    def add_collection_metadata(self, ncFileUrl): 
+        isocofile = urllib.URLopener()
+        isocofile.retrieve("https://data.nodc.noaa.gov/nodc/archive/metadata/approved/iso/NDBC-CMANWx.xml", os.path.basename("https://data.nodc.noaa.gov/nodc/archive/metadata/approved/iso/NDBC-CMANWx.xml"))
+        granule = "XSL/granule.xsl"
+        f = open("./final_xml/" + self.get_file_name("./" + os.path.basename(ncFileUrl)) + ".xml", "w")
+        subprocess.call(["xsltproc", "--stringparam", "collFile", "../NDBC-CMANWx.xml",
+                         granule, "./iso_xml/" + self.get_file_name("./" + os.path.basename(ncFileUrl)) + ".xml"], stdout=f)
+        f.close()
 
     def run_combined_defs(self, ncFileUrl):
     	print(basename(ncFileUrl))
     	self.download_nc_file_from_url(ncFileUrl)
-        self.ncdump("./" + os.path.basename(ncFileUrl))
-        #self.add_to_ncml(ncFile)
-        #self.xsltproc_to_iso(ncFile)
-        #self.add_collection_metadata(ncFile)
+        self.ncdump(ncFileUrl)
+        self.add_to_ncml(ncFileUrl)
+        self.xsltproc_to_iso(ncFileUrl)
+        self.add_collection_metadata(ncFileUrl)
         self.delete_nc_file_after_processing(ncFileUrl)
 
     def go(self):
@@ -81,13 +134,7 @@ if __name__ == '__main__':
     create_output_dirs()
 
     cman = CMAN()
-    
     cman.go()
-
-    #ncFileUrls = cman.get_nc_file_urls()
-    #cman.download_nc_file_from_url(ncFileUrls[0])
-    #cman.ncdump("./" + os.path.basename(ncFileUrls[0]))
-    
 
     print 'The program took ', time.time() - start, 'seconds to complete.'
 
