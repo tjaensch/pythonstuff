@@ -5,6 +5,7 @@ import time
 import os
 import random
 import re
+import requests
 import subprocess
 from multiprocessing import Pool
 from os.path import basename
@@ -46,8 +47,32 @@ class COOPS:
         f.close()
         os.remove("./netcdf3/" + self.get_file_name(ncFile) + ".nc")
 
+    def get_gcmd_keywords_from_standard_names(self, ncFile):
+        standardNames = []
+        f = open(self.get_file_name(ncFile) + ".txt", "w")
+        subprocess.call(["ncdump", ncFile], stdout=f)
+        f.close()
+        with open(self.get_file_name(ncFile) + ".txt", "r") as f:
+            for line in f:
+                if 'standard_name = "' in line:
+                    standardNames.append(re.findall('"([^"]*)"', line)[0])
+        #print(standardNames)
+        gcmdKeywords = []
+        for standardName in standardNames:
+            r = requests.get('https://coastwatch.pfeg.noaa.gov/erddap/convert/keywords.txt?cf=' + standardName)
+            if r.status_code != 200:
+                pass
+            else:
+                for line in r.text.splitlines():   
+                    gcmdKeywords.append(line.replace(">", "&gt;"))
+        gcmdKeywords = list(set(gcmdKeywords))
+        #print(gcmdKeywords)
+        os.remove(self.get_file_name(ncFile) + ".txt")
+        # return GCMD keyword list as comma separated string
+        return ",".join(map(str, gcmdKeywords))
+
     def get_file_name(self, ncFile):
-        print(basename(ncFile)[:-3])
+        #print(basename(ncFile)[:-3])
         return(basename(ncFile)[:-3])
 
     def get_english_title(self, ncFile):
@@ -55,11 +80,11 @@ class COOPS:
 
     def get_file_path(self, ncFile):
         abspath = os.path.dirname(ncFile)[27:] + "/"
-        print(abspath)
+        #print(abspath)
         return(abspath)
 
     def get_file_size(self, ncFile):
-        print(os.path.getsize(ncFile) / 1024)
+        #print(os.path.getsize(ncFile) / 1024)
         return(os.path.getsize(ncFile) / 1024)
 
     def add_to_ncml(self, ncFile):
@@ -78,8 +103,8 @@ class COOPS:
         os.system('sed -i "$ d" {0}'.format(file_path))
         # Append stuff
         with open(file_path, "a") as f:
-            f.write("<title>%s</title><englishtitle>%s</englishtitle><filesize>%s</filesize><path>%s</path></netcdf>" %
-                    (self.get_file_name(ncFile), self.get_english_title(ncFile), self.get_file_size(ncFile), self.get_file_path(ncFile)))
+            f.write("<title>%s</title><englishtitle>%s</englishtitle><filesize>%s</filesize><path>%s</path><keywords_from_standard_names>%s</keywords_from_standard_names></netcdf>" %
+                    (self.get_file_name(ncFile), self.get_english_title(ncFile), self.get_file_size(ncFile), self.get_file_path(ncFile), self.get_gcmd_keywords_from_standard_names(ncFile)))
 
     def xsltproc_to_iso(self, ncFile):
         xslFile = "/nodc/users/tjaensch/xsl.git/coops/XSL/ncml2iso_modified_from_UnidataDD2MI_COOPS_Thomas_edits.xsl"
@@ -102,7 +127,9 @@ class COOPS:
         f.close()
 
     def run_combined_defs(self, ncFile):
+        print("Processing %s" % self.get_file_name(ncFile))
         self.ncdump(ncFile)
+        self.get_gcmd_keywords_from_standard_names(ncFile)
         self.add_to_ncml(ncFile)
         self.xsltproc_to_iso(ncFile)
         self.add_collection_metadata(ncFile)
