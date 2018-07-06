@@ -56,6 +56,9 @@ class COOPS:
             for line in f:
                 if 'standard_name = "' in line:
                     standardNames.append(re.findall('"([^"]*)"', line)[0])
+        # remove 'time' since there's no GCMD Science keyword for it
+        if 'time' in standardNames:
+            standardNames.remove('time')
         #print(standardNames)
         gcmdKeywords = []
         for standardName in standardNames:
