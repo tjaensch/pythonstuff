@@ -135,11 +135,11 @@ class COOPS:
         self.get_gcmd_keywords_from_standard_names(ncFile)
         self.add_to_ncml(ncFile)
         self.xsltproc_to_iso(ncFile)
-        self.add_collection_metadata(ncFile)
+        # self.add_collection_metadata(ncFile)
 
     def go(self):
         p = Pool(8)
-        p.map(self, self.find_nc_files())
+        p.map(self, self.find_nc_files()[:])
 
     def __call__(self, ncFile):
         return self.run_combined_defs(ncFile)
